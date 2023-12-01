@@ -1,0 +1,76 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phoenix.MusiCali.Logging", "Wanderer.CraftVerify2.Logging\Phoenix.MusiCali.Logging.csproj", "{2DD18793-3C7A-4FE7-A1F2-1ED0BF80C7B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phoenix.MusiCali.DataAccessLayer", "Wanderer.CraftVerify2.Data\Phoenix.MusiCali.DataAccessLayer.csproj", "{5C7FBDBC-B125-41AB-AF16-36104FD72FDD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phoenix.MusiCali.Consoleapp", "Wanderer.CraftVerify2.Consoleapp\Phoenix.MusiCali.Consoleapp.csproj", "{B12C0802-2B0D-444A-999D-04E952FB7609}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccessLayer", "DataAccessLayer", "{2029C646-CE0D-4088-8F09-08CAE13F3C08}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{F04C2630-72BB-463F-B687-5F9C79C94BCA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{16BA78D2-1C26-45AD-B860-D9E3D808F4EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phoenix.MusiCali.Services", "Services\Phoenix.MusiCali.Services.csproj", "{3B94BE73-C56C-4722-B992-628203C2175D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2DD18793-3C7A-4FE7-A1F2-1ED0BF80C7B2} = {2DD18793-3C7A-4FE7-A1F2-1ED0BF80C7B2}
+		{5C7FBDBC-B125-41AB-AF16-36104FD72FDD} = {5C7FBDBC-B125-41AB-AF16-36104FD72FDD}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{7C1F6EA1-7A35-469C-AE5A-0D71985565F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Front", "Front", "{B1E25E14-4F8F-42EC-9919-D3D7D197CEE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phoenix.MusiCali.Models", "Phoenix.MusiCali.Models\Phoenix.MusiCali.Models.csproj", "{3814FBEB-7C35-40EE-886A-D04FEA1278E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phoenix.MusiCali.Front", "Phoenix.MusiCali.Front\Phoenix.MusiCali.Front.csproj", "{6B18C554-971B-417A-AEEA-8961F0650DD9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DD18793-3C7A-4FE7-A1F2-1ED0BF80C7B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DD18793-3C7A-4FE7-A1F2-1ED0BF80C7B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DD18793-3C7A-4FE7-A1F2-1ED0BF80C7B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DD18793-3C7A-4FE7-A1F2-1ED0BF80C7B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C7FBDBC-B125-41AB-AF16-36104FD72FDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C7FBDBC-B125-41AB-AF16-36104FD72FDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C7FBDBC-B125-41AB-AF16-36104FD72FDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C7FBDBC-B125-41AB-AF16-36104FD72FDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B12C0802-2B0D-444A-999D-04E952FB7609}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B12C0802-2B0D-444A-999D-04E952FB7609}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B12C0802-2B0D-444A-999D-04E952FB7609}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B12C0802-2B0D-444A-999D-04E952FB7609}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B94BE73-C56C-4722-B992-628203C2175D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B94BE73-C56C-4722-B992-628203C2175D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B94BE73-C56C-4722-B992-628203C2175D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B94BE73-C56C-4722-B992-628203C2175D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3814FBEB-7C35-40EE-886A-D04FEA1278E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3814FBEB-7C35-40EE-886A-D04FEA1278E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3814FBEB-7C35-40EE-886A-D04FEA1278E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3814FBEB-7C35-40EE-886A-D04FEA1278E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B18C554-971B-417A-AEEA-8961F0650DD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B18C554-971B-417A-AEEA-8961F0650DD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B18C554-971B-417A-AEEA-8961F0650DD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B18C554-971B-417A-AEEA-8961F0650DD9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2DD18793-3C7A-4FE7-A1F2-1ED0BF80C7B2} = {F04C2630-72BB-463F-B687-5F9C79C94BCA}
+		{5C7FBDBC-B125-41AB-AF16-36104FD72FDD} = {2029C646-CE0D-4088-8F09-08CAE13F3C08}
+		{3B94BE73-C56C-4722-B992-628203C2175D} = {16BA78D2-1C26-45AD-B860-D9E3D808F4EF}
+		{3814FBEB-7C35-40EE-886A-D04FEA1278E6} = {7C1F6EA1-7A35-469C-AE5A-0D71985565F8}
+		{6B18C554-971B-417A-AEEA-8961F0650DD9} = {B1E25E14-4F8F-42EC-9919-D3D7D197CEE3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF4C19A4-289D-4738-81AD-1EE78A529D84}
+	EndGlobalSection
+EndGlobal
