@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Joshu\\OneDrive\\Documents\\sandbox\\Wanderer.CraftVerify2\\Phoenix.MusiCali.Front\\Phoenix.MusiCali.Front.csproj",
+      "projectUniqueName": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Front\\Phoenix.MusiCali.Front.csproj",
       "projectName": "Phoenix.MusiCali.Front",
-      "projectPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\sandbox\\Wanderer.CraftVerify2\\Phoenix.MusiCali.Front\\Phoenix.MusiCali.Front.csproj",
+      "projectPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Front\\Phoenix.MusiCali.Front.csproj",
       "packagesPath": "C:\\Users\\Joshu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\sandbox\\Wanderer.CraftVerify2\\Phoenix.MusiCali.Front\\obj\\",
+      "outputPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Front\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Joshu\\AppData\\Roaming\\NuGet\\NuGet.Config",

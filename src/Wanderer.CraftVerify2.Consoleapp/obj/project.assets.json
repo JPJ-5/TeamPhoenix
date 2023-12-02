@@ -1,48 +1,11 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {
-      "Phoenix.MusiCali.DataAccessLayer/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "compile": {
-          "bin/placeholder/Phoenix.MusiCali.DataAccessLayer.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Phoenix.MusiCali.DataAccessLayer.dll": {}
-        }
-      },
-      "Phoenix.MusiCali.Logging/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "dependencies": {
-          "Phoenix.MusiCali.DataAccessLayer": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Phoenix.MusiCali.Logging.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Phoenix.MusiCali.Logging.dll": {}
-        }
-      }
-    }
+    "net6.0": {}
   },
-  "libraries": {
-    "Phoenix.MusiCali.DataAccessLayer/1.0.0": {
-      "type": "project",
-      "path": "../Wanderer.CraftVerify2.Data/Phoenix.MusiCali.DataAccessLayer.csproj",
-      "msbuildProject": "../Wanderer.CraftVerify2.Data/Phoenix.MusiCali.DataAccessLayer.csproj"
-    },
-    "Phoenix.MusiCali.Logging/1.0.0": {
-      "type": "project",
-      "path": "../Wanderer.CraftVerify2.Logging/Phoenix.MusiCali.Logging.csproj",
-      "msbuildProject": "../Wanderer.CraftVerify2.Logging/Phoenix.MusiCali.Logging.csproj"
-    }
-  },
+  "libraries": {},
   "projectFileDependencyGroups": {
-    "net6.0": [
-      "Phoenix.MusiCali.Logging >= 1.0.0"
-    ]
+    "net6.0": []
   },
   "packageFolders": {
     "C:\\Users\\Joshu\\.nuget\\packages\\": {}
@@ -50,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Joshu\\OneDrive\\Documents\\sandbox\\Wanderer.CraftVerify2\\Wanderer.CraftVerify2.Consoleapp\\Phoenix.MusiCali.Consoleapp.csproj",
+      "projectUniqueName": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Wanderer.CraftVerify2.Consoleapp\\Phoenix.MusiCali.Consoleapp.csproj",
       "projectName": "Phoenix.MusiCali.Consoleapp",
-      "projectPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\sandbox\\Wanderer.CraftVerify2\\Wanderer.CraftVerify2.Consoleapp\\Phoenix.MusiCali.Consoleapp.csproj",
+      "projectPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Wanderer.CraftVerify2.Consoleapp\\Phoenix.MusiCali.Consoleapp.csproj",
       "packagesPath": "C:\\Users\\Joshu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\sandbox\\Wanderer.CraftVerify2\\Wanderer.CraftVerify2.Consoleapp\\obj\\",
+      "outputPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Wanderer.CraftVerify2.Consoleapp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Joshu\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -70,11 +33,7 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {
-            "C:\\Users\\Joshu\\OneDrive\\Documents\\sandbox\\Wanderer.CraftVerify2\\Wanderer.CraftVerify2.Logging\\Phoenix.MusiCali.Logging.csproj": {
-              "projectPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\sandbox\\Wanderer.CraftVerify2\\Wanderer.CraftVerify2.Logging\\Phoenix.MusiCali.Logging.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

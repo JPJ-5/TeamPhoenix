@@ -1,4 +1,4 @@
-﻿namespace Wanderer.CraftVerify2.Data
+﻿namespace Phoenix.MusiCali.Logging
 {
     public class Class1
     {

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Phoenix.MusiCali.Models\Phoenix.MusiCali.Models.csproj" />
+  </ItemGroup>
+
 </Project>
