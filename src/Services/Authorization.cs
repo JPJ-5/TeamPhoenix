@@ -4,7 +4,7 @@ namespace Services{
     {
         private readonly IUserRepository _userRepository;
     
-        public AuthorizationService(IUserRepository userRepository)
+        public Authorization(IUserRepository userRepository)
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
