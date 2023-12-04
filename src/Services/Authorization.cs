@@ -1,51 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Phoenix.MusiCali.Services
+public class AuthorizationService
 {
-    public class AuthorizationService
+    private readonly IUserRepository _userRepository;
+
+    public AuthorizationService(IUserRepository userRepository)
     {
-        // Check if the user has the required permission
-        public bool AuthorizeUser(User user, string requiredPermission)
-        {
-            // Get the user's permissions from the database or another storage
-            List<string> userPermissions = GetUserPermissions(user);
+        _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+    }
 
-            // Check if the user has the required permission
-            return userPermissions.Contains(requiredPermission);
-        }
+    public bool AuthorizeUser(User user, UserPermission requiredPermission)
+    {
+        List<UserPermission> userPermissions = _userRepository.GetUserPermissions(user);
 
-        // Check if the user has the required role
-        public bool UserHasRole(User user, string requiredRole)
-        {
-            // Get the user's roles from the database or another storage
-            List<string> userRoles = GetUserRoles(user);
+        return userPermissions.Contains(requiredPermission);
+    }
 
-            // Check if the user has the required role
-            return userRoles.Contains(requiredRole);
-        }
+    public bool UserHasRole(User user, UserRole requiredRole)
+    {
+        List<UserRole> userRoles = _userRepository.GetUserRoles(user);
 
-        // Simulated method to get user permissions from the database
-        private List<string> GetUserPermissions(User user)
-        {
-            // In a real application, retrieve user permissions from a database or another storage
-            // This method is simulated for the sake of the example
-            // You might have a database query here to fetch user permissions
-            // For simplicity, returning a hardcoded list
-            return new List<string> { "ViewAdminDashboard", "EditUserProfile" };
-        }
+        return userRoles.Contains(requiredRole);
+    }
 
-        // Simulated method to get user roles from the database
-        private List<string> GetUserRoles(User user)
-        {
-            // In a real application, retrieve user roles from a database or another storage
-            // This method is simulated for the sake of the example
-            // You might have a database query here to fetch user roles
-            // For simplicity, returning a hardcoded list
-            return new List<string> { "Admin", "User" };
-        }
+    public bool IsUnregisteredUser(User user)
+    {
+        // Logic to check if the user is an Unregistered User
+        return return user.RegistrationStatus == RegistrationStatus.Incomplete;
+    }
+
+    public bool IsRegisteredUser(User user)
+    {
+        // Logic to check if the user is a Registered User
+        return user.RegistrationStatus == RegistrationStatus.Completed;;
+    }
+
+    public bool IsAuthenticatedUser(User user)
+    {
+        // Logic to check if the user is an Authenticated User
+        return user.IsLoggedIn && user.HasActiveSession;;
     }
 }
