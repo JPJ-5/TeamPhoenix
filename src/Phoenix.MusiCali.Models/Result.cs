@@ -8,8 +8,15 @@ namespace Phoenix.MusiCali.Models
 {
     public class Result
     {
-        public bool hasError { get; set; }
-        public string? errorMessage { get; set; }
+        public bool Success { get; set; }
+        public string? ErrorMessage { get; set; }
         public string? statusCode { get; set; }
+        public Result() { }
+
+        public Result(string errorM, bool success)
+        {
+            Success = success;
+            ErrorMessage = errorM;
+        }
     }
 }
