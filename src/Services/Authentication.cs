@@ -2,9 +2,6 @@
 {
     using Phoenix.MusiCali.Models;
     using System;
-    using System.Net.Mail;
-    using System.Security.Cryptography;
-    using System.Text;
     using System.Text.RegularExpressions;
     using au = Phoenix.MusiCali.DataAccessLayer.Authentication;
     using hash = Phoenix.MusiCali.Models.Hasher;
@@ -13,11 +10,18 @@
     {
 
 
-        public static bool Authenticate(string username, string password, string ipAddress)
+        public Result Authenticate(string username, string password, string ipAddress)
         {
+            Result res = new Result();
             if (isValidUsername(username))
             {
                 UserAuth userA = au.findUsernameAuth(username);
+                if (userA.IsDisabled == true) 
+                {
+                    res.Success = false;
+                    res.ErrorMessage = "Account is disabled.Perform account recovery first or contact system administrator";
+                    return res;
+                }
                 if (userA != null) 
                 {
                     if (userA.IsAuth is true)
@@ -25,41 +29,43 @@
                         if(ValidatePassword(userA, password)) 
                         {
                             au.updateAuthentication(username);
-                            return true;
+                            res.Success = true;
+                            return res;
                         }
-                        RecordFailedAttempt(userA, ipAddress);
-                        return false;
+                        Result res2 = RecordFailedAttempt(userA, ipAddress);
+                        return res2;
                     }
                     else 
                     {
-                        if (ValidateOTP(userA, password))
-                        {
-                            au.updateAuthentication(username);
-                            return true;
-                        }
-                        return false;
+                        Result otpRes = ValidateOTP(userA, password);
+                        return otpRes;
                     }
                 }
 
-                Console.WriteLine($"Username not found in database, start registration process to create a username and recieve otp");
-                return false;
+                res.ErrorMessage = "Invalid security credentials provided. Retry again or contact system administrator";
+                res.Success = false;
+                return res;
             }
 
-            Console.WriteLine($"invalid username entry does not meet guidelines");
-            return false;
+            res.ErrorMessage = "invalid username entry does not meet guidelines";
+            res.Success = false;
+            return res;
         }
 
-        public static void RecordFailedAttempt(UserAuth userA, string ipAddress)
+        public static Result RecordFailedAttempt(UserAuth userA, string ipAddress)
         {
+            Result res = new Result(); 
             userA.FailedAttempts++;
             userA.LastFailedAttemptTime = DateTime.Now;
-            Console.WriteLine($"Failed attempt for account {userA.Username} from IP {ipAddress}");
+            res.ErrorMessage = "Failed attempt for account {userA.Username} from IP {ipAddress}";
+            res.Success = false;
 
             if (userA.FailedAttempts >= 3)
             {
                 userA.IsDisabled = true;
-                Console.WriteLine($"Account {userA.Username} disabled due to too many failed attempts.");
+                res.ErrorMessage = "Account {userA.Username} disabled due to too many failed attempts.";
             }
+            return res;
         }
 
         public static bool IsValidOTP(string otp)
@@ -79,8 +85,9 @@
             return true;
         }
 
-        public static bool ValidateOTP(UserAuth userA, string otp)
+        public Result ValidateOTP(UserAuth userA, string otp)
         {
+            Result res = new Result();
             if (IsValidOTP(otp))
             {
                 if (hash.VerifyPassword(otp, userA.OTP, userA.Salt))
@@ -88,19 +95,23 @@
                     TimeSpan timePassed = DateTime.UtcNow - userA.otpTimestamp;
                     if (timePassed.TotalMinutes > 2)
                     {
-                        Console.WriteLine($"OTP has expired ");
-                        return false;
+                        res.ErrorMessage = "OTP has expired";
+                        res.Success = false;
+                        return res;
                     }
-                    return true;
+                    res.Success = true;
+                    return res;
                 }
-                    Console.WriteLine($"OTP does not match");
-                    return false;
+                    res.ErrorMessage = "Invalid security credentials provided. Retry again or contact system administrator";
+                    res.Success = false;
+                    return res;
             }
-            Console.WriteLine($"OTP given not within required parameters");
-            return false;
+            res.ErrorMessage = "Invalid OTP used. Please request a new OTP";
+            res.Success = false;
+            return res;
         }
 
-        public static bool ValidatePassword(UserAuth userA, string password)
+        public bool ValidatePassword(UserAuth userA, string password)
         {
             if (hash.VerifyPassword(password, userA.Password, userA.Salt))
             {
