@@ -1,4 +1,4 @@
-﻿namespace Phoenix.MusiCali.Models
+namespace Phoenix.MusiCali.Models
 {
     public class User
     {
@@ -9,8 +9,4 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string userHash { get; set; }
-
-        // Additional properties, if needed
-
-    }
-}
+ }
