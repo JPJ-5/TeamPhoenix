@@ -11,6 +11,7 @@ namespace Phoenix.MusiCali.Models
     public class Hasher
     {
         // Generate a random salt
+        private static string SystemPepper = "Vongisamazing";
         public static string GenerateSalt()
         {
             byte[] saltBytes = new byte[32];
@@ -21,14 +22,17 @@ namespace Phoenix.MusiCali.Models
             return Convert.ToBase64String(saltBytes);
         }
 
-        // Hash the password using the provided salt
-        public static string HashPassword(string password, string salt)
+        // Hash the password using the provided salt and pepper
+        public static string HashPassword(string password, string userSalt)
         {
-            using (var sha256 = SHA256.Create())
+            // Combine user salt, password, and system-wide pepper
+            string saltedPassword = userSalt + password + SystemPepper;
+
+            // Use a secure hash algorithm like SHA256
+            using (SHA256 sha256 = SHA256.Create())
             {
-                byte[] passwordBytes = Encoding.UTF8.GetBytes(password + salt);
-                byte[] hashedBytes = sha256.ComputeHash(passwordBytes);
-                return Convert.ToBase64String(hashedBytes);
+                byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(saltedPassword));
+                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
             }
         }
 
