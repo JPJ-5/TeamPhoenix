@@ -23,21 +23,21 @@ namespace Services{
             return userRoles.Contains(requiredRole);
         }
     
-        public bool IsUnregisteredUser(User user)
+        public bool IsUnregisteredUser(UserAuth user)
         {
-            // Logic to check if the user is an Unregistered User
+            //Checks if the user is an Unregistered User
             return user.GetRegistrationStatus() == RegistrationStatus.Incomplete;
         }
     
-        public bool IsRegisteredUser(User user)
+        public bool IsRegisteredUser(UserAuth user)
         {
-            // Logic to check if the user is a Registered User
+            //Checks if the user is a Registered User
             return user.GetRegistrationStatus() == RegistrationStatus.Completed;;
         }
     
-        public bool IsAuthenticatedUser(User user)
+        public bool IsAuthenticatedUser(UserAuth user)
         {
-            // Logic to check if the user is an Authenticated User
+            //Checks if the user is an Authenticated User
             return user.IsLoggedIn() && user.HasActiveSession();
         }
     }
