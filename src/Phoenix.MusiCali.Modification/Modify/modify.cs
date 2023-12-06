@@ -19,24 +19,24 @@ class Program
         while (true) //loop everytime the user chooses options 1 or 2
         {
             Console.WriteLine("\nSelect an option:");
-            Console.WriteLine("1. Modify Name");
-            Console.WriteLine("2. Modify Email");
+            Console.WriteLine("1. Modify Your Name");
+            Console.WriteLine("2. Modify Your Email");
             Console.WriteLine("3. Exit");
 
             string choice = Console.ReadLine();
 
             switch (choice)
             {
-                case "1":
+                case "1": //option 1
                     ModifyName();
                     break;
-                case "2":
+                case "2": //option 2
                     ModifyEmail();
                     break;
-                case "3":
+                case "3"://option 3
                     Environment.Exit(0);
                     break;
-                default:
+                default://in case the user has invalid input
                     Console.WriteLine("Invalid option. Please try again.");
                     break;
             }
@@ -45,7 +45,7 @@ class Program
         }
     }
 
-    static void DisplayAccountInfo()
+    static void DisplayAccountInfo() //shows your account information
     {
         Console.WriteLine("\nAccount Information:");
         foreach (var entry in accountInformation)
