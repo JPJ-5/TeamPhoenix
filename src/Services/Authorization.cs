@@ -26,19 +26,19 @@ namespace Services{
         public bool IsUnregisteredUser(User user)
         {
             // Logic to check if the user is an Unregistered User
-            return return user.RegistrationStatus == RegistrationStatus.Incomplete;
+            return user.GetRegistrationStatus() == RegistrationStatus.Incomplete;
         }
     
         public bool IsRegisteredUser(User user)
         {
             // Logic to check if the user is a Registered User
-            return user.RegistrationStatus == RegistrationStatus.Completed;;
+            return user.GetRegistrationStatus() == RegistrationStatus.Completed;;
         }
     
         public bool IsAuthenticatedUser(User user)
         {
             // Logic to check if the user is an Authenticated User
-            return user.IsLoggedIn && user.HasActiveSession;;
+            return user.IsLoggedIn() && user.HasActiveSession();
         }
     }
 }
