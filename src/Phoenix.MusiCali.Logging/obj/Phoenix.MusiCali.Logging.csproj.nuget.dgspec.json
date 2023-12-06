@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Logging\\Phoenix.MusiCali.Logging.csproj": {}
+    "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Logging/Phoenix.MusiCali.Logging.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Logging\\Phoenix.MusiCali.Logging.csproj": {
+    "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Logging/Phoenix.MusiCali.Logging.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Logging\\Phoenix.MusiCali.Logging.csproj",
+        "projectUniqueName": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Logging/Phoenix.MusiCali.Logging.csproj",
         "projectName": "Phoenix.MusiCali.Logging",
-        "projectPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Logging\\Phoenix.MusiCali.Logging.csproj",
-        "packagesPath": "C:\\Users\\Joshu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Logging\\obj\\",
+        "projectPath": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Logging/Phoenix.MusiCali.Logging.csproj",
+        "packagesPath": "/Users/danielmuhumuza/.nuget/packages/",
+        "outputPath": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Logging/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Joshu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/danielmuhumuza/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -55,7 +53,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.401/RuntimeIdentifierGraph.json"
         }
       }
     }
