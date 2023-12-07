@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "9mNL92vLOyi2hSlw+Y4CslHRU4AF28eVXz7hOdusGc2z8F0g26FUuXgwA7nBfHUEuj5l/VRC8zaAwiElRnx+ng==",
+  "dgSpecHash": "okkwNoreuBkXVvcoiRj4gntFxXpVwMnD88XPznL0UnpkpRXsVJ6rgcWfFeZiuRqEOJJjQs007y9k3ZK7dajaCg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Models\\Phoenix.MusiCali.Models.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj",
+  "expectedPackageFiles": [
+    "/home/codespace/.nuget/packages/microsoft.netcore.app.ref/6.0.20/microsoft.netcore.app.ref.6.0.20.nupkg.sha512",
+    "/home/codespace/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.20/microsoft.aspnetcore.app.ref.6.0.20.nupkg.sha512"
+  ],
   "logs": []
 }

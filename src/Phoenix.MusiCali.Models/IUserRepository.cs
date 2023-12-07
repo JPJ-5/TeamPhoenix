@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net.Security;
 
 namespace Phoenix.MusiCali.Models
 {
@@ -16,6 +17,19 @@ namespace Phoenix.MusiCali.Models
         // Save changes to a user (e.g., update roles, permissions)
         void SaveUser(User user);
 
-        // Other methods for user-related operations...
     }
+
+    
+
+    /*
+
+    if(auth.Authenticate("",""))
+    {
+        if(auth.IsAuthorize())
+        {
+            //Do stuff
+        }
+    }
+
+    */
 }

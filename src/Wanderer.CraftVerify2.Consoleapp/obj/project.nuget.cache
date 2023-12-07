@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "1o6WYxOAn55sE1eLXboGhJX7bZRJVkPHf2jwCz4Znkzp//aCK8YBy/e2AvqO2voZR9IwRe1Rzl29Y9hyimemKA==",
+  "dgSpecHash": "pnhrFMijqwhkQtxVwwJNoQxCLX573TeCLlaI6hHSEVI9NNz4pzHjdzrWjT+qzXtRAiuL1nXUsNWGVAviHlUC8g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Wanderer.CraftVerify2.Consoleapp\\Phoenix.MusiCali.Consoleapp.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/workspaces/TeamPhoenix/src/Wanderer.CraftVerify2.Consoleapp/Phoenix.MusiCali.Consoleapp.csproj",
+  "expectedPackageFiles": [
+    "/home/codespace/.nuget/packages/microsoft.netcore.app.ref/6.0.20/microsoft.netcore.app.ref.6.0.20.nupkg.sha512",
+    "/home/codespace/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.20/microsoft.aspnetcore.app.ref.6.0.20.nupkg.sha512",
+    "/home/codespace/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.20/microsoft.netcore.app.host.linux-x64.6.0.20.nupkg.sha512"
+  ],
   "logs": []
 }
