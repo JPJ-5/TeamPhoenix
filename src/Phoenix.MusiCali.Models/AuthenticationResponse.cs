@@ -2,8 +2,10 @@ namespace Phoenix.MusiCali.Models;
 
 public class AuthenticationResponse
 {
-    public string userIdentity{get;set;} = string.Empty;
-    public string securityContext{get;set;} = string.Empty;
+    //public string hasError=>Principal is null? true; false;
+    public string canRetry{get;set;} = string.Empty;
+
+    public MusiCaliPrincipal? Principal {get;set;}
 
     //Identity: Who you are
 

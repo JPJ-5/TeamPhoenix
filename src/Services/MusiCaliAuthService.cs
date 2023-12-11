@@ -1,15 +1,27 @@
-using System;
+using Phoenix.MusiCali.Contracts;
 using Phoenix.MusiCali.Models;
 
 namespace Services;
+using System.Security.Principal;
 public class MusiCaliAuthService: IAuthenticator, IAuthorizer
 {
-    public (string userIdentity, string roleName) Authenticate(AuthenticationRequest authRequest)
+    public IPrincipal Authenticate(AuthenticationRequest authRequest)
     {
-        throw new NotImplementedException();
+        (string userIdentity, string roleName) = (null,null);
+        try{
+            //Step 1: Validate Auth Request
+
+            //Step 2: Populate App Principle Object
+            var roles = new Dictionary<string, string>();
+            
+            
+        }
+        catch{
+
+        }
     }
 
-    public bool IsAuthorize(string userIdentity, string securityContext)
+    public bool IsAuthorize(MusiCaliPrincipal currentPrincipal, string securityContext)
     {
         throw new NotImplementedException();
     }
