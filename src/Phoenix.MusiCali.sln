@@ -32,6 +32,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phoenix.MusiCali.DataAccess
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phoenix.MusiCali.Logging", "Phoenix.MusiCali.Logging\Phoenix.MusiCali.Logging.csproj", "{0D8D45BC-0733-4F48-BC67-FB55982BBB72}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{22DFAB60-3CC0-47E1-AE80-C8B865F0A789}"
+	ProjectSection(SolutionItems) = preProject
+		Phoenix.Musicali.Contracts.csproj = Phoenix.Musicali.Contracts.csproj
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
