@@ -47,6 +47,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{819C36
 		config.local.json = config.local.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConfigTests", "ConfigTests", "{3D9AA65B-7346-4897-B083-2E2D1CF133D8}"
+	ProjectSection(SolutionItems) = preProject
+		ConfigService.cs = ConfigService.cs
+		ConfigShould.cs = ConfigShould.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +93,7 @@ Global
 		{6B18C554-971B-417A-AEEA-8961F0650DD9} = {B1E25E14-4F8F-42EC-9919-D3D7D197CEE3}
 		{C4E7980B-6F3D-4916-BE96-7F98A64CBE3A} = {2029C646-CE0D-4088-8F09-08CAE13F3C08}
 		{0D8D45BC-0733-4F48-BC67-FB55982BBB72} = {F04C2630-72BB-463F-B687-5F9C79C94BCA}
+		{3D9AA65B-7346-4897-B083-2E2D1CF133D8} = {819C3696-1EFF-417D-8130-8247A9E0F7A5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BF4C19A4-289D-4738-81AD-1EE78A529D84}
