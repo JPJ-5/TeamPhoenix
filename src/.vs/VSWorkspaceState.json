@@ -1,11 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Phoenix.MusiCali.DataAccessLayer",
-    "\\Phoenix.MusiCali.Front",
-    "\\Phoenix.MusiCali.Logging",
-    "\\Phoenix.MusiCali.Models"
+    "\\Phoenix.MusiCali.UserRecovery"
   ],
-  "SelectedNode": "\\Phoenix.MusiCali.Logging\\Class1.cs",
+  "SelectedNode": "\\Phoenix.MusiCali.UserRecovery",
   "PreviewInSolutionExplorer": false
 }
