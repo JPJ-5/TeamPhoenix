@@ -1,4 +1,4 @@
-namespace Services{
+namespace Phoenix.MusiCali.Services{
     using Phoenix.MusiCali.Models;
     public class Authorization
     {

@@ -37,6 +37,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{
 		Phoenix.Musicali.Contracts.csproj = Phoenix.Musicali.Contracts.csproj
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{819C3696-1EFF-417D-8130-8247A9E0F7A5}"
+	ProjectSection(SolutionItems) = preProject
+		config.local.txt = config.local.txt
+		config.prod.txt = config.prod.txt
+		config.qa.txt = config.qa.txt
+		config.staging.txt = config.staging.txt
+		config.local.xml = config.local.xml
+		config.local.json = config.local.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

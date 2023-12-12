@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Net.Security;
 
-namespace Phoenix.MusiCali.Models
+namespace Phoenix.MusiCali.Contracts
 {
     public interface IUserRepository
     {

@@ -1,7 +1,7 @@
 using Phoenix.MusiCali.Models;
 using Phoenix.MusiCali.
 
-namespace Services;
+namespace Phoenix.MusiCali.Services;
 using System.Security.Principal;
 public class MusiCaliAuthService: IAuthenticator, IAuthorizer
 {

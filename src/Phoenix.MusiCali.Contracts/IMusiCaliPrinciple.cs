@@ -1,6 +1,6 @@
 using System.Security.Principal;
 
-namespace Phoenix.MusiCali.Models
+namespace Phoenix.MusiCali.Contracts
 {
     public interface IMusiCaliPrincipal : IPrincipal
     {

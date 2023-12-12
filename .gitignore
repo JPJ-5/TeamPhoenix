@@ -1,0 +1,6 @@
+src/config.local.json
+src/config.local.txt
+src/config.local.xml
+src/config.prod.txt
+src/config.qa.txt
+src/config.staging.txt
