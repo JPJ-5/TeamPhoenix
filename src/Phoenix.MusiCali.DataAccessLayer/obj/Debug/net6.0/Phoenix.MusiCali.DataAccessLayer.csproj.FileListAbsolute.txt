@@ -1,0 +1,4 @@
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\Phoenix.MusiCali.DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\Phoenix.MusiCali.DataAccessLayer.AssemblyInfoInputs.cache
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\Phoenix.MusiCali.DataAccessLayer.AssemblyInfo.cs
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\Phoenix.MusiCali.DataAccessLayer.csproj.CoreCompileInputs.cache

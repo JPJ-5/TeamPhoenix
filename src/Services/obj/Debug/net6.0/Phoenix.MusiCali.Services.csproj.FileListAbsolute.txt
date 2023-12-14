@@ -1,0 +1,5 @@
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Services\obj\Debug\net6.0\Phoenix.MusiCali.Services.csproj.AssemblyReference.cache
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Services\obj\Debug\net6.0\Phoenix.MusiCali.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Services\obj\Debug\net6.0\Phoenix.MusiCali.Services.AssemblyInfoInputs.cache
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Services\obj\Debug\net6.0\Phoenix.MusiCali.Services.AssemblyInfo.cs
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Services\obj\Debug\net6.0\Phoenix.MusiCali.Services.csproj.CoreCompileInputs.cache

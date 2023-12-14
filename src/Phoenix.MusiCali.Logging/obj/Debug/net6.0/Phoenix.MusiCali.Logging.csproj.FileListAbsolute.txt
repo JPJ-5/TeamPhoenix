@@ -1,0 +1,11 @@
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.Logging\bin\Debug\net6.0\Phoenix.MusiCali.Logging.deps.json
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.Logging\bin\Debug\net6.0\Phoenix.MusiCali.Logging.dll
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.Logging\bin\Debug\net6.0\Phoenix.MusiCali.Logging.pdb
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.Logging\obj\Debug\net6.0\Phoenix.MusiCali.Logging.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.Logging\obj\Debug\net6.0\Phoenix.MusiCali.Logging.AssemblyInfoInputs.cache
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.Logging\obj\Debug\net6.0\Phoenix.MusiCali.Logging.AssemblyInfo.cs
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.Logging\obj\Debug\net6.0\Phoenix.MusiCali.Logging.csproj.CoreCompileInputs.cache
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.Logging\obj\Debug\net6.0\Phoenix.MusiCali.Logging.dll
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.Logging\obj\Debug\net6.0\refint\Phoenix.MusiCali.Logging.dll
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.Logging\obj\Debug\net6.0\Phoenix.MusiCali.Logging.pdb
+C:\Users\djmcf\Documents\GitHub\TeamPhoenix\src\Phoenix.MusiCali.Logging\obj\Debug\net6.0\ref\Phoenix.MusiCali.Logging.dll
