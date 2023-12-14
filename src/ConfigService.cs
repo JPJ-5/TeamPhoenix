@@ -29,7 +29,8 @@ public sealed class ConfigService
                     var config = fileStream.ReadLine();
 
                     var variablename = config?.Split("=")[0];
-
+                    
+                    //Entry Level
                     switch(variablename)
                     {
                         case "ConnectionString":
@@ -38,6 +39,11 @@ public sealed class ConfigService
                         default;
                         break;
                     }
+
+                    //Entry Level that has coding exp
+                    var configType =  typeof(AppSpecificConfig);
+
+                    var allProperties = configType.GetProperties();
                 }
                 
             }
