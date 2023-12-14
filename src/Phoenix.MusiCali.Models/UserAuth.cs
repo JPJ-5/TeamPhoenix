@@ -17,12 +17,22 @@ namespace Phoenix.MusiCali.Models
         public int FailedAttempts { get; set; }
         public DateTime? LastFailedAttemptTime { get; set; }
         public bool IsDisabled { get; set; }
-        public bool IsAuth {  get; set; }
         public string? Salt {  get; set; }
         private bool isRegistrationCompleted;
 
+        public List<UserPermission> Permissions { get; set; } = new List<UserPermission>();
+        public List<UserRole> Roles { get; set; } = new List<UserRole>();
 
 
+        public List<UserRole> GetUserRoles()
+        {
+            return Roles;
+        }
+
+        public List<UserPermission> GetUserPermissions()
+        {
+            return Permissions;
+        }
 
         public RegistrationStatus GetRegistrationStatus()
         {
@@ -35,6 +45,12 @@ namespace Phoenix.MusiCali.Models
                 return RegistrationStatus.Incomplete;
             }
         }
+        /*
+        public UserAuth GetUserByUsername(string username)
+        {
+            Change later with DB logic
+        }
+        */
 
         public bool IsLoggedIn()
         {
@@ -47,7 +63,45 @@ namespace Phoenix.MusiCali.Models
             //Change Later with actual logic
             return true;
         }
+
+        public void SaveUser(UserAuth user)
+        {
+            //Change Later with DB Logic
+        }
+
+
+        public bool IsAuthorize(string userIdentity, string securityContext)
+        {
+            //Change later with actual logic
+           return true;
+        }
+        
+
+        // Class to represent authorization information
+        private class AuthorizationInfo
+        {
+            public string UserIdentity { get; set; }
+            public string SecurityContext { get; set; }
+        }
     }
+
+        public enum UserRole
+        {
+            UnregisteredUser,
+            RegisteredUser,
+            AuthenticatedUser,
+            Admin,
+        }
+
+        public enum UserPermission
+        {
+            InitiateAccountCreation,
+            ProvideRegistrationInfo,
+            VerifyEmail,
+            AccessLimitedFeatures,
+            AccessRegisteredUserFeatures,
+            AccessAuthenticatedUserFeatures,
+        }
 
         public enum RegistrationStatus
         {

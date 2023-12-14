@@ -2,23 +2,23 @@ namespace Phoenix.MusiCali.Services{
     using Phoenix.MusiCali.Models;
     public class Authorization
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IAuthorizer _authorizer;
     
-        public Authorization(IUserRepository userRepository)
+        public Authorization(IAuthorizer authorizer)
         {
-            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _authorizer = authorizer ?? throw new ArgumentNullException(nameof(authorizer));
         }
     
-        public bool AuthorizeUser(User user, UserPermission requiredPermission)
+        public bool AuthorizeUser(UserAuth user, UserPermission requiredPermission)
         {
-            List<UserPermission> userPermissions = _userRepository.GetUserPermissions(user);
+            List<UserPermission> userPermissions = _authorizer.GetUserPermissions(user);
     
             return userPermissions.Contains(requiredPermission);
         }
     
-        public bool UserHasRole(User user, UserRole requiredRole)
+        public bool UserHasRole(UserAuth userAuth, UserRole requiredRole)
         {
-            List<UserRole> userRoles = _userRepository.GetUserRoles(user);
+            List<UserRole> userRoles = userAuth.GetUserRoles(userAuth);
     
             return userRoles.Contains(requiredRole);
         }
