@@ -1,4 +1,29 @@
-public enum RegistrationStatus
+private class AuthorizationInfo
+        {
+            public string UserIdentity { get; set; }
+            public string SecurityContext { get; set; }
+        }
+    }
+
+        public enum UserRole
+        {
+            UnregisteredUser,
+            RegisteredUser,
+            AuthenticatedUser,
+            Admin,
+        }
+
+        public enum UserPermission
+        {
+            InitiateAccountCreation,
+            ProvideRegistrationInfo,
+            VerifyEmail,
+            AccessLimitedFeatures,
+            AccessRegisteredUserFeatures,
+            AccessAuthenticatedUserFeatures,
+        }
+
+        public enum RegistrationStatus
         {
             Incomplete,
             Completed
