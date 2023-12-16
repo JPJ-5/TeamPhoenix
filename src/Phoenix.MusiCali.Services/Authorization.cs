@@ -9,33 +9,33 @@ namespace Phoenix.MusiCali.Services{
             _authorizer = authorizer ?? throw new ArgumentNullException(nameof(authorizer));
         }
     
-        public bool AuthorizeUser(UserAuth user, UserPermission requiredPermission)
+        public bool AuthorizeUser(UserAuthZ user, UserPermission requiredPermission)
         {
             List<UserPermission> userPermissions = _authorizer.GetUserPermissions(user);
     
             return userPermissions.Contains(requiredPermission);
         }
     
-        public bool UserHasRole(UserAuth userAuth, UserRole requiredRole)
+        public bool UserHasRole(UserAuthZ userAuth, UserRole requiredRole)
         {
             List<UserRole> userRoles = userAuth.GetUserRoles(userAuth);
     
             return userRoles.Contains(requiredRole);
         }
     
-        public bool IsUnregisteredUser(UserAuth user)
+        public bool IsUnregisteredUser(UserAuthZ user)
         {
             //Checks if the user is an Unregistered User
             return user.GetRegistrationStatus() == RegistrationStatus.Incomplete;
         }
     
-        public bool IsRegisteredUser(UserAuth user)
+        public bool IsRegisteredUser(UserAuthZ user)
         {
             //Checks if the user is a Registered User
             return user.GetRegistrationStatus() == RegistrationStatus.Completed;;
         }
     
-        public bool IsAuthenticatedUser(UserAuth user)
+        public bool IsAuthenticatedUser(UserAuthZ user)
         {
             //Checks if the user is an Authenticated User
             return user.IsLoggedIn() && user.HasActiveSession();
