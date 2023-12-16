@@ -16,6 +16,9 @@ namespace Phoenix.MusiCali.Models
         public List<UserPermission> Permissions { get; set; } = new List<UserPermission>();
         public List<UserRole> Roles { get; set; } = new List<UserRole>();
 
+        public DateTime RegistrationTimestamp { get; set; }
+        public DateTime LastLoginTimestamp { get; set; }
+        public DateTime LastActivityTimestamp { get; set; }
 
         public List<UserRole> GetUserRoles()
         {
