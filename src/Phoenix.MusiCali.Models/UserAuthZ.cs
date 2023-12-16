@@ -10,6 +10,7 @@ namespace Phoenix.MusiCali.Models
     public class UserAuthN
     {
         public string? Username { get; set; }
+        public string? Salt {  get; set; }
         public string? Password { get; set; }
         
         public List<UserPermission> Permissions { get; set; } = new List<UserPermission>();
