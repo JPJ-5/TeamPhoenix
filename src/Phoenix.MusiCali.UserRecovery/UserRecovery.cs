@@ -18,8 +18,22 @@ public class Recovery : IRecovery
 {
 	public Result recover(string username)
 	{
-		UserRecovery userRecovery = new UserRecovery();
+		UserRecovery userRecovery = new UserRecovery(username, "", DateTime.Now, DateTime.Now);
 		return new Result;
+	}
+
+	public static string generateOTP()
+	{
+		string OTP = "";
+		var letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		var random = new Random();
+
+		for (var i = 0; i < 8; i++)
+		{
+			OTP += letters[random.Next(letters.Length)].ToString();
+		}
+
+		return OTP.ToString();
 	}
 
 	public bool isValidUsername(string username) 
@@ -48,6 +62,7 @@ public class Recovery : IRecovery
 
 	public bool validateCred(string username, string OTP)
 	{
+		
 		return true;
 	}
 }
