@@ -13,11 +13,12 @@ public class UserRecovery
 	public int failedAttempts = 0;
 	public DateTime lastFailedAttempts {  get; set; }
 	public bool validCred = false;
+	public string securityCode = "";
 }
 
 public class Recovery : IRecovery
 {
-	public Result recover(string username)
+	public Result recoverDisabledAccount(string username)
 	{
 		UserRecovery userRecovery = new UserRecovery(username, "", DateTime.Now, DateTime.Now);
 		Result recoveryResult = new Result();
@@ -49,6 +50,7 @@ public class Recovery : IRecovery
 			}
 			else
 			{
+				//need to call hasher, then compare with table
 				if(userRecovery.OTP == sentOTP)
 				{
 					userRecovery.validCred = true;
@@ -65,11 +67,49 @@ public class Recovery : IRecovery
 		else if(userRecovery.validCred is false)
 		{
 			recoveryResult.Success = false;
-			recoveryResult.ErrorMessage = "User exceeded 5 ";
+			recoveryResult.ErrorMessage = "User exceeded 5 recovery attempts.";
 			Console.WriteLine("You have exceeded 5 recovery attempts.");
+			//probably lock the user out for 24 hours
 			return recoveryResult;
 		}
 
+		return recoveryResult;
+	}
+
+	public Result recoverMultiFactor(string username, string securityCode)
+	{
+		UserRecovery userRecovery = new UserRecovery(username, "", DateTime.Now, DateTime.Now);
+		Result recoveryResult = new Result();
+		userRecovery.securityCode = securityCode;
+		//needs to compare given security code to database table
+
+		while(userRecovery.validCred is false and userRecovery.failedAttempts < 5)
+		{
+			if(isValidSecurityCode(userRecovery.securityCode) is false)
+			{
+				userRecovery.failedAttempts++;
+				Console.WriteLine("Invalid Security Code, please enter a correct code: ");
+				userRecovery.OTP = Console.ReadLine();
+			}
+			else
+			{
+				//call hasher
+				//compare with table here
+			}
+		}
+
+		if(userRecovery.validCred is true)
+		{
+			recoveryResult.Success = true;
+			return recoveryResult;
+		}
+		else if(userRecovery.validCred is false)
+		{
+			recoveryResult.Success = false;
+			recoveryResult.ErrorMessage = "User exceeded 5 MFA recovery attempts";
+			Console.WriteLine("You have exceeded 5 recovery attempts.");
+			return recoveryResult;
+		}
 		return recoveryResult;
 	}
 
@@ -99,22 +139,35 @@ public class Recovery : IRecovery
 		//core reqs doesn't mention a max length for username or OTP, weirdly enough
 		for(var i=0; i < username.Length; i++)
 		{
-			if (username[i] ==)
+			if (username[i]) { }
 		}
 		//see if i can just call the same method from auth
 		return true;
 	}
 
-	public bool isValidOTP(string OTP, DateTime otpTimeStamp)
+	public bool isValidOTP(string OTP)
 	{
 		//expires within 2 minutes
 		//minimum eight characters, a-z, A-Z, 0-9
 		return true;
 	}
 
-	public bool validateCred(string username, string OTP)
+	public bool isValidSecurityCode(string SecurityCode)
 	{
-		
+		return true;
+	}
+
+	public bool validateCred(string username, string OTP, string securityCode)
+	{
+		if(OTP is not null)
+		{
+			//checks database for username and OTP
+		}
+
+		if(securityCode is not null)
+		{
+			//checks database for username and security code
+		}
 		return true;
 	}
 }
