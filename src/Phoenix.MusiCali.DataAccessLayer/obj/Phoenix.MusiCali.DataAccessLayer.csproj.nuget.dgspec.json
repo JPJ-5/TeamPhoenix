@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj": {}
+    "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj": {}
   },
   "projects": {
-    "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj": {
+    "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj",
+        "projectUniqueName": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj",
         "projectName": "Phoenix.MusiCali.DataAccessLayer",
-        "projectPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj",
-        "packagesPath": "/home/codespace/.nuget/packages/",
-        "outputPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/obj/",
+        "projectPath": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj",
+        "packagesPath": "/Users/danielmuhumuza/.nuget/packages/",
+        "outputPath": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/codespace/.nuget/NuGet/NuGet.Config"
+          "/Users/danielmuhumuza/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -26,8 +26,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj": {
-                "projectPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj"
+              "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj": {
+                "projectPath": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj"
               }
             }
           }
@@ -67,21 +67,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/dotnet/7.0.306/sdk/7.0.306/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.401/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj": {
+    "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj",
+        "projectUniqueName": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj",
         "projectName": "Phoenix.MusiCali.Models",
-        "projectPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj",
-        "packagesPath": "/home/codespace/.nuget/packages/",
-        "outputPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/obj/",
+        "projectPath": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj",
+        "packagesPath": "/Users/danielmuhumuza/.nuget/packages/",
+        "outputPath": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Models/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/codespace/.nuget/NuGet/NuGet.Config"
+          "/Users/danielmuhumuza/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -130,7 +130,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/dotnet/7.0.306/sdk/7.0.306/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.401/RuntimeIdentifierGraph.json"
         }
       }
     }

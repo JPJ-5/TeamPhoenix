@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "/home/codespace/.nuget/packages/": {}
+    "/Users/danielmuhumuza/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/workspaces/TeamPhoenix/src/Wanderer.CraftVerify2.Consoleapp/Phoenix.MusiCali.Consoleapp.csproj",
+      "projectUniqueName": "/Users/danielmuhumuza/TeamPhoenix/src/Wanderer.CraftVerify2.Consoleapp/Phoenix.MusiCali.Consoleapp.csproj",
       "projectName": "Phoenix.MusiCali.Consoleapp",
-      "projectPath": "/workspaces/TeamPhoenix/src/Wanderer.CraftVerify2.Consoleapp/Phoenix.MusiCali.Consoleapp.csproj",
-      "packagesPath": "/home/codespace/.nuget/packages/",
-      "outputPath": "/workspaces/TeamPhoenix/src/Wanderer.CraftVerify2.Consoleapp/obj/",
+      "projectPath": "/Users/danielmuhumuza/TeamPhoenix/src/Wanderer.CraftVerify2.Consoleapp/Phoenix.MusiCali.Consoleapp.csproj",
+      "packagesPath": "/Users/danielmuhumuza/.nuget/packages/",
+      "outputPath": "/Users/danielmuhumuza/TeamPhoenix/src/Wanderer.CraftVerify2.Consoleapp/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/codespace/.nuget/NuGet/NuGet.Config"
+        "/Users/danielmuhumuza/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -73,7 +73,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/dotnet/7.0.306/sdk/7.0.306/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.401/RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fzH8rXfoRHRJuA4BfD2VaQR8qj6GnLpNdY5ycR7GVV4+luEYgOd1eJIChvvyaffBmwwIsc6auli1yNnfSD6yVw==",
+  "dgSpecHash": "KjywziSEKYhLW1Csv4SNA3mD1tZ1eh6v2NLxjJDXc2YNql2xk5NZQwioxhxQiHQb4s0YpEwSRH/FX+sSLitiug==",
   "success": true,
-  "projectFilePath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Front/Phoenix.MusiCali.Front.csproj",
-  "expectedPackageFiles": [
-    "/home/codespace/.nuget/packages/microsoft.netcore.app.ref/6.0.20/microsoft.netcore.app.ref.6.0.20.nupkg.sha512",
-    "/home/codespace/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.20/microsoft.aspnetcore.app.ref.6.0.20.nupkg.sha512"
-  ],
+  "projectFilePath": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Front/Phoenix.MusiCali.Front.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
