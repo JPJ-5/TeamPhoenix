@@ -1,0 +1,274 @@
+{
+  "format": 1,
+  "restore": {
+    "/workspaces/TeamPhoenix/src/Services/Phoenix.MusiCali.Services.csproj": {}
+  },
+  "projects": {
+    "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj",
+        "projectName": "Phoenix.MusiCali.DataAccessLayer",
+        "projectPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj": {
+                "projectPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.20, 6.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.20, 6.0.20]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/dotnet/7.0.306/sdk/7.0.306/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Logging/Phoenix.MusiCali.Logging.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Logging/Phoenix.MusiCali.Logging.csproj",
+        "projectName": "Phoenix.MusiCali.Logging",
+        "projectPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Logging/Phoenix.MusiCali.Logging.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Logging/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.20, 6.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.20, 6.0.20]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/dotnet/7.0.306/sdk/7.0.306/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj",
+        "projectName": "Phoenix.MusiCali.Models",
+        "projectPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.20, 6.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.20, 6.0.20]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/dotnet/7.0.306/sdk/7.0.306/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/workspaces/TeamPhoenix/src/Services/Phoenix.MusiCali.Services.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/workspaces/TeamPhoenix/src/Services/Phoenix.MusiCali.Services.csproj",
+        "projectName": "Phoenix.MusiCali.Services",
+        "projectPath": "/workspaces/TeamPhoenix/src/Services/Phoenix.MusiCali.Services.csproj",
+        "packagesPath": "/home/codespace/.nuget/packages/",
+        "outputPath": "/workspaces/TeamPhoenix/src/Services/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/codespace/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj": {
+                "projectPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj"
+              },
+              "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Logging/Phoenix.MusiCali.Logging.csproj": {
+                "projectPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Logging/Phoenix.MusiCali.Logging.csproj"
+              },
+              "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj": {
+                "projectPath": "/workspaces/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.20, 6.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.20, 6.0.20]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/dotnet/7.0.306/sdk/7.0.306/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

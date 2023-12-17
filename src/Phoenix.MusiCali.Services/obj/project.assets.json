@@ -62,38 +62,40 @@
     ]
   },
   "packageFolders": {
-    "/Users/danielmuhumuza/.nuget/packages/": {}
+    "C:\\Users\\Joshu\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/danielmuhumuza/TeamPhoenix/src/Services/Phoenix.MusiCali.Services.csproj",
+      "projectUniqueName": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Services\\Phoenix.MusiCali.Services.csproj",
       "projectName": "Phoenix.MusiCali.Services",
-      "projectPath": "/Users/danielmuhumuza/TeamPhoenix/src/Services/Phoenix.MusiCali.Services.csproj",
-      "packagesPath": "/Users/danielmuhumuza/.nuget/packages/",
-      "outputPath": "/Users/danielmuhumuza/TeamPhoenix/src/Services/obj/",
+      "projectPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Services\\Phoenix.MusiCali.Services.csproj",
+      "packagesPath": "C:\\Users\\Joshu\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Services\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/danielmuhumuza/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Joshu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj": {
-              "projectPath": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.DataAccessLayer/Phoenix.MusiCali.DataAccessLayer.csproj"
+            "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.DataAccessLayer\\Phoenix.MusiCali.DataAccessLayer.csproj": {
+              "projectPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.DataAccessLayer\\Phoenix.MusiCali.DataAccessLayer.csproj"
             },
-            "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Logging/Phoenix.MusiCali.Logging.csproj": {
-              "projectPath": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Logging/Phoenix.MusiCali.Logging.csproj"
+            "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Logging\\Phoenix.MusiCali.Logging.csproj": {
+              "projectPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Logging\\Phoenix.MusiCali.Logging.csproj"
             },
-            "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj": {
-              "projectPath": "/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj"
+            "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Models\\Phoenix.MusiCali.Models.csproj": {
+              "projectPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Phoenix.MusiCali.Models\\Phoenix.MusiCali.Models.csproj"
             }
           }
         }
@@ -123,7 +125,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.401/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

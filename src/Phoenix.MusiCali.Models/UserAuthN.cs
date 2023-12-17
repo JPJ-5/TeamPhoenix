@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Phoenix.MusiCali.Models
 {
-    public class UserAuth
+    public class UserAuthN
     {
         public string Username { get; set; }
         public string Salt { get; set; }
@@ -28,3 +28,4 @@ namespace Phoenix.MusiCali.Models
         
     }
 }
+

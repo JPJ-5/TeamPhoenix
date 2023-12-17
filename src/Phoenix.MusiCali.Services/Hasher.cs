@@ -43,4 +43,13 @@ namespace Phoenix.MusiCali.Models
             return storedHash == enteredHash;
         }
     }
+
+    /*
+        public class RandomValue{
+            public static byte[] GenerateRandom(int size){
+                var rng = RandomNumberGenerator.GetBytes(size)
+                var rndom = 
+            }
+        }
+    */
 }

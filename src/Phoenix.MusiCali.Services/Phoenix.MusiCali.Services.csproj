@@ -10,6 +10,7 @@
     <ProjectReference Include="..\Phoenix.MusiCali.DataAccessLayer\Phoenix.MusiCali.DataAccessLayer.csproj" />
     <ProjectReference Include="..\Phoenix.MusiCali.Logging\Phoenix.MusiCali.Logging.csproj" />
     <ProjectReference Include="..\Phoenix.MusiCali.Models\Phoenix.MusiCali.Models.csproj" />
+    <ProjectReference Include="..\Phoenix.MusiCali.Contracts\Phoenix.MusiCali.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
