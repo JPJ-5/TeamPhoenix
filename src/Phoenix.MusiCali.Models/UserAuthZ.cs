@@ -89,9 +89,6 @@ private class AuthorizationInfo{
 
         public enum UserPermission
         {
-            InitiateAccountCreation,
-            ProvideRegistrationInfo,
-            VerifyEmail,
             AccessLimitedFeatures,
             AccessRegisteredUserFeatures,
             AccessAuthenticatedUserFeatures,
