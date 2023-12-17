@@ -39,7 +39,7 @@ namespace Services
                         appPrincipal = new Principal(userA.Username, claims);
                     }
 
-                    RecordFailedAttempt(userA, ipAddress);
+                    RecordFailedAttempt(userA);
                     throw new Exception("Invalid security credentials provided. Retry again or contact the system administrator");
                 }
                 else
@@ -80,7 +80,7 @@ namespace Services
             return !string.IsNullOrWhiteSpace(username) && username.Length >= 6 && username.Length <= 30 && !username.Contains(" ");
         }
 
-        private void RecordFailedAttempt(UserAuth userA, string ipAddress)
+        private void RecordFailedAttempt(UserAuth userA)
         {
             if (userA.FailedAttempts == 0)
             {
