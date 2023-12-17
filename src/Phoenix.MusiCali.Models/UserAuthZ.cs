@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Phoenix.MusiCali.Models
 {
-    public class UserAuthN
+    public class UserAuthZ
     {
         public string? Username { get; set; }
         public string? Salt {  get; set; }
