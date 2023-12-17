@@ -10,7 +10,7 @@ namespace Phoenix.MusiCali.Models
 {
     public class Hasher
     {
-        // Generate a random salt
+        private static readonly char[] ValidCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
         private static string SystemPepper = "Vongisamazing";
         public static string GenerateSalt()
         {
@@ -41,6 +41,26 @@ namespace Phoenix.MusiCali.Models
         {
             string enteredHash = HashPassword(enteredPassword, salt);
             return storedHash == enteredHash;
+        }
+
+        public static string GenerateOTP()
+        {
+            // Create a random number generator
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                // Generate an array of random bytes
+                byte[] randomBytes = new byte[8];
+                rng.GetBytes(randomBytes);
+
+                // Convert the random bytes to characters
+                char[] otpChars = new char[8];
+                for (int i = 0; i < 8; i++)
+                {
+                    otpChars[i] = ValidCharacters[randomBytes[i] % ValidCharacters.Length];
+                }
+
+                return new string(otpChars);
+            }
         }
     }
 }

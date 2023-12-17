@@ -91,7 +91,7 @@ namespace Services
             Result res = new Result();
 
             userA.FailedAttempts++;
-            logResult.ErrorMessage = $"Failed attempt for account {userA.Username} from IP {ipAddress}";
+            logResult.ErrorMessage = $"Failed attempt for account {userA.Username}";
             logResult.Success = false;
             res.Success = false;
             res.ErrorMessage = "Invalid security credentials provided. Retry again or contact the system administrator";

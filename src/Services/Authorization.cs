@@ -1,5 +1,7 @@
-namespace Services{
-    using Phoenix.MusiCali.Models;
+namespace Services
+{
+    using Phoenix.MusiCali.Services.models;
+
     public class Authorization
     {
         private readonly IUserRepository _userRepository;

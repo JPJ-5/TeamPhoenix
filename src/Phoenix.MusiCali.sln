@@ -25,12 +25,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phoenix.MusiCali.Models", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phoenix.MusiCali.Front", "Phoenix.MusiCali.Front\Phoenix.MusiCali.Front.csproj", "{6B18C554-971B-417A-AEEA-8961F0650DD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phoenix.MusiCali.DataAccessLayer", "Phoenix.MusiCali.DataAccessLayer\Phoenix.MusiCali.DataAccessLayer.csproj", "{C4E7980B-6F3D-4916-BE96-7F98A64CBE3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phoenix.MusiCali.DataAccessLayer", "Phoenix.MusiCali.DataAccessLayer\Phoenix.MusiCali.DataAccessLayer.csproj", "{C4E7980B-6F3D-4916-BE96-7F98A64CBE3A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3814FBEB-7C35-40EE-886A-D04FEA1278E6} = {3814FBEB-7C35-40EE-886A-D04FEA1278E6}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phoenix.MusiCali.Logging", "Phoenix.MusiCali.Logging\Phoenix.MusiCali.Logging.csproj", "{0D8D45BC-0733-4F48-BC67-FB55982BBB72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phoenix.MusiCali.Logging", "Phoenix.MusiCali.Logging\Phoenix.MusiCali.Logging.csproj", "{0D8D45BC-0733-4F48-BC67-FB55982BBB72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

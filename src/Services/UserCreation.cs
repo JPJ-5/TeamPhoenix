@@ -11,7 +11,6 @@ namespace Phoenix.MusiCali.Services
 {
     using System;
     using hash = Hasher;
-    using auth = IAuthentication;
     using System.Text.RegularExpressions;
     using global::Phoenix.MusiCali.Models;
     using static System.Net.WebRequestMethods;
@@ -24,59 +23,58 @@ namespace Phoenix.MusiCali.Services
 
             public void RegisterUser(string email, DateTime dateOfBirth, string username)
             {
-                ValidateInput(email, dateOfBirth);
-
-                // Check if the user is already registered
-                if (IsUserRegistered(email))
+                if (ValidateInput(email, dateOfBirth, username))
                 {
-                    throw new InvalidOperationException("User with this email is already registered.");
+                    // Check if the user is already registered
+                    if (uc.IsUserRegistered(email))
+                    {
+                        throw new InvalidOperationException("User with this email is already registered.");
+                    }
+
+
+                    // Generate OTP for email confirmation
+                    string otp = hash.GenerateOTP();
+                    DateTime otpTime = DateTime.Now;
+
+                    string salt = hash.GenerateSalt();
+
+                    // Save user registration data to the database
+                    var userAccount = new UserAccount(username, email, salt);
+
+                    var userAuth = new UserAuth(username, otp, otpTime, salt);
+
+                    var User 
+
+                    // Send confirmation email (assuming you have an email service)
+                    bool emailSent = SendConfirmationEmail(email, otp);
+                    userAuth.EmailSent = emailSent;
+
+                    Console.WriteLine($"Registration initiated. Please check your email for confirmation within {ConfirmationExpiryHours} hours.");
                 }
 
-                // Generate a unique username for the user
-                string username = GenerateUniqueUsername(email);
-
-                // Generate OTP for email confirmation
-                string otp = auth.GenerateOTP();
-
-                string salt = hash.GenerateSalt();
-
-                // Save user registration data to the database
-                var userAccount = new UserAccount
-                {
-                    Username = username,
-                    Email = email,
-                    Salt = salt
-                };
-
-                var userAuth = new UserAuth
-                {
-                    Salt = salt;
-                    OTP = otp;
-                }
-
-                // Send confirmation email (assuming you have an email service)
-                SendConfirmationEmail(email, otp);
-
-                Console.WriteLine($"Registration initiated. Please check your email for confirmation within {ConfirmationExpiryHours} hours.");
             }
 
-            private void ValidateInput(string email, DateTime dateOfBirth, string username)
+            private bool ValidateInput(string email, DateTime dateOfBirth, string username)
             {
                 // Validate email format
                 if (!IsValidEmail(email))
                 {
+                    return false;
                     throw new ArgumentException("Invalid email provided. Retry again or contact system administrator");
                 }
 
                 // Validate date of birth
                 if (!IsValidDateOfBirth(dateOfBirth))
                 {
+                    return false;
                     throw new ArgumentException($"Invalid date of birth provided. Must be within 1/1/1970 to {DateTime.UtcNow.ToShortDateString()}.");
                 }
                 if (!IsValidUsername(username))
                 {
+                    return false;
                     throw new ArgumentException($"Invalid email provided. Retry\r\nagain or contact system administrator");
                 }
+                return true;
             }
 
             private bool IsValidUsername(string username)
@@ -105,17 +103,19 @@ namespace Phoenix.MusiCali.Services
                 // Your logic to save user registration data to the database
                 // This is a simplified example; integrate it with your existing data access layer
                 res = uc.SaveUser(newUser);
-                
+
             }// Save userAuth to the database
-                // Your data access logic here
+             // Your data access logic here
 
 
-            private void SendConfirmationEmail(string email, string otp)
+            private bool SendConfirmationEmail(string email, string otp)
             {
                 // Your logic to send a confirmation email
-                // This is a simplified example; you may want to use a dedicated email service
+                // Have not finished this as sending otp was not part of the milesotne 2
                 Console.WriteLine($"Confirmation email sent to {email}. Please check your email for the OTP.");
+                return false;
             }
         }
     }
 }
+

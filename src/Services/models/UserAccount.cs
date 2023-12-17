@@ -12,5 +12,12 @@ namespace Phoenix.MusiCali.Models
         public string Salt { get; set; }
         public string Email { get; set; }
 
+        public UserAccount(string username, string salt,string email)
+        {
+            Username = username;
+            Salt = salt;
+            Email = email;
+        }
+
     }
 }
