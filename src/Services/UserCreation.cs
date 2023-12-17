@@ -43,7 +43,7 @@ namespace Phoenix.MusiCali.Services
 
                     var userAuth = new UserAuth(username, otp, otpTime, salt);
 
-                    var User 
+                    Dictionary<string, string> claims = <"role", UserRole.User>;
 
                     // Send confirmation email (assuming you have an email service)
                     bool emailSent = SendConfirmationEmail(email, otp);

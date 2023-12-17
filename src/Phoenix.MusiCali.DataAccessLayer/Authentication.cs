@@ -1,5 +1,5 @@
 ﻿using Phoenix.MusiCali.Models;
-
+using System.Data.SqlClient;
 namespace Phoenix.MusiCali.DataAccessLayer
 {
     public class Authentication

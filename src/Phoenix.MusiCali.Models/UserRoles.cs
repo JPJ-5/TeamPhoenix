@@ -1,9 +1,7 @@
 // UserRoles.cs
 public enum UserRole
 {
-    UnregisteredUser,
-    RegisteredUser,
-    AuthenticatedUser,
+    User,
     Admin,
     // Add other roles as needed
 }
