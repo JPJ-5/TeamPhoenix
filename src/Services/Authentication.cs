@@ -1,74 +1,113 @@
-﻿namespace Services
-{
-    using Phoenix.MusiCali.Models;
-    using System;
-    using System.Text.RegularExpressions;
-    using au = Phoenix.MusiCali.DataAccessLayer.Authentication;
-    using hash = Phoenix.MusiCali.Models.Hasher;
+﻿using System.Text.RegularExpressions;
+using Phoenix.MusiCali.Services.Contracts;
+using au =  Phoenix.MusiCali.DataAccessLayer.Authentication;
+using Phoenix.MusiCali.Models;
 
-    public class Authentication
+namespace Services
+{
+    public class Authentication : IAuthentication
     {
 
-
-        public Result Authenticate(string username, string password, string ipAddress)
+        public Principal Authenticate(string username, string password)
         {
-            Result res = new Result();
-            if (isValidUsername(username))
+            Principal appPrincipal = null;
+            if (!IsValidUsername(username))
             {
-                UserAuth userA = au.findUsernameAuth(username);
-                if (userA.IsDisabled == true) 
-                {
-                    res.Success = false;
-                    res.ErrorMessage = "Account is disabled.Perform account recovery first or contact system administrator";
-                    return res;
-                }
-                if (userA != null) 
-                {
-                    if (userA.IsAuth is true)
-                    {
-                        if(ValidatePassword(userA, password)) 
-                        {
-                            au.updateAuthentication(username);
-                            res.Success = true;
-                            return res;
-                        }
-                        Result res2 = RecordFailedAttempt(userA, ipAddress);
-                        return res2;
-                    }
-                    else 
-                    {
-                        Result otpRes = ValidateOTP(userA, password);
-                        return otpRes;
-                    }
-                }
-
-                res.ErrorMessage = "Invalid security credentials provided. Retry again or contact system administrator";
-                res.Success = false;
-                return res;
+                throw new ArgumentException("Invalid security credentials provided. Retry again or contact the system administrator");
             }
 
-            res.ErrorMessage = "invalid username entry does not meet guidelines";
-            res.Success = false;
-            return res;
+            UserAuth userA = au.findUsernameAuth(username);
+
+            if (userA == null)
+            {
+                throw new Exception("Invalid security credentials provided. Retry again or contact the system administrator");
+            }
+            try
+            {
+                if (userA.IsAuth)
+                {
+                    if (ValidatePassword(userA, password))
+                    {
+                        if (userA.IsDisabled)
+                        {
+                            throw new Exception("Account is disabled. Perform account recovery first or contact the system administrator");
+                        }
+
+                        au.updateAuthentication(username);
+                        userA.FailedAttempts = 0;
+                        var claims = new Dictionary<string, string>();
+                        appPrincipal = new Principal(userA.Username, claims);
+                    }
+
+                    RecordFailedAttempt(userA);
+                    throw new Exception("Invalid security credentials provided. Retry again or contact the system administrator");
+                }
+                else
+                {
+                    if (ValidateOTP(userA, password))
+                    {
+                        au.updateAuthentication(username);
+                        userA.FailedAttempts = 0;
+                        var claims = new Dictionary<string, string>();
+                        appPrincipal = new Principal(userA.Username, claims);
+                    }
+                }
+            }
+            catch( Exception ex)
+            {
+                var errorMessage = ex.GetBaseException().Message;
+                au.logAuthFailure(errorMessage);
+            }
+            return appPrincipal;
+ 
         }
 
-        public static Result RecordFailedAttempt(UserAuth userA, string ipAddress)
-        {
-            Result res = new Result(); 
-            userA.FailedAttempts++;
-            userA.LastFailedAttemptTime = DateTime.Now;
-            res.ErrorMessage = "Failed attempt for account {userA.Username} from IP {ipAddress}";
-            res.Success = false;
 
-            if (userA.FailedAttempts >= 3)
+        private bool ValidatePassword(UserAuth userA, string password)
+        {
+            if (Hasher.VerifyPassword(password, userA.Password, userA.Salt))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool IsValidUsername(string username)
+        {
+            return !string.IsNullOrWhiteSpace(username) && username.Length >= 6 && username.Length <= 30 && !username.Contains(" ");
+        }
+
+        private void RecordFailedAttempt(UserAuth userA)
+        {
+            if (userA.FailedAttempts == 0)
+            {
+                userA.FirstFailedAttemptTime = DateTime.UtcNow;
+            }
+
+            Result logResult = new Result();
+            Result res = new Result();
+
+            userA.FailedAttempts++;
+            logResult.ErrorMessage = $"Failed attempt for account {userA.Username} from IP {ipAddress}";
+            logResult.Success = false;
+            res.Success = false;
+            res.ErrorMessage = "Invalid security credentials provided. Retry again or contact the system administrator";
+            TimeSpan timeFrame = DateTime.UtcNow - userA.FirstFailedAttemptTime;
+
+            if (userA.FailedAttempts >= 3 && timeFrame.TotalHours > 24)
             {
                 userA.IsDisabled = true;
-                res.ErrorMessage = "Account {userA.Username} disabled due to too many failed attempts.";
+                logResult.ErrorMessage = $"Account {userA.Username} disabled due to too many failed attempts.";
+                res.ErrorMessage = "Invalid security credentials provided, account has been disabled due to 3 failed attempts. Retry again or contact the system administrator";
             }
-            return res;
+
+            au.logAuthFailure(logResult);
         }
 
-        public static bool IsValidOTP(string otp)
+        private bool IsValidOTP(string otp)
         {
             // Check if OTP length is at least 8 characters
             if (otp.Length < 8)
@@ -85,48 +124,31 @@
             return true;
         }
 
-        public Result ValidateOTP(UserAuth userA, string otp)
+        private bool ValidateOTP(UserAuth userA, string otp)
         {
-            Result res = new Result();
             if (IsValidOTP(otp))
             {
-                if (hash.VerifyPassword(otp, userA.OTP, userA.Salt))
+                if (Hasher.VerifyPassword(otp, userA.OTP, userA.Salt))
                 {
                     TimeSpan timePassed = DateTime.UtcNow - userA.otpTimestamp;
                     if (timePassed.TotalMinutes > 2)
                     {
-                        res.ErrorMessage = "OTP has expired";
-                        res.Success = false;
-                        return res;
+                        return false;
+                        throw new Exception("OTP has expired");
                     }
-                    res.Success = true;
-                    return res;
+                    return true;
                 }
-                    res.ErrorMessage = "Invalid security credentials provided. Retry again or contact system administrator";
-                    res.Success = false;
-                    return res;
-            }
-            res.ErrorMessage = "Invalid OTP used. Please request a new OTP";
-            res.Success = false;
-            return res;
-        }
-
-        public bool ValidatePassword(UserAuth userA, string password)
-        {
-            if (hash.VerifyPassword(password, userA.Password, userA.Salt))
-            {
-                return true;
+                else
+                {
+                    return false;
+                    throw new Exception("Invalid security credentials provided. Retry again or contact the system administrator");
+                }
             }
             else
             {
                 return false;
+                throw new Exception("Invalid OTP used. Please request a new OTP");
             }
         }
-
-        public static bool isValidUsername(string username)
-        {
-            return !string.IsNullOrWhiteSpace(username) && username.Length >= 6 && username.Length <= 30 && !username.Contains(" ");
-        }
     }
-
 }

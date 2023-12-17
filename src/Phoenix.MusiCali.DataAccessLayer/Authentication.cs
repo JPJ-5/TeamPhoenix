@@ -4,6 +4,10 @@ namespace Phoenix.MusiCali.DataAccessLayer
 {
     public class Authentication
     {
+        public static Result logAuthFailure(string error)
+        {
+
+        }
         public static UserAccount findUsernameAccount(string username)
         {
 
