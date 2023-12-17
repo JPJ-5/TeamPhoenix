@@ -1,4 +1,5 @@
 ﻿using System;
+using Phoenix.MusiCali.Models;
 
 
 namespace Phoenix.MusiCali.UserRecovery;
@@ -16,13 +17,45 @@ public class UserRecovery
 
 public class Recovery : IRecovery
 {
-	public Result recover(string username)
+	public Result recover(string username, )
 	{
-		UserRecovery userRecovery = new UserRecovery(username, "", DateTime.Now, DateTime.Now);
-		return new Result;
+		UserRecovery userRecovery = new UserRecovery(username, OTP, DateTime.Now, DateTime.Now);
+		Result recoveryResult = new Result();
+
+		string sentOTP = generateOTP(userRecovery);
+
+
+
+		while(userRecovery.validCred is false and userRecovery.failedAttempts < 5)
+		{
+			DateTime now = DateTime.Now;
+			System.TimeSpan otpElapsed = now.Subtract(userRecovery.otpTimestamp);
+			System.TimeSpan maxWaitTime = new System.TimeSpan(0, 2, 0);
+			if (otpElapsed > maxWaitTime)
+			{
+				recoveryResult.Success = false;
+				recoveryResult.ErrorMessage = "";
+			}
+			else if(isValidOTP(userRecovery.OTP) is false)
+			{
+				userRecovery.failedAttempts++;
+				Console.WriteLine("Invalid OTP, please enter a valid OTP: ");
+				userRecovery.OTP = Console.ReadLine();
+			}
+			else
+			{
+				
+			}
+		}
+
+
+
+
+
+		return recoveryResult;
 	}
 
-	public static string generateOTP()
+	public static string generateOTP(string username)
 	{
 		string OTP = "";
 		var letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -34,6 +67,7 @@ public class Recovery : IRecovery
 		}
 
 		return OTP.ToString();
+		//needs to send OTP to user's MFA & store hashed OTP, not return
 	}
 
 	public bool isValidUsername(string username) 
@@ -53,7 +87,7 @@ public class Recovery : IRecovery
 		return true;
 	}
 
-	public bool isValidOTP(string OTP)
+	public bool isValidOTP(string OTP, DateTime otpTimeStamp)
 	{
 		//expires within 2 minutes
 		//minimum eight characters, a-z, A-Z, 0-9

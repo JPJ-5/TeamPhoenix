@@ -1,10 +1,11 @@
 ﻿using System;
+using Phoenix.MusiCali.Models;
 
 namespace Phoenix.MusiCali.UserRecovery;
 
 public interface IRecovery
 {
-    public bool recover(string username, string OTP);
+    public Result recover(string username, string OTP);
 
     public bool isValidUsername(string username);
 
