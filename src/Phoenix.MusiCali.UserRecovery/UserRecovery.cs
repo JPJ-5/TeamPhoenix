@@ -17,12 +17,15 @@ public class UserRecovery
 
 public class Recovery : IRecovery
 {
-	public Result recover(string username, )
+	public Result recover(string username)
 	{
-		UserRecovery userRecovery = new UserRecovery(username, OTP, DateTime.Now, DateTime.Now);
+		UserRecovery userRecovery = new UserRecovery(username, "", DateTime.Now, DateTime.Now);
 		Result recoveryResult = new Result();
 
 		string sentOTP = generateOTP(userRecovery);
+
+		Console.WriteLine("Enter your OTP: ");
+		userRecovery.OTP = Console.ReadLine();
 
 
 
@@ -34,7 +37,9 @@ public class Recovery : IRecovery
 			if (otpElapsed > maxWaitTime)
 			{
 				recoveryResult.Success = false;
-				recoveryResult.ErrorMessage = "";
+				recoveryResult.ErrorMessage = "Expired OTP.";
+				Console.WriteLine("Your OTP has expired.");
+				return recoveryResult;
 			}
 			else if(isValidOTP(userRecovery.OTP) is false)
 			{
@@ -44,13 +49,26 @@ public class Recovery : IRecovery
 			}
 			else
 			{
-				
+				if(userRecovery.OTP == sentOTP)
+				{
+					userRecovery.validCred = true;
+				}
 			}
 		}
 
+		if(userRecovery.validCred is true)
+		{
+			recoveryResult.Success = true;
+			return recoveryResult;
+		}
 
-
-
+		else if(userRecovery.validCred is false)
+		{
+			recoveryResult.Success = false;
+			recoveryResult.ErrorMessage = "User exceeded 5 ";
+			Console.WriteLine("You have exceeded 5 recovery attempts.");
+			return recoveryResult;
+		}
 
 		return recoveryResult;
 	}
