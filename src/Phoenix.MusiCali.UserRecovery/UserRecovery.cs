@@ -13,7 +13,8 @@ public class UserRecovery
 	public int failedAttempts = 0;
 	public DateTime lastFailedAttempts {  get; set; }
 	public bool validCred = false;
-	public string securityCode = "";
+	public string securityQuestion = "";
+	public string hashedSecurityAnswer = "";
 }
 
 public class Recovery : IRecovery
@@ -76,25 +77,39 @@ public class Recovery : IRecovery
 		return recoveryResult;
 	}
 
-	public Result recoverMultiFactor(string username, string securityCode)
+	public Result recoverSecurityQuestion(string username)
 	{
 		UserRecovery userRecovery = new UserRecovery(username, "", DateTime.Now, DateTime.Now);
 		Result recoveryResult = new Result();
 		userRecovery.securityCode = securityCode;
-		//needs to compare given security code to database table
+		//needs to fetch security question(s) from database
+		Console.WriteLine(userRecovery.securityQuestion);
+		userRecovery.hashedSecurityAnswer = Console.ReadLine();
+
+		//needs to hash security answer and then compare with database
 
 		while(userRecovery.validCred is false and userRecovery.failedAttempts < 5)
 		{
-			if(isValidSecurityCode(userRecovery.securityCode) is false)
+			if(isValidSecurityAnswer(userRecovery.securityCode) is false)
 			{
 				userRecovery.failedAttempts++;
-				Console.WriteLine("Invalid Security Code, please enter a correct code: ");
-				userRecovery.OTP = Console.ReadLine();
+				Console.WriteLine("Invalid answer, please enter a valid code: ");
+				userRecovery.hashedSecurityAnswer = Console.ReadLine();
 			}
 			else
 			{
 				//call hasher
-				//compare with table here
+				bool success = validateCred(username, null, userRecovery.hashedSecurityAnswer);
+				if(success)
+				{
+					userRecovery.validCred = true;
+				}
+				else
+				{
+					userRecovery.failedAttempts++;
+					Console.WriteLine("Incorrectd answer, please try again: ");
+					userRecovery.hashedSecurityAnswer = Console.ReadLine();
+				}
 			}
 		}
 
@@ -152,27 +167,57 @@ public class Recovery : IRecovery
 		return true;
 	}
 
-	public bool isValidSecurityCode(string SecurityCode)
-	{
-		return true;
-	}
-
-	public bool validateCred(string username, string OTP, string securityCode)
+	public bool validateCred(string username, string OTP, string securityAnswer)
 	{
 		if(OTP is not null)
 		{
 			//checks database for username and OTP
+			try
+			{
+
+			}
+			catch
+			{
+				return false;
+			}
 		}
 
-		if(securityCode is not null)
+		if(securityAnswer is not null)
 		{
-			//checks database for username and security code
+			//checks database for username and answer to security question
+			try
+			{
+
+			}
+			catch
+			{
+				return false;
+			}
 		}
 		return true;
 	}
 
-	public Result approveRecovery(string username)
+	public string fetchUserQuestion(string username)
 	{
-		//check for admin priv
+		try
+		{
+
+		}
+		catch
+		{
+			return "";
+		}
+	}
+
+	public Result recover(string username)
+	{
+		try
+		{
+
+		}
+		catch
+		{
+
+		}
 	}
 }
