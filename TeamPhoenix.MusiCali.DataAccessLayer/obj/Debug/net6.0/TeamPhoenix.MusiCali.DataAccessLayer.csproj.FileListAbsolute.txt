@@ -1,0 +1,12 @@
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\TeamPhoenix.MusiCali.DataAccessLayer.csproj.AssemblyReference.cache
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\TeamPhoenix.MusiCali.DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\TeamPhoenix.MusiCali.DataAccessLayer.AssemblyInfoInputs.cache
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\TeamPhoenix.MusiCali.DataAccessLayer.AssemblyInfo.cs
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\TeamPhoenix.MusiCali.DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.DataAccessLayer\bin\Debug\net6.0\TeamPhoenix.MusiCali.DataAccessLayer.deps.json
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.DataAccessLayer\bin\Debug\net6.0\TeamPhoenix.MusiCali.DataAccessLayer.dll
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.DataAccessLayer\bin\Debug\net6.0\TeamPhoenix.MusiCali.DataAccessLayer.pdb
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\TeamPhoenix.MusiCali.DataAccessLayer.dll
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\refint\TeamPhoenix.MusiCali.DataAccessLayer.dll
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\TeamPhoenix.MusiCali.DataAccessLayer.pdb
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net6.0\ref\TeamPhoenix.MusiCali.DataAccessLayer.dll

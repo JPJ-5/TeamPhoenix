@@ -1,0 +1,11 @@
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.Logging\bin\Debug\net6.0\TeamPhoenix.MusiCali.Logging.deps.json
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.Logging\bin\Debug\net6.0\TeamPhoenix.MusiCali.Logging.dll
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.Logging\bin\Debug\net6.0\TeamPhoenix.MusiCali.Logging.pdb
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.Logging\obj\Debug\net6.0\TeamPhoenix.MusiCali.Logging.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.Logging\obj\Debug\net6.0\TeamPhoenix.MusiCali.Logging.AssemblyInfoInputs.cache
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.Logging\obj\Debug\net6.0\TeamPhoenix.MusiCali.Logging.AssemblyInfo.cs
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.Logging\obj\Debug\net6.0\TeamPhoenix.MusiCali.Logging.csproj.CoreCompileInputs.cache
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.Logging\obj\Debug\net6.0\TeamPhoenix.MusiCali.Logging.dll
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.Logging\obj\Debug\net6.0\refint\TeamPhoenix.MusiCali.Logging.dll
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.Logging\obj\Debug\net6.0\TeamPhoenix.MusiCali.Logging.pdb
+C:\Users\skerr\source\repos\TeamPhoenix.MusiCali.Logging\obj\Debug\net6.0\ref\TeamPhoenix.MusiCali.Logging.dll
