@@ -69,6 +69,34 @@ namespace TeamPhoenix.MusiCali.Tests.Services
             Assert.IsTrue(result);
         }
 
+        [TestMethod]
+        public void RecoverDisabledAccount_ShouldThrowExceptionForNonMatchingAnswers()
+        {
+            Dictionary<string, string> claims = new Dictionary<string, string>
+            {
+                {"UserRole", "User"}
+            };
+            DateTime dob = new DateTime(2001, 01, 26);
+            UserAccount userAccount = new UserAccount("username", "testsalt", "fakehash", "email");
+            UserAuthN userAuth = new UserAuthN("username", "testotp", DateTime.Now, "testsalt");
+            UserRecovery userR = new UserRecovery("username", "security question", "answer to question");
+            UserClaims userC = new UserClaims("username", claims);
+
+            UserProfile userP = new UserProfile("username", "prof", "vong", dob);
+
+            // Act
+            UserCreation.CreateUser(userAccount, userAuth, userR, userC, userP);
+
+            // Arrange
+            string username = "username";
+            string answer = "wrong answer to question";
+
+            // Act
+
+            // Assert
+            Assert.ThrowsException<Exception>(() => rc.recoverDisabledAccount(username, answer));
+        }
+
         // Add more test methods for other scenarios
 
         [TestCleanup]

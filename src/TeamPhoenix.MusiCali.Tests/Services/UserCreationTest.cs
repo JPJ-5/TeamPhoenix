@@ -47,7 +47,40 @@ namespace TeamPhoenix.MusiCali.Tests.Services
             Assert.ThrowsException<ArgumentException>(() => uc.RegisterUser(email, dateOfBirth, username, fname, lname, q, a));
         }
 
-        // Add more test methods for other scenarios
+        [TestMethod]
+        public void RegisterUser_ShouldThrowArgumentExceptionForInvalidDateOfBirth()
+        {
+            string email = "test3@example.com";
+            DateTime dateOfBirth = new DateTime(1669, 1, 1);
+            string username = "testuser3";
+            string fname = "John";
+            string lname = "Doe";
+            string q = "Security Question";
+            string a = "a";
+
+            // Act
+
+            // Assert
+            Assert.ThrowsException<ArgumentException>(() => uc.RegisterUser(email, dateOfBirth, username, fname, lname, q, a));
+        }
+        [TestMethod]
+        public void RegisterUser_ShouldThrowArgumentExceptionForInvalidUsername()
+        {
+            string email = "test4@example.com";
+            DateTime dateOfBirth = new DateTime(1800, 1, 1);
+            string username = "testuser4!"; //should return an invalid username
+            string fname = "John";
+            string lname = "Doe";
+            string q = "Security Question";
+            string a = "a";
+
+            // Act
+
+            // Assert
+            Assert.ThrowsException<ArgumentException>(() => uc.RegisterUser(email, dateOfBirth, username, fname, lname, q, a));
+        }
+
+        // Add more test methods for other scenarios such as going over 3 second time limit.
 
         [TestCleanup]
         public void Cleanup()
