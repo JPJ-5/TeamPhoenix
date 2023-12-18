@@ -170,4 +170,9 @@ public class Recovery : IRecovery
 		}
 		return true;
 	}
+
+	public Result approveRecovery(string username)
+	{
+		//check for admin priv
+	}
 }
