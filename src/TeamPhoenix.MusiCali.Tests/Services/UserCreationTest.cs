@@ -80,7 +80,7 @@ namespace TeamPhoenix.MusiCali.Tests.Services
             Assert.ThrowsException<ArgumentException>(() => uc.RegisterUser(email, dateOfBirth, username, fname, lname, q, a));
         }
 
-        // Add more test methods for other scenarios such as going over 3 second time limit.
+        // Add more test methods for other scenarios.
 
         [TestCleanup]
         public void Cleanup()
