@@ -12,8 +12,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
         public string? Username { get; set; }
         public string? Salt { get; set; }
         public string? Password { get; set; }
-
-        public List<UserPermission> Permissions { get; set; } = new List<UserPermission>();
+        
         public List<UserRole> Roles { get; set; } = new List<UserRole>();
 
         public DateTime RegistrationTimestamp { get; set; }
@@ -45,13 +44,6 @@ public enum UserRole
 {
     User,
     Admin,
-}
-
-public enum UserPermission
-{
-    AccessLimitedFeatures,
-    AccessRegisteredUserFeatures,
-    AccessAuthenticatedUserFeatures,
 }
 
 public enum RegistrationStatus
