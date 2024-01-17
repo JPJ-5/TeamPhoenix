@@ -42,7 +42,7 @@ namespace TeamPhoenix.MusiCali.Security
                     if (ValidatePassword(userA, password))
                     {
                         userA.FailedAttempts = 0;
-                        dao.updateAuthentication(username);
+                        dao.updateAuthentication(userA);
                         Dictionary<string, string> claims = userC.Claims;
                         appPrincipal = new Principal(userA.Username, claims);
                     }
@@ -52,7 +52,7 @@ namespace TeamPhoenix.MusiCali.Security
                 }
                 else
                 {
-                    TimeSpan timePassed = DateTime.UtcNow - userA.otpTimestamp;
+                    TimeSpan timePassed = DateTime.Now - userA.otpTimestamp;
                     if (timePassed.TotalMinutes > 2)
                     {
                         throw new Exception("OTP has expired");
@@ -64,7 +64,7 @@ namespace TeamPhoenix.MusiCali.Security
                     if (ValidateOTP(userA, password))
                     {
                         userA.FailedAttempts = 0;
-                        dao.updateAuthentication(username);
+                        dao.updateAuthentication(userA);
                         Dictionary<string, string> claims = userC.Claims;
                         appPrincipal = new Principal(userA.Username, claims);
                     }
@@ -72,8 +72,7 @@ namespace TeamPhoenix.MusiCali.Security
             }
             catch (Exception ex)
             {
-                var errorMessage = ex.GetBaseException().Message;
-                dao.logAuthFailure(errorMessage);
+                throw new Exception($"Error authnticating {ex.Message}");
             }
             return appPrincipal;
 

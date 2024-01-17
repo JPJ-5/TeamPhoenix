@@ -6,21 +6,23 @@ using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.Security;
 using TeamPhoenix.MusiCali.Security.Contracts;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using TeamPhoenix.MusiCali.Security.Contract;
+using TeamPhoenix.MusiCali.Security.Contracts;
+using System.Net;
 
 namespace TeamPhoenix.MusiCali.Security
 {
-
-
-    public class Authorization
+    public class Authorization : IAuthorization
     {
-        private readonly IAuthorizer _authorizer;
-
-        public Authorization(IAuthorizer authorizer)
+        public bool IsUserAuthorized(Principal userPrincipal, string resource, string action)
         {
-            _authorizer = authorizer ?? throw new ArgumentNullException(nameof(authorizer));
+            if (userPrincipal.Claims.ContainsKey("UserRole") && userPrincipal.Claims["UserRole"] == "Admin")
+            {
+                // User is authorized
+                return true;
+            }
+
+            // User is not authorized
+            return false;
         }
-
     }
-
 }

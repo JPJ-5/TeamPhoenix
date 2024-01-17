@@ -40,7 +40,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "..\ConsoleApp
 		{D3EF78A0-2410-4AD9-A363-01D7C1BAE974} = {D3EF78A0-2410-4AD9-A363-01D7C1BAE974}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamPhoenix.MusiCali.Tests", "..\TeamPhoenix.MusiCali.Tests\TeamPhoenix.MusiCali.Tests.csproj", "{73CF8D16-045C-4325-AA3D-BA7E9091A2BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Tests", "..\TeamPhoenix.MusiCali.Tests\TeamPhoenix.MusiCali.Tests.csproj", "{73CF8D16-045C-4325-AA3D-BA7E9091A2BA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{67334982-EC1B-4F3A-936A-C85E095D91A0} = {67334982-EC1B-4F3A-936A-C85E095D91A0}
 		{762CDF2F-E228-4FEC-A115-8C1FAE812CA2} = {762CDF2F-E228-4FEC-A115-8C1FAE812CA2}

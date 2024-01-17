@@ -22,13 +22,13 @@ namespace TeamPhoenix.MusiCali.Services
                 throw new InvalidDataException();
             }
 
-            if (!isNameValid(userP.FirstName))
+            if (!isNameValid(userP.LastName))
             {
 
                 throw new InvalidDataException();
             }
 
-            else if (!isDateOfBirth(userP.DOB))
+            if (!isDateOfBirth(userP.DOB))
             {
 
                 throw new InvalidDataException();

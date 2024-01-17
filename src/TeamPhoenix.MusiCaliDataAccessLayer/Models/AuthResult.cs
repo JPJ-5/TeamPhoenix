@@ -14,6 +14,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
 
         public UserClaims userC {  get; set; }
 
+        public AuthResult() { }
+
         public AuthResult(UserAuthN userA, UserAccount userAcc, UserClaims userC)
         {
             this.userA = userA;

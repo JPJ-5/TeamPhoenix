@@ -13,7 +13,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
         public string OTP { get; set; }
         public string? Password { get; set; }
         public DateTime otpTimestamp { get; set; }
-        public DateTime? Timestamp { get; set; }
         public int FailedAttempts { get; set; }
         public DateTime FirstFailedAttemptTime { get; set; }
         public bool IsDisabled { get; set; }
@@ -27,12 +26,25 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
             OTP = otp;
             otpTimestamp = otpTime;
             Password = null;
-            Timestamp = null;
             FirstFailedAttemptTime = DateTime.MinValue;
             FailedAttempts = 0;
             IsDisabled = false;
             IsAuth = false;
             EmailSent = false;
+        }
+
+        public UserAuthN(string username, string salt, string oTP, string? password, DateTime otpTimestamp, int failedAttempts, DateTime firstFailedAttemptTime, bool isDisabled, bool isAuth, bool emailSent)
+        {
+            Username = username;
+            Salt = salt;
+            OTP = oTP;
+            Password = password;
+            this.otpTimestamp = otpTimestamp;
+            FailedAttempts = failedAttempts;
+            FirstFailedAttemptTime = firstFailedAttemptTime;
+            IsDisabled = isDisabled;
+            IsAuth = isAuth;
+            EmailSent = emailSent;
         }
     }
 }
