@@ -8,10 +8,13 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
     public class SqlDAO : ISqlDAO
     {
         private readonly string connectionString;
-        // TODO add SqlDAO that requires specific User and password
         public SqlDAO() //done for testing and default connectionString
         {
-            connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+            connectionString = "Data Source=localhost;Database=MusiCali;User ID=julie;Password=j1234;";
+        }
+        public SqlDAO(string username, string password)
+        {
+            connectionString = string.Format("Data Source=localhost;Database=MusiCali;User ID={0};Password={1};", username, password);
         }
         public Result ExecuteSql(string sql)
         {
@@ -56,5 +59,4 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             return result;
         }
     }
-
 }
