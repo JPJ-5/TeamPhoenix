@@ -1,5 +1,14 @@
-﻿namespace Phoenix.MusiCali.Logging
+namespace Phoenix.MusiCali.Logging
 {
+    using Phoenix.MusiCali.DataAccessLayer
+
+    private readonly string _connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+
+        public DataAccessObject(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+    
     public Result CreateLog(DateTime timestamp, string logLevel, string logCategory, string context)
         {
             var result = new Result();
