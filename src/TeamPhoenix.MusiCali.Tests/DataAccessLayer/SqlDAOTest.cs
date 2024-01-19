@@ -74,6 +74,7 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
 
             //Assert
             Assert.IsTrue(result.Success);
+            Assert.IsNotNull(result.value);
         }
         [TestMethod]
         public void DataAccess_ShouldReturnFalseForReadingNonExistentValue()
@@ -88,6 +89,7 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
 
             //Assert
             Assert.IsFalse(result.Success);
+            Assert.IsNull(result.value);
         }
         [TestMethod]
         public void DataAccess_ShouldReturnFalseForReadingNullSqlCommand()
@@ -102,6 +104,7 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
 
             //Assert
             Assert.IsFalse(result.Success);
+            Assert.IsNull(result.value);
         }
         [TestMethod]
         public void DataAccess_ShouldReturnFalseForReadingInvalidSqlCommand()
@@ -116,6 +119,7 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
 
             //Assert
             Assert.IsFalse(result.Success);
+            Assert.IsNull(result.value);
         }
         [TestMethod]
         public void DataAccess_ShouldReturnTrueForSuccessfulUpdate()

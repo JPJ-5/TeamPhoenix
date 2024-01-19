@@ -136,7 +136,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             if (allReadRows.Count > 0)
                             {
                                 result.Success = true;
-                                //should probably have a method to save read values to result.
+                                result.value = allReadRows;
                             }
                             else
                             {
