@@ -12,6 +12,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
 
         public bool HasError { get; set; }
         public string? ErrorMessage { get; set; }
+
+        public object? value { get; set; }
         public Result() { }
 
         public Result(string errorM, bool success)

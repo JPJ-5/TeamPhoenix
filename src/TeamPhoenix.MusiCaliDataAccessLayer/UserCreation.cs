@@ -63,81 +63,66 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
         public static void CreateUser(UserAccount userAccount, UserAuthN userAuthN, UserRecovery userRecovery, UserClaims userClaims, UserProfile userProfile)
         {
-            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+            //string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+            var dao = new SqlDAO("julie", "j1234");
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
+            // Insert data into UserAccount table
+            string insertUserAccountSql = "INSERT INTO UserAccount (Username, Salt, UserHash, Email) VALUES (@Username, @Salt, @UserHash, @Email)";
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            // Adding each parameter into a dictionary
+            parameters.Add("@Username", userAccount.Username);
+            parameters.Add("@Salt", userAccount.Salt);
+            parameters.Add("@UserHash", userAccount.UserHash);
+            parameters.Add("@Email", userAccount.Email);
+            dao.ExecuteSql(insertUserAccountSql, parameters);
 
-                    // Insert data into UserAccount table
-                    string insertUserAccountSql = "INSERT INTO UserAccount (Username, Salt, UserHash, Email) VALUES (@Username, @Salt, @UserHash, @Email)";
-                    using (MySqlCommand cmd = new MySqlCommand(insertUserAccountSql, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@Username", userAccount.Username);
-                        cmd.Parameters.AddWithValue("@Salt", userAccount.Salt);
-                        cmd.Parameters.AddWithValue("@UserHash", userAccount.UserHash);
-                        cmd.Parameters.AddWithValue("@Email", userAccount.Email);
-                        cmd.ExecuteNonQuery();
-                    }
+            // Insert data into UserAuthN table
+            string insertUserAuthNSql = "INSERT INTO UserAuthN (Username, Salt, OTP, Password, otpTimestamp, FailedAttempts, FirstFailedAttemptTime, IsDisabled, IsAuth, EmailSent) " +
+                                        "VALUES (@Username, @Salt, @OTP, @Password, @otpTimestamp, @FailedAttempts, @FirstFailedAttemptTime, @IsDisabled, @IsAuth, @EmailSent)";
+                    
+            Dictionary<string, object> authNParameters = new Dictionary<string, object>();
+            // Adding each parameter into a dictionary
+            authNParameters.Add("@Username", userAuthN.Username);
+            authNParameters.Add("@Salt", userAuthN.Salt);
+            authNParameters.Add("@OTP", userAuthN.OTP);
+            authNParameters.Add("@Password", userAuthN.Password);
+            authNParameters.Add("@otpTimestamp", userAuthN.otpTimestamp);
+            authNParameters.Add("@FailedAttempts", userAuthN.FailedAttempts);
+            authNParameters.Add("@FirstFailedAttemptTime", userAuthN.FirstFailedAttemptTime);
+            authNParameters.Add("@IsDisabled", userAuthN.IsDisabled);
+            authNParameters.Add("@IsAuth", userAuthN.IsAuth);
+            authNParameters.Add("@EmailSent", userAuthN.EmailSent);
+            dao.ExecuteSql(insertUserAuthNSql, authNParameters);
 
-                    // Insert data into UserAuthN table
-                    string insertUserAuthNSql = "INSERT INTO UserAuthN (Username, Salt, OTP, Password, otpTimestamp, FailedAttempts, FirstFailedAttemptTime, IsDisabled, IsAuth, EmailSent) " +
-                                                "VALUES (@Username, @Salt, @OTP, @Password, @otpTimestamp, @FailedAttempts, @FirstFailedAttemptTime, @IsDisabled, @IsAuth, @EmailSent)";
-                    using (MySqlCommand cmd = new MySqlCommand(insertUserAuthNSql, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@Username", userAuthN.Username);
-                        cmd.Parameters.AddWithValue("@Salt", userAuthN.Salt);
-                        cmd.Parameters.AddWithValue("@OTP", userAuthN.OTP);
-                        cmd.Parameters.AddWithValue("@Password", userAuthN.Password);
-                        cmd.Parameters.AddWithValue("@otpTimestamp", userAuthN.otpTimestamp);
-                        cmd.Parameters.AddWithValue("@FailedAttempts", userAuthN.FailedAttempts);
-                        cmd.Parameters.AddWithValue("@FirstFailedAttemptTime", userAuthN.FirstFailedAttemptTime);
-                        cmd.Parameters.AddWithValue("@IsDisabled", userAuthN.IsDisabled);
-                        cmd.Parameters.AddWithValue("@IsAuth", userAuthN.IsAuth);
-                        cmd.Parameters.AddWithValue("@EmailSent", userAuthN.EmailSent);
-                        cmd.ExecuteNonQuery();
-                    }
+            // Insert data into UserRecovery table
+            string insertUserRecoverySql = "INSERT INTO UserRecovery (Username, Question, Answer, SuccessRecovery) VALUES (@Username, @Question, @Answer, @SuccessRecovery)";
 
-                    // Insert data into UserRecovery table
-                    string insertUserRecoverySql = "INSERT INTO UserRecovery (Username, Question, Answer, SuccessRecovery) VALUES (@Username, @Question, @Answer, @SuccessRecovery)";
-                    using (MySqlCommand cmd = new MySqlCommand(insertUserRecoverySql, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@Username", userRecovery.Username);
-                        cmd.Parameters.AddWithValue("@Question", userRecovery.Question);
-                        cmd.Parameters.AddWithValue("@Answer", userRecovery.Answer);
-                        cmd.Parameters.AddWithValue("@SuccessRecovery", userRecovery.Success);
-                        cmd.ExecuteNonQuery();
-                    }
+            Dictionary<string, object> userRecoveryParameters = new Dictionary<string, object>();
+            // Adding each parameter into a dictionary
+            userRecoveryParameters.Add("@Username", userRecovery.Username);
+            userRecoveryParameters.Add("@Question", userRecovery.Question);
+            userRecoveryParameters.Add("@Answer", userRecovery.Answer);
+            userRecoveryParameters.Add("@SuccessRecovery", userRecovery.Success);
+            dao.ExecuteSql(insertUserRecoverySql, userRecoveryParameters);
 
-                    // Insert data into UserClaims table
-                    string insertUserClaimsSql = "INSERT INTO UserClaims (Username, Claims) VALUES (@Username, @Claims)";
-                    using (MySqlCommand cmd = new MySqlCommand(insertUserClaimsSql, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@Username", userClaims.Username);
-                        cmd.Parameters.AddWithValue("@Claims", userClaims.Claims);
-                        cmd.ExecuteNonQuery();
-                    }
+            // Insert data into UserClaims table
+            string insertUserClaimsSql = "INSERT INTO UserClaims (Username, Claims) VALUES (@Username, @Claims)";
 
-                    // Insert data into UserProfile table
-                    string insertUserProfileSql = "INSERT INTO UserProfile (Username, FirstName, LastName, DOB) VALUES (@Username, @FirstName, @LastName, @DOB)";
-                    using (MySqlCommand cmd = new MySqlCommand(insertUserProfileSql, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@Username", userProfile.Username);
-                        cmd.Parameters.AddWithValue("@FirstName", userProfile.FirstName);
-                        cmd.Parameters.AddWithValue("@LastName", userProfile.LastName);
-                        cmd.Parameters.AddWithValue("@DOB", userProfile.DOB);
-                        cmd.ExecuteNonQuery();
-                    }
+            Dictionary<string, object> userClaimsParameters = new Dictionary<string, object>();
+            userClaimsParameters.Add("@Username", userClaims.Username);
+            userClaimsParameters.Add("@Claims", userClaims.Claims);
+            dao.ExecuteSql(insertUserClaimsSql, userClaimsParameters);
 
-                    Console.WriteLine("Data inserted successfully!");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}. Retry or contact admin");
-                }
-            }
+            // Insert data into UserProfile table
+            string insertUserProfileSql = "INSERT INTO UserProfile (Username, FirstName, LastName, DOB) VALUES (@Username, @FirstName, @LastName, @DOB)";
+            Dictionary<string, object> userProfileParameters = new Dictionary<string, object>();
+            userProfileParameters.Add("@Username", userProfile.Username);
+            userProfileParameters.Add("@FirstName", userProfile.FirstName);
+            userProfileParameters.Add("@LastName", userProfile.LastName);
+            userProfileParameters.Add("@DOB", userProfile.DOB);
+            dao.ExecuteSql(insertUserProfileSql, userProfileParameters);
+
+            Console.WriteLine("Data inserted successfully!");
         }
     }
 }
