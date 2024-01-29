@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusiCali - Front-End Authorization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #login-container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        #dashboard {
+            display: none;
+        }
+
+        #admin-content {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-container">
+        <h2>Login</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required><br>
+        <button onclick="login()">Log In</button>
+    </div>
+
+    <div id="dashboard">
+        <h2>Welcome to the Dashboard!</h2>
+        <p id="admin-content">This is admin content.</p>
+        <button onclick="logout()">Log Out</button>
+    </div>
+
+    <script>
+        // Simulated user data (in a real-world scenario, this would come from the server)
+        const users = [
+            { username: 'admin', password: 'admin123', role: 'admin' },
+            { username: 'user', password: 'user123', role: 'user' }
+        ];
+
+        function login() {
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const dashboardContainer = document.getElementById('dashboard');
+            const adminContent = document.getElementById('admin-content');
+
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+
+            // Check if the user exists
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                // Display dashboard and show admin content if the user is an admin
+                dashboardContainer.style.display = 'block';
+                if (user.role === 'admin') {
+                    adminContent.style.display = 'block';
+                }
+                // Hide the login container
+                document.getElementById('login-container').style.display = 'none';
+            } else {
+                alert('Invalid credentials. Please try again.');
+            }
+        }
+
+        function logout() {
+            // Reset the form and show the login container
+            document.getElementById('login-container').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('admin-content').style.display = 'none';
+
+            // Clear the input fields
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+    </script>
+</body>
+</html>
