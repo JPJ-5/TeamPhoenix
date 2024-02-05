@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Claims;
 using TeamPhoenix.MusiCali.Security;
 using TeamPhoenix.MusiCali.Security.Contracts;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
@@ -13,9 +14,9 @@ namespace TeamPhoenix.MusiCali.Security
 {
     public class Authorization : IAuthorization
     {
-        public bool IsUserAuthorized(Principal userPrincipal, string resource, string action)
+        public bool IsUserAuthorized(ClaimsPrincipal userPrincipal, string resource, string action)
         {
-            if (userPrincipal.Claims.ContainsKey("UserRole") && userPrincipal.Claims["UserRole"] == "Admin")
+            if (userPrincipal.HasClaim(c => c.Type == ClaimTypes.Role && c.Value == "Admin")
             {
                 // User is authorized
                 return true;
