@@ -3,7 +3,7 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using System;
 using System.Data.SqlClient;
 
-namespace Phoenix.MusiCali.Logging
+namespace TeamPhoenix.MusiCali.Logging
 {
 
     public class Logger

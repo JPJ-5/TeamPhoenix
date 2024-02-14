@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using dao = TeamPhoenix.MusiCali.DataAccessLayer.UserDeletion;
+using log = TeamPhoenix.MusiCali.Logging.Logger;
 
 namespace TeamPhoenix.MusiCali.Services
 {
