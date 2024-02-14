@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using logU = TeamPhoenix.MusiCali.Logging.Logger;
 using authN = TeamPhoenix.MusiCali.DataAccessLayer.Authentication;
+using Microsoft.Data.SqlClient;
+using System.Collections;
 
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
@@ -42,7 +44,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         }
         
 
-        public static string GetUserHash(string username)
+        private static string GetUserHash(string username)
         {
             string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -121,8 +123,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     connection.Open();
 
                     // Update data in UserProfile table
-                    string insertUserRecoverySql = "UPDATE UserAuthN SET IsDisabled = @IsDisabled WHERE Username = @Username";
-                    using (MySqlCommand cmd = new MySqlCommand(insertUserRecoverySql, connection))
+                    string insertUserAuthNSQL = "UPDATE UserAuthN SET IsDisabled = @IsDisabled WHERE Username = @Username";
+                    using (MySqlCommand cmd = new MySqlCommand(insertUserAuthNSQL, connection))
                     {
                         cmd.Parameters.AddWithValue("@Username", userAuthN.Username);
                         cmd.Parameters.AddWithValue("@IsDisabled", true);
@@ -131,7 +133,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 }
                 catch (Exception ex)
                 {
-                    // You can add more specific exception handling if needed
                     throw new Exception($"Error updating UserAuthN: {ex.Message}");
                 }
                 string userHash = GetUserHash(userAuthN.Username);
@@ -155,8 +156,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     connection.Open();
 
                     // Update data in UserProfile table
-                    string insertUserRecoverySql = "UPDATE UserAuthN SET IsDisabled = @IsDisabled WHERE Username = @Username";
-                    using (MySqlCommand cmd = new MySqlCommand(insertUserRecoverySql, connection))
+                    string insertUserAuthNSQL = "UPDATE UserAuthN SET IsDisabled = @IsDisabled WHERE Username = @Username";
+                    using (MySqlCommand cmd = new MySqlCommand(insertUserAuthNSQL, connection))
                     {
                         cmd.Parameters.AddWithValue("@Username", userAuthN.Username);
                         cmd.Parameters.AddWithValue("@IsDisabled", false);
@@ -165,7 +166,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 }
                 catch (Exception ex)
                 {
-                    // You can add more specific exception handling if needed
                     throw new Exception($"Error updating UserAuthN: {ex.Message}");
                 }
                 string userHash = GetUserHash(userAuthN.Username);
@@ -177,6 +177,42 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 return true;
             }
 
+        }
+
+        public static Boolean checkUserName(string username)
+        {
+            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // Update data in UserProfile table
+                    string readUserAuthNQuery = "SELECT UserHash FROM UserAccount WHERE Username = @Username";
+                    using (MySqlCommand cmd = new MySqlCommand(readUserAuthNQuery, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@Username", username);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return true;
+                            }
+                            return false;
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // You can add more specific exception handling if needed
+                    throw new Exception($"Error getting Username: {ex.Message}");
+                    
+                }
+            }
         }
 
     }

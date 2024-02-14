@@ -3,7 +3,9 @@ using System;
 using System.Security;
 using System.Text.RegularExpressions;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using dao = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
+using TeamPhoenix.MusiCali.DataAccessLayer;
+using daoRecov = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
+using System.Diagnostics.Eventing.Reader;
 
 
 namespace TeamPhoenix.MusiCali.Services;
@@ -12,22 +14,31 @@ public class RecoverUser
 {
     public static bool recoverDisabledAccount(string username, string answer)
     {
-        UserRecovery userR = dao.GetUserRecovery(username);
-
-        if (!ValidateAnswer(answer, userR.Answer))
-        {
-            throw new Exception($"Answer does not match database, try again or contact admin.");
-        }
         try
         {
-            userR.Success = true;
-            dao.updateUserR(userR);
+            if (!daoRecov.checkUserName(username))
+            {
+                throw new Exception($"Does not find an account with the username, try again or contact admin");
+            }
+            UserRecovery userR = daoRecov.GetUserRecovery(username);
+            if (!ValidateAnswer(answer, userR.Answer))
+            {
+                throw new Exception($"Answer does not match database, try again or contact admin.");
 
-        } catch (Exception ex)
-        {
-            throw new Exception($"Error updating UserProfile: {ex.Message}");
+            }
+            userR.Success = true;
+            if (!daoRecov.updateUserR(userR))
+            {
+                throw new Exception($"Unable to recover user, try again or contact admin");
+            }
+
+            return true;
         }
-        return true;
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Error:{ex.ToString()}");
+            return false;
+        }
     }
 
 
@@ -43,41 +54,57 @@ public class RecoverUser
     }
 
     public static bool DisableUser(string username)
-    {
-        if (!isValidUsername(username))
-        {
-            throw new Exception($"Answer does not match database, try again or contact admin.");
-        }
+    {   
         try
         {
-            UserAuthN userDE = dao.GetUserAuthN(username);
-            dao.DisableUser(userDE);
+            if (!daoRecov.checkUserName(username))
+            {
+                throw new Exception($"Does not find an account with the username, try again or contact admin");
+            }
+            if (!isValidUsername(username))
+            {
+                throw new Exception($"Answer does not match database, try again or contact admin.");
+            }
+            UserAuthN userDE = Authentication.findUsernameInfo(username).userA;
+            if (!daoRecov.DisableUser(userDE))
+            {
+                throw new Exception($"Error updating UserAccount");
+            }
+            return true;
 
         }
         catch (Exception ex)
         {
-            throw new Exception($"Error updating UserAuthN: {ex.Message}");
+            Console.WriteLine($"Error:{ex.ToString()}");
+            return false;
         }
-        return true;
+        
     }
 
     public static bool EnableUser(string username)
     {
-        
-        if (!isValidUsername(username))
-        {
-            throw new Exception($"Answer does not match database, try again or contact admin.");
-        }
         try
         {
-            UserAuthN userDE = dao.GetUserAuthN(username);
-            dao.EnableUser(userDE);
+            if (!daoRecov.checkUserName(username))
+            {
+                throw new Exception($"Does not find an account with the username, try again or contact admin");
+            }
+            if (!isValidUsername(username))
+            {
+                throw new Exception($"Answer does not match database, try again or contact admin.");
+            }
+            UserAuthN userDE = Authentication.findUsernameInfo(username).userA;
+            if (!daoRecov.EnableUser(userDE))
+            {
+                throw new Exception($"Error updating UserAccount");
+            }
+            return true;
 
         }
         catch (Exception ex)
         {
-            throw new Exception($"Error updating UserAuthN: {ex.Message}");
+            Console.WriteLine($"Error:{ex.ToString()}");
+            return false;
         }
-        return true;
     }
 }
