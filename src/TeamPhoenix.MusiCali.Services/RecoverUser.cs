@@ -23,7 +23,7 @@ public class RecoverUser
             userR.Success = true;
             dao.updateUserR(userR);
 
-        }catch (Exception ex)
+        } catch (Exception ex)
         {
             throw new Exception($"Error updating UserProfile: {ex.Message}");
         }
@@ -40,5 +40,44 @@ public class RecoverUser
     public static bool ValidateAnswer(string answer, string userAnswer)
     {
         return answer == userAnswer;
+    }
+
+    public static bool DisableUser(string username)
+    {
+        if (!isValidUsername(username))
+        {
+            throw new Exception($"Answer does not match database, try again or contact admin.");
+        }
+        try
+        {
+            UserAuthN userDE = dao.GetUserAuthN(username);
+            dao.DisableUser(userDE);
+
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error updating UserAuthN: {ex.Message}");
+        }
+        return true;
+    }
+
+    public static bool EnableUser(string username)
+    {
+        
+        if (!isValidUsername(username))
+        {
+            throw new Exception($"Answer does not match database, try again or contact admin.");
+        }
+        try
+        {
+            UserAuthN userDE = dao.GetUserAuthN(username);
+            dao.EnableUser(userDE);
+
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error updating UserAuthN: {ex.Message}");
+        }
+        return true;
     }
 }
