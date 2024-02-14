@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using logU = TeamPhoenix.MusiCali.Logging.Logger;
-using authN = TeamPhoenix.MusiCali.DataAccessLayer.Authentication;
+using _logU = TeamPhoenix.MusiCali.Logging.Logger;
+using _authN = TeamPhoenix.MusiCali.DataAccessLayer.Authentication;
 using Microsoft.Data.SqlClient;
 using System.Collections;
 
