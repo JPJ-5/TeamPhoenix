@@ -7,8 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using _logU = TeamPhoenix.MusiCali.Logging.Logger;
-using _authN = TeamPhoenix.MusiCali.DataAccessLayer.Authentication;
-using Microsoft.Data.SqlClient;
 using System.Collections;
 
 
@@ -16,9 +14,10 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class RecoverUser
     {
+        private static readonly string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
         public static UserRecovery GetUserRecovery(string username)
         {
-            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+            #pragma warning disable CS8603, CS8604
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
@@ -41,12 +40,38 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 }
             }
             return null;
+            #pragma warning restore CS8603, CS8604
         }
-        
 
+        public static string GetOTP(string username)
+        {
+            #pragma warning disable CS8603, CS8604
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string selectUserProfileSql = "SELECT OTP FROM UserAuthN WHERE Username = @Username";
+                using (MySqlCommand cmd = new MySqlCommand(selectUserProfileSql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Username", username);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string userOTP = new string(
+                                reader["OTP"].ToString()
+                            );
+                            return userOTP;
+                        }
+                    }
+                }
+            }
+            return null;
+            #pragma warning restore CS8603, CS8604
+        }
         private static string GetUserHash(string username)
         {
-            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
@@ -68,13 +93,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     }
                 }
             }
-            return null;
+            return "";
         }
 
         public static bool updateUserR(UserRecovery userR)
         {
-            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
-
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
@@ -106,7 +129,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 string level = "Info";
                 string category = "View";
                 string context = "Recover User";
-                logU logDis = new logU();
+                _logU logDis = new _logU();
                 Result wow = logDis.CreateLog(userHash, level, category, context);
                 return true;
             }
@@ -114,8 +137,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
         public static bool DisableUser(UserAuthN userAuthN)
         {
-            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
-
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
@@ -139,7 +160,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 string level = "Info";
                 string category = "View";
                 string context = "Disable User";
-                logU logDis = new logU();
+                _logU logDis = new _logU();
                 Result wow = logDis.CreateLog(userHash, level, category, context);
                 return true;
             }
@@ -147,8 +168,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
         public static bool EnableUser(UserAuthN userAuthN)
         {
-            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
-
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
@@ -172,7 +191,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 string level = "Info";
                 string category = "View";
                 string context = "Enable User";
-                logU logDis = new logU();
+                _logU logDis = new _logU();
                 Result wow = logDis.CreateLog(userHash, level, category, context);
                 return true;
             }
@@ -181,8 +200,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
         public static Boolean checkUserName(string username)
         {
-            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
-
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try

@@ -5,14 +5,13 @@ using System.Text.RegularExpressions;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using daoRecov = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
-using System.Diagnostics.Eventing.Reader;
 
 
 namespace TeamPhoenix.MusiCali.Services;
 
 public class RecoverUser
 {
-    public static bool recoverDisabledAccount(string username, string answer)
+    public static bool recoverDisabledAccount(string username, string givenOtp)
     {
         try
         {
@@ -20,12 +19,13 @@ public class RecoverUser
             {
                 throw new Exception($"Does not find an account with the username, try again or contact admin");
             }
-            UserRecovery userR = daoRecov.GetUserRecovery(username);
-            if (!ValidateAnswer(answer, userR.Answer))
+            string storedOTP = daoRecov.GetOTP(username);
+            if (!ValidateOTP(givenOtp, storedOTP))
             {
                 throw new Exception($"Answer does not match database, try again or contact admin.");
 
             }
+            UserRecovery userR = daoRecov.GetUserRecovery(username);
             userR.Success = true;
             if (!daoRecov.updateUserR(userR))
             {
@@ -34,7 +34,7 @@ public class RecoverUser
 
             return true;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Console.WriteLine($"Error:{ex.ToString()}");
             return false;
@@ -48,9 +48,9 @@ public class RecoverUser
     }
 
 
-    public static bool ValidateAnswer(string answer, string userAnswer)
+    public static bool ValidateOTP(string givenOTP, string storedOTP)
     {
-        return answer == userAnswer;
+        return givenOTP == storedOTP;
     }
 
     public static bool DisableUser(string username)
