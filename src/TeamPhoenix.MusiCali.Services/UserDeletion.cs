@@ -1,18 +1,18 @@
 ﻿using System;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-// Assuming logger alias is already defined to reference the TeamPhoenix.MusiCali.Logging.Logger class
+using TeamPhoenix.MusiCali.Logging;
 
 namespace TeamPhoenix.MusiCali.Services
 {
     public class UserDeletion
     {
         private readonly DataAccessLayer.UserDeletion _userDeletionDao;
-        private readonly TeamPhoenix.MusiCali.Logging.Logger _logger; // Add logger dependency
+        private readonly Logger _logger; // Simplified reference to the Logger class
 
-        public UserDeletion(DataAccessLayer.UserDeletion userDeletionDao, TeamPhoenix.MusiCali.Logging.Logger logger)
+        public UserDeletion(DataAccessLayer.UserDeletion userDeletionDao, Logger logger)
         {
             _userDeletionDao = userDeletionDao;
-            _logger = logger; // Initialize logger
+            _logger = logger; // Initialize logger with simplified reference
         }
 
         public Result DeleteAccount(string username)
@@ -30,7 +30,7 @@ namespace TeamPhoenix.MusiCali.Services
                     string level = "Info";
                     string category = "View";
                     string context = "Deleted User";
-                    _logger.CreateLog(userHash, level, category, context); // Use the logger to create a log
+                    _logger.CreateLog(userHash, level, category, context); // Use the logger with simplified reference
 
                     return new Result { Success = true };
                 }
