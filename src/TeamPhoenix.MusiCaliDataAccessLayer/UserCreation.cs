@@ -1,5 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
+using System;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class UserCreation
@@ -48,7 +50,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-
                 // Check if the username or email already exists in UserAccount table
                 string checkDuplicateSql = "SELECT COUNT(*) FROM UserAccount WHERE Salt = @Salt";
                 using (MySqlCommand cmd = new MySqlCommand(checkDuplicateSql, connection))
@@ -61,68 +62,84 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public static void CreateUser(UserAccount userAccount, UserAuthN userAuthN, UserRecovery userRecovery, UserClaims userClaims, UserProfile userProfile)
+        public static Boolean CreateUser(UserAccount userAccount, UserAuthN userAuthN, UserRecovery userRecovery, UserClaims userClaims, UserProfile userProfile)
         {
-            //string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
-            var dao = new SqlDAO("julie", "j1234");
+            try
+            {
+                //string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+                var dao = new SqlDAO("julie", "j1234");
 
-            // Insert data into UserAccount table
-            string insertUserAccountSql = "INSERT INTO UserAccount (Username, Salt, UserHash, Email) VALUES (@Username, @Salt, @UserHash, @Email)";
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            // Adding each parameter into a dictionary
-            parameters.Add("@Username", userAccount.Username);
-            parameters.Add("@Salt", userAccount.Salt);
-            parameters.Add("@UserHash", userAccount.UserHash);
-            parameters.Add("@Email", userAccount.Email);
-            dao.ExecuteSql(insertUserAccountSql, parameters);
+                // Insert data into UserAccount table
+                string insertUserAccountSql = "INSERT INTO UserAccount (Username, Salt, UserHash, Email) VALUES (@Username, @Salt, @UserHash, @Email)";
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                // Adding each parameter into a dictionary
+                parameters.Add("@Username", userAccount.Username);
+                parameters.Add("@Salt", userAccount.Salt);
+                parameters.Add("@UserHash", userAccount.UserHash);
+                parameters.Add("@Email", userAccount.Email);
+                dao.ExecuteSql(insertUserAccountSql, parameters);
 
-            // Insert data into UserAuthN table
-            string insertUserAuthNSql = "INSERT INTO UserAuthN (Username, Salt, OTP, Password, otpTimestamp, FailedAttempts, FirstFailedAttemptTime, IsDisabled, IsAuth, EmailSent) " +
-                                        "VALUES (@Username, @Salt, @OTP, @Password, @otpTimestamp, @FailedAttempts, @FirstFailedAttemptTime, @IsDisabled, @IsAuth, @EmailSent)";
-                    
-            Dictionary<string, object> authNParameters = new Dictionary<string, object>();
-            // Adding each parameter into a dictionary
-            authNParameters.Add("@Username", userAuthN.Username);
-            authNParameters.Add("@Salt", userAuthN.Salt);
-            authNParameters.Add("@OTP", userAuthN.OTP);
-            authNParameters.Add("@Password", userAuthN.Password);
-            authNParameters.Add("@otpTimestamp", userAuthN.otpTimestamp);
-            authNParameters.Add("@FailedAttempts", userAuthN.FailedAttempts);
-            authNParameters.Add("@FirstFailedAttemptTime", userAuthN.FirstFailedAttemptTime);
-            authNParameters.Add("@IsDisabled", userAuthN.IsDisabled);
-            authNParameters.Add("@IsAuth", userAuthN.IsAuth);
-            authNParameters.Add("@EmailSent", userAuthN.EmailSent);
-            dao.ExecuteSql(insertUserAuthNSql, authNParameters);
+                // Insert data into UserAuthN table
+                string insertUserAuthNSql = "INSERT INTO UserAuthN (Username, Salt, OTP, Password, otpTimestamp, FailedAttempts, FirstFailedAttemptTime, IsDisabled, IsAuth, EmailSent) " +
+                                            "VALUES (@Username, @Salt, @OTP, @Password, @otpTimestamp, @FailedAttempts, @FirstFailedAttemptTime, @IsDisabled, @IsAuth, @EmailSent)";
 
-            // Insert data into UserRecovery table
-            string insertUserRecoverySql = "INSERT INTO UserRecovery (Username, Question, Answer, SuccessRecovery) VALUES (@Username, @Question, @Answer, @SuccessRecovery)";
+                Dictionary<string, object> authNParameters = new Dictionary<string, object>();
+                // Adding each parameter into a dictionary
+                authNParameters.Add("@Username", userAuthN.Username);
+                authNParameters.Add("@Salt", userAuthN.Salt);
+                authNParameters.Add("@OTP", userAuthN.OTP);
+                authNParameters.Add("@Password", userAuthN.Password);
+                authNParameters.Add("@otpTimestamp", userAuthN.otpTimestamp);
+                authNParameters.Add("@FailedAttempts", userAuthN.FailedAttempts);
+                authNParameters.Add("@FirstFailedAttemptTime", userAuthN.FirstFailedAttemptTime);
+                authNParameters.Add("@IsDisabled", userAuthN.IsDisabled);
+                authNParameters.Add("@IsAuth", userAuthN.IsAuth);
+                authNParameters.Add("@EmailSent", userAuthN.EmailSent);
+                dao.ExecuteSql(insertUserAuthNSql, authNParameters);
 
-            Dictionary<string, object> userRecoveryParameters = new Dictionary<string, object>();
-            // Adding each parameter into a dictionary
-            userRecoveryParameters.Add("@Username", userRecovery.Username);
-            userRecoveryParameters.Add("@Question", userRecovery.Question);
-            userRecoveryParameters.Add("@Answer", userRecovery.Answer);
-            userRecoveryParameters.Add("@SuccessRecovery", userRecovery.Success);
-            dao.ExecuteSql(insertUserRecoverySql, userRecoveryParameters);
+                // Insert data into UserRecovery table
+                string insertUserRecoverySql = "INSERT INTO UserRecovery (Username, Question, Answer, SuccessRecovery) VALUES (@Username, @Question, @Answer, @SuccessRecovery)";
 
-            // Insert data into UserClaims table
-            string insertUserClaimsSql = "INSERT INTO UserClaims (Username, Claims) VALUES (@Username, @Claims)";
+                Dictionary<string, object> userRecoveryParameters = new Dictionary<string, object>();
+                // Adding each parameter into a dictionary
+                userRecoveryParameters.Add("@Username", userRecovery.Username);
+                userRecoveryParameters.Add("@Question", userRecovery.Question);
+                userRecoveryParameters.Add("@Answer", userRecovery.Answer);
+                userRecoveryParameters.Add("@SuccessRecovery", userRecovery.Success);
+                dao.ExecuteSql(insertUserRecoverySql, userRecoveryParameters);
 
-            Dictionary<string, object> userClaimsParameters = new Dictionary<string, object>();
-            userClaimsParameters.Add("@Username", userClaims.Username);
-            userClaimsParameters.Add("@Claims", userClaims.Claims);
-            dao.ExecuteSql(insertUserClaimsSql, userClaimsParameters);
+                // Insert data into UserClaims table
+                string insertUserClaimsSql = "INSERT INTO UserClaims (Username, Claims) VALUES (@Username, @Claims)";
 
-            // Insert data into UserProfile table
-            string insertUserProfileSql = "INSERT INTO UserProfile (Username, FirstName, LastName, DOB) VALUES (@Username, @FirstName, @LastName, @DOB)";
-            Dictionary<string, object> userProfileParameters = new Dictionary<string, object>();
-            userProfileParameters.Add("@Username", userProfile.Username);
-            userProfileParameters.Add("@FirstName", userProfile.FirstName);
-            userProfileParameters.Add("@LastName", userProfile.LastName);
-            userProfileParameters.Add("@DOB", userProfile.DOB);
-            dao.ExecuteSql(insertUserProfileSql, userProfileParameters);
+                Dictionary<string, object> userClaimsParameters = new Dictionary<string, object>();
+                userClaimsParameters.Add("@Username", userClaims.Username);
+                userClaimsParameters.Add("@Claims", userClaims.Claims);
+                dao.ExecuteSql(insertUserClaimsSql, userClaimsParameters);
+
+                // Insert data into UserProfile table
+                string insertUserProfileSql = "INSERT INTO UserProfile (Username, FirstName, LastName, DOB) VALUES (@Username, @FirstName, @LastName, @DOB)";
+                Dictionary<string, object> userProfileParameters = new Dictionary<string, object>();
+                userProfileParameters.Add("@Username", userProfile.Username);
+                userProfileParameters.Add("@FirstName", userProfile.FirstName);
+                userProfileParameters.Add("@LastName", userProfile.LastName);
+                userProfileParameters.Add("@DOB", userProfile.DOB);
+                dao.ExecuteSql(insertUserProfileSql, userProfileParameters);
+            }
+            catch (Exception ex) {
+                Console.WriteLine($"Error:{ex.ToString()}");
+                return false;
+            }
+
+
+            _loggerCreation loggerCreation = new _loggerCreation();
+            string level = "Info";
+            string category = "View";
+            string context = "Creating new user";
+            _loggerCreation logDis = new _loggerCreation();
+            var loggingNormalCreation = loggerCreation.CreateLog(userAccount.UserHash, level, category, context);
 
             Console.WriteLine("Data inserted successfully!");
+            return true;
         }
     }
 }
