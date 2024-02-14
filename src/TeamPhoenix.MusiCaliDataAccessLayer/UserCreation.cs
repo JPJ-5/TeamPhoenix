@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using System;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
@@ -48,7 +49,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-
                 // Check if the username or email already exists in UserAccount table
                 string checkDuplicateSql = "SELECT COUNT(*) FROM UserAccount WHERE Salt = @Salt";
                 using (MySqlCommand cmd = new MySqlCommand(checkDuplicateSql, connection))
@@ -121,6 +121,19 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             userProfileParameters.Add("@LastName", userProfile.LastName);
             userProfileParameters.Add("@DOB", userProfile.DOB);
             dao.ExecuteSql(insertUserProfileSql, userProfileParameters);
+
+
+            string level = "Info";
+            string category = "View";
+            string context = "Creating new user";
+            string logQuery = "INSERT INTO UserLogs (UserHash, Timestamp, Level, Category, Context) VALUES (@UserHash, @Timestamp, @Level, @Category, @Context)";
+            Dictionary<string, object> logsParameters = new Dictionary<string, object>();
+            logsParameters.Add("@UserHash", userAccount.UserHash);
+            logsParameters.Add("@Timestamp", DateTime.Now);
+            logsParameters.Add("@Level", level);
+            logsParameters.Add("@Category", category);
+            logsParameters.Add("@Context", context);
+            dao.ExecuteSql(logQuery, logsParameters);
 
             Console.WriteLine("Data inserted successfully!");
         }

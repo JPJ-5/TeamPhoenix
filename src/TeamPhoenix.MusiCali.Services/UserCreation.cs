@@ -75,7 +75,7 @@ namespace TeamPhoenix.MusiCali.Services
             }
             Dictionary<string, string> claims = new Dictionary<string, string>
             {
-                {"UserRole", "User"}
+                {"UserRole", "NormalUser"}
             };
 
             // Save user registration data to the database

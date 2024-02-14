@@ -19,9 +19,9 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
         public void FindUsernameInfo_ShouldReturnValidAuthResult()
         {
             // Arrange
-            string email = "test@example.com";
+            string email = "test123@example.com";
             DateTime dateOfBirth = new DateTime(1990, 1, 1);
-            string username = "testuser";
+            string username = "testuser123";
             string fname = "John";
             string lname = "Doe";
             string q = "Security Question";
@@ -31,7 +31,7 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
             uc.RegisterUser(email, dateOfBirth, username, fname, lname, q, a);
             // Arrange
 
-            // Act
+            // Act 
             AuthResult authResult = dao.findUsernameInfo(username);
 
             // Assert

@@ -22,8 +22,12 @@ namespace TeamPhoenix.MusiCali.Tests.Security
         {
             // Arrange
             var authentication = new TeamPhoenix.MusiCali.Security.Authentication();
-            UserAuthN userAuthN = new UserAuthN("testuser", hash.HashPassword("testotp", "testsalt"), DateTime.Now, "testsalt");
-            UserAccount userAcc = new UserAccount("testuser", "testsalt", hash.HashPassword("testuser", "testsalt"), "testemail");
+            UserAuthN userAuthN = new UserAuthN("testuser1", hash.HashPassword("testingotp", "testsalt1234"), DateTime.Now, "testsalt1234");
+            UserAccount userAcc = new UserAccount("testuser1", "testsalt1234", hash.HashPassword("testuser", "testsalt1234"), "testemail");
+            Dictionary<string, string> claims = new Dictionary<string, string>
+            {
+                {"UserRole", "NormalUser"}
+            };
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
@@ -56,6 +60,14 @@ namespace TeamPhoenix.MusiCali.Tests.Security
                         cmd.Parameters.AddWithValue("@EmailSent", userAuthN.EmailSent);
                         cmd.ExecuteNonQuery();
                     }
+                    string insertUserClaimsSql = "INSERT INTO UserClaims (Username, Claims) " +
+                                                "VALUES (@Username, @Claims)";
+                    using (MySqlCommand cmd = new MySqlCommand(insertUserClaimsSql, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@Username", userAuthN.Username);
+                        cmd.Parameters.AddWithValue("@Claims", claims);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -64,8 +76,8 @@ namespace TeamPhoenix.MusiCali.Tests.Security
             }
 
             // Mock or set up your database with valid user credentials for testing
-            string validUsername = "testuser";
-            string validPassword = "testotp";
+            string validUsername = "testuser1";
+            string validPassword = "testingotp";
 
             // Act
             Principal principal = authentication.Authenticate(validUsername, validPassword);
@@ -98,6 +110,6 @@ namespace TeamPhoenix.MusiCali.Tests.Security
             Tester.DeleteAllRows("UserClaims");
             Tester.DeleteAllRows("UserAccount");
         }
-
+ 
     }
 }
