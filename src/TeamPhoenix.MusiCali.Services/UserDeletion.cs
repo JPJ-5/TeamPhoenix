@@ -1,20 +1,12 @@
 ﻿using System;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using TeamPhoenix.MusiCali.Logging;
+using _logger = TeamPhoenix.MusiCali.Logging.Logger;
+using _userDeletionDao = TeamPhoenix.MusiCali.DataAccessLayer.UserDeletion;
 
 namespace TeamPhoenix.MusiCali.Services
 {
     public class UserDeletion
     {
-        private readonly DataAccessLayer.UserDeletion _userDeletionDao;
-        private readonly Logger _logger; // Simplified reference to the Logger class
-
-        public UserDeletion(DataAccessLayer.UserDeletion userDeletionDao, Logger logger)
-        {
-            _userDeletionDao = userDeletionDao;
-            _logger = logger; // Initialize logger with simplified reference
-        }
-
         public Result DeleteAccount(string username)
         {
             try
@@ -26,7 +18,7 @@ namespace TeamPhoenix.MusiCali.Services
                 if (success)
                 {
                     // Perform logging after successful deletion
-                    string userHash = DataAccessLayer.UserDeletion.GetUserHash(username); // Assuming GetUserHash is now public or accessible
+                    string userHash = _userDeletionDao.GetUserHash(username); // Simplified reference, assuming GetUserHash is accessible
                     string level = "Info";
                     string category = "View";
                     string context = "Deleted User";

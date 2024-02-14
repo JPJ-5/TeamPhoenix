@@ -7,12 +7,13 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
     public class UserDeletion
     {
         // Hardcoded connection string
-        private readonly string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+        private static string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
 
-        public bool DeleteProfile(string username)
+        public static bool DeleteProfile(string username)
         {
             string queryUserProfile = "DELETE FROM UserProfile WHERE Username = @Username";
             string queryUserAccount = "DELETE FROM UserAccount WHERE Username = @Username";
+            
 
             try
             {
