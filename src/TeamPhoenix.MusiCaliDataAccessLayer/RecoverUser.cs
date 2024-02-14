@@ -1,4 +1,4 @@
-﻿ using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using _logU = TeamPhoenix.MusiCali.Logging.Logger;
+using _authN = TeamPhoenix.MusiCali.DataAccessLayer.Authentication;
+using Microsoft.Data.SqlClient;
+using System.Collections;
+
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
@@ -31,6 +36,34 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 reader["Username"].ToString(),
                                 reader["Question"].ToString(),
                                 reader["Answer"].ToString());
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        
+
+        private static string GetUserHash(string username)
+        {
+            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string selectUserProfileSql = "SELECT UserHash FROM UserAccount WHERE Username = @Username";
+                using (MySqlCommand cmd = new MySqlCommand(selectUserProfileSql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Username", username);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string userH = new string(
+                                reader["UserHash"].ToString()
+                            );
+                            return userH;
                         }
                     }
                 }
@@ -64,8 +97,123 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     // You can add more specific exception handling if needed
                     throw new Exception($"Error updating UserProfile: {ex.Message}");
                 }
+                UserAuthN theUser = Authentication.findUsernameInfo(userR.Username).userA;
+
+                if(!EnableUser(theUser)) {
+                    return false;
+                }
+                string userHash = GetUserHash(userR.Username);
+                string level = "Info";
+                string category = "View";
+                string context = "Recover User";
+                logU logDis = new logU();
+                Result wow = logDis.CreateLog(userHash, level, category, context);
                 return true;
             }
         }
+
+        public static bool DisableUser(UserAuthN userAuthN)
+        {
+            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // Update data in UserProfile table
+                    string insertUserAuthNSQL = "UPDATE UserAuthN SET IsDisabled = @IsDisabled WHERE Username = @Username";
+                    using (MySqlCommand cmd = new MySqlCommand(insertUserAuthNSQL, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@Username", userAuthN.Username);
+                        cmd.Parameters.AddWithValue("@IsDisabled", true);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error updating UserAuthN: {ex.Message}");
+                }
+                string userHash = GetUserHash(userAuthN.Username);
+                string level = "Info";
+                string category = "View";
+                string context = "Disable User";
+                logU logDis = new logU();
+                Result wow = logDis.CreateLog(userHash, level, category, context);
+                return true;
+            }
+        }
+
+        public static bool EnableUser(UserAuthN userAuthN)
+        {
+            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // Update data in UserProfile table
+                    string insertUserAuthNSQL = "UPDATE UserAuthN SET IsDisabled = @IsDisabled WHERE Username = @Username";
+                    using (MySqlCommand cmd = new MySqlCommand(insertUserAuthNSQL, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@Username", userAuthN.Username);
+                        cmd.Parameters.AddWithValue("@IsDisabled", false);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error updating UserAuthN: {ex.Message}");
+                }
+                string userHash = GetUserHash(userAuthN.Username);
+                string level = "Info";
+                string category = "View";
+                string context = "Enable User";
+                logU logDis = new logU();
+                Result wow = logDis.CreateLog(userHash, level, category, context);
+                return true;
+            }
+
+        }
+
+        public static Boolean checkUserName(string username)
+        {
+            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    // Update data in UserProfile table
+                    string readUserAuthNQuery = "SELECT UserHash FROM UserAccount WHERE Username = @Username";
+                    using (MySqlCommand cmd = new MySqlCommand(readUserAuthNQuery, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@Username", username);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return true;
+                            }
+                            return false;
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // You can add more specific exception handling if needed
+                    throw new Exception($"Error getting Username: {ex.Message}");
+                    
+                }
+            }
+        }
+
     }
 }
