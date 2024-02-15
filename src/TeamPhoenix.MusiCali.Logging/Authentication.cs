@@ -6,7 +6,5 @@
         {
             return false;
         }
-
-        public static bool LogSuccess() {}
     }
 }
