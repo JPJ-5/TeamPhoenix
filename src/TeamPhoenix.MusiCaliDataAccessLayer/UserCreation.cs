@@ -125,7 +125,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 userProfileParameters.Add("@DOB", userProfile.DOB);
                 dao.ExecuteSql(insertUserProfileSql, userProfileParameters);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Console.WriteLine($"Error:{ex.ToString()}");
                 return false;
             }
@@ -135,8 +136,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             string level = "Info";
             string category = "View";
             string context = "Creating new user";
-            _loggerCreation logDis = new _loggerCreation();
-            var loggingNormalCreation = loggerCreation.CreateLog(userAccount.UserHash, level, category, context);
+            _loggerCreation.CreateLog(userAccount.UserHash, level, category, context);
 
             Console.WriteLine("Data inserted successfully!");
             return true;
