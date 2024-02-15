@@ -54,7 +54,7 @@ public class RecoverUser
     }
 
     public static bool DisableUser(string username)
-    {   
+    {
         try
         {
             if (!daoRecov.checkUserName(username))
@@ -78,7 +78,7 @@ public class RecoverUser
             Console.WriteLine($"Error:{ex.ToString()}");
             return false;
         }
-        
+
     }
 
     public static bool EnableUser(string username)

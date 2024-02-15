@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using _logU = TeamPhoenix.MusiCali.Logging.Logger;
+using _logger = TeamPhoenix.MusiCali.Logging.Logger;
 using System.Collections;
 
 
@@ -129,8 +129,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 string level = "Info";
                 string category = "View";
                 string context = "Recover User";
-                _logU logDis = new _logU();
-                Result wow = logDis.CreateLog(userHash, level, category, context);
+                _logger.CreateLog(userHash, level, category, context);
                 return true;
             }
         }
@@ -160,8 +159,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 string level = "Info";
                 string category = "View";
                 string context = "Disable User";
-                _logU logDis = new _logU();
-                Result wow = logDis.CreateLog(userHash, level, category, context);
+                _logger.CreateLog(userHash, level, category, context);
                 return true;
             }
         }
@@ -191,8 +189,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 string level = "Info";
                 string category = "View";
                 string context = "Enable User";
-                _logU logDis = new _logU();
-                Result wow = logDis.CreateLog(userHash, level, category, context);
+                _logger.CreateLog(userHash, level, category, context);
                 return true;
             }
 
