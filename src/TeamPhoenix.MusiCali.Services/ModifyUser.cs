@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using dao = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
+using ModifyUserDao = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
 
 namespace TeamPhoenix.MusiCali.Services
 {
@@ -36,7 +36,7 @@ namespace TeamPhoenix.MusiCali.Services
 
             try
             {
-                dao.UpdateProfile(userP);
+                ModifyUserDao.UpdateProfile(userP);
             }
 
             catch (Exception ex)

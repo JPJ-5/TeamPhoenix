@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient;
 using System;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;

@@ -3,31 +3,42 @@ using System;
 using System.Security;
 using System.Text.RegularExpressions;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using dao = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
+using TeamPhoenix.MusiCali.DataAccessLayer;
+using daoRecov = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
 
 
 namespace TeamPhoenix.MusiCali.Services;
 
 public class RecoverUser
 {
-    public static bool recoverDisabledAccount(string username, string answer)
+    public static bool recoverDisabledAccount(string username, string givenOtp)
     {
-        UserRecovery userR = dao.GetUserRecovery(username);
-
-        if (!ValidateAnswer(answer, userR.Answer))
-        {
-            throw new Exception($"Answer does not match database, try again or contact admin.");
-        }
         try
         {
-            userR.Success = true;
-            dao.updateUserR(userR);
+            if (!daoRecov.checkUserName(username))
+            {
+                throw new Exception($"Does not find an account with the username, try again or contact admin");
+            }
+            string storedOTP = daoRecov.GetOTP(username);
+            if (!ValidateOTP(givenOtp, storedOTP))
+            {
+                throw new Exception($"Answer does not match database, try again or contact admin.");
 
-        }catch (Exception ex)
-        {
-            throw new Exception($"Error updating UserProfile: {ex.Message}");
+            }
+            UserRecovery userR = daoRecov.GetUserRecovery(username);
+            userR.Success = true;
+            if (!daoRecov.updateUserR(userR))
+            {
+                throw new Exception($"Unable to recover user, try again or contact admin");
+            }
+
+            return true;
         }
-        return true;
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error:{ex.ToString()}");
+            return false;
+        }
     }
 
 
@@ -37,8 +48,63 @@ public class RecoverUser
     }
 
 
-    public static bool ValidateAnswer(string answer, string userAnswer)
+    public static bool ValidateOTP(string givenOTP, string storedOTP)
     {
-        return answer == userAnswer;
+        return givenOTP == storedOTP;
+    }
+
+    public static bool DisableUser(string username)
+    {   
+        try
+        {
+            if (!daoRecov.checkUserName(username))
+            {
+                throw new Exception($"Does not find an account with the username, try again or contact admin");
+            }
+            if (!isValidUsername(username))
+            {
+                throw new Exception($"Answer does not match database, try again or contact admin.");
+            }
+            UserAuthN userDE = Authentication.findUsernameInfo(username).userA;
+            if (!daoRecov.DisableUser(userDE))
+            {
+                throw new Exception($"Error updating UserAccount");
+            }
+            return true;
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error:{ex.ToString()}");
+            return false;
+        }
+        
+    }
+
+    public static bool EnableUser(string username)
+    {
+        try
+        {
+            if (!daoRecov.checkUserName(username))
+            {
+                throw new Exception($"Does not find an account with the username, try again or contact admin");
+            }
+            if (!isValidUsername(username))
+            {
+                throw new Exception($"Answer does not match database, try again or contact admin.");
+            }
+            UserAuthN userDE = Authentication.findUsernameInfo(username).userA;
+            if (!daoRecov.EnableUser(userDE))
+            {
+                throw new Exception($"Error updating UserAccount");
+            }
+            return true;
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error:{ex.ToString()}");
+            return false;
+        }
     }
 }
