@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
+using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
@@ -48,6 +49,43 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 command.ExecuteNonQuery();
                 Console.WriteLine("Table created successfully.");
+            }
+        }
+
+        public static Result CreateLog(string userHash, string level, string category, string context)
+        {
+            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = "INSERT INTO Logs (UserHash, Timestamp, Level, Category, Context) " +
+                                   "VALUES (@UserHash, @Timestamp, @Level, @Category, @Context)";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@UserHash", userHash);
+                        cmd.Parameters.AddWithValue("@Timestamp", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@Level", level);
+                        cmd.Parameters.AddWithValue("@Category", category);
+                        cmd.Parameters.AddWithValue("@Context", context);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                    var res = new Result();
+                    res.HasError = false;
+                    return res;
+
+                }
+                catch (Exception ex)
+                {
+                    var res = new Result();
+                    res.HasError = true;
+                    res.ErrorMessage = ex.Message;
+                    return res;
+                }
             }
         }
 

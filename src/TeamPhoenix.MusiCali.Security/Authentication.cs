@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Security.Contracts;
 using dao = TeamPhoenix.MusiCali.DataAccessLayer.Authentication;
@@ -13,10 +10,12 @@ namespace TeamPhoenix.MusiCali.Security
 {
     public class Authentication : IAuthentication
     {
+        private readonly Dictionary<string, Principal> activeSessions = new Dictionary<string, Principal>();
 
         public Principal Authenticate(string username, string password)
         {
             Principal appPrincipal = null;
+
             if (!IsValidUsername(username))
             {
                 throw new ArgumentException("Invalid security credentials provided. Retry again or contact the system administrator");
@@ -35,6 +34,7 @@ namespace TeamPhoenix.MusiCali.Security
             {
                 throw new Exception("Account is disabled. Perform account recovery first or contact the system administrator");
             }
+
             try
             {
                 if (userA.IsAuth)
@@ -45,10 +45,17 @@ namespace TeamPhoenix.MusiCali.Security
                         dao.updateAuthentication(userA);
                         Dictionary<string, string> claims = userC.Claims;
                         appPrincipal = new Principal(userA.Username, claims);
-                    }
 
-                    userA = RecordFailedAttempt(userA, userAcc);
-                    throw new Exception("Invalid security credentials provided. Retry again or contact the system administrator");
+                        // If authentication is successful, create a session token
+                        string sessionToken = Guid.NewGuid().ToString();
+                        activeSessions.Add(sessionToken, appPrincipal);
+                        appPrincipal.SessionToken = sessionToken;
+                    }
+                    else
+                    {
+                        userA = RecordFailedAttempt(userA, userAcc);
+                        throw new Exception("Invalid security credentials provided. Retry again or contact the system administrator");
+                    }
                 }
                 else
                 {
@@ -67,17 +74,33 @@ namespace TeamPhoenix.MusiCali.Security
                         dao.updateAuthentication(userA);
                         Dictionary<string, string> claims = userC.Claims;
                         appPrincipal = new Principal(userA.Username, claims);
-                    }
+
+                        // If authentication is successful, create a session token
+                        string sessionToken = Guid.NewGuid().ToString();
+                        activeSessions.Add(sessionToken, appPrincipal);
+                        appPrincipal.SessionToken = sessionToken;
+                        return appPrincipal;return appPrincipal;
+                    }               
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error authnticating {ex.Message}");
+                throw new Exception($"Error authenticating {ex.Message}");
             }
-            return appPrincipal;
 
+            return appPrincipal;
         }
 
+        public Principal GetPrincipalBySessionToken(string sessionToken)
+        {
+            // Retrieve Principal using the session token
+            if (activeSessions.TryGetValue(sessionToken, out var principal))
+            {
+                return principal;
+            }
+
+            return null; // Session token not found
+        }
 
         private bool ValidatePassword(UserAuthN userA, string password)
         {
@@ -122,6 +145,7 @@ namespace TeamPhoenix.MusiCali.Security
             }
 
             log.logFailure(userAcc.UserHash);
+
             return userA;
         }
 
@@ -134,9 +158,9 @@ namespace TeamPhoenix.MusiCali.Security
             else
             {
                 return false;
-                throw new Exception("Invalid OTP credentials provided. Retry again or contact the system administrator");
             }
         }
+
 
         private bool IsValidOTP(string otp)
         {
@@ -154,6 +178,5 @@ namespace TeamPhoenix.MusiCali.Security
 
             return true;
         }
-
     }
 }

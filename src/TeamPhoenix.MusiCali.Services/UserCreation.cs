@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using _hash = TeamPhoenix.MusiCali.Security.Hasher;
 using _dao = TeamPhoenix.MusiCali.DataAccessLayer.UserCreation;

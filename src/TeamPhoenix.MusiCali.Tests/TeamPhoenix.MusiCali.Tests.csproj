@@ -24,4 +24,8 @@
     <ProjectReference Include="..\TeamPhoenix.MusiCali\TeamPhoenix.MusiCali.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logging\" />
+  </ItemGroup>
+
 </Project>
