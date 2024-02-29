@@ -32,14 +32,6 @@
         function modifySettings() {
             const firstName = prompt("Enter your first name:");
             const lastName = prompt("Enter your last name:");
-            const dob = prompt("Enter your date of birth (YYYY-MM-DD):");
-
-            // Validate date of birth format
-            const dobRegex = /^\d{4}-\d{2}-\d{2}$/;
-            if (!dobRegex.test(dob)) {
-                alert("Invalid date of birth format. Please use YYYY-MM-DD.");
-                return;
-            }
 
             // Call the backend endpoint to modify user settings
             fetch('/api/modify-settings', {
@@ -49,8 +41,7 @@
                 },
                 body: JSON.stringify({
                     firstName: firstName,
-                    lastName: lastName,
-                    dob: dob
+                    lastName: lastName
                 })
             })
             .then(response => {
