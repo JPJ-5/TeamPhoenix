@@ -206,12 +206,19 @@
         document.getElementById('user-profile').style.display = 'block';
         // Assuming 'editBtn' is your edit button and it's hidden by default,
         // set it to be visible along with the user profile.
-        document.getElementById('editBtn').style.display = 'block';
-        var userRole = document.getElementById('user-role').textContent;
-        if (userRole === 'rootAdmin') {
-            document.getElementById('create-admin-button').style.display = 'block';
-            document.getElementById('modify-account-button').style.display = 'block';
-        }
+       // document.getElementById('editBtn').style.display = 'block';
+       // var userRole = document.getElementById('user-role').textContent;
+        //var element = document.getElementById("username");
+        
+        //if (element) {
+        //    element.textContent = userProfile.username;
+        //} else {
+        //    console.error("Element not found: username");
+        //}
+        //if (userRole === 'rootAdmin') {
+        //    document.getElementById('create-admin-button').style.display = 'block';
+        //    document.getElementById('modify-account-button').style.display = 'block';
+        //}
     }
 
     document.getElementById('edit-button').addEventListener('click', function () {
@@ -273,6 +280,42 @@
     document.getElementById('modify-account-button').addEventListener('click', function () {
         document.getElementById('account-search-section').style.display = 'block';
     });
+
+
+    document.getElementById('logoutButton').addEventListener('click', function () {
+        const startTime = Date.now();
+        localStorage.removeItem('jwt');
+
+        fetch('http://localhost:8080/Logout/api/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                UserName: JSON.stringify(username)
+            }),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Logout operation error');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const duration = Date.now() - startTime;
+                if (duration > 3000) {
+                    throw new Error('Logout took longer than 3 seconds.');
+                }
+                alert(data.message); // Display logout message from server
+                // Redirect to home page with default culture settings
+                window.location.href = 'index.html'; // Adjust this to your home page URL
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(error.message); // Display error message to the user
+            });
+    });
+
 
     document.getElementById('search-account').addEventListener('click', function () {
         var emailToSearch = document.getElementById('search-email').value;
