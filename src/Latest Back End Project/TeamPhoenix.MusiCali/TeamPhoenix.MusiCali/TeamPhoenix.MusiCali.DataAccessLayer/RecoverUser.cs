@@ -70,7 +70,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             return null;
 #pragma warning restore CS8603, CS8604
         }
-        private static string GetUserHash(string username)
+        public static string GetUserHash(string username)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {

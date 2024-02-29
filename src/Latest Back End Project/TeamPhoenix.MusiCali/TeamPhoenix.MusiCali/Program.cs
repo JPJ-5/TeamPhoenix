@@ -221,6 +221,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TeamPhoenix.MusiCali.DataAccessLayer;
+using TeamPhoenix.MusiCali.Services;
 
 namespace AccCreationAPI
 {
@@ -243,7 +245,8 @@ namespace AccCreationAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+            builder.Services.AddScoped<LogoutRepository>();
+            builder.Services.AddScoped<LogoutService>();
             //jwt token
 
             var tkConf = builder.Configuration.GetSection("Jwt");
