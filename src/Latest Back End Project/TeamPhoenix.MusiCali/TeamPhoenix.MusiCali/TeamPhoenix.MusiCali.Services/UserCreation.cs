@@ -53,6 +53,11 @@ namespace TeamPhoenix.MusiCali.Services
                 throw new InvalidOperationException("User with this email is already registered.");
             }
 
+            if (_dao.IsEmailRegistered(backupEmail))
+            {
+                throw new InvalidOperationException("User with this email is already registered.");
+            }
+
             // Generate OTP for email confirmation
             string otp = _hash.GenerateOTP();
             DateTime otpTime = DateTime.Now;
