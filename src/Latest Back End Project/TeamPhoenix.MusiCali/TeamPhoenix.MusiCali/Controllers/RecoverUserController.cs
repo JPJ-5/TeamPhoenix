@@ -97,7 +97,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             Dictionary<Boolean, string> result = new Dictionary<Boolean, string>();
             if (rU.SendRecoveryEmail(userName))
             {
-                result.Add(true, "Recovered User Successfully");
+                result.Add(true, "otp sent to recovery email, and recovery email has been made as primary email for login.");
                 return new JsonResult(Ok(result));
             }
             result.Add(false, "Unable To Recover User");

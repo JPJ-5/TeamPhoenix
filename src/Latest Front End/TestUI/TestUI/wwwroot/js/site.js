@@ -3,8 +3,6 @@
     var dropdown = document.getElementById('myDropdown');
     var showLoginFormButton = document.getElementById('show-login');
     var loginForm = document.getElementById('login-form');
-    var otpForm = document.getElementById('otp-form');
-    var otpRecoverForm = document.getElementById('otp-recovery-section');
     var showRegisterButton = document.getElementById('show-register');
     var registerEmailForm = document.getElementById('register-email-form');
     var showDetailsFormButton = document.getElementById('show-details-form');
@@ -158,25 +156,15 @@
 
 
 
-
-    document.getElementById('otp-recovery-section').addEventListener('submit', function (event) {
-        event.preventDefault();
-        var otp = document.getElementById('recovery-otp').value;
-        // Implement logic to verify the OTP
-        // If OTP is correct, notify the user about reactivation process
-        alert('OTP verified. Your account will be reviewed for reactivation by an admin.');
-
-    });
-
     document.getElementById('account-recovery-button').addEventListener('click', function (event) {
         event.preventDefault();
         document.getElementById('account-recovery-section').style.display = 'block';
     });
 
     // Event listener for submit-recovery-email
-    document.getElementById('submit-recovery-email').addEventListener('click', function (event) {
+    document.getElementById('submit-recovery-username').addEventListener('click', function (event) {
         event.preventDefault();
-        var email = document.getElementById('recovery-email').value;
+        var email = document.getElementById('recovery-username').value;
         // Implement logic to verify if the email matches a disabled account
         // If matched, show the OTP section
         document.getElementById('otp-recovery-section').style.display = 'block';
@@ -409,20 +397,14 @@
         var email = document.getElementById('register-email').value;
         var dob = document.getElementById('dob').value;
         var uname = document.getElementById('user-name').value;
-        var fname = document.getElementById('first-name').value;
-        var lname = document.getElementById('last-name').value;
-        var q = document.getElementById('secur-question').value;
-        var a = document.getElementById('secur-answer').value;
+        var bmail = document.getElementById('backup-email').value;
 
         // Create a URLSearchParams object to encode the data
         var params = new URLSearchParams();
         params.append('email', email);
         params.append('dob', dob);
         params.append('uname', uname);
-        params.append('fname', fname);
-        params.append('lname', lname);
-        params.append('q', q);
-        params.append('a', a);
+        params.append('bmail', bmail);
 
         // Construct the URL with the encoded parameters
         var url = 'http://localhost:8080/AccCreationAPI/api/NormalAccCreationAPI?' + params.toString();

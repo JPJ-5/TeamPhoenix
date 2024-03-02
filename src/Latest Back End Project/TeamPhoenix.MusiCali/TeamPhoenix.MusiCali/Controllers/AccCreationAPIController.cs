@@ -14,9 +14,9 @@ namespace AccCreationAPI.Controllers
     {
 
         [HttpPost("api/NormalAccCreationAPI")]
-        public JsonResult RegisterNormalUser(string email, DateTime dob, string uname, string bemail)
+        public JsonResult RegisterNormalUser(string email, DateTime dob, string uname, string bmail)
         {
-            if (uC.RegisterNormalUser(email, dob, uname, bemail))
+            if (uC.RegisterNormalUser(email, dob, uname, bmail))
             {
                 return new JsonResult(true);
             }
@@ -25,9 +25,9 @@ namespace AccCreationAPI.Controllers
         }
 
         [HttpPost("api/AdminlAccCreationAPI")]
-        public JsonResult RegisterAdminUser(string email, DateTime dob, string uname, string bemail)
+        public JsonResult RegisterAdminUser(string email, DateTime dob, string uname, string bmail)
         {
-            if (uC.RegisterNormalUser(email, dob, uname, bemail))
+            if (uC.RegisterNormalUser(email, dob, uname, bmail))
             {
                 return new JsonResult(true);
             }
