@@ -91,11 +91,11 @@ namespace TeamPhoenix.MusiCali.Controllers
         //}
 
         [HttpPost("/api/RecoverUser")]
-        public JsonResult RecoverUser([FromHeader]string userName,[FromHeader] string givenOTP)
+        public JsonResult RecoverUser([FromHeader]string userName)
         {
 
             Dictionary<Boolean, string> result = new Dictionary<Boolean, string>();
-            if (rU.recoverDisabledAccount(userName, givenOTP))
+            if (rU.SendRecoveryEmail(userName))
             {
                 result.Add(true, "Recovered User Successfully");
                 return new JsonResult(Ok(result));
