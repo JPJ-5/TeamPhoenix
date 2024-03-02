@@ -279,6 +279,23 @@ namespace AccCreationAPI
                         .AllowAnyHeader()
                         .AllowAnyMethod());
             });
+
+            //builder.Services.AddCors(options =>
+            //{
+            //    options.AddPolicy("MyAllowSpecificOrigins",
+            //        policyBuilder =>
+            //        {
+            //            var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+            //            policyBuilder.WithOrigins(allowedOrigins) // Dynamically set origins based on configuration
+            //                .AllowAnyHeader()
+            //                .AllowAnyMethod()
+            //                .WithExposedHeaders("Custom-Header1", "Custom-Header2") // Specify exposed headers
+            //                .SetPreflightMaxAge(TimeSpan.FromSeconds(600)) // Set preflight cache duration
+            //                .AllowCredentials(); // Allow credentials
+            //        });
+            //});
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

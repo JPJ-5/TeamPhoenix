@@ -246,18 +246,6 @@ namespace TeamPhoenix.MusiCali.Security
             return null; // Session token not found
         }
 
-        private bool ValidatePassword(UserAuthN userA, string password)
-        {
-            if (Hasher.VerifyPassword(password, userA.Password, userA.Salt))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         private bool IsValidUsername(string username)
         {
             return !string.IsNullOrWhiteSpace(username) && username.Length >= 6 && username.Length <= 30 && !username.Contains(" ");

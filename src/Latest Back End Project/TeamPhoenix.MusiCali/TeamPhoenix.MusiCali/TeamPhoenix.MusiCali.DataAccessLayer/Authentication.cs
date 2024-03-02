@@ -39,7 +39,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                     reader["Username"].ToString(),
                                     reader["Salt"].ToString(),
                                     reader["OTP"].ToString(),
-                                    reader["Password"].ToString(),
                                     Convert.ToDateTime(reader["otpTimestamp"]),
                                     Convert.ToInt32(reader["FailedAttempts"]),
                                     Convert.ToDateTime(reader["FirstFailedAttemptTime"]),
