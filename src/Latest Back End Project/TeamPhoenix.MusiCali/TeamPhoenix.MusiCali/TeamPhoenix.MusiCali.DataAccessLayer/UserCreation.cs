@@ -80,8 +80,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 dao.ExecuteSql(insertUserAccountSql, parameters);
 
                 // Insert data into UserAuthN table
-                string insertUserAuthNSql = "INSERT INTO UserAuthN (Username, Salt, OTP, Password, otpTimestamp, FailedAttempts, FirstFailedAttemptTime, IsDisabled, IsAuth, EmailSent) " +
-                                            "VALUES (@Username, @Salt, @OTP, @Password, @otpTimestamp, @FailedAttempts, @FirstFailedAttemptTime, @IsDisabled, @IsAuth, @EmailSent)";
+                string insertUserAuthNSql = "INSERT INTO UserAuthN (Username, Salt, OTP, otpTimestamp, FailedAttempts, FirstFailedAttemptTime, IsDisabled, IsAuth, EmailSent) " +
+                                            "VALUES (@Username, @Salt, @OTP, @otpTimestamp, @FailedAttempts, @FirstFailedAttemptTime, @IsDisabled, @IsAuth, @EmailSent)";
 
                 Dictionary<string, object> authNParameters = new Dictionary<string, object>();
                 // Adding each parameter into a dictionary
