@@ -93,7 +93,6 @@ namespace TeamPhoenix.MusiCali.Controllers
         [HttpPost("/api/RecoverUser")]
         public JsonResult RecoverUser([FromHeader]string userName)
         {
-
             Dictionary<Boolean, string> result = new Dictionary<Boolean, string>();
             if (rU.SendRecoveryEmail(userName))
             {
@@ -129,7 +128,5 @@ namespace TeamPhoenix.MusiCali.Controllers
             result.Add(false, "Unable To Enable User");
             return new JsonResult(NotFound(result));
         }
-
-        
     }
 }
