@@ -33,6 +33,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
             EmailSent = false;
         }
 
+        public UserAuthN(string username)
+        {
+            Username = username;
+        }
+
         public UserAuthN(string username, string salt, string oTP, string? password, DateTime otpTimestamp, int failedAttempts, DateTime firstFailedAttemptTime, bool isDisabled, bool isAuth, bool emailSent)
         {
             Username = username;

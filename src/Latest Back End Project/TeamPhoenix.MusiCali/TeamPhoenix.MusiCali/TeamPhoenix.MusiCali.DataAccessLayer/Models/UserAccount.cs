@@ -21,5 +21,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
             UserHash = userHash;
         }
 
+        public UserAccount() {}
+
     }
 }
