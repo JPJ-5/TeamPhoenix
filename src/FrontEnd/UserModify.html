@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <div id="profile-info">
+        <!-- Profile information will be displayed here -->
+    </div>
+    <button id="modify-btn">Modify Settings</button>
+
+    <script>
+        // Function to fetch user profile information
+        function fetchUserProfile() {
+            fetch('/api/get-user-profile')
+                .then(response => response.json())
+                .then(data => {
+                    // Display user profile information in the DOM
+                    document.getElementById('profile-info').innerHTML = `
+                        <p>Username: ${data.username}</p>
+                        <p>Email: ${data.email}</p>
+                        <!-- Add more profile information as needed -->
+                    `;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Function to modify user settings
+        function modifySettings() {
+            const firstName = prompt("Enter your first name:");
+            const lastName = prompt("Enter your last name:");
+
+            // Call the backend endpoint to modify user settings
+            fetch('/api/modify-settings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    firstName: firstName,
+                    lastName: lastName
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Settings modified successfully!");
+                    fetchUserProfile(); // Refresh the profile information
+                } else {
+                    alert("Failed to modify settings. Please try again or contact admin.");
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Fetch user profile when the page loads
+        document.addEventListener('DOMContentLoaded', fetchUserProfile);
+
+        document.getElementById('modify-btn').addEventListener('click', modifySettings);
+    </script>
+</body>
+</html>
