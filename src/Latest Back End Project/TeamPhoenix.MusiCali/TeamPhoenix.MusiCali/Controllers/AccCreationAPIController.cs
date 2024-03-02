@@ -8,34 +8,6 @@ using uC = TeamPhoenix.MusiCali.Services.UserCreation;
 
 namespace AccCreationAPI.Controllers
 {
-    //[ApiController]
-    //[Route("[controller]")]
-    //public class AccCreationAPIController : ControllerBase
-    //{
-
-    //    [HttpPost("api/NormalAccCreationAPI")]
-    //    public JsonResult RegisterNormalUser(string email, DateTime dob, string uname, string fname, string lname, string q, string a)
-    //    {
-    //        if (uC.RegisterNormalUser(email, dob, uname, fname, lname, q, a))
-    //        {
-    //            return new JsonResult(true);
-    //        }
-    //        return new JsonResult(false);
-
-    //    }
-
-    //    [HttpPost("api/AdminlAccCreationAPI")]
-    //    public JsonResult RegisterAdminUser(string email, DateTime dob, string uname, string fname, string lname, string q, string a)
-    //    {
-    //        if (uC.RegisterNormalUser(email, dob, uname, fname, lname, q, a))
-    //        {
-    //            return new JsonResult(true);
-    //        }
-    //        return new JsonResult(false);
-
-    //    }
-    //}
-
     [ApiController]
     [Route("[controller]")]
     public class AccCreationAPIController : ControllerBase
