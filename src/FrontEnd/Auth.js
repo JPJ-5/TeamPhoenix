@@ -12,7 +12,7 @@ app.get('/UserSettings.html', (req, res) => {
     res.sendFile(__dirname + '/UserSettings.html');
 });
 
-// Serve other static files (CSS, JavaScript, etc.)
+// Serve other static files
 app.use(express.static(__dirname));
 
 // Start the server
