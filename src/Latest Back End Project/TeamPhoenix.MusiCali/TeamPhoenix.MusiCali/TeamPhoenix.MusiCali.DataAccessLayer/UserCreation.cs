@@ -62,7 +62,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public static Boolean CreateUser(UserAccount userAccount, UserAuthN userAuthN, UserRecovery userRecovery, UserClaims userClaims, UserProfile userProfile)
+        public static bool CreateUser(UserAccount userAccount, UserAuthN userAuthN, UserRecovery userRecovery, UserClaims userClaims, UserProfile userProfile)
         {
             try
             {
@@ -80,15 +80,14 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 dao.ExecuteSql(insertUserAccountSql, parameters);
 
                 // Insert data into UserAuthN table
-                string insertUserAuthNSql = "INSERT INTO UserAuthN (Username, Salt, OTP, Password, otpTimestamp, FailedAttempts, FirstFailedAttemptTime, IsDisabled, IsAuth, EmailSent) " +
-                                            "VALUES (@Username, @Salt, @OTP, @Password, @otpTimestamp, @FailedAttempts, @FirstFailedAttemptTime, @IsDisabled, @IsAuth, @EmailSent)";
+                string insertUserAuthNSql = "INSERT INTO UserAuthN (Username, Salt, OTP, otpTimestamp, FailedAttempts, FirstFailedAttemptTime, IsDisabled, IsAuth, EmailSent) " +
+                                            "VALUES (@Username, @Salt, @OTP, @otpTimestamp, @FailedAttempts, @FirstFailedAttemptTime, @IsDisabled, @IsAuth, @EmailSent)";
 
                 Dictionary<string, object> authNParameters = new Dictionary<string, object>();
                 // Adding each parameter into a dictionary
                 authNParameters.Add("@Username", userAuthN.Username);
                 authNParameters.Add("@Salt", userAuthN.Salt);
                 authNParameters.Add("@OTP", userAuthN.OTP);
-                authNParameters.Add("@Password", userAuthN.Password);
                 authNParameters.Add("@otpTimestamp", userAuthN.otpTimestamp);
                 authNParameters.Add("@FailedAttempts", userAuthN.FailedAttempts);
                 authNParameters.Add("@FirstFailedAttemptTime", userAuthN.FirstFailedAttemptTime);
