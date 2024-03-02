@@ -62,7 +62,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public static Boolean CreateUser(UserAccount userAccount, UserAuthN userAuthN, UserRecovery userRecovery, UserClaims userClaims, UserProfile userProfile)
+        public static bool CreateUser(UserAccount userAccount, UserAuthN userAuthN, UserRecovery userRecovery, UserClaims userClaims, UserProfile userProfile)
         {
             try
             {
@@ -88,7 +88,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 authNParameters.Add("@Username", userAuthN.Username);
                 authNParameters.Add("@Salt", userAuthN.Salt);
                 authNParameters.Add("@OTP", userAuthN.OTP);
-                authNParameters.Add("@Password", userAuthN.Password);
                 authNParameters.Add("@otpTimestamp", userAuthN.otpTimestamp);
                 authNParameters.Add("@FailedAttempts", userAuthN.FailedAttempts);
                 authNParameters.Add("@FirstFailedAttemptTime", userAuthN.FirstFailedAttemptTime);
