@@ -123,6 +123,7 @@ namespace TeamPhoenix.MusiCali.Services
                 return false;
             }
         }
+
         public static bool RegisterAdminUser(string email, DateTime dateOfBirth, string username, string backupEmail)
         {
             try
