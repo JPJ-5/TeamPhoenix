@@ -68,7 +68,6 @@
                     // Email exists and OTP sent
                     alert("OTP sent to your email.");
                     // Optionally, show OTP form
-                    document.getElementById("otp-form").style.display = 'block';
 
                     var otpVal = "0000";
                     //call OTP display controller here
@@ -80,6 +79,10 @@
                         },
                         body: JSON.stringify({ username: username, otp: "string" })
                     })*/
+                    
+                    document.getElementById("otp-form").style.display = 'block';
+
+                    //displays loaded OTP val
                     var otpDisplay = document.getElementById('otp-display-val');
                     otpDisplay.textContent = otpVal;
                     document.getElementById('otp-display-val').style.display = 'block';
