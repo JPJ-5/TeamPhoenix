@@ -71,6 +71,15 @@
                     document.getElementById("otp-form").style.display = 'block';
 
                     var otpVal = "0000";
+                    //call OTP display controller here
+                    /*
+                    fetch('http://localhost:8080/Login/api/FetchOTP', {
+                        method: '',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username: username, otp: "string" })
+                    })*/
                     var otpDisplay = document.getElementById('otp-display-val');
                     otpDisplay.textContent = otpVal;
                     document.getElementById('otp-display-val').style.display = 'block';
