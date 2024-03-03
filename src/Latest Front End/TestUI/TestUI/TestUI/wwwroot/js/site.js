@@ -69,6 +69,12 @@
                     alert("OTP sent to your email.");
                     // Optionally, show OTP form
                     document.getElementById("otp-form").style.display = 'block';
+
+                    var otpVal = "0000";
+                    var otpDisplay = document.getElementById('otp-display-val');
+                    otpDisplay.textContent = otpVal;
+                    document.getElementById('otp-display-val').style.display = 'block';
+
                 } else {
                     // Email does not exist
                     alert("Email does not exist.");

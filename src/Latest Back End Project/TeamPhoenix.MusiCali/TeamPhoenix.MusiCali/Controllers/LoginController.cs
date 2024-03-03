@@ -95,6 +95,7 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Security;
 using static System.Net.WebRequestMethods;
 using aU = TeamPhoenix.MusiCali.Security.Authentication;
+using Aud = TeamPhoenix.MusiCali.DataAccessLayer.Authentication
 
 namespace AccCreationAPI.Controllers
 {
@@ -138,6 +139,21 @@ namespace AccCreationAPI.Controllers
             }
             return new JsonResult(false);
 
+        }
+
+        //this is just to grab and display the OTP on the webpage after trying to log in
+        [AllowAnonymous]
+        [HttpPost("api/FetchOTP")]
+        public string FetchOTP([FromBody] LoginModel login)
+        {
+            string username = login.Username;
+            AuthResult authResult = Aud.findUsernameInfo(username);
+            string OTP = authResult.userA.OTP;
+            if (OTP != null)
+            {
+                return Ok(OTP);
+            }
+            return BadRequest("Error retrieving OTP");
         }
 
 
