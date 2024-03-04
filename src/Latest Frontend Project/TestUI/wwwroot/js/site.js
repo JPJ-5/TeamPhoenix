@@ -81,11 +81,11 @@
 
 
     // Add event listener for OTP form submission
-
     document.getElementById("submit-otp").addEventListener("click", function (event) {
         event.preventDefault(); // Prevent the default form submission
 
         var username = document.getElementById("username").value;
+        localStorage.setItem('username', username);
         var otp = document.getElementById("enter-otp").value;
 
         // AJAX request to the backend
@@ -209,6 +209,237 @@
     //    alert('OTP verified. Your account will be reviewed for reactivation by an admin.');
     //});
 
+    // Event listener for role confirmation button
+
+    function updateUsernameDisplay() {
+        const storedUsername = localStorage.getItem('username');
+        if (storedUsername) {
+            document.getElementById('display-username').textContent = storedUsername;
+
+            // Fetch the user's DOB
+            fetch(`http://localhost:8080/ModifyUserProfile/GetDOB/${storedUsername}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch DOB: ' + response.statusText);
+                }
+                return response.text(); // Assuming the response is text (formatted date)
+            })
+            .then(dob => {
+                // Display the DOB in the designated element
+                document.getElementById('display-dob').textContent = dob;
+            })
+            .catch(error => {
+                console.error('Error fetching DOB:', error);
+                document.getElementById('user-dob').textContent = 'DOB not available'; // Fallback text
+            });
+
+        }
+    }
+
+    document.getElementById('role-confirm-btn').addEventListener('click', function () {
+        var selectedRole = document.getElementById('user-role-select').value;
+        // Hide role selection
+        document.getElementById('role-selection').style.display = 'none';
+
+        // Based on the role, show modify user button and prepare the UI accordingly
+        if (selectedRole === 'normal') {
+            // Show modify profile options for normal user
+            prepareNormalUserUI();
+        } else if (selectedRole === 'rootAdmin') {
+            // Show admin UI for user management
+            prepareRootAdminUI();
+        }
+    });
+
+    // Prepare UI for a normal user
+    function prepareNormalUserUI() {
+        // Show modify profile options for normal user
+        document.getElementById('normal-user-modify-section').style.display = 'block';
+        // Hide admin management section just in case it was previously shown
+        document.getElementById('root-admin-management-section').style.display = 'none';
+
+        // Update the display of the username in the "Modify Your Profile" section
+        updateUsernameDisplay();
+    }
+
+    // Inside prepareNormalUserUI
+    document.getElementById('normal-user-save-changes').addEventListener('click', function () {
+        var firstName = document.getElementById('normal-user-first-name').value;
+        var lastName = document.getElementById('normal-user-last-name').value;
+        var username = document.getElementById('username').value;
+
+
+        const userProfileUpdate = {
+            Username: username,
+            FirstName: firstName,
+            LastName: lastName,
+        };
+
+
+        fetch('http://localhost:8080/ModifyUserProfile/ModifyProfile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userProfileUpdate),
+        })
+            .then(response => {
+                // Check the content type of the response
+                const contentType = response.headers.get("content-type");
+                if (!response.ok) {
+                    if (contentType && contentType.includes("application/json")) {
+                        // If the response is JSON, parse it and throw an error with its content
+                        return response.json().then(data => {
+                            throw new Error(JSON.stringify(data) || 'HTTP error! status: ' + response.status);
+                        });
+                    } else {
+                        // If the response is not JSON, use the text directly
+                        return response.text().then(text => {
+                            throw new Error(text || 'HTTP error! status: ' + response.status);
+                        });
+                    }
+                }
+                // If the response is OK, handle it according to its content type
+                if (contentType && contentType.includes("application/json")) {
+                    return response.json();
+                } else {
+                    return response.text();
+                }
+            })
+            .then(data => {
+                console.log('Profile updated successfully:', data);
+                alert('Profile updated successfully: ' + data); // Adjusted to handle non-JSON responses
+            })
+            .catch(error => {
+                console.error('Error updating profile:', error);
+            });
+    });
+
+    // Prepare UI for a root admin
+    function prepareRootAdminUI() {
+        // Show UI elements for root admin, such as user management buttons
+        document.getElementById('root-admin-management-section').style.display = 'block';
+        // Hide normal user modify section just in case it was previously shown
+        document.getElementById('normal-user-modify-section').style.display = 'none';
+
+        updateUsernameDisplay();
+    }
+
+    // Inside prepareRootAdminUI
+    document.getElementById('admin-delete-user').addEventListener('click', function () {
+        var username = prompt("Enter the username of the user to delete:");
+        if (username) {
+            fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Failed to delete user.');
+                    }
+                })
+                .then(data => {
+                    alert('User deleted successfully.');
+                    // Further actions upon successful deletion
+                })
+                .catch(error => {
+                    console.error('Error deleting user:', error);
+                });
+        }
+    });
+
+    // Inside prepareRootAdminUI
+    document.getElementById('admin-get-user').addEventListener('click', function () {
+        var username = prompt("Enter the username of the user to fetch:");
+        if (username) {
+            fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
+                method: 'GET'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to fetch user details.');
+                    }
+                })
+                .then(userProfile => {
+                    // Find the display element
+                    var userDetailsDisplay = document.getElementById('user-details-display');
+
+                    // Clear previous details
+                    userDetailsDisplay.innerHTML = '';
+
+                    // Create and append new details
+                    var usernameDetail = document.createElement('p');
+                    usernameDetail.textContent = `Username: ${userProfile.username}`;
+                    userDetailsDisplay.appendChild(usernameDetail);
+
+                    var firstNameDetail = document.createElement('p');
+                    firstNameDetail.textContent = `First Name: ${userProfile.firstName}`;
+                    userDetailsDisplay.appendChild(firstNameDetail);
+
+                    var lastNameDetail = document.createElement('p');
+                    lastNameDetail.textContent = `Last Name: ${userProfile.lastName}`;
+                    userDetailsDisplay.appendChild(lastNameDetail);
+
+                    // Make the display element visible
+                    userDetailsDisplay.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error fetching user details:', error);
+                    // Optionally, hide the display element if there was an error
+                    document.getElementById('user-details-display').style.display = 'none';
+                });
+        }
+    });
+
+    // Inside prepareRootAdminUI
+    document.getElementById('admin-update-claims').addEventListener('click', function () {
+        var username = prompt("Enter the username of the user to update claims for:");
+        var userRole = prompt("Enter the new user role for the user:");
+
+        if (username && userRole) {
+            // Construct the payload according to the expected structure
+            var payload = {
+                Username: username,
+                Claims: {
+                    UserRole: userRole // Set the UserRole within the Claims object
+                }
+            };
+
+            fetch('http://localhost:8080/ModifyUserProfile/updateClaims', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload), // Use the constructed payload
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to update user claims.');
+                    }
+                })
+                .then(data => {
+                    alert(data.message); // Assuming the server responds with a message
+                })
+                .catch(error => {
+                    console.error('Error updating user claims:', error);
+                    alert(error.message); // Provide feedback in case of error
+                });
+        } else {
+            alert('Username and user role are required.'); // Provide feedback if input is missing
+        }
+    });
+
+
     function displayUserProfile() {
         // Dummy data for user profile, replace with real data as needed
         document.getElementById('user-last-name').textContent = 'An';
@@ -226,7 +457,7 @@
        // document.getElementById('editBtn').style.display = 'block';
        // var userRole = document.getElementById('user-role').textContent;
         //var element = document.getElementById("username");
-        
+
         //if (element) {
         //    element.textContent = userProfile.username;
         //} else {
@@ -236,6 +467,7 @@
         //    document.getElementById('create-admin-button').style.display = 'block';
         //    document.getElementById('modify-account-button').style.display = 'block';
         //}
+        document.getElementById('role-selection').style.display = 'block';
     }
 
     document.getElementById('edit-button').addEventListener('click', function () {
@@ -302,6 +534,7 @@
     document.getElementById('logoutButton').addEventListener('click', function () {
         const startTime = Date.now();
         localStorage.removeItem('jwt');
+        localStorage.removeItem('username');
         var userName = document.getElementById("username").value;
 
         fetch('http://localhost:8080/Logout/api/logout', {

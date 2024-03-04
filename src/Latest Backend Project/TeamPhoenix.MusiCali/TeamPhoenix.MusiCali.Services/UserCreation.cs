@@ -84,7 +84,7 @@ namespace TeamPhoenix.MusiCali.Services
 
             UserClaims userC = new UserClaims(username, claims);
 
-            UserProfile userP = new UserProfile(username);
+            UserProfile userP = new UserProfile(username, dateOfBirth);
 
             bool emailSent = SendConfirmationEmail(email, otp);
             if (!emailSent)

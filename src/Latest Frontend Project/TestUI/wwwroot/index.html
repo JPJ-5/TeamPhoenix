@@ -55,6 +55,44 @@
                     <button id="submit-recovery-username">Submit</button>
                 </form>
 
+                <div id="role-selection" style="display:none;">
+                    <label for="user-role-select">Select User Role:</label>
+                    <select id="user-role-select">
+                        <option value="normal">Normal User</option>
+                        <option value="rootAdmin">Root Admin</option>
+                    </select>
+                    <button id="role-confirm-btn">Confirm</button>
+                </div>
+
+                <!-- Normal User Profile Modification Section -->
+                <div id="normal-user-modify-section" style="display: none;">
+                    <h3>Modify Your Profile</h3>
+                    <div>
+                        Username: <span id="display-username"></span>
+                    </div>
+
+                    <input type="text" id="normal-user-first-name" placeholder="First Name">
+                    <input type="text" id="normal-user-last-name" placeholder="Last Name">
+
+                    <div>
+                        DOB: <span id="display-dob"></span>
+                    </div>
+                    <button id="normal-user-save-changes">Save Changes</button>
+                </div>
+
+                <div id="user-details-display" style="display:none; padding:10px; margin-top:20px; border:1px solid #ddd; background-color: #f9f9f9;">
+                    <!-- User details will be populated here -->
+                </div>
+
+
+                <!-- Root Admin Management Section -->
+                <div id="root-admin-management-section" style="display: none;">
+                    <h3>Admin Management Tools</h3>
+                    <button id="admin-get-user">Get User</button>
+                    <button id="admin-delete-user">Delete User</button>
+                    <button id="admin-update-claims">Update User Claims</button>
+                    <!-- Placeholder for admin actions; implement as needed -->
+                </div>
 
                 <!-- User Profile Section, initially hidden -->
                 <div id="user-profile" class="user-profile scrollable-content" style="display: none;">

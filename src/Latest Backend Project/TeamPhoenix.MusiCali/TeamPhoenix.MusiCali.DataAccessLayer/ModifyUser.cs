@@ -76,6 +76,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
+
+
         public bool ModifyProfile(string username, string firstName, string lastName)
         {
             string query = "UPDATE UserProfile SET FirstName = @FirstName, LastName = @LastName WHERE Username = @Username";
@@ -100,7 +102,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 return false;
             }
         }
-
 
         public bool UpdateClaims(string username, Dictionary<string, string> updatedClaims)
         {
@@ -171,5 +172,34 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 return false;
             }
         }
+
+        public DateTime GetProfileDOB(string username)
+        {
+            string query = "SELECT DOB FROM UserProfile WHERE Username = @Username";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Username", username);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Convert the DOB to DateTime and return just the date part.
+                            var dob = Convert.ToDateTime(reader["DOB"]);
+                            return dob.Date; // This will return the date with the time part set to 00:00:00
+                        }
+                        else
+                        {
+                            throw new KeyNotFoundException($"A user profile with the username '{username}' could not be found.");
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

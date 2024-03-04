@@ -140,12 +140,6 @@ namespace AccCreationAPI.Controllers
 
         }
 
-
-
-
-
-
-
         private string GenerateToken(string UserName)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));

@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using System;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
@@ -108,10 +109,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
                 // Insert data into UserClaims table
                 string insertUserClaimsSql = "INSERT INTO UserClaims (Username, Claims) VALUES (@Username, @Claims)";
+                string claimsJson = JsonConvert.SerializeObject(userClaims.Claims);
 
                 Dictionary<string, object> userClaimsParameters = new Dictionary<string, object>();
                 userClaimsParameters.Add("@Username", userClaims.Username);
-                userClaimsParameters.Add("@Claims", userClaims.Claims);
+                userClaimsParameters.Add("@Claims", claimsJson);
                 dao.ExecuteSql(insertUserClaimsSql, userClaimsParameters);
 
                 // Insert data into UserProfile table
