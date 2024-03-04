@@ -91,13 +91,12 @@ namespace TeamPhoenix.MusiCali.Controllers
         //}
 
         [HttpPost("/api/RecoverUser")]
-        public JsonResult RecoverUser([FromHeader]string userName,[FromHeader] string givenOTP)
+        public JsonResult RecoverUser([FromHeader]string userName)
         {
-
             Dictionary<Boolean, string> result = new Dictionary<Boolean, string>();
-            if (rU.recoverDisabledAccount(userName, givenOTP))
+            if (rU.SendRecoveryEmail(userName))
             {
-                result.Add(true, "Recovered User Successfully");
+                result.Add(true, "OTP sucessfully sent to recovery email, Secondary email has now become primary source for otp.");
                 return new JsonResult(Ok(result));
             }
             result.Add(false, "Unable To Recover User");
@@ -129,7 +128,5 @@ namespace TeamPhoenix.MusiCali.Controllers
             result.Add(false, "Unable To Enable User");
             return new JsonResult(NotFound(result));
         }
-
-        
     }
 }

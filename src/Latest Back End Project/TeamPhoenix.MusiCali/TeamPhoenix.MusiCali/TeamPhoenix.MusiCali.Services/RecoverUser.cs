@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using daoRecov = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
+using hash = TeamPhoenix.MusiCali.Security.Hasher;
+using uc = TeamPhoenix.MusiCali.Services.UserCreation;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.IdentityModel.Tokens;
 
@@ -13,22 +15,46 @@ namespace TeamPhoenix.MusiCali.Services;
 
 public class RecoverUser
 {
-    public static bool recoverDisabledAccount(string username, string givenOtp)
+    public static bool SendRecoveryEmail(string username)
     {
         try
         {
-            if (!daoRecov.checkUserName(username))
-            {
-                throw new Exception($"Does not find an account with the username, try again or contact admin");
-            }
-            string storedOTP = daoRecov.GetOTP(username);
-            if (!ValidateOTP(givenOtp, storedOTP))
-            {
-                throw new Exception($"Answer does not match database, try again or contact admin.");
 
+            UserAccount userAcc = daoRecov.findUserAccount(username);
+            if (userAcc is null)
+            {
+                throw new Exception($"Unable to find user, try again or contact admin");
             }
+
             UserRecovery userR = daoRecov.GetUserRecovery(username);
             userR.Success = true;
+            userAcc.Email = userR.backupEmail;
+            UserAuthN userA = new UserAuthN(username);
+
+            // Generate OTP for email confirmation
+            string otp = hash.GenerateOTP();
+            DateTime otpTime = DateTime.Now;
+            userA.Username = username;
+            userA.OTP = otp;
+            userA.otpTimestamp = otpTime;
+            userA.IsDisabled = false;
+
+            bool emailSent = uc.SendConfirmationEmail(userAcc.Email, otp);
+            if (!emailSent)
+            {
+                throw new InvalidOperationException("Unable to send otp to email, please try again.");
+            }
+
+            if (!daoRecov.updateAuth(userA))
+            {
+                throw new Exception($"Unable to reset auth");
+            }
+
+            if (!daoRecov.updateAccountRecovery(userAcc))
+            {
+                throw new Exception($"Unable to reset user");
+            }
+
             if (!daoRecov.updateUserR(userR))
             {
                 throw new Exception($"Unable to recover user, try again or contact admin");
@@ -41,6 +67,18 @@ public class RecoverUser
             Console.WriteLine($"Error:{ex.ToString()}");
             return false;
         }
+    }
+
+    public static bool newRecoveryEmail(string username, string email)
+    {
+        UserRecovery userR = daoRecov.GetUserRecovery(username);
+        userR.backupEmail = email;
+        if (!daoRecov.updateUserR(userR))
+        {
+            throw new Exception($"Unable to recover user, try again or contact admin");
+        }
+
+        return true;
     }
 
 

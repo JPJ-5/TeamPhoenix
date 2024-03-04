@@ -27,6 +27,14 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
             DOB = dateOfBirth;
         }
 
+        public UserProfile(string userName)
+        {
+
+            Username = userName;
+            FirstName = null;
+            LastName = null;
+        }
+
         public void DisplayInfo()
         {
             Console.WriteLine($"Username: {Username}, Name: {FirstName} {LastName}, Date of Birth: {DOB}");

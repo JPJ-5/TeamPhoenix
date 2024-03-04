@@ -28,12 +28,6 @@ namespace TeamPhoenix.MusiCali.Services
                 throw new InvalidDataException();
             }
 
-            if (!isDateOfBirth(userP.DOB))
-            {
-
-                throw new InvalidDataException();
-            }
-
             try
             {
                 ModifyUserDao.UpdateProfile(userP);
@@ -52,13 +46,5 @@ namespace TeamPhoenix.MusiCali.Services
             return Regex.IsMatch(name, @"^[a-zA-Z]+$");
         }
 
-        public static bool isDateOfBirth(DateTime dob)
-        {
-            // Validate date of birth logic here
-            // This is a basic example; adjust it based on your requirements
-            DateTime minDateOfBirth = new DateTime(1970, 1, 1);
-            DateTime maxDateOfBirth = DateTime.UtcNow.Date;
-            return dob >= minDateOfBirth && dob <= maxDateOfBirth;
-        }
     }
 }

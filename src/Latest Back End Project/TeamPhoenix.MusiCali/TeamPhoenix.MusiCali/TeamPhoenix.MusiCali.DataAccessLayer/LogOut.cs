@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using _loggerAuthN = TeamPhoenix.MusiCali.Logging.Logger;
 using _authDao = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
+using _mariaDao = TeamPhoenix.MusiCali.DataAccessLayer.MariaDB;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
@@ -17,13 +18,21 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 string userInfo = _authDao.GetUserHash(userName);
                 string level = "Info";
                 string category = "View";
-                string context = "Use has Logout";
+                string context = "User has Logout";
                 //.CreateLog(userHash, level, category, context);
 
                 // Directly use the logging system to log the user's logout action
-                await Task.Run(() => _loggerAuthN.CreateLog(userInfo, level, category, context));
+                await Task.Run(() => _mariaDao.CreateLog(userInfo, level, category, context));
+                return true;
+                //string level = "Info";
+                //string category = "View";
+                //string context = "User has Logout";
+                ////.CreateLog(userHash, level, category, context);
 
-                return true; // Return true if logging succeeded
+                //// Directly use the logging system to log the user's logout action
+                //await Task.Run(() => _mariaDao.CreateLog(userInfo, level, category, context));
+
+                //return true; // Return true if logging succeeded
             }
             catch (SqlException ex)
             {
