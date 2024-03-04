@@ -1,6 +1,0 @@
-@TeamPhoenix.MusiCali_HostAddress = http://localhost:5210
-
-GET {{TeamPhoenix.MusiCali_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
