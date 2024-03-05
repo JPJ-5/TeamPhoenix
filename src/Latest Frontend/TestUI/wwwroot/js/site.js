@@ -77,9 +77,11 @@
     // Add event listener for OTP form submission
     document.getElementById("submit-otp").addEventListener("click", function (event) {
         event.preventDefault(); // Prevent the default form submission
+        localStorage.clear()
+        sessionStorage.clear()
 
         var username = document.getElementById("username").value;
-        localStorage.setItem('username', username);
+        sessionStorage.setItem('username', username);
         var otp = document.getElementById("enter-otp").value;
 
         // AJAX request to the backend
@@ -97,7 +99,7 @@
                     return response.json().then(data => {
                         if (data.success && data.token) {
                             // Handle JSON response
-                            localStorage.setItem("jwt", data.token);
+                            sessionStorage.setItem("jwt", data.token);
                             fetchUserProfile(username)
                         } else {
                             alert("Invalid OTP or error occurred.");
@@ -106,7 +108,7 @@
                 } else {
                     return response.text().then(token => {
                         // Handle plain text response
-                        localStorage.setItem("jwt", token);
+                        sessionStorage.setItem("jwt", token);
                         fetchUserProfile(username)
                     });
                 }
@@ -139,7 +141,7 @@
     function fetchAndSetUserRole(username) {
         var username = document.getElementById('username').value;
         // Assuming the base URL and the necessary route to your controller
-        var url = `http://localhost:8080/ModifyUserProfile/GetUserRole/${username}`;
+        var url = `http://localhost:8080/ModifyUserProfile/GetUserInformation/${username}`;
 
         fetch(url)
             .then(response => {
@@ -151,8 +153,8 @@
             .then(data => {
                 // Assuming data contains { username: "username", role: "userRole" }
                 // Now you can set the role in the UI and adjust visibility
-                document.getElementById('user-role').textContent = data.role;
-                adjustUIBasedOnRole(data.role);
+                document.getElementById('user-role').textContent = data.userRole;
+                adjustUIBasedOnRole(data.userRole);
             })
             .catch(error => {
                 console.error('Error fetching user role:', error);
@@ -160,10 +162,10 @@
     }
 
     // Function to adjust UI based on the role
-    function adjustUIBasedOnRole(role) {
-        if (role === 'NormalUser') {
+    function adjustUIBasedOnRole(userRole) {
+        if (userRole === 'NormalUser') {
             prepareNormalUserUI()
-        } else if (role === 'RootAdmin') {
+        } else if (userRole === 'RootAdmin') {
             prepareRootAdminUI()
         }
     }
@@ -231,8 +233,8 @@
 
     // Inside prepareNormalUserUI
     document.getElementById('normal-user-delete').addEventListener('click', function () {
-        var username = localStorage.getItem('username');
-        var token = localStorage.getItem('jwt');
+        var username = sessionStorage.getItem('username');
+        var token = sessionStorage.getItem('jwt');
         if (username && token) {
             fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
                 method: 'DELETE',
@@ -261,8 +263,8 @@
     });
 
     function logoutUser() {
-        localStorage.removeItem('jwt'); // Remove the token from localStorage
-        localStorage.removeItem('username'); // Remove the username from localStorage
+        sessionStorage.removeItem('jwt'); // Remove the token from sessionStorage
+        sessionStorage.removeItem('username'); // Remove the username from sessionStorage
 
         // Optionally, you can also invalidate the token on the server side here
 
@@ -452,27 +454,13 @@
         document.getElementById('user-profile-pic').src = 'profilePic.jpg'; // Update the path to the profile picture
 
         document.getElementById('user-profile').style.display = 'block';
-        // Assuming 'editBtn' is your edit button and it's hidden by default,
-        // set it to be visible along with the user profile.
-       // document.getElementById('editBtn').style.display = 'block';
-       // var userRole = document.getElementById('user-role').textContent;
-        //var element = document.getElementById("username");
 
-        //if (element) {
-        //    element.textContent = userProfile.username;
-        //} else {
-        //    console.error("Element not found: username");
-        //}
-        //if (userRole === 'rootAdmin') {
-        //    document.getElementById('create-admin-button').style.display = 'block';
-        //    document.getElementById('modify-account-button').style.display = 'block';
-        //}
         document.getElementById('modify-profile').addEventListener('click', function() {
             // Ensure the modify profile section is shown when the button is clicked
             document.getElementById('modify-profile-section').style.display = 'block';
     
             // Assuming fetchAndSetUserRole should also be called here
-            var username = localStorage.getItem('username'); // Make sure this is correctly retrieving the username
+            var username = sessionStorage.getItem('username'); // Make sure this is correctly retrieving the username
             if (username) {
                 fetchAndSetUserRole(username); // This will set the user role, adjust the UI as necessary
             } else {
@@ -484,8 +472,8 @@
 
     document.getElementById('logoutButton').addEventListener('click', function () {
         const startTime = Date.now();
-        localStorage.removeItem('jwt');
-        localStorage.removeItem('username');
+        sessionStorage.removeItem('jwt');
+        sessionStorage.removeItem('username');
         var userName = document.getElementById("username").value;
 
         fetch('http://localhost:8080/Logout/api/logout', {
