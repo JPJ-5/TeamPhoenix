@@ -24,12 +24,6 @@
         showRecoveryButton.style.display = 'none';
     });
 
-    //showOtpButton.addEventListener('click', function () {
-    //    hideGroup('group2');
-    //    hideGroup('group3');
-    //    otpForm.style.display = 'block';
-    //});
-
     showRegisterButton.addEventListener('click', function () {
         hideGroup('group1');
         hideGroup('group3');
@@ -104,8 +98,7 @@
                         if (data.success && data.token) {
                             // Handle JSON response
                             localStorage.setItem("jwt", data.token);
-                            //fetchAndDisplayUserProfile(data.token);
-                            displayUserProfile()
+                            fetchUserProfile(username)
                         } else {
                             alert("Invalid OTP or error occurred.");
                         }
@@ -114,8 +107,7 @@
                     return response.text().then(token => {
                         // Handle plain text response
                         localStorage.setItem("jwt", token);
-                        //fetchAndDisplayUserProfile(token);
-                        displayUserProfile()
+                        fetchUserProfile(username)
                     });
                 }
             })
@@ -125,24 +117,55 @@
             });
     });
 
-
-    function fetchAndDisplayUserProfile(token) {
-        fetch('http://localhost:8080/AccCreationAPI/api/NormalAccCreationAPI?', {
-            headers: {
-                'Authorization': 'Bearer ' + token
+    function fetchUserProfile(username) {
+        var username = document.getElementById('username').value;
+        fetch(`http://localhost:8080/ModifyUserProfile/GetUserInformation/${username}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            return response.json();
         })
-            .then(response => response.json())
-            .then(userProfile => {
-                // Display the user profile
-                displayUserProfile(userProfile);
+        .then(userProfile => {
+            displayUserProfile(userProfile); // Assuming you have a function to display the user profile
+        })
+        .catch(error => {
+            console.error('Failed to fetch user profile:', error);
+        });
+    }
+    
+
+    // After successful login or when displaying the user profile, call this function to fetch and set the user role
+    function fetchAndSetUserRole(username) {
+        var username = document.getElementById('username').value;
+        // Assuming the base URL and the necessary route to your controller
+        var url = `http://localhost:8080/ModifyUserProfile/GetUserRole/${username}`;
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user role');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Assuming data contains { username: "username", role: "userRole" }
+                // Now you can set the role in the UI and adjust visibility
+                document.getElementById('user-role').textContent = data.role;
+                adjustUIBasedOnRole(data.role);
+            })
+            .catch(error => {
+                console.error('Error fetching user role:', error);
             });
     }
 
-    function displayUserProfile(userProfile) {
-        // Update the UI with user profile information
-        document.getElementById("username").textContent = userProfile.username;
-        // ...display other user info
+    // Function to adjust UI based on the role
+    function adjustUIBasedOnRole(role) {
+        if (role === 'NormalUser') {
+            prepareNormalUserUI()
+        } else if (role === 'RootAdmin') {
+            prepareRootAdminUI()
+        }
     }
 
     document.getElementById('otp-form').addEventListener('submit', function (event) {
@@ -198,76 +221,55 @@
             });
     });
 
-
-
-    // Event listener for submit-recovery-otp
-    //document.getElementById('submit-recovery-otp').addEventListener('click', function () {
-    //    event.preventDefault();
-    //    var otp = document.getElementById('recovery-otp').value;
-    //    // Implement logic to verify the OTP
-    //    // If OTP is correct, notify the user about reactivation process
-    //    alert('OTP verified. Your account will be reviewed for reactivation by an admin.');
-    //});
-
-    // Event listener for role confirmation button
-
-    function updateUsernameDisplay() {
-        const storedUsername = localStorage.getItem('username');
-        if (storedUsername) {
-            document.getElementById('display-username').textContent = storedUsername;
-
-            // Fetch the user's DOB
-            fetch(`http://localhost:8080/ModifyUserProfile/GetDOB/${storedUsername}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch DOB: ' + response.statusText);
-                }
-                return response.text(); // Assuming the response is text (formatted date)
-            })
-            .then(dob => {
-                // Display the DOB in the designated element
-                document.getElementById('display-dob').textContent = dob;
-            })
-            .catch(error => {
-                console.error('Error fetching DOB:', error);
-                document.getElementById('user-dob').textContent = 'DOB not available'; // Fallback text
-            });
-
-        }
-    }
-
-    document.getElementById('role-confirm-btn').addEventListener('click', function () {
-        var selectedRole = document.getElementById('user-role-select').value;
-        // Hide role selection
-        document.getElementById('role-selection').style.display = 'none';
-
-        // Based on the role, show modify user button and prepare the UI accordingly
-        if (selectedRole === 'normal') {
-            // Show modify profile options for normal user
-            prepareNormalUserUI();
-        } else if (selectedRole === 'rootAdmin') {
-            // Show admin UI for user management
-            prepareRootAdminUI();
-        }
-    });
-
     // Prepare UI for a normal user
     function prepareNormalUserUI() {
         // Show modify profile options for normal user
         document.getElementById('normal-user-modify-section').style.display = 'block';
         // Hide admin management section just in case it was previously shown
         document.getElementById('root-admin-management-section').style.display = 'none';
-
-        // Update the display of the username in the "Modify Your Profile" section
-        updateUsernameDisplay();
     }
 
     // Inside prepareNormalUserUI
+    document.getElementById('normal-user-delete').addEventListener('click', function () {
+        var username = localStorage.getItem('username');
+        var token = localStorage.getItem('jwt');
+        if (username && token) {
+            fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Include the token in the request for authorization
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('Failed to delete user.');
+                }
+            })
+            .then(data => {
+                alert('User deleted successfully.');
+                logoutUser(); // Call a function to handle the logout process
+            })
+            .catch(error => {
+                console.error('Error deleting user:', error);
+                alert(error.message);
+            });
+        } else {
+            alert('Error: User information not found.');
+        }
+    });
+
+    function logoutUser() {
+        localStorage.removeItem('jwt'); // Remove the token from localStorage
+        localStorage.removeItem('username'); // Remove the username from localStorage
+
+        // Optionally, you can also invalidate the token on the server side here
+
+        // Redirect to the homepage
+        window.location.href = 'index.html';
+    }
+
     document.getElementById('normal-user-save-changes').addEventListener('click', function () {
         var firstName = document.getElementById('normal-user-first-name').value;
         var lastName = document.getElementById('normal-user-last-name').value;
@@ -326,8 +328,6 @@
         document.getElementById('root-admin-management-section').style.display = 'block';
         // Hide normal user modify section just in case it was previously shown
         document.getElementById('normal-user-modify-section').style.display = 'none';
-
-        updateUsernameDisplay();
     }
 
     // Inside prepareRootAdminUI
@@ -440,14 +440,14 @@
     });
 
 
-    function displayUserProfile() {
+    function displayUserProfile(userProfile) {
         // Dummy data for user profile, replace with real data as needed
-        document.getElementById('user-last-name').textContent = 'An';
-        document.getElementById('user-first-name').textContent = 'Khuong';
-        document.getElementById('user-email').textContent = 'helloworld@gmail.com';
-        document.getElementById('user-dob').textContent = '2024-01-01';
-        document.getElementById('user-role').textContent = 'rootAdmin';
-        document.getElementById('user-status').textContent = 'Active';
+        document.getElementById('user-last-name').textContent = userProfile.lastName || 'N/A';
+        document.getElementById('user-first-name').textContent = userProfile.firstName || 'N/A';
+        document.getElementById('user-email').textContent = userProfile.email || 'N/A';
+        document.getElementById('user-dob').textContent = userProfile.dateOfBirth || 'N/A';
+        document.getElementById('user-role').textContent = userProfile.userRole || 'N/A';
+        document.getElementById('user-status').textContent = userProfile.userStatus || 'N/A';
         document.getElementById('user-description').textContent = 'A brief description here.';
         document.getElementById('user-profile-pic').src = 'profilePic.jpg'; // Update the path to the profile picture
 
@@ -467,69 +467,20 @@
         //    document.getElementById('create-admin-button').style.display = 'block';
         //    document.getElementById('modify-account-button').style.display = 'block';
         //}
-        document.getElementById('role-selection').style.display = 'block';
+        document.getElementById('modify-profile').addEventListener('click', function() {
+            // Ensure the modify profile section is shown when the button is clicked
+            document.getElementById('modify-profile-section').style.display = 'block';
+    
+            // Assuming fetchAndSetUserRole should also be called here
+            var username = localStorage.getItem('username'); // Make sure this is correctly retrieving the username
+            if (username) {
+                fetchAndSetUserRole(username); // This will set the user role, adjust the UI as necessary
+            } else {
+                console.error('Username not found');
+                alert('Error: Could not fetch user role. Please log in again.');
+            }
+        });              
     }
-
-    document.getElementById('edit-button').addEventListener('click', function () {
-        // Show the edit-profile div
-        document.getElementById('edit-profile').style.display = 'block';
-
-        // Hide the displayed first and last names
-        document.getElementById('user-first-name').style.display = 'none';
-        document.getElementById('user-last-name').style.display = 'none';
-
-        // Hide the edit button
-        this.style.display = 'none';
-    });
-
-    // Save button functionality
-    document.getElementById('save-button').addEventListener('click', function () {
-        // Update the name display
-        document.getElementById('user-first-name').textContent = document.getElementById('edit-first-name').value;
-        document.getElementById('user-last-name').textContent = document.getElementById('edit-last-name').value;
-
-        // Hide the edit-profile div
-        document.getElementById('edit-profile').style.display = 'none';
-
-        // Show the first and last names and the edit button
-        document.getElementById('user-first-name').style.display = 'block';
-        document.getElementById('user-last-name').style.display = 'block';
-        document.getElementById('edit-button').style.display = 'block';
-    });
-
-    // Cancel button functionality
-    document.getElementById('cancel-button').addEventListener('click', function () {
-        // Hide the edit-profile div
-        document.getElementById('edit-profile').style.display = 'none';
-
-        // Show the first and last names and the edit button
-        document.getElementById('user-first-name').style.display = 'block';
-        document.getElementById('user-last-name').style.display = 'block';
-        document.getElementById('edit-button').style.display = 'block';
-    });
-
-    document.getElementById('create-admin-button').addEventListener('click', function () {
-        document.getElementById('create-admin-section').style.display = 'block';
-        this.style.display = 'none'; // Optionally hide the "Create Admin" button
-    });
-    document.getElementById('submit-admin').addEventListener('click', function () {
-        var firstName = document.getElementById('admin-first-name').value;
-        var lastName = document.getElementById('admin-last-name').value;
-        var email = document.getElementById('admin-email').value;
-        var role = document.getElementById('admin-role').value;
-
-        // Implement the logic to create an admin account
-        // This could involve sending a request to your server
-
-        // Optionally reset the form and hide the admin creation section
-        document.getElementById('create-admin-section').style.display = 'none';
-        document.getElementById('create-admin-button').style.display = 'block';
-    });
-
-    document.getElementById('modify-account-button').addEventListener('click', function () {
-        document.getElementById('account-search-section').style.display = 'block';
-    });
-
 
     document.getElementById('logoutButton').addEventListener('click', function () {
         const startTime = Date.now();
@@ -564,69 +515,6 @@
                 alert(error.message); // Display error message to the user
             });
     });
-
-
-    document.getElementById('search-account').addEventListener('click', function () {
-        var emailToSearch = document.getElementById('search-email').value;
-        // Dummy condition to simulate email match. Replace this with your actual search logic.
-        if (emailToSearch === "ankhuong@email.com") {
-            document.getElementById('edit-account-section').style.display = 'block';
-        } else {
-            // Optionally, handle the case where no matching email is found
-            alert('No account found with that email.');
-        }
-    });
-
-    // Event listener for save-changes-button
-    document.getElementById('save-changes-button').addEventListener('click', function () {
-        var updatedFirstName = document.getElementById('edit-user-first-name').value;
-        var updatedLastName = document.getElementById('edit-user-last-name').value;
-        var updatedRole = document.getElementById('edit-user-role').value;
-
-        // AJAX request to server to save the updated account information
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/update-account", true); // Replace with your actual server URL
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                // Handle successful update
-                alert('Account updated successfully.');
-                // Optionally reset the UI or perform other actions
-            }
-        }
-        xhr.send(JSON.stringify({
-            firstName: updatedFirstName,
-            lastName: updatedLastName,
-            role: updatedRole
-        }));
-        document.getElementById('edit-account-section').style.display = 'none'
-    });
-
-    // Event listener for delete-account-button
-    document.getElementById('delete-account-button').addEventListener('click', function () {
-        // Implement logic to delete the account
-        var emailToDelete = document.getElementById('search-email').value;
-
-        // Confirm with the user before deletion
-        if (confirm('Are you sure you want to delete the account for ' + emailToDelete + '?')) {
-            // AJAX request to server for account deletion
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/delete-account", true); // Replace with your actual server URL
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.onreadystatechange = function () {
-                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                    // Handle successful deletion
-                    alert('Account deleted successfully.');
-                    // Optionally reset UI or redirect
-                }
-            }
-            xhr.send(JSON.stringify({ email: emailToDelete }));
-        }
-        document.getElementById('edit-account-section').style.display = 'none'
-    });
-
-
-
 
     window.onclick = function (event) {
         if (!event.target.matches('.hamburger, .bar, .dropdown, .dropdown *')) {

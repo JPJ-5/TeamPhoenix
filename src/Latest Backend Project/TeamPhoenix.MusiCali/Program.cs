@@ -275,9 +275,11 @@ namespace AccCreationAPI
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("MyAllowSpecificOrigins",
-                    builder => builder.WithOrigins("http://localhost:8801")
+                    builder => builder
+                        .WithOrigins("http://localhost:8800", "https://themusicali.com")
                         .AllowAnyHeader()
-                        .AllowAnyMethod());
+                        .AllowAnyMethod()
+                        .AllowCredentials());
             });
 
             //builder.Services.AddCors(options =>

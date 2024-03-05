@@ -173,9 +173,20 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public DateTime GetProfileDOB(string username)
+        public object GetUserInformation(string username)
         {
-            string query = "SELECT DOB FROM UserProfile WHERE Username = @Username";
+            string query = @"
+                SELECT 
+                    up.FirstName, 
+                    up.LastName, 
+                    up.DOB, 
+                    ua.Email,
+                    uc.Claims,
+                    IF(ua.Username IS NOT NULL, 'Active', 'Inactive') AS UserStatus
+                FROM UserProfile up
+                LEFT JOIN UserAccount ua ON up.Username = ua.Username
+                LEFT JOIN UserClaims uc ON up.Username = uc.Username
+                WHERE up.Username = @Username";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -183,23 +194,34 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 using (var command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Username", username);
-
+                    
                     using (var reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            // Convert the DOB to DateTime and return just the date part.
-                            var dob = Convert.ToDateTime(reader["DOB"]);
-                            return dob.Date; // This will return the date with the time part set to 00:00:00
+                            var claimsJson = reader["Claims"].ToString();
+                            var claimsDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(claimsJson);
+                            string userRole = "Unknown";
+                            userRole = claimsDict["UserRole"];
+                    
+                            // Directly return an anonymous object without needing a dedicated class
+                            return new
+                            {
+                                FirstName = reader["FirstName"].ToString(),
+                                LastName = reader["LastName"].ToString(),
+                                DateOfBirth = Convert.ToDateTime(reader["DOB"]).ToString("yyyy-MM-dd"),
+                                Email = reader["Email"].ToString(),
+                                UserStatus = reader["UserStatus"].ToString(),
+                                UserRole = userRole
+                            };
                         }
                         else
                         {
-                            throw new KeyNotFoundException($"A user profile with the username '{username}' could not be found.");
+                            throw new KeyNotFoundException($"User with username '{username}' could not be found.");
                         }
                     }
                 }
             }
         }
-
     }
 }
