@@ -55,101 +55,41 @@
                     <button id="submit-recovery-username">Submit</button>
                 </form>
 
-                <div id="role-selection" style="display:none;">
-                    <label for="user-role-select">Select User Role:</label>
-                    <select id="user-role-select">
-                        <option value="normal">Normal User</option>
-                        <option value="rootAdmin">Root Admin</option>
-                    </select>
-                    <button id="role-confirm-btn">Confirm</button>
-                </div>
-
-                <!-- Normal User Profile Modification Section -->
-                <div id="normal-user-modify-section" style="display: none;">
-                    <h3>Modify Your Profile</h3>
-                    <div>
-                        Username: <span id="display-username"></span>
-                    </div>
-
-                    <input type="text" id="normal-user-first-name" placeholder="First Name">
-                    <input type="text" id="normal-user-last-name" placeholder="Last Name">
-
-                    <div>
-                        DOB: <span id="display-dob"></span>
-                    </div>
-                    <button id="normal-user-save-changes">Save Changes</button>
-                </div>
-
-                <div id="user-details-display" style="display:none; padding:10px; margin-top:20px; border:1px solid #ddd; background-color: #f9f9f9;">
-                    <!-- User details will be populated here -->
-                </div>
-
-
-                <!-- Root Admin Management Section -->
-                <div id="root-admin-management-section" style="display: none;">
-                    <h3>Admin Management Tools</h3>
-                    <button id="admin-get-user">Get User</button>
-                    <button id="admin-delete-user">Delete User</button>
-                    <button id="admin-update-claims">Update User Claims</button>
-                    <!-- Placeholder for admin actions; implement as needed -->
-                </div>
-
                 <!-- User Profile Section, initially hidden -->
                 <div id="user-profile" class="user-profile scrollable-content" style="display: none;">
-                    <p><strong>Last Name:</strong> <span id="user-last-name"></span></p>
                     <p><strong>First Name:</strong> <span id="user-first-name"></span></p>
-                    <p><strong>Email:</strong> <span id="user-email"></span></p>
+                    <p><strong>Last Name:</strong> <span id="user-last-name"></span></p>
                     <p><strong>Date of Birth:</strong> <span id="user-dob"></span></p>
+                    <p><strong>Email:</strong> <span id="user-email"></span></p>
                     <p><strong>User Role:</strong> <span id="user-role"></span></p>
                     <p><strong>User Status:</strong> <span id="user-status"></span></p>
                     <p><strong>Description:</strong> <span id="user-description"></span></p>
                     <img id="user-profile-pic" src="" alt="Profile Pic" style="width: 200px; height: 200px;" />
-                    <!-- Profile Editing, initially hidden -->
-                    <button id="edit-button">Edit</button>
-                    <div id="edit-profile" class="scrollable-content" style="display: none;">
-                        <div class="edit-field">
-                            <strong>Last Name:</strong>
-                            <input type="text" id="edit-last-name" placeholder="Last Name">
+                    
+                    <button id="modify-profile" class="modify-profile">Modify Profile</button>
+                    <!-- Modify Profile Section (Hidden Initially) -->
+                    <div id="modify-profile-section" style="display: none;">
+                        <!-- Normal User Profile Modification Section -->
+                        <div id="normal-user-modify-section" style="display: none;">
+                            <h3>Modify Your Profile</h3>
+                            <input type="text" id="normal-user-first-name" placeholder="First Name"><br>
+                            <input type="text" id="normal-user-last-name" placeholder="Last Name"><br>
+                            <button id="normal-user-save-changes">Save Changes</button>
+                            <button id="normal-user-delete">Delete Account</button>
                         </div>
-                        <div class="edit-field">
-                            <strong>First Name:</strong>
-                            <input type="text" id="edit-first-name" placeholder="First Name">
+        
+                        <div id="user-details-display" style="display:none; padding:10px; margin-top:20px; border:1px solid #ddd; background-color: #f9f9f9;">
+                            <!-- User details will be populated here -->
                         </div>
-                        <button id="save-button">Save</button>
-                        <button id="cancel-button">Cancel</button>
-                    </div>
-                    <!-- Root Admin create Admin account Section, initially hidden -->
-                    <button id="create-admin-button">Create Admin</button>
-                    <div id="create-admin-section" style="display: none;">
-                        <input type="text" id="admin-first-name" placeholder="First Name">
-                        <input type="text" id="admin-last-name" placeholder="Last Name">
-                        <input type="email" id="admin-email" placeholder="Email">
-                        <input type="text" id="admin-role" placeholder="Role">
-                        <button id="submit-admin">Create Admin</button>
-                    </div>
-                    <button id="modify-account-button">Modify Admin/Regular Account</button>
-                    <!-- Admin Modify Other Account Section, initially hidden -->
-                    <div id="account-search-section" style="display: none;">
-                        <input type="email" id="search-email" placeholder="Search by Email">
-                        <button id="search-account">Search</button>
-                    </div>
-                    <div id="edit-account-section" style="display: none;">
-                        <input type="text" id="edit-user-first-name" placeholder="First Name">
-                        <input type="text" id="edit-user-last-name" placeholder="Last Name">
-                        <select id="edit-user-role">
-                            <!-- Options for user roles -->
-                            <option value="regular">Regular</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                        <select id="edit-user-status">
-                            <!-- Options for user status -->
-                            <option value="Enable">Enable</option>
-                            <option value="Disable">Disable</option>
-                        </select>
-                        <button id="save-changes-button">Save Changes</button>
-                        <!-- Admin do Account Deletion Section, initially hidden -->
-                        <button id="delete-account-button">Delete Account</button>
 
+                        <!-- Root Admin Management Section -->
+                        <div id="root-admin-management-section" style="display: none;">
+                            <h3>Admin Management Tools</h3>
+                            <button id="admin-get-user">Get User</button>
+                            <button id="admin-delete-user">Delete User</button>
+                            <button id="admin-update-claims">Update User Claims</button>
+                            <!-- Placeholder for admin actions; implement as needed -->
+                        </div>
                     </div>
                     <!-- Logout Button -->
                     <button id="logoutButton" class="logout-btn">Logout</button>

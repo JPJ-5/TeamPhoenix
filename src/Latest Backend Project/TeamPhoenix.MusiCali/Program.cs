@@ -276,7 +276,7 @@ namespace AccCreationAPI
             {
                 options.AddPolicy("MyAllowSpecificOrigins",
                     builder => builder
-                        .WithOrigins("http://localhost:8800")
+                        .WithOrigins("http://localhost:8800", "https://themusicali.com")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials());

@@ -100,16 +100,22 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
-        [HttpGet("GetDOB/{username}")]
-        public ActionResult<string> GetProfileDOB(string username)
+        [HttpGet("GetUserInformation/{username}")]
+        public ActionResult GetUserInformation(string username)
         {
             try
             {
-                var modifyUserService = new DataAccessLayer.ModifyUser(); // Assuming ModifyUser is in the TeamPhoenix.MusiCali.DataAccessLayer namespace
-                DateTime dob = modifyUserService.GetProfileDOB(username);
-                // Format the DateTime to a string with just the date part
-                string formattedDob = dob.ToString("yyyy-MM-dd");
-                return Ok(formattedDob);
+                var modifyUserService = new mU(); // Assuming ModifyUser is in the TeamPhoenix.MusiCali.DataAccessLayer namespace
+                var userInformation = modifyUserService.GetUserInformation(username);
+
+                if (userInformation != null)
+                {
+                    return Ok(userInformation);
+                }
+                else
+                {
+                    return NotFound("User information not found.");
+                }
             }
             catch (KeyNotFoundException knf)
             {
@@ -119,9 +125,8 @@ namespace TeamPhoenix.MusiCali.Controllers
             catch (Exception ex)
             {
                 // For other exceptions, consider logging the exception details
-                return StatusCode(500, $"An error occurred while retrieving the DOB: {ex.Message}");
+                return StatusCode(500, $"An error occurred while retrieving the user information: {ex.Message}");
             }
         }
-
     }
 }
