@@ -117,7 +117,7 @@ namespace AccCreationAPI.Controllers
             Authentication newAuth = new Authentication(_configuration);
             var token = newAuth.Authenticate(login.Username, login.Otp);
 
-            if (token != null)
+            if (token != null && !token.IsNullOrEmpty())
             {
                 return Ok(token);
             }
