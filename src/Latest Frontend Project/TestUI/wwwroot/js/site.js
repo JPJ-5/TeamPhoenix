@@ -112,7 +112,7 @@
                     return response.text().then(token => {
                         // Handle plain text response
                         sessionStorage.setItem("jwt", token);
-                        if (sessionStorage.getItem('jwt', token) != "Login Failed") {
+                        if (sessionStorage.getItem('idToken', token) != "Login Failed") {
                             fetchUserProfile(username)
                         }
                         else {
@@ -242,7 +242,7 @@
     // Inside prepareNormalUserUI
     document.getElementById('normal-user-delete').addEventListener('click', function () {
         var username = sessionStorage.getItem('username');
-        var token = sessionStorage.getItem('jwt');
+        var token = sessionStorage.getItem('idToken');
         if (username && token) {
             fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
                 method: 'DELETE',
@@ -271,9 +271,8 @@
     });
 
     function logoutUser() {
-        sessionStorage.removeItem('jwt'); // Remove the token from sessionStorage
-        sessionStorage.removeItem('username'); // Remove the username from sessionStorage
-
+        localStorage.clear()
+        sessionStorage.clear()
         // Optionally, you can also invalidate the token on the server side here
 
         // Redirect to the homepage
@@ -543,8 +542,8 @@
 
     document.getElementById('logoutButton').addEventListener('click', function () {
         const startTime = Date.now();
-        sessionStorage.removeItem('jwt');
-        sessionStorage.removeItem('username');
+        localStorage.clear()
+        sessionStorage.clear()
         var userName = document.getElementById("username").value;
 
         fetch('http://localhost:8080/Logout/api/logout', {
