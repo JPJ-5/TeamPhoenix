@@ -229,7 +229,9 @@ namespace TeamPhoenix.MusiCali.Security
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error authenticating {ex.Message}");
+                //throw new Exception($"Error authenticating {ex.Message}");
+                Console.WriteLine(ex.ToString());
+                return string.Empty;
             }
             // Fix to return token
             return idToken;

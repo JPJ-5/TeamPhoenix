@@ -24,15 +24,28 @@ namespace AccCreationAPI.Controllers
 
         }
 
-        [HttpPost("api/AdminlAccCreationAPI")]
-        public JsonResult RegisterAdminUser(string email, DateTime dob, string uname, string bmail)
+        public class AdminUserModel
         {
-            if (uC.RegisterNormalUser(email, dob, uname, bmail))
+            public string Email { get; set; }
+            public DateTime Dob { get; set; }
+            public string Uname { get; set; }
+            public string Bmail { get; set; }
+        }
+
+        [HttpPost("api/AdminlAccCreationAPI")]
+        public JsonResult RegisterAdminUser([FromBody] AdminUserModel model)
+        {
+            if (model == null)
+            {
+                return new JsonResult("Invalid data") { StatusCode = 400 }; // Bad Request
+            }
+
+            if (uC.RegisterAdminUser(model.Email, model.Dob, model.Uname, model.Bmail))
             {
                 return new JsonResult(true);
             }
             return new JsonResult(false);
-
         }
+
     }
 }

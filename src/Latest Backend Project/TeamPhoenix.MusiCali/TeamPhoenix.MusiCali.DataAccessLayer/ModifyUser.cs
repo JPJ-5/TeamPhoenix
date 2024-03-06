@@ -203,12 +203,16 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             var claimsDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(claimsJson);
                             string userRole = "Unknown";
                             userRole = claimsDict["UserRole"];
-                    
+
+                            // Handle nullable FirstName and LastName
+                            var firstName = reader["FirstName"] as string; // Using 'as' for safe casting that returns null for DBNull
+                            var lastName = reader["LastName"] as string; // Same here
+
                             // Directly return an anonymous object without needing a dedicated class
                             return new
                             {
-                                FirstName = reader["FirstName"].ToString(),
-                                LastName = reader["LastName"].ToString(),
+                                FirstName = firstName,
+                                LastName = lastName,
                                 DateOfBirth = Convert.ToDateTime(reader["DOB"]).ToString("yyyy-MM-dd"),
                                 Email = reader["Email"].ToString(),
                                 UserStatus = reader["UserStatus"].ToString(),
