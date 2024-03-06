@@ -11,10 +11,18 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class MariaDB
     {
+        private readonly IConfiguration _configuration;
+
+        public MariaDB(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+
         public bool connect()
         {
             // Replace these values with your actual database details
-            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+            string connectionString = _configuration.GetConnectionString("MariaDbConnectionString");
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {

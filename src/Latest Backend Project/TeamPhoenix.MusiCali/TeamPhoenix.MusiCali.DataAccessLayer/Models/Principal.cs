@@ -7,6 +7,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
     {
         public string Username { get; set; }
         public string IDToken { get; set; }
+        public string AccessToken { get; set; }
         public Dictionary<string, string> Claims { get; set; }
 
         public Principal(string username, Dictionary<string, string> claims)

@@ -247,6 +247,8 @@ namespace AccCreationAPI
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<LogoutRepository>();
             builder.Services.AddScoped<LogoutService>();
+
+            builder.Services.AddScoped<MariaDB>();          // Register MariaDB Class with Dependency Injection 
             //jwt token
 
             var tkConf = builder.Configuration.GetSection("Jwt");
