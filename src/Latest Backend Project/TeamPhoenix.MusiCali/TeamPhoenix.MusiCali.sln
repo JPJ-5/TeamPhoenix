@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali", "TeamPhoenix.MusiCali\TeamPhoenix.MusiCali.csproj", "{461A5D2A-EC3D-4B1D-A2EE-CEE08208FC70}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{461A5D2A-EC3D-4B1D-A2EE-CEE08208FC70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{461A5D2A-EC3D-4B1D-A2EE-CEE08208FC70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{461A5D2A-EC3D-4B1D-A2EE-CEE08208FC70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{461A5D2A-EC3D-4B1D-A2EE-CEE08208FC70}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CCC65D07-1C20-402F-ACCA-89BD316BFA98}
+	EndGlobalSection
+EndGlobal
