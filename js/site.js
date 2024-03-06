@@ -46,6 +46,8 @@
     });
 
     document.getElementById("email-otp").addEventListener("click", function () {
+        localStorage.clear()
+        sessionStorage.clear()
         //var email = document.getElementById("email").value;
         var username = document.getElementById("username").value;
         // AJAX request to backend
@@ -77,8 +79,6 @@
     // Add event listener for OTP form submission
     document.getElementById("submit-otp").addEventListener("click", function (event) {
         event.preventDefault(); // Prevent the default form submission
-        localStorage.clear()
-        sessionStorage.clear()
 
         var username = document.getElementById("username").value;
         sessionStorage.setItem('username', username);
@@ -109,7 +109,12 @@
                     return response.text().then(token => {
                         // Handle plain text response
                         sessionStorage.setItem("jwt", token);
-                        fetchUserProfile(username)
+                        if (sessionStorage.getItem('jwt', token) != "Login Failed") {
+                            fetchUserProfile(username)
+                        }
+                        else {
+                            alert("Invalid OTP")
+                        }
                     });
                 }
             })
@@ -165,8 +170,8 @@
     function adjustUIBasedOnRole(userRole) {
         if (userRole === 'NormalUser') {
             prepareNormalUserUI()
-        } else if (userRole === 'RootAdmin') {
-            prepareRootAdminUI()
+        } else if (userRole === 'AdminUser') {
+            prepareAdminUI()
         }
     }
 
@@ -228,7 +233,7 @@
         // Show modify profile options for normal user
         document.getElementById('normal-user-modify-section').style.display = 'block';
         // Hide admin management section just in case it was previously shown
-        document.getElementById('root-admin-management-section').style.display = 'none';
+        document.getElementById('admin-management-section').style.display = 'none';
     }
 
     // Inside prepareNormalUserUI
@@ -325,17 +330,25 @@
     });
 
     // Prepare UI for a root admin
-    function prepareRootAdminUI() {
+    function prepareAdminUI() {
         // Show UI elements for root admin, such as user management buttons
-        document.getElementById('root-admin-management-section').style.display = 'block';
+        document.getElementById('admin-management-section').style.display = 'block';
         // Hide normal user modify section just in case it was previously shown
         document.getElementById('normal-user-modify-section').style.display = 'none';
     }
 
-    // Inside prepareRootAdminUI
+    // Inside prepareAdminUI
     document.getElementById('admin-delete-user').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to delete:");
+        var userName = document.getElementById('username').value;
+
         if (username) {
+            // Check if the username to delete is the admin's own username
+            if (username === userName) {
+                alert('Cannot delete your own admin account.');
+                return; // Exit the function to prevent the deletion process
+            }
+
             fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
                 method: 'DELETE'
             })
@@ -356,7 +369,62 @@
         }
     });
 
-    // Inside prepareRootAdminUI
+    //Inside prepareAdminUI
+    document.getElementById('admin-user-creation-button').addEventListener('click', function () {
+        // Display the form
+        var form = document.getElementById('admin-creation-form');
+        form.style.display = 'block';
+    });
+
+    // Assuming you have another button to actually submit the form. Let's say it has an ID "submit-admin-form"
+    document.getElementById('admin-user-creation').addEventListener('click', function () {
+        var form = document.getElementById('admin-creation-form');
+        var feedbackBox = document.getElementById('feedback-box');
+
+        // Check if the form is already displayed
+        if (form.style.display === 'block') {
+            // Form is displayed, try to submit form data
+            const email = form.querySelector('#email').value;
+            const dob = form.querySelector('#dob').value;
+            const uname = form.querySelector('#uname').value;
+            const bmail = form.querySelector('#bmail').value;
+
+            const data = { email, dob, uname, bmail };
+
+            fetch('http://localhost:8080/AccCreationAPI/api/AdminlAccCreationAPI', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(result => {
+                    feedbackBox.style.display = 'block';
+                    if (result) {
+                        feedbackBox.textContent = 'Admin account created successfully';
+                        feedbackBox.style.color = 'green';
+                        form.reset();
+                    } else {
+                        feedbackBox.textContent = 'Failed to create admin account';
+                        feedbackBox.style.color = 'red';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    feedbackBox.textContent = 'Error creating account. Please try again.';
+                    feedbackBox.style.color = 'red';
+                });
+        } else {
+            // Form is not displayed, so display it
+            form.style.display = 'block';
+        }
+    });
+
+
+
+
+    // Inside prepareAdminUI
     document.getElementById('admin-get-user').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to fetch:");
         if (username) {
@@ -401,7 +469,7 @@
         }
     });
 
-    // Inside prepareRootAdminUI
+    // Inside prepareAdminUI
     document.getElementById('admin-update-claims').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to update claims for:");
         var userRole = prompt("Enter the new user role for the user:");

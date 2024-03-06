@@ -77,18 +77,39 @@
                             <button id="normal-user-save-changes">Save Changes</button>
                             <button id="normal-user-delete">Delete Account</button>
                         </div>
-        
+
                         <div id="user-details-display" style="display:none; padding:10px; margin-top:20px; border:1px solid #ddd; background-color: #f9f9f9;">
                             <!-- User details will be populated here -->
                         </div>
 
-                        <!-- Root Admin Management Section -->
-                        <div id="root-admin-management-section" style="display: none;">
+                        <!-- Admin Management Section -->
+                        <div id="admin-management-section">
                             <h3>Admin Management Tools</h3>
                             <button id="admin-get-user">Get User</button>
                             <button id="admin-delete-user">Delete User</button>
                             <button id="admin-update-claims">Update User Claims</button>
-                            <!-- Placeholder for admin actions; implement as needed -->
+                            <button id="admin-user-creation-button">Create Another Admin Account</button>
+                            <!-- Admin Account Creation Form -->
+                            <form id="admin-creation-form" style="display: none;">
+                                <div>
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div>
+                                    <label for="dob">Date of Birth:</label>
+                                    <input type="date" id="dob" name="dob" required>
+                                </div>
+                                <div>
+                                    <label for="uname">Username:</label>
+                                    <input type="text" id="uname" name="uname" required>
+                                </div>
+                                <div>
+                                    <label for="bmail">Backup Email:</label>
+                                    <input type="email" id="bmail" name="bmail" required>
+                                </div>
+                                <button type="button" id="admin-user-creation">Create Another Admin Account</button>
+                            </form>
+                            <div id="feedback-box" style="display: none;"></div>
                         </div>
                     </div>
                     <!-- Logout Button -->
