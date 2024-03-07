@@ -14,6 +14,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Configuration;
+using Newtonsoft.Json.Linq;
 
 namespace TeamPhoenix.MusiCali.Security
 {
@@ -124,7 +125,7 @@ namespace TeamPhoenix.MusiCali.Security
         }
 
 
-        public string Authenticate(string username, string otp)
+        public Dictionary<string, string> Authenticate(string username, string otp)
         {
             AuthResult authR = dao.findUsernameInfo(username);
             UserAccount userAcc = authR.userAcc;
@@ -132,6 +133,9 @@ namespace TeamPhoenix.MusiCali.Security
             UserClaims userC = authR.userC;
             Principal appPrincipal = null;
             string idToken = null;
+            string accessToken = null;
+            Dictionary<string, string> tokens = new Dictionary<string, string>();
+            
             try
             {
                 if (userA.IsAuth)
@@ -165,20 +169,25 @@ namespace TeamPhoenix.MusiCali.Security
 
 
                         // If authentication is successful, create a session token
-                        idToken = GenerateToken(username);
+                        idToken = GenerateIdToken(username);
 
-
+                        // Generate Access token
+                        accessToken = GenerateAccessToken(username, claims);
 
 
 
                         activeSessions.Add(idToken, appPrincipal);
                         appPrincipal.IDToken = idToken;
+                        appPrincipal.AccessToken = accessToken;
                         // Fix to return token
                         string level = "Info";
                         string category = "View";
                         string context = "User Log In";
                         _loggerAuthN.CreateLog(userAcc.UserHash, level, category, context);
-                        return idToken;
+
+                        tokens["IdToken"] = idToken;
+                        tokens["AccessToken"] = accessToken;
+                        return tokens;
                     }
                 }
                 else
@@ -199,31 +208,40 @@ namespace TeamPhoenix.MusiCali.Security
                     }
                     if (ValidateOTP(userA, otp))
                     {
+
                         // Implement Token Part
                         userA.FailedAttempts = 0;
                         userA.IsAuth = true;
                         dao.updateAuthentication(userA);
                         Dictionary<string, string> claims = userC.Claims;
-
                         appPrincipal = new Principal(userA.Username, claims);
 
 
+
+
+
+
+
                         // If authentication is successful, create a session token
-                        idToken = GenerateToken(username);
+                        idToken = GenerateIdToken(username);
 
-
-
+                        // Generate Access token
+                        accessToken = GenerateAccessToken(username, claims);
 
 
 
                         activeSessions.Add(idToken, appPrincipal);
                         appPrincipal.IDToken = idToken;
+                        appPrincipal.AccessToken = accessToken;
                         // Fix to return token
                         string level = "Info";
                         string category = "View";
-                        string context = "User Confirmed Email Verification";
+                        string context = "User Log In";
                         _loggerAuthN.CreateLog(userAcc.UserHash, level, category, context);
-                        return idToken;
+
+                        tokens["IdToken"] = idToken;
+                        tokens["AccessToken"] = accessToken;
+                        return tokens;
                     }
                 }
             }
@@ -231,10 +249,11 @@ namespace TeamPhoenix.MusiCali.Security
             {
                 //throw new Exception($"Error authenticating {ex.Message}");
                 Console.WriteLine(ex.ToString());
-                return string.Empty;
+                return tokens;        
             }
             // Fix to return token
-            return idToken;
+            
+            return tokens;
         }
 
         public Principal GetPrincipalBySessionToken(string sessionToken)
@@ -361,32 +380,7 @@ namespace TeamPhoenix.MusiCali.Security
 
 
 
-
-        //private string GenerateToken(string UserName)
-        //{
-        //    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));
-
-        //    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-        //    var claims = new[]
-        //    {
-        //        new Claim(ClaimTypes.NameIdentifier, UserName)
-        //    };
-
-        //    var token = new JwtSecurityToken(_configuration.GetSection("Jwt:Issuer").Value, _configuration.GetSection("Jwt:Audience").Value,
-        //        claims,
-        //        expires: DateTime.Now.AddMinutes(20),
-        //        signingCredentials: credentials);
-
-        //    return new JwtSecurityTokenHandler().WriteToken(token);
-
-        //}
-
-
-
-        // Removed GetPrincipalBySessionToken and other session token related methods
-
-        private string GenerateToken(string userName)
+        private string GenerateIdToken(string userName)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -401,6 +395,40 @@ namespace TeamPhoenix.MusiCali.Security
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        private string GenerateAccessToken(string userName, Dictionary<string, string> userRoles)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new List<Claim>
+            {
+                // new Claim(ClaimTypes.Name, userName)      I dont want to include the username in the access token => //
+                // Additional claims...
+            };
+
+            // Iterate over the roles in the dictionary and add them as claims
+            foreach (var roleEntry in userRoles)
+            {
+                if (roleEntry.Key == "UserRole")
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, roleEntry.Value));
+                }
+                // Add other types of claims if needed...
+            }
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration.GetSection("Jwt:Issuer").Value,
+                audience: _configuration.GetSection("Jwt:Audience").Value,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(20),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+
 
     }
 }
