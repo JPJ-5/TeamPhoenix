@@ -197,38 +197,47 @@
     // Event listener for submit-recovery-email
     document.getElementById('submit-recovery-username').addEventListener('click', function (event) {
         event.preventDefault();
-        var userName = document.getElementById('username').value;
+        var userName = document.getElementById('User Name').value;
 
-        // Using the fetch API to send the userName in the request headers
-        fetch("http://localhost:8080/api/RecoverUser", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ UserName: userName }),
-        })
-            .then(response => {
-                // Check if the request was successful
-                if (response.ok) {
-                    return response.json(); // Parse the JSON response
-                }
-                throw new Error('Network response was not ok.'); // Handle HTTP errors
-            })
-            .then(data => {
-                // Here, data is the JSON object returned by the server
-                if (data.hasOwnProperty(true)) {
-                    // Logic for a successful recovery initiation
-                    console.log(data[true]); // Log the success message
+        // Prepare the headers
+        var headers = new Headers();
+        headers.append('userName', userName); // Assuming the ID of the input is 'User Name', which is unusual due to the space. Consider changing this ID to 'user-name' or similar for better consistency.
+
+        // Prepare the request options
+        var requestOptions = {
+            method: 'POST',
+            headers: headers
+        };
+
+        // Make the fetch call to the API
+        fetch("http://localhost:8080/api/RecoverUser", requestOptions)
+            .then(response => response.json()) // Parse JSON response
+            .then(result => {
+                console.log(result);
+                if (result) {
+                    // Success logic here
+                    alert("Success Recover")
                     document.getElementById('otp-recovery-section').style.display = 'block';
                 } else {
-                    // Handle failure
-                    console.error("Unable to recover user:", data[false]);
+                    alert("Invalid Username")
                 }
             })
-            .catch(error => {
-                // Handle any errors that occurred during the fetch
-                console.error('There has been a problem with your fetch operation:', error);
-            });
+            .catch(error => console.log('error', error)); // Handle any errors that occur during the fetch.
+    });
+
+    document.getElementById('otp-recovery-section').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        const otpInput = document.getElementById('re-enter-otp').value.trim();
+        if (otpInput === '') {
+            alert("Please enter the OTP.");
+            return false;
+        } else {
+            console.log('OTP entered:', otpInput);
+            alert('OTP Submitted. Now you can login in.');
+            // Here you would typically handle the OTP, such as sending it to the server for verification
+            logoutUser()
+        }
     });
 
     // Prepare UI for a normal user
