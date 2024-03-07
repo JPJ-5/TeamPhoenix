@@ -200,7 +200,7 @@
         var userName = document.getElementById('username').value;
 
         // Using the fetch API to send the userName in the request headers
-        fetch("/api/RecoverUser", {
+        fetch("http://localhost:8080/api/RecoverUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -325,6 +325,7 @@
             .then(data => {
                 console.log('Profile updated successfully:', data);
                 alert('Profile updated successfully: ' + data); // Adjusted to handle non-JSON responses
+                fetchUserProfile(username);
             })
             .catch(error => {
                 console.error('Error updating profile:', error);
