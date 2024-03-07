@@ -325,6 +325,7 @@
             .then(data => {
                 console.log('Profile updated successfully:', data);
                 alert('Profile updated successfully: ' + data); // Adjusted to handle non-JSON responses
+                fetchUserProfile(username);
             })
             .catch(error => {
                 console.error('Error updating profile:', error);
