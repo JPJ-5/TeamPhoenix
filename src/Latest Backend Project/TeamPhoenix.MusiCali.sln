@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali", "TeamPhoenix.MusiCali\TeamPhoenix.MusiCali.csproj", "{461A5D2A-EC3D-4B1D-A2EE-CEE08208FC70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamPhoenix.MusiCali.Tests", "TeamPhoenix.MusiCali.Tests\TeamPhoenix.MusiCali.Tests.csproj", "{C0BBA2B8-ACC2-45E4-A237-E510AB823789}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{461A5D2A-EC3D-4B1D-A2EE-CEE08208FC70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{461A5D2A-EC3D-4B1D-A2EE-CEE08208FC70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{461A5D2A-EC3D-4B1D-A2EE-CEE08208FC70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0BBA2B8-ACC2-45E4-A237-E510AB823789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0BBA2B8-ACC2-45E4-A237-E510AB823789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0BBA2B8-ACC2-45E4-A237-E510AB823789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0BBA2B8-ACC2-45E4-A237-E510AB823789}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
