@@ -51,10 +51,10 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
             string username = "testuser";
             string fname = "John";
             string lname = "Doe";
-            string userRole = "NormalUser";
+            string backupEmail = "test2@example.com";
 
             // Act
-            uC.RegisterUser(email, dateOfBirth, username, fname, lname, userRole);
+            uC.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
             // Arrange
             UserAuthN userAuthN = new UserAuthN("testuser", "newotp", DateTime.UtcNow, "newsalt");
             // Act
