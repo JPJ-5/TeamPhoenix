@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using dao = TeamPhoenix.MusiCali.DataAccessLayer.Authentication;
-using uc = TeamPhoenix.MusiCali.Services.UserCreation;
+using uC = TeamPhoenix.MusiCali.Services.UserCreation;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 
 namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
@@ -24,11 +24,10 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
             string username = "testuser";
             string fname = "John";
             string lname = "Doe";
-            string q = "Security Question";
-            string a = "a";
+            string userRole = "NormalUser";
 
             // Act
-            uc.RegisterUser(email, dateOfBirth, username, fname, lname, q, a);
+            uC.RegisterUser(email, dateOfBirth, username, fname, lname, userRole);
             // Arrange
 
             // Act
@@ -52,11 +51,10 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
             string username = "testuser";
             string fname = "John";
             string lname = "Doe";
-            string q = "Security Question";
-            string a = "a";
+            string userRole = "NormalUser";
 
             // Act
-            uc.RegisterUser(email, dateOfBirth, username, fname, lname, q, a);
+            uC.RegisterUser(email, dateOfBirth, username, fname, lname, userRole);
             // Arrange
             UserAuthN userAuthN = new UserAuthN("testuser", "newotp", DateTime.UtcNow, "newsalt");
             // Act
