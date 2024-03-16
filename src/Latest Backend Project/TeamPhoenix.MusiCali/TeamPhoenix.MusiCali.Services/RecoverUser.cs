@@ -5,8 +5,8 @@ using System.Text.RegularExpressions;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using daoRecov = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
-using hash = TeamPhoenix.MusiCali.Security.Hasher;
-using uc = TeamPhoenix.MusiCali.Services.UserCreation;
+using _hash = TeamPhoenix.MusiCali.Security.Hasher;
+using _uc = TeamPhoenix.MusiCali.Services.UserCreation;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.IdentityModel.Tokens;
 
@@ -32,14 +32,14 @@ public class RecoverUser
             UserAuthN userA = new UserAuthN(username);
 
             // Generate OTP for email confirmation
-            string otp = hash.GenerateOTP();
+            string otp = _hash.GenerateOTP();
             DateTime otpTime = DateTime.Now;
             userA.Username = username;
             userA.OTP = otp;
             userA.otpTimestamp = otpTime;
             userA.IsDisabled = false;
 
-            bool emailSent = uc.SendConfirmationEmail(userAcc.Email, otp);
+            bool emailSent = _uc.SendConfirmationEmail(userAcc.Email, otp);
             if (!emailSent)
             {
                 throw new InvalidOperationException("Unable to send otp to email, please try again.");
@@ -105,7 +105,7 @@ public class RecoverUser
             {
                 throw new Exception($"Answer does not match database, try again or contact admin.");
             }
-            UserAuthN userDE = Authentication.findUsernameInfo(username).userA;
+            UserAuthN userDE = Authentication.findUsernameInfo(username).userA!;
             if (!daoRecov.DisableUser(userDE))
             {
                 throw new Exception($"Error updating UserAccount");
@@ -133,7 +133,7 @@ public class RecoverUser
             {
                 throw new Exception($"Answer does not match database, try again or contact admin.");
             }
-            UserAuthN userDE = Authentication.findUsernameInfo(username).userA;
+            UserAuthN userDE = Authentication.findUsernameInfo(username).userA!;
             if (!daoRecov.EnableUser(userDE))
             {
                 throw new Exception($"Error updating UserAccount");

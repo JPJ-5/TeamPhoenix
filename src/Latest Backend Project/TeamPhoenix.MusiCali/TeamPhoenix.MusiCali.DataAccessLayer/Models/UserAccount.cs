@@ -8,10 +8,10 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
 {
     public class UserAccount
     {
-        public string Username { get; set; }
-        public string Salt { get; set; }
-        public string UserHash { get; set; }
-        public string Email { get; set; }
+        public string Username { get; set; } = string.Empty;
+        public string Salt { get; set; } = string.Empty;
+        public string UserHash { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
         public UserAccount(string username, string salt,string userHash,string email)
         {

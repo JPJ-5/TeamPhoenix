@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Data.SqlClient;
-using System.Threading.Tasks;
-using _loggerAuthN = TeamPhoenix.MusiCali.Logging.Logger;
 using _authDao = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
 using _mariaDao = TeamPhoenix.MusiCali.DataAccessLayer.MariaDB;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
@@ -10,7 +8,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class LogoutRepository
     {
-        private static readonly string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
         public async Task<bool> LogUserLogoutAsync(string userName)
         {
             try

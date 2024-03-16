@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Security.Contracts;
-using dao = TeamPhoenix.MusiCali.DataAccessLayer.Authentication;
-using log = TeamPhoenix.MusiCali.Logging.Authentication;
-using hash = TeamPhoenix.MusiCali.Security.Hasher;
-using uc = TeamPhoenix.MusiCali.Services.UserCreation;
+using _dao = TeamPhoenix.MusiCali.DataAccessLayer.Authentication;
+using _log = TeamPhoenix.MusiCali.Logging.Authentication;
+using _hash = TeamPhoenix.MusiCali.Security.Hasher;
+using _uc = TeamPhoenix.MusiCali.Services.UserCreation;
 using _loggerAuthN = TeamPhoenix.MusiCali.Logging.Logger;
 using System.Security.Policy;
 using Microsoft.IdentityModel.Tokens;
@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Configuration;
 using Newtonsoft.Json.Linq;
+using Google.Protobuf.WellKnownTypes;
 
 namespace TeamPhoenix.MusiCali.Security
 {
@@ -98,10 +99,10 @@ namespace TeamPhoenix.MusiCali.Security
                 throw new ArgumentException("Invalid security credentials provided. Retry again or contact the system administrator");
             }
 
-            AuthResult authR = dao.findUsernameInfo(username);
-            UserAccount userAcc = authR.userAcc;
-            UserAuthN userA = authR.userA;
-            UserClaims userC = authR.userC;
+            AuthResult authR = _dao.findUsernameInfo(username);
+            UserAccount userAcc = authR.userAcc!;
+            UserAuthN userA = authR.userA!;
+            UserClaims userC = authR.userC!;
 
             if (userA == null)
             {
@@ -127,13 +128,13 @@ namespace TeamPhoenix.MusiCali.Security
 
         public Dictionary<string, string> Authenticate(string username, string otp)
         {
-            AuthResult authR = dao.findUsernameInfo(username);
-            UserAccount userAcc = authR.userAcc;
-            UserAuthN userA = authR.userA;
-            UserClaims userC = authR.userC;
-            Principal appPrincipal = null;
-            string idToken = null;
-            string accessToken = null;
+            AuthResult authR = _dao.findUsernameInfo(username);
+            UserAccount userAcc = authR.userAcc!;
+            UserAuthN userA = authR.userA!;
+            UserClaims userC = authR.userC!;
+            Principal appPrincipal;
+            string idToken;
+            string accessToken;
             Dictionary<string, string> tokens = new Dictionary<string, string>();
             
             try
@@ -158,7 +159,7 @@ namespace TeamPhoenix.MusiCali.Security
 
                         // Implement Token Part
                         userA.FailedAttempts = 0;
-                        dao.updateAuthentication(userA);
+                        _dao.updateAuthentication(userA);
                         Dictionary<string, string> claims = userC.Claims;
                         appPrincipal = new Principal(userA.Username, claims);
 
@@ -212,7 +213,7 @@ namespace TeamPhoenix.MusiCali.Security
                         // Implement Token Part
                         userA.FailedAttempts = 0;
                         userA.IsAuth = true;
-                        dao.updateAuthentication(userA);
+                        _dao.updateAuthentication(userA);
                         Dictionary<string, string> claims = userC.Claims;
                         appPrincipal = new Principal(userA.Username, claims);
 
@@ -256,7 +257,7 @@ namespace TeamPhoenix.MusiCali.Security
             return tokens;
         }
 
-        public Principal GetPrincipalBySessionToken(string sessionToken)
+        public Principal? GetPrincipalBySessionToken(string sessionToken)
         {
             // Retrieve Principal using the session token
             if (activeSessions.TryGetValue(sessionToken, out var principal))
@@ -297,7 +298,7 @@ namespace TeamPhoenix.MusiCali.Security
                 res.ErrorMessage = "Invalid security credentials provided, account has been disabled due to 3 failed attempts. Retry again or contact the system administrator";
             }
 
-            log.logFailure(userAcc.UserHash);
+            _log.logFailure(userAcc.UserHash);
 
             return userA;
         }
@@ -341,12 +342,12 @@ namespace TeamPhoenix.MusiCali.Security
             //    return true; // Assuming the previous OTP email was sent successfully
             //}
             // Generate OTP for email confirmation
-            string otp = hash.GenerateOTP();
+            string otp = _hash.GenerateOTP();
             DateTime otpTime = DateTime.Now;
-            userA.OTP = hash.HashPassword(otp, userA.Salt);
+            userA.OTP = _hash.HashPassword(otp, userA.Salt);
             userA.otpTimestamp = otpTime;
-            bool emailSent = uc.SendConfirmationEmail(userAcc.Email, otp);
-            bool update = dao.updateAuthentication(userA);
+            bool emailSent = _uc.SendConfirmationEmail(userAcc.Email, otp);
+            bool update = _dao.updateAuthentication(userA);
             if (emailSent && update)
             {
                 return true;
@@ -359,12 +360,12 @@ namespace TeamPhoenix.MusiCali.Security
 
         private bool recoveryOTP(UserAuthN userA, UserRecovery userR)
         {
-            string otp = hash.GenerateOTP();
+            string otp = _hash.GenerateOTP();
             DateTime otpTime = DateTime.Now;
-            userA.OTP = hash.HashPassword(otp, userA.Salt);
+            userA.OTP = _hash.HashPassword(otp, userA.Salt);
             userA.otpTimestamp = otpTime;
-            bool emailSent = uc.SendConfirmationEmail(userR.backupEmail, otp);
-            bool update = dao.updateAuthentication(userA);
+            bool emailSent = _uc.SendConfirmationEmail(userR.backupEmail, otp);
+            bool update = _dao.updateAuthentication(userA);
             if (emailSent && update)
             {
                 return true;
@@ -382,7 +383,7 @@ namespace TeamPhoenix.MusiCali.Security
 
         private string GenerateIdToken(string userName)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
@@ -398,7 +399,7 @@ namespace TeamPhoenix.MusiCali.Security
 
         private string GenerateAccessToken(string userName, Dictionary<string, string> userRoles)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>

@@ -91,7 +91,7 @@ using Mysqlx.Session;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+//using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Security;
 using static System.Net.WebRequestMethods;
 using aU = TeamPhoenix.MusiCali.Security.Authentication;
@@ -112,7 +112,7 @@ namespace AccCreationAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("api/GetJwtAPI")]
-        public async Task<IActionResult> Login([FromBody] LoginModel login)
+        public IActionResult Login([FromBody] LoginModel login)
         {
             Authentication newAuth = new Authentication(_configuration);
             var tokens = newAuth.Authenticate(login.Username, login.Otp);
@@ -143,7 +143,7 @@ namespace AccCreationAPI.Controllers
 
         private string GenerateIdToken(string UserName)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
 
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
@@ -163,7 +163,7 @@ namespace AccCreationAPI.Controllers
 
         private string GenerateAccessToken(string userName, IList<string> roles)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
