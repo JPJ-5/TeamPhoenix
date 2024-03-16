@@ -9,8 +9,6 @@ namespace TeamPhoenix.MusiCali.Logging
     public class Logger
     {
 
-        private readonly string _connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
-
         public static Result CreateLog(string UserHash, string logLevel, string logCategory, string context)
         {
             // calling dao function createLog

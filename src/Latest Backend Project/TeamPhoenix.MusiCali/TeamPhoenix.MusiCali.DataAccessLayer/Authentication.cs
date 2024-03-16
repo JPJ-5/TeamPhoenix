@@ -10,7 +10,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class Authentication
     {
-        public static Result logAuthFailure(string error)
+        public static Result? logAuthFailure(string error)
         {
             return null;
         }
@@ -36,9 +36,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             if (reader.Read())
                             {
                                 UserAuthN userA = new UserAuthN(
-                                    reader["Username"].ToString(),
-                                    reader["Salt"].ToString(),
-                                    reader["OTP"].ToString(),
+                                    reader["Username"].ToString()!,
+                                    reader["Salt"].ToString()!,
+                                    reader["OTP"].ToString()!,
                                     Convert.ToDateTime(reader["otpTimestamp"]),
                                     Convert.ToInt32(reader["FailedAttempts"]),
                                     Convert.ToDateTime(reader["FirstFailedAttemptTime"]),
@@ -61,10 +61,10 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             if (reader.Read())
                             {
                                 UserAccount UserAcc = new UserAccount(
-                                    reader["Username"].ToString(),
-                                    reader["Salt"].ToString(),
-                                    reader["UserHash"].ToString(),
-                                    reader["Email"].ToString()
+                                    reader["Username"].ToString()!,
+                                    reader["Salt"].ToString()!,
+                                    reader["UserHash"].ToString()!,
+                                    reader["Email"].ToString()!
                                 );
                                 authResult.userAcc = UserAcc;
                             }
@@ -81,13 +81,13 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             if (reader.Read())
                             {
                                 // Assuming the 'Claims' column in the database is a string representation of JSON or similar
-                                string claimsJson = reader["Claims"].ToString();
+                                string claimsJson = reader["Claims"].ToString()!;
 
                                 // Deserialize the JSON or parse the string to create a Dictionary<string, string>
                                 Dictionary<string, string> claims = ParseClaimsFromJson(claimsJson);
 
                                 UserClaims userC = new UserClaims(
-                                    reader["Username"].ToString(),
+                                    reader["Username"].ToString()!,
                                     claims
                                 );
                                 authResult.userC = userC;

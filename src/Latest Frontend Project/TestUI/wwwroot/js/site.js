@@ -8,7 +8,8 @@
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
-
+    var baseUrl = 'https://themusicali.com:5000';
+    // var baseUrl = 'https://themusicali.com/api';
 
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
@@ -50,8 +51,12 @@
         sessionStorage.clear()
         //var email = document.getElementById("email").value;
         var username = document.getElementById("username").value;
+
+        var checkUsernameApiUrl = baseUrl + '/Login/api/CheckUsernameAPI?';
+
         // AJAX request to backend
-        fetch('http://localhost:8080/Login/api/CheckUsernameAPI?', {
+        fetch(checkUsernameApiUrl, {
+            // fetch ('https://themusicali.com/api/Login/api/CheckUsernameAPI', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -84,8 +89,10 @@
         sessionStorage.setItem('username', username);
         var otp = document.getElementById("enter-otp").value;
 
+        var getJwtApiUrl = baseUrl + '/Login/api/GetJwtAPI';
+
         // AJAX request to the backend
-        fetch('http://localhost:8080/Login/api/GetJwtAPI', {
+        fetch(getJwtApiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -129,29 +136,30 @@
 
     function fetchUserProfile(username) {
         var username = document.getElementById('username').value;
-        fetch(`http://localhost:8080/ModifyUserProfile/GetUserInformation/${username}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(userProfile => {
-            displayUserProfile(userProfile); // Assuming you have a function to display the user profile
-        })
-        .catch(error => {
-            console.error('Failed to fetch user profile:', error);
-        });
+        var userProfileUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation/${username}`;
+
+        fetch(userProfileUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(userProfile => {
+                displayUserProfile(userProfile); // Assuming you have a function to display the user profile
+            })
+            .catch(error => {
+                console.error('Failed to fetch user profile:', error);
+            });
     }
-    
 
     // After successful login or when displaying the user profile, call this function to fetch and set the user role
     function fetchAndSetUserRole(username) {
         var username = document.getElementById('username').value;
         // Assuming the base URL and the necessary route to your controller
-        var url = `http://localhost:8080/ModifyUserProfile/GetUserInformation/${username}`;
+        var getUserRoleUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation/${username}`;
 
-        fetch(url)
+        fetch(getUserRoleUrl)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch user role');
@@ -197,38 +205,48 @@
     // Event listener for submit-recovery-email
     document.getElementById('submit-recovery-username').addEventListener('click', function (event) {
         event.preventDefault();
-        var userName = document.getElementById('username').value;
+        var userName = document.getElementById('User Name').value;
+        var recoverUserUrl = `${baseUrl}/api/RecoverUser`;
 
-        // Using the fetch API to send the userName in the request headers
-        fetch("/api/RecoverUser", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ UserName: userName }),
-        })
-            .then(response => {
-                // Check if the request was successful
-                if (response.ok) {
-                    return response.json(); // Parse the JSON response
-                }
-                throw new Error('Network response was not ok.'); // Handle HTTP errors
-            })
-            .then(data => {
-                // Here, data is the JSON object returned by the server
-                if (data.hasOwnProperty(true)) {
-                    // Logic for a successful recovery initiation
-                    console.log(data[true]); // Log the success message
+        // Prepare the headers
+        var headers = new Headers();
+        headers.append('userName', userName); // Assuming the ID of the input is 'User Name', which is unusual due to the space. Consider changing this ID to 'user-name' or similar for better consistency.
+
+        // Prepare the request options
+        var requestOptions = {
+            method: 'POST',
+            headers: headers
+        };
+
+        // Make the fetch call to the API
+        fetch(recoverUserUrl, requestOptions)
+            .then(response => response.json()) // Parse JSON response
+            .then(result => {
+                console.log(result);
+                if (result) {
+                    // Success logic here
+                    alert("Success Recover")
                     document.getElementById('otp-recovery-section').style.display = 'block';
                 } else {
-                    // Handle failure
-                    console.error("Unable to recover user:", data[false]);
+                    alert("Invalid Username")
                 }
             })
-            .catch(error => {
-                // Handle any errors that occurred during the fetch
-                console.error('There has been a problem with your fetch operation:', error);
-            });
+            .catch(error => console.log('error', error)); // Handle any errors that occur during the fetch.
+    });
+
+    document.getElementById('otp-recovery-section').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        const otpInput = document.getElementById('re-enter-otp').value.trim();
+        if (otpInput === '') {
+            alert("Please enter the OTP.");
+            return false;
+        } else {
+            console.log('OTP entered:', otpInput);
+            alert('OTP Submitted. Now you can login in.');
+            // Here you would typically handle the OTP, such as sending it to the server for verification
+            logoutUser()
+        }
     });
 
     // Prepare UI for a normal user
@@ -244,27 +262,28 @@
         var username = sessionStorage.getItem('username');
         var token = sessionStorage.getItem('idToken');
         if (username && token) {
-            fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
+            var deleteUserUrl = `${baseUrl}/ModifyUserProfile/${username}`;
+            fetch(deleteUserUrl, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + token, // Include the token in the request for authorization
                 },
             })
-            .then(response => {
-                if (response.ok) {
-                    return response.text();
-                } else {
-                    throw new Error('Failed to delete user.');
-                }
-            })
-            .then(data => {
-                alert('User deleted successfully.');
-                logoutUser(); // Call a function to handle the logout process
-            })
-            .catch(error => {
-                console.error('Error deleting user:', error);
-                alert(error.message);
-            });
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Failed to delete user.');
+                    }
+                })
+                .then(data => {
+                    alert('User deleted successfully.');
+                    logoutUser(); // Call a function to handle the logout process
+                })
+                .catch(error => {
+                    console.error('Error deleting user:', error);
+                    alert(error.message);
+                });
         } else {
             alert('Error: User information not found.');
         }
@@ -291,8 +310,10 @@
             LastName: lastName,
         };
 
+        var modifyProfileUrl = `${baseUrl}/ModifyUserProfile/ModifyProfile`;
 
-        fetch('http://localhost:8080/ModifyUserProfile/ModifyProfile', {
+
+        fetch(modifyProfileUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -325,6 +346,7 @@
             .then(data => {
                 console.log('Profile updated successfully:', data);
                 alert('Profile updated successfully: ' + data); // Adjusted to handle non-JSON responses
+                fetchUserProfile(username);
             })
             .catch(error => {
                 console.error('Error updating profile:', error);
@@ -351,7 +373,9 @@
                 return; // Exit the function to prevent the deletion process
             }
 
-            fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
+            var deleteUserUrl = `${baseUrl}/ModifyUserProfile/${username}`;
+
+            fetch(deleteUserUrl, {
                 method: 'DELETE'
             })
                 .then(response => {
@@ -391,9 +415,11 @@
             const uname = form.querySelector('#uname').value;
             const bmail = form.querySelector('#bmail').value;
 
+            var adminUseCreate = `${baseUrl}/AccCreationAPI/api/AdminAccCreationAPI`;
+
             const data = { email, dob, uname, bmail };
 
-            fetch('http://localhost:8080/AccCreationAPI/api/AdminlAccCreationAPI', {
+            fetch(adminUseCreate, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -430,7 +456,7 @@
     document.getElementById('admin-get-user').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to fetch:");
         if (username) {
-            fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
+            fetch(`${baseUrl}/ModifyUserProfile/${username}`, {
                 method: 'GET'
             })
                 .then(response => {
@@ -485,7 +511,7 @@
                 }
             };
 
-            fetch('http://localhost:8080/ModifyUserProfile/updateClaims', {
+            fetch(`${baseUrl}/ModifyUserProfile/updateClaims`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -525,10 +551,10 @@
 
         document.getElementById('user-profile').style.display = 'block';
 
-        document.getElementById('modify-profile').addEventListener('click', function() {
+        document.getElementById('modify-profile').addEventListener('click', function () {
             // Ensure the modify profile section is shown when the button is clicked
             document.getElementById('modify-profile-section').style.display = 'block';
-    
+
             // Assuming fetchAndSetUserRole should also be called here
             var username = sessionStorage.getItem('username'); // Make sure this is correctly retrieving the username
             if (username) {
@@ -537,7 +563,7 @@
                 console.error('Username not found');
                 alert('Error: Could not fetch user role. Please log in again.');
             }
-        });              
+        });
     }
 
     document.getElementById('logoutButton').addEventListener('click', function () {
@@ -546,7 +572,7 @@
         sessionStorage.clear()
         var userName = document.getElementById("username").value;
 
-        fetch('http://localhost:8080/Logout/api/logout', {
+        fetch(`${baseUrl}/Logout/api/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -614,7 +640,7 @@
         params.append('bmail', bmail);
 
         // Construct the URL with the encoded parameters
-        var url = 'http://localhost:8080/AccCreationAPI/api/NormalAccCreationAPI?' + params.toString();
+        var url = `${baseUrl}/AccCreationAPI/api/NormalAccCreationAPI?${params.toString()}`;
 
         // Log the URL
         console.log('URL:', url);
@@ -636,6 +662,4 @@
                 // Handle error (e.g., show error message)
             });
     });
-
-
 });

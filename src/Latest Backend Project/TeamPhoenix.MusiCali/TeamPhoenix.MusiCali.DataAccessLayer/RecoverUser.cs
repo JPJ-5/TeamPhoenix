@@ -179,10 +179,10 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             if (reader.Read())
                             {
                                 UserAccount UserAcc = new UserAccount(
-                                    reader["Username"].ToString(),
-                                    reader["Salt"].ToString(),
-                                    reader["UserHash"].ToString(),
-                                    reader["Email"].ToString()
+                                    reader["Username"].ToString()!,
+                                    reader["Salt"].ToString()!,
+                                    reader["UserHash"].ToString()!,
+                                    reader["Email"].ToString()!
                                 );
                                 userAcc = UserAcc;
                             }
@@ -219,7 +219,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     // You can add more specific exception handling if needed
                     throw new Exception($"Error updating UserProfile: {ex.Message}");
                 }
-                UserAuthN theUser = Authentication.findUsernameInfo(userR.Username).userA;
+                UserAuthN theUser = Authentication.findUsernameInfo(userR.Username).userA!;
 
                 if (!EnableUser(theUser))
                 {
