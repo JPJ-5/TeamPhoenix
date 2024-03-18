@@ -6,8 +6,12 @@ using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
+using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TeamPhoenix.MusiCali.Logging;
+using TeamPhoenix.MusiCali.Security;
+using TeamPhoenix.MusiCali.Security.Contracts;
 
 public class Startup
 {
@@ -15,6 +19,10 @@ public class Startup
     {
         // Add services required for MVC
         services.AddMvc();
+
+        // Register Authentication and Authorization services
+        services.AddSingleton<IAuthentication, Authentication>();
+        services.AddSingleton<IAuthorization, Authorization>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -34,6 +42,24 @@ public class Startup
                 {
                     var username = context.Request.Query["username"];
                     var skills = context.Request.Query["skills"];
+
+                    // Authenticate user
+                    var authenticationService = context.RequestServices.GetRequiredService<IAuthentication>();
+                    var tokens = authenticationService.Authenticate(username, ""); // Pass OTP as empty for now
+
+                    // Authorize user
+                    var authorizationService = context.RequestServices.GetRequiredService<IAuthorization>();
+                    var userPrincipal = new Principal(username, new Dictionary<string, string>()); // Create Principal with username (roles can be added if needed)
+                    if (!authorizationService.IsUserAuthorized(userPrincipal, "search", "read"))
+                    {
+                        context.Response.StatusCode = 403; // Forbidden
+                        await context.Response.WriteAsync("Access Denied");
+                        return;
+                    }
+
+                    // Log the search operation using the Logger class
+                    var logger = new Logger();
+                    logger.CreateLog("UserHash", "Info", "View", $"Search operation initiated. Username: {username}, Skills: {skills}");
 
                     // Create MySQL connection
                     using (var connection = new MySqlConnection("Server=localhost;Database=your_database_name;Uid=your_username;Pwd=your_password;"))
@@ -75,7 +101,10 @@ public class Startup
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error searching users: {ex.Message}");
+                    // Log error message using the Logger class
+                    var logger = new Logger();
+                    logger.CreateLog("UserHash", "Error", "Server", $"Error searching users: {ex.Message}");
+
                     context.Response.StatusCode = 500;
                     await context.Response.WriteAsync("Internal Server Error");
                 }
