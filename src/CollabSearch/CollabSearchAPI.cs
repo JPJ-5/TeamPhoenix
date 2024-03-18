@@ -6,7 +6,6 @@ using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
-using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.Logging;
@@ -80,6 +79,11 @@ public class Startup
                             parameters.AddWithValue("@skills", "%" + skills + "%");
                         }
 
+                        // Check user visibility setting
+                        sql += " AND visibility = 1"; // Assuming 1 means visible
+                        // Uncomment the line below if user visibility setting is stored in the database
+                        // sql += " AND visibility = (SELECT visibility FROM users WHERE username = @username)";
+
                         using (var command = new MySqlCommand(sql, connection))
                         {
                             foreach (MySqlParameter parameter in parameters)
@@ -104,6 +108,48 @@ public class Startup
                     // Log error message using the Logger class
                     var logger = new Logger();
                     logger.CreateLog("UserHash", "Error", "Server", $"Error searching users: {ex.Message}");
+
+                    context.Response.StatusCode = 500;
+                    await context.Response.WriteAsync("Internal Server Error");
+                }
+            });
+
+            // Route for handling user visibility change
+            endpoints.MapPost("/visibility", async context =>
+            {
+                try
+                {
+                    // Extract username and visibility setting from request
+                    var username = context.Request.Form["username"];
+                    var visibility = context.Request.Form["visibility"];
+
+                    // Log visibility change
+                    var logger = new Logger();
+                    logger.CreateLog("UserHash", "Info", "View", $"User has {(visibility == "1" ? "enabled" : "disabled")} visibility");
+
+                    // Update user visibility setting in the database
+                    // Uncomment the code below and replace placeholders with actual database update logic
+                    //using (var connection = new MySqlConnection("Server=localhost;Database=your_database_name;Uid=your_username;Pwd=your_password;"))
+                    //{
+                    //    await connection.OpenAsync();
+                    //    var sql = "UPDATE users SET visibility = @visibility WHERE username = @username";
+                    //    using (var command = new MySqlCommand(sql, connection))
+                    //    {
+                    //        command.Parameters.AddWithValue("@username", username);
+                    //        command.Parameters.AddWithValue("@visibility", visibility);
+                    //        await command.ExecuteNonQueryAsync();
+                    //    }
+                    //}
+
+                    // Return success response
+                    context.Response.StatusCode = 200;
+                    await context.Response.WriteAsync("Visibility updated successfully");
+                }
+                catch (Exception ex)
+                {
+                    // Log error message using the Logger class
+                    var logger = new Logger();
+                    logger.CreateLog("UserHash", "Error", "Server", $"Error updating user visibility: {ex.Message}");
 
                     context.Response.StatusCode = 500;
                     await context.Response.WriteAsync("Internal Server Error");
