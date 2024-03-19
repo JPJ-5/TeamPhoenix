@@ -61,7 +61,7 @@ public class Startup
                     logger.CreateLog("UserHash", "Info", "View", $"Search operation initiated. Username: {username}");
 
                     // Create MySQL connection
-                    using (var connection = new MySqlConnection("Server=localhost;Database=your_database_name;Uid=your_username;Pwd=your_password;"))
+                    using (var connection = new MySqlConnection("Server=3.142.241.151;Database=MusiCali;Uid=julie;Pwd=j1234;"))
                     {
                         await connection.OpenAsync();
 
