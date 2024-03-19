@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
+using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.Logging;
@@ -40,7 +41,6 @@ public class Startup
                 try
                 {
                     var username = context.Request.Query["username"];
-                    var skills = context.Request.Query["skills"];
 
                     // Authenticate user
                     var authenticationService = context.RequestServices.GetRequiredService<IAuthentication>();
@@ -58,7 +58,7 @@ public class Startup
 
                     // Log the search operation using the Logger class
                     var logger = new Logger();
-                    logger.CreateLog("UserHash", "Info", "View", $"Search operation initiated. Username: {username}, Skills: {skills}");
+                    logger.CreateLog("UserHash", "Info", "View", $"Search operation initiated. Username: {username}");
 
                     // Create MySQL connection
                     using (var connection = new MySqlConnection("Server=localhost;Database=your_database_name;Uid=your_username;Pwd=your_password;"))
@@ -72,11 +72,6 @@ public class Startup
                         {
                             sql += " AND username = @username";
                             parameters.AddWithValue("@username", username);
-                        }
-                        if (!string.IsNullOrEmpty(skills))
-                        {
-                            sql += " AND skills LIKE @skills";
-                            parameters.AddWithValue("@skills", "%" + skills + "%");
                         }
 
                         // Check user visibility setting
