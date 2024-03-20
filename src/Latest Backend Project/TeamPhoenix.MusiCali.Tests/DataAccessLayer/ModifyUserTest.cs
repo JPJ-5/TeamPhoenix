@@ -52,9 +52,12 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
         public void UpdateProfile_ShouldThrowExceptionForInvalidUsername()
         {
             // Arrange
-            DateTime dob = new DateTime(2000, 01, 01);
-            uc.RegisterUser("joshuareyes@gmail.com", dob, "Julie0126", "Julie", "Reyes", "What is your pets name", "Ace");
-            UserProfile userProfile = new UserProfile("nonexistentuser", "Test", "User", dob);
+            string email = "test@example.com";
+            DateTime dateOfBirth = new DateTime(1990, 1, 1);
+            string username = "testuser";
+            string backupEmail = "";
+            uC.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
+            UserProfile userProfile = new UserProfile("nonexistentuser", "Test", "User", dateOfBirth);
 
             // Act and Assert
             Assert.ThrowsException<Exception>(() => dao.UpdateProfile(userProfile));
@@ -64,8 +67,11 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
         public void UpdateProfile_ShouldThrowExceptionForNullUserProfile()
         {
             // Act and Assert
-            DateTime dob = new DateTime(2000, 01, 01);
-            uc.RegisterUser("joshuareyes@gmail.com", dob, "Julie0126", "Julie", "Reyes", "What is your pets name", "Ace");
+            string email = "test@example.com";
+            DateTime dateOfBirth = new DateTime(1990, 1, 1);
+            string username = "testuser";
+            string backupEmail = "";
+            uC.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
             Assert.ThrowsException<Exception>(() => dao.UpdateProfile(null));
         }
 
