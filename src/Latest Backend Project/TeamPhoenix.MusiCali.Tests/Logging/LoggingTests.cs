@@ -13,7 +13,7 @@ namespace TeamPhoenix.MusiCali.Logging
     {
         private const string TestConnectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
 
-        [Test]
+        [TestMethod]
         public void CreateUser_ValidUser_ReturnsSuccessResult()
         {
             // Arrange
@@ -27,7 +27,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.IsNull(result.errorMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void CreateUser_InvalidUsername_ReturnsErrorResult()
         {
             // Arrange
@@ -42,7 +42,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.AreEqual("Invalid username. Username must be between 6 and 30 characters, and cannot contain spaces.", result.errorMessage);
         }
 
-        [Test]
+        [TestMethod]
         public async Task SaveLogAsync_ValidLogEntry_SavesLogSuccessfully()
         {
             // Arrange
@@ -58,7 +58,7 @@ namespace TeamPhoenix.MusiCali.Logging
             //Query Database for this
         }
 
-        [Test]
+        [TestMethod]
         public void SaveLogAsync_InvalidConnectionString_ThrowsException()
         {
             // Arrange
@@ -72,7 +72,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.ThrowsAsync<SqlException>(() => dataAccessObject.SaveLogAsync(logMessage, logLevel, logCategory));
         }
 
-        [Test]
+        [TestMethod]
         public void CreateUser_ValidUser_ReturnsSuccessResult()
         {
             // Arrange
@@ -86,7 +86,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.IsNull(result.errorMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void CreateUser_InvalidUsername_ReturnsErrorResult()
         {
             // Arrange
@@ -101,7 +101,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.AreEqual("Invalid username. Username must be between 6 and 30 characters, and cannot contain spaces.", result.errorMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void CreateUser_InvalidEmail_ReturnsErrorResult()
         {
             // Arrange
@@ -116,7 +116,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.AreEqual("Invalid email format.", result.errorMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void CreateUser_InvalidDateOfBirth_ReturnsErrorResult()
         {
             // Arrange
@@ -131,7 +131,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.AreEqual("Invalid date of birth. It should be between January 1st, 1970, and the current date.", result.errorMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void CreateUser_InvalidPassword_ReturnsErrorResult()
         {
             // Arrange
@@ -146,7 +146,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.AreEqual("Invalid password format. Must be more than 8 characters and contain uppercase and lowercase letters as well as a single digit.", result.errorMessage);
         }
 
-        [Test]
+        [TestMethod]
         public async Task SaveLogAsync_ValidLogEntry_SavesLogSuccessfully()
         {
             // Arrange
@@ -162,7 +162,7 @@ namespace TeamPhoenix.MusiCali.Logging
             //Query Database for this
         }
 
-        [Test]
+        [TestMethod]
         public void SaveLogAsync_InvalidConnectionString_ThrowsException()
         {
             // Arrange
@@ -176,7 +176,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.ThrowsAsync<SqlException>(() => dataAccessObject.SaveLogAsync(logMessage, logLevel, logCategory));
         }
 
-        [Test]
+        [TestMethod]
         public void CreateUser_ValidUser_ReturnsSuccessResult()
         {
             // Arrange
@@ -190,7 +190,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.IsNull(result.errorMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void CreateUser_DuplicateUsername_ReturnsErrorResult()
         {
             // Arrange
@@ -206,7 +206,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.AreEqual("Username 'existinguser' is already taken.", result.errorMessage);
         }
 
-        [Test]
+        [TestMethod]
         public async Task SaveLogAsync_EmptyMessage_ThrowsException()
         {
             // Arrange
@@ -219,7 +219,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.ThrowsAsync<ArgumentException>(() => dataAccessObject.SaveLogAsync(logMessage, logLevel, logCategory));
         }
 
-        [Test]
+        [TestMethod]
         public async Task SaveLogAsync_NullMessage_ThrowsException()
         {
             // Arrange
