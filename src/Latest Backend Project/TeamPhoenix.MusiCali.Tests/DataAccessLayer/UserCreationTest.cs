@@ -24,13 +24,15 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
             {
                 {"UserRole", "User"}
             };
-            DateTime dob = new DateTime(2001, 01, 26);
-            UserAccount userAccount = new UserAccount("username", "testsalt", "fakehash", "email");
-            UserAuthN userAuth = new UserAuthN("username", "testotp", DateTime.Now, "testsalt");
-            UserRecovery userR = new UserRecovery("username", "security question", "answer to question");
-            UserClaims userC = new UserClaims("username", claims);
+            string email = "test@example.com";
+            DateTime dateOfBirth = new DateTime(1990, 1, 1);
+            string username = "testuser";
+            UserAccount userAccount = new UserAccount(username, "testsalt", "fakehash", email);
+            UserAuthN userAuth = new UserAuthN(username, "testotp", DateTime.Now, "testsalt");
+            UserRecovery userR = new UserRecovery(username, email);
+            UserClaims userC = new UserClaims(username, claims);
 
-            UserProfile userP = new UserProfile("username", "prof", "vong", dob);
+            UserProfile userP = new UserProfile(username, "prof", "vong", dateOfBirth);
 
             // Act
             UserCreation.CreateUser(userAccount, userAuth, userR, userC, userP);
@@ -47,13 +49,15 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
             {
                 {"UserRole", "User"}
             };
-            DateTime dob = new DateTime(2001, 01, 26);
-            UserAccount userAccount = new UserAccount("username", "testsalt", "fakehash", "email");
-            UserAuthN userAuth = new UserAuthN("username", "testotp", DateTime.Now, "testsalt");
-            UserRecovery userR = new UserRecovery("username", "security question", "answer to question");
-            UserClaims userC = new UserClaims("username", claims);
+            string email = "test@example.com";
+            DateTime dateOfBirth = new DateTime(1990, 1, 1);
+            string username = "testuser";
+            UserAccount userAccount = new UserAccount(username, "testsalt", "fakehash", email);
+            UserAuthN userAuth = new UserAuthN(username, "testotp", DateTime.Now, "testsalt");
+            UserRecovery userR = new UserRecovery(username, email);
+            UserClaims userC = new UserClaims(username, claims);
 
-            UserProfile userP = new UserProfile("username", "prof", "vong", dob);
+            UserProfile userP = new UserProfile(username, "prof", "vong", dateOfBirth);
 
             // Act
             UserCreation.CreateUser(userAccount, userAuth, userR, userC, userP);

@@ -22,8 +22,6 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
             string email = "test@example.com";
             DateTime dateOfBirth = new DateTime(1990, 1, 1);
             string username = "testuser";
-            string fname = "John";
-            string lname = "Doe";
             string backupEmail = "";
 
             // Act
@@ -49,8 +47,6 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
             string email = "test@example.com";
             DateTime dateOfBirth = new DateTime(1990, 1, 1);
             string username = "testuser";
-            string fname = "John";
-            string lname = "Doe";
             string backupEmail = "test2@example.com";
 
             // Act
