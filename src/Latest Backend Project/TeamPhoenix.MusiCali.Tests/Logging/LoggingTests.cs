@@ -1,5 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TeamPhoenix.MusiCali.DataAccessLayer;
+using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
-[TestFixture]
+[TestClass]
 public class LoggingLibraryTests
 {
     private const string TestConnectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
