@@ -4,6 +4,7 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using modifyUserService = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
 using DataAccessUserDeletion = TeamPhoenix.MusiCali.DataAccessLayer.UserDeletion; // Alias for clarity
 using mU = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
@@ -11,6 +12,7 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class ModifyUserProfileController : ControllerBase
     {
+        [Authorize(Roles = "AdminUser")]
         [HttpGet("{username}")]
         public ActionResult<UserProfile> GetProfile(string username)
         {
@@ -34,6 +36,8 @@ namespace TeamPhoenix.MusiCali.Controllers
             public string UserRole { get; set; } = string.Empty;
         }
 
+
+        [Authorize(Roles = "AdminUser")]
         [HttpPost("updateClaims")]
         public IActionResult UpdateClaims([FromBody] UpdateClaimsRequest request)
         {
@@ -52,7 +56,7 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
 
-
+        [Authorize(Roles = "NormalUser,AdminUser")]
         [HttpDelete("{username}")]
         public IActionResult DeleteUser(string username)
         {
@@ -74,6 +78,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             public string LastName { get; set; } = string.Empty;
         }
 
+        [Authorize(Roles = "NormalUser")]
         [HttpPost("ModifyProfile")]
         public IActionResult ModifyProfile([FromBody] UserProfileUpdateModel model)
         {
@@ -99,6 +104,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
+        
         [HttpGet("GetUserInformation/{username}")]
         public ActionResult GetUserInformation(string username)
         {

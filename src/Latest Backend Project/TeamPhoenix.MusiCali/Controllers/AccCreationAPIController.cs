@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
@@ -32,7 +33,8 @@ namespace AccCreationAPI.Controllers
             public string Bmail { get; set; } = string.Empty;
         }
 
-        [HttpPost("api/AdminlAccCreationAPI")]
+        [Authorize(Roles = "AdminUser")]
+        [HttpPost("api/AdminAccCreationAPI")]
         public JsonResult RegisterAdminUser([FromBody] AdminUserModel model)
         {
             if (model == null)

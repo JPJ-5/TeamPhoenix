@@ -326,45 +326,30 @@ namespace AccCreationAPI
 
 
 
-        //public void ConfigureServices(IServiceCollection services)
-        //{
-        //    services.AddAuthentication(options =>
-        //    {
-        //        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        //        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        //    })
-        //    .AddJwtBearer(options =>
-        //    {
-        //        options.RequireHttpsMetadata = false;
-        //        options.SaveToken = true;
-        //        options.TokenValidationParameters = new TokenValidationParameters
-        //        {
-        //            ValidateIssuerSigningKey = true,
-        //            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
-        //            ValidateIssuer = true,
-        //            ValidIssuer = Configuration["Jwt:Issuer"],
-        //            ValidateAudience = true,
-        //            ValidAudience = Configuration["Jwt:Audience"],
-        //            ValidateLifetime = true,
-        //            ClockSkew = TimeSpan.Zero,
-        //            // Additional custom validation for claims
-        //            NameClaimType = "sub", // Setting subject claim type
-        //            RoleClaimType = "role" // You can set a role claim type if you have role-based authorization
-        //        };
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false; // Set to true in production
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
+                        ValidateIssuer = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidateAudience = true,
+                        ValidAudience = Configuration["Jwt:Audience"],
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
+                        // No need to set NameClaimType or RoleClaimType if they're standard
+                    };
+                });
 
-        //        options.Events = new JwtBearerEvents
-        //        {
-        //            OnTokenValidated = context =>
-        //            {
-        //                // Additional validation based on 'nonce' or other claims can be done here
-        //                return Task.CompletedTask;
-        //            }
-        //        };
-        //    });
-
-        //    services.AddControllers();
-        //    // ... any other services you need to configure
-        //}
+            services.AddControllers();
+            // ... other necessary services
+        }
 
 
 

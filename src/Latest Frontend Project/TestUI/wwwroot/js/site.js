@@ -350,36 +350,74 @@
     }
 
     // Inside prepareAdminUI
+    //document.getElementById('admin-delete-user').addEventListener('click', function () {
+    //    var username = prompt("Enter the username of the user to delete:");
+    //    var userName = document.getElementById('username').value;
+
+    //    if (username) {
+    //        // Check if the username to delete is the admin's own username
+    //        if (username === userName) {
+    //            alert('Cannot delete your own admin account.');
+    //            return; // Exit the function to prevent the deletion process
+    //        }
+
+    //        fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
+    //            method: 'DELETE'
+    //        })
+    //            .then(response => {
+    //                if (response.ok) {
+    //                    return response.text();
+    //                } else {
+    //                    throw new Error('Failed to delete user.');
+    //                }
+    //            })
+    //            .then(data => {
+    //                alert('User deleted successfully.');
+    //                // Further actions upon successful deletion
+    //            })
+    //            .catch(error => {
+    //                console.error('Error deleting user:', error);
+    //            });
+    //    }
+    //});
+
     document.getElementById('admin-delete-user').addEventListener('click', function () {
-        var username = prompt("Enter the username of the user to delete:");
-        var userName = document.getElementById('username').value;
+    var usernameToDelete = prompt("Enter the username of the user to delete:");
+    var loggedInUsername = document.getElementById('username').value; // Assuming this is the logged-in admin's username
 
-        if (username) {
-            // Check if the username to delete is the admin's own username
-            if (username === userName) {
-                alert('Cannot delete your own admin account.');
-                return; // Exit the function to prevent the deletion process
-            }
-
-            fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
-                method: 'DELETE'
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    } else {
-                        throw new Error('Failed to delete user.');
-                    }
-                })
-                .then(data => {
-                    alert('User deleted successfully.');
-                    // Further actions upon successful deletion
-                })
-                .catch(error => {
-                    console.error('Error deleting user:', error);
-                });
+    if (usernameToDelete) {
+        // Check if the admin is trying to delete their own account
+        if (usernameToDelete === loggedInUsername) {
+            alert('Cannot delete your own admin account.');
+            return; // Exit the function to prevent deletion
         }
-    });
+        var baseUrl = "http://localhost:8080";
+        var deleteUserUrl = ${baseUrl}/ModifyUserProfile/${usernameToDelete};
+        var accessToken = sessionStorage.getItem('accessToken'); // Retrieve the access token from sessionStorage
+
+        fetch(deleteUserUrl, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken // Include the access token in the Authorization header
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('Failed to delete user.');
+            }
+        })
+        .then(data => {
+            alert('User deleted successfully.');
+            // Further actions upon successful deletion
+        })
+        .catch(error => {
+            console.error('Error deleting user:', error);
+        });
+    }
+});
+
 
     //Inside prepareAdminUI
     document.getElementById('admin-user-creation-button').addEventListener('click', function () {
@@ -403,7 +441,7 @@
 
             const data = { email, dob, uname, bmail };
 
-            fetch('http://localhost:8080/AccCreationAPI/api/AdminlAccCreationAPI', {
+            fetch('http://localhost:8080/AccCreationAPI/api/AdminAccCreationAPI', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
