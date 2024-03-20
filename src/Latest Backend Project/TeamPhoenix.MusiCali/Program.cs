@@ -252,10 +252,12 @@ namespace AccCreationAPI
             //jwt token
 
             var tkConf = builder.Configuration.GetSection("Jwt");
-//            if (tkConf == null || string.IsNullOrEmpty(tkConf["Issuer"]) || string.IsNullOrEmpty(tkConf["Audience"]) || string.IsNullOrEmpty(tkConf["Key"]))
-//{
-//                throw new InvalidOperationException("JWT configuration is missing or incomplete in appsettings.json.");
-//            }
+            //            if (tkConf == null || string.IsNullOrEmpty(tkConf["Issuer"]) || string.IsNullOrEmpty(tkConf["Audience"]) || string.IsNullOrEmpty(tkConf["Key"]))
+            //{
+            //                throw new InvalidOperationException("JWT configuration is missing or incomplete in appsettings.json.");
+            //            }
+            
+
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
@@ -264,7 +266,7 @@ namespace AccCreationAPI
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = tkConf["Issuer"],
                 ValidAudience = tkConf["Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tkConf["Key"]))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tkConf["Key"]!))
             };
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -278,7 +280,8 @@ namespace AccCreationAPI
             {
                 options.AddPolicy("MyAllowSpecificOrigins",
                     builder => builder
-                        .WithOrigins("http://localhost:8800", "https://themusicali.com")
+                        .WithOrigins("http://localhost:8800", "https://themusicali.com", "https://47.149.137.142:8800",
+                        "http://54.183.27.148:7258", "http://localhost:3000", "http://localhost:7158")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials());
@@ -303,13 +306,13 @@ namespace AccCreationAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Production")
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseCors("MyAllowSpecificOrigins");
 

@@ -200,7 +200,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                         if (reader.Read())
                         {
                             var claimsJson = reader["Claims"].ToString();
-                            var claimsDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(claimsJson);
+                            var claimsDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(claimsJson!)!;
                             string userRole = "Unknown";
                             userRole = claimsDict["UserRole"];
 

@@ -71,13 +71,13 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     {
                         if (reader.Read())
                         {
-                            string userHash = reader["UserHash"].ToString();
+                            string userHash = reader["UserHash"].ToString()!;
                             return userHash;
                         }
                     }
                 }
             }
-            return null; // Return null if user hash is not found
+            return string.Empty; // Return null if user hash is not found
         }
     }
 }

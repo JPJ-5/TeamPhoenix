@@ -20,7 +20,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         public Result ExecuteSql(string sql)
         {
             Result result = new Result(); // null result when returns means that there was not even an attempt to connect to the database.
-            MySqlTransaction transaction = null; // starts as an empty transaction just in case it errors before connection. This makes it so the rollback function will also not error.
+            MySqlTransaction transaction; // starts as an empty transaction just in case it errors before connection. This makes it so the rollback function will also not error.
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -62,7 +62,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         public Result ExecuteSql(string sql, Dictionary<string, object> parameters) //used with sql strings with parameters.
         {
             Result result = new Result(); // null result when returns means that there was not even an attempt to connect to the database.
-            MySqlTransaction transaction = null; // starts as an empty transaction just in case it errors before connection. This makes it so the rollback function will also not error.
+            MySqlTransaction transaction; // starts as an empty transaction just in case it errors before connection. This makes it so the rollback function will also not error.
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(connectionString))

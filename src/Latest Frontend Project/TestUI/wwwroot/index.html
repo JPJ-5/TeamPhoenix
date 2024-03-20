@@ -56,6 +56,11 @@
                     <button id="submit-recovery-username">Submit</button>
                 </form>
 
+                <form id="otp-recovery-section" class="group3">
+                    <input type="text" placeholder="Re-enter OTP" id="re-enter-otp">
+                    <button type="submit" id="submit-recovery-otp">Submit</button>
+                </form>
+
                 <!-- User Profile Section, initially hidden -->
                 <div id="user-profile" class="user-profile scrollable-content" style="display: none;">
                     <p><strong>First Name:</strong> <span id="user-first-name"></span></p>
@@ -66,7 +71,7 @@
                     <p><strong>User Status:</strong> <span id="user-status"></span></p>
                     <p><strong>Description:</strong> <span id="user-description"></span></p>
                     <img id="user-profile-pic" src="" alt="Profile Pic" style="width: 200px; height: 200px;" />
-                    
+
                     <button id="modify-profile" class="modify-profile">Modify Profile</button>
                     <!-- Modify Profile Section (Hidden Initially) -->
                     <div id="modify-profile-section" style="display: none;">
