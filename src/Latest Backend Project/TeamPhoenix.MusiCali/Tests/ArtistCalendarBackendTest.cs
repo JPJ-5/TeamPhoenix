@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MySqlX.XDevAPI.Common;
 using Newtonsoft.Json;
-using System.Drawing.Printing;
+using System.Diagnostics; // for timing the length of Act
 using TeamPhoenix.MusiCali.Controllers;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using aS = TeamPhoenix.MusiCali.Services.ArtistCalendar; // specifying the service layer as communcation between backend to backend can cause issues for controllers.
@@ -17,8 +17,9 @@ namespace TeamPhoenix.MusiCali.Tests
         [TestMethod]
         public void PostGig_ShouldReturnSuccessfulPost()
         {
-
+            //Arrange
             ArtistCalendarController test = new ArtistCalendarController();
+            var timer = new Stopwatch();
 
             //Arrange Gig Data
             GigCreationModel gig = new GigCreationModel();
@@ -31,13 +32,16 @@ namespace TeamPhoenix.MusiCali.Tests
             gig.Pay = "$5.00";
 
             //Act
+            timer.Start();
             JsonResult gigResult = test.CreateGig(gig);
+            timer.Stop();
 
             //Assert
             //First Convert json to Assertable values
             bool gigResultAssert = (bool)gigResult.Value;
             //Assert like normal now
             Assert.IsTrue(gigResultAssert);
+            Assert.IsTrue(timer.Elapsed.TotalSeconds <= 3);
         }
         [TestMethod]
         public void PostGig_ShouldReturnUnsuccessfulPostForInvalidInput()
@@ -193,6 +197,8 @@ namespace TeamPhoenix.MusiCali.Tests
         {
             //Arrange
             ArtistCalendarController test = new ArtistCalendarController();
+            var timer = new Stopwatch();
+
             //Arrange Gig Data to view
             GigCreationModel gig = new GigCreationModel();
             gig.Username = "ArtistCalendarTest";
@@ -203,7 +209,9 @@ namespace TeamPhoenix.MusiCali.Tests
             gig.Visibility = true;
             gig.Pay = "$5.00";
 
+            timer.Start();
             test.CreateGig(gig);
+            timer.Stop();
 
             //define what we are testing with view.
 
@@ -217,6 +225,7 @@ namespace TeamPhoenix.MusiCali.Tests
             //Assert
             Assert.IsNotNull(gigResult);
             Assert.AreEqual(gig.Location, gigResult.Location);
+            Assert.IsTrue(timer.Elapsed.TotalSeconds <= 3);
         }
         [TestMethod]
         public void ViewGig_ShouldReturnUnsuccessfulViewForPrivateGig()
@@ -269,8 +278,9 @@ namespace TeamPhoenix.MusiCali.Tests
         [TestMethod]
         public void UpdateGig_ShouldReturnSuccessfulUpdate()
         {
-            //Arrange Test User
+            //Arrange
             string username = "ArtistCalendarTest";
+            var timer = new Stopwatch();
 
             ArtistCalendarController test = new ArtistCalendarController();
             //Arrange Gig Data to Edit
@@ -298,13 +308,16 @@ namespace TeamPhoenix.MusiCali.Tests
             updatedGig.Pay = "$5.00";
 
             //Act
+            timer.Start();
             JsonResult gigResult = test.UpdateGig(updatedGig);
+            timer.Stop();
 
             //Assert
             //First Convert json to Assertable values
             bool gigResultAssert = (bool)gigResult.Value;
             //Assert like normal now
             Assert.IsTrue(gigResultAssert);
+            Assert.IsTrue(timer.Elapsed.TotalSeconds <= 3);
         }
         [TestMethod]
         public void UpdateGig_ShouldReturnUnsuccessfulUpdateForIncorrectValue()
@@ -429,7 +442,10 @@ namespace TeamPhoenix.MusiCali.Tests
         [TestMethod]
         public void UpdateGigVisibility_ShouldReturnSuccessfulUpdate()
         {
+            //Arrange
             ArtistCalendarController test = new ArtistCalendarController();
+            var timer = new Stopwatch();
+
             //Arrange Gig Data to Edit
             GigCreationModel gig = new GigCreationModel();
             gig.Username = "ArtistCalendarTest";
@@ -449,14 +465,18 @@ namespace TeamPhoenix.MusiCali.Tests
 
             //What data we are editing
             gigData.GigVisibility = false;
+
             //Act
+            timer.Start();
             JsonResult gigResult = test.UpdateGigVisibility(gigData);
+            timer.Stop();
 
             //Assert
             //First Convert json to Assertable values
             bool gigResultAssert = (bool)gigResult.Value;
             //Assert like normal now
             Assert.IsTrue(gigResultAssert);
+            Assert.IsTrue(timer.Elapsed.TotalSeconds <= 3);
         }
         [TestMethod]
         public void UpdateGigVisibility_ShouldReturnUnsuccessfulUpdateForNonexistentGigs()
