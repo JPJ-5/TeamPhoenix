@@ -9,10 +9,10 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
     public class UserProfile
     {
 
-        public string Username { get; set; }
-        public string FirstName { get; set; }
+        public string Username { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
 
-        public string LastName { get; set; }
+        public string LastName { get; set; } = string.Empty;
 
         public DateTime DOB { get; set; }
 
@@ -31,8 +31,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
         {
 
             Username = userName;
-            FirstName = null;
-            LastName = null;
+            FirstName = string.Empty;
+            LastName = string.Empty;
             DOB = dateOfBirth;
         }
 

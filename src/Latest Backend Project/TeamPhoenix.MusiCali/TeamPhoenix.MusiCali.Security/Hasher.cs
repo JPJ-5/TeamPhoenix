@@ -9,7 +9,11 @@ namespace TeamPhoenix.MusiCali.Security
         public static string GenerateSalt()
         {
             byte[] saltBytes = new byte[32];
-            using (var rng = new RNGCryptoServiceProvider())
+            //using (var rng = new RNGCryptoServiceProvider())
+            //{
+            //    rng.GetBytes(saltBytes);
+            //}
+            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(saltBytes);
             }
@@ -40,7 +44,8 @@ namespace TeamPhoenix.MusiCali.Security
         public static string GenerateOTP()
         {
             // Create a random number generator
-            using (var rng = new RNGCryptoServiceProvider())
+            //using (var rng = new RNGCryptoServiceProvider())
+            using (var rng = RandomNumberGenerator.Create())
             {
                 // Generate an array of random bytes
                 byte[] randomBytes = new byte[8];

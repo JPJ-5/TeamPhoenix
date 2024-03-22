@@ -22,25 +22,26 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         public bool connect()
         {
             // Replace these values with your actual database details
-            string connectionString = _configuration.GetConnectionString("MariaDbConnectionString");
+            string connectionString = _configuration.GetConnectionString("MariaDbConnectionString")!;
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
                 {
                     connection.Open();
-                    return true;
                     Console.WriteLine("Connected to the database.");
+                    return true;
+                   
 
                 }
                 catch (Exception ex)
                 {
-                    return false;
                     Console.WriteLine($"Error: {ex.Message}");
+                    return false;
                 }
             }
 
-            Console.ReadLine(); // Pause console application
+            //Console.ReadLine(); // Pause console application
         }
 
         static void CreateTable(MySqlConnection connection)

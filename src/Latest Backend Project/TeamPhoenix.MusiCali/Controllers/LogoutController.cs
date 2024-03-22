@@ -16,7 +16,7 @@ public class LogoutController : ControllerBase
 
     public class LogoutRequest
     {
-        public string UserName { get; set; }
+        public string UserName { get; set; } = string.Empty;
     }
 
 
