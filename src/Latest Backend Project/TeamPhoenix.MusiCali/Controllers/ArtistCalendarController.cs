@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using artCal = TeamPhoenix.MusiCali.Services.ArtistCalendar; //artist calendar services
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using Microsoft.Testing.Platform.Extensions.Messages;
+//using Microsoft.Testing.Platform.Extensions.Messages;
 using TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 namespace TeamPhoenix.MusiCali.Controllers

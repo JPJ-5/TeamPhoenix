@@ -38,7 +38,7 @@ namespace TeamPhoenix.MusiCali.Tests
 
             //Assert
             //First Convert json to Assertable values
-            bool gigResultAssert = (bool)gigResult.Value;
+            bool gigResultAssert = (bool)gigResult.Value!;
             //Assert like normal now
             Assert.IsTrue(gigResultAssert);
             Assert.IsTrue(timer.Elapsed.TotalSeconds <= 3);
@@ -62,7 +62,7 @@ namespace TeamPhoenix.MusiCali.Tests
 
             //Assert
             //First Convert json to Assertable values
-            bool gigResultAssert = (bool)gigResult.Value;
+            bool gigResultAssert = (bool)gigResult.Value!;
             //Assert like normal now
             Assert.IsFalse(gigResultAssert);
         }
@@ -85,7 +85,7 @@ namespace TeamPhoenix.MusiCali.Tests
 
             //Assert
             //First Convert json to Assertable values
-            bool gigResultAssert = (bool)gigResult.Value;
+            bool gigResultAssert = (bool)gigResult.Value!;
             //Assert like normal now
             Assert.IsFalse(gigResultAssert);
         }
@@ -108,7 +108,7 @@ namespace TeamPhoenix.MusiCali.Tests
 
             //Assert
             //First Convert json to Assertable values
-            bool gigResultAssert = (bool)gigResult.Value;
+            bool gigResultAssert = (bool)gigResult.Value!;
             //Assert like normal now
             Assert.IsFalse(gigResultAssert);
         }
@@ -135,7 +135,7 @@ namespace TeamPhoenix.MusiCali.Tests
 
             //Assert
             //First Convert json to Assertable values
-            bool gigResultAssert = (bool)gigResult.Value;
+            bool gigResultAssert = (bool)gigResult.Value!;
             //Assert like normal now
             Assert.IsFalse(gigResultAssert);
         }
@@ -165,7 +165,7 @@ namespace TeamPhoenix.MusiCali.Tests
             IActionResult gigResult = test.DeleteGig(gigToDelete);
 
             //Assert
-            OkObjectResult okResponse = gigResult as OkObjectResult;
+            OkObjectResult okResponse = (gigResult as OkObjectResult)!;
 
             Assert.IsNotNull(okResponse); //It failed if the conversion caused it to be null.
             Assert.AreEqual(true, okResponse.Value);
@@ -188,7 +188,7 @@ namespace TeamPhoenix.MusiCali.Tests
             IActionResult gigResult = test.DeleteGig(gigToDelete);
 
             //Assert
-            BadRequestObjectResult badRequestResponse = gigResult as BadRequestObjectResult; // should be a bad request object and not an ok object
+            BadRequestObjectResult badRequestResponse = (gigResult as BadRequestObjectResult)!; // should be a bad request object and not an ok object
             Assert.IsNotNull(badRequestResponse);
             Assert.AreEqual("Failed to delete user gig.", badRequestResponse.Value); // message outputed for this specific bad request
         }
@@ -279,7 +279,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public void UpdateGig_ShouldReturnSuccessfulUpdate()
         {
             //Arrange
-            string username = "ArtistCalendarTest";
+            //string username = "ArtistCalendarTest";
             var timer = new Stopwatch();
 
             ArtistCalendarController test = new ArtistCalendarController();
@@ -314,7 +314,7 @@ namespace TeamPhoenix.MusiCali.Tests
 
             //Assert
             //First Convert json to Assertable values
-            bool gigResultAssert = (bool)gigResult.Value;
+            bool gigResultAssert = (bool)gigResult.Value!;
             //Assert like normal now
             Assert.IsTrue(gigResultAssert);
             Assert.IsTrue(timer.Elapsed.TotalSeconds <= 3);
@@ -323,7 +323,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public void UpdateGig_ShouldReturnUnsuccessfulUpdateForIncorrectValue()
         {
             //Arrange Test User
-            string username = "ArtistCalendarTest";
+            //string username = "ArtistCalendarTest";
 
             ArtistCalendarController test = new ArtistCalendarController();
             //Arrange Gig Data to Edit
@@ -356,7 +356,7 @@ namespace TeamPhoenix.MusiCali.Tests
 
             //Assert
             //First Convert json to Assertable values
-            bool gigResultAssert = (bool)gigResult.Value;
+            bool gigResultAssert = (bool)gigResult.Value!;
             //Assert like normal now
             Assert.IsFalse(gigResultAssert);
         }
@@ -364,7 +364,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public void UpdateGig_ShouldReturnUnsuccessfulUpdateForWhitespace()
         {
             //Arrange Test User
-            string username = "ArtistCalendarTest";
+            //string username = "ArtistCalendarTest";
 
             ArtistCalendarController test = new ArtistCalendarController();
             //Arrange Gig Data to Edit
@@ -395,7 +395,7 @@ namespace TeamPhoenix.MusiCali.Tests
 
             //Assert
             //First Convert json to Assertable values
-            bool gigResultAssert = (bool)gigResult.Value;
+            bool gigResultAssert = (bool)gigResult.Value!;
             //Assert like normal now
             Assert.IsFalse(gigResultAssert);
         }
@@ -403,7 +403,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public void UpdateGig_ShouldReturnUnsuccessfulUpdateForEmptyGigName()
         {
             //Arrange Test User
-            string username = "ArtistCalendarTest";
+            //string username = "ArtistCalendarTest";
 
             ArtistCalendarController test = new ArtistCalendarController();
             //Arrange Gig Data to Edit
@@ -435,7 +435,7 @@ namespace TeamPhoenix.MusiCali.Tests
 
             //Assert
             //First Convert json to Assertable values
-            bool gigResultAssert = (bool)gigResult.Value;
+            bool gigResultAssert = (bool)gigResult.Value!;
             //Assert like normal now
             Assert.IsFalse(gigResultAssert);
         }
@@ -473,7 +473,7 @@ namespace TeamPhoenix.MusiCali.Tests
 
             //Assert
             //First Convert json to Assertable values
-            bool gigResultAssert = (bool)gigResult.Value;
+            bool gigResultAssert = (bool)gigResult.Value!;
             //Assert like normal now
             Assert.IsTrue(gigResultAssert);
             Assert.IsTrue(timer.Elapsed.TotalSeconds <= 3);
@@ -496,7 +496,7 @@ namespace TeamPhoenix.MusiCali.Tests
 
             //Assert
             //First Convert json to Assertable values
-            bool gigResultAssert = (bool)gigResult.Value;
+            bool gigResultAssert = (bool)gigResult.Value!;
             //Assert like normal now
             Assert.IsFalse(gigResultAssert);
         }
