@@ -26,10 +26,10 @@ namespace AccCreationAPI.Controllers
 
         public class AdminUserModel
         {
-            public string Email { get; set; }
+            public string Email { get; set; } = string.Empty;
             public DateTime Dob { get; set; }
-            public string Uname { get; set; }
-            public string Bmail { get; set; }
+            public string Uname { get; set; } = string.Empty;
+            public string Bmail { get; set; } = string.Empty;
         }
 
         [HttpPost("api/AdminlAccCreationAPI")]
