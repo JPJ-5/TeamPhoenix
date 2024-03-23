@@ -15,15 +15,14 @@ namespace TeamPhoenix.MusiCali.Tests.Services
         {
             // Arrange
             string email = "test@example.com";
+            string backupEmail = "backupTest@example.com";
             DateTime dateOfBirth = new DateTime(1990, 1, 1);
             string username = "testuser";
-            string fname = "John";
-            string lname = "Doe";
             string q = "Security Question";
             string a = "a";
 
             // Act
-            bool result = uc.RegisterUser(email, dateOfBirth, username, fname, lname, q, a);
+            bool result = uc.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
 
             // Assert
             Assert.IsTrue(result);
@@ -34,6 +33,7 @@ namespace TeamPhoenix.MusiCali.Tests.Services
         {
             // Arrange
             string email = "test2@example.com";
+            string backupEmail = "backupTest2@example.com";
             DateTime dateOfBirth = new DateTime(1950, 1, 1);
             string username = "testuser2";
             string fname = "John";
@@ -44,13 +44,14 @@ namespace TeamPhoenix.MusiCali.Tests.Services
             // Act
 
             // Assert
-            Assert.ThrowsException<ArgumentException>(() => uc.RegisterUser(email, dateOfBirth, username, fname, lname, q, a));
+            Assert.ThrowsException<ArgumentException>(() => uc.RegisterNormalUser(email, dateOfBirth, username, backupEmail));
         }
 
         [TestMethod]
         public void RegisterUser_ShouldThrowArgumentExceptionForInvalidDateOfBirth()
         {
             string email = "test3@example.com";
+            string backupEmail = "backupTest3@example.com";
             DateTime dateOfBirth = new DateTime(1669, 1, 1);
             string username = "testuser3";
             string fname = "John";
@@ -61,12 +62,13 @@ namespace TeamPhoenix.MusiCali.Tests.Services
             // Act
 
             // Assert
-            Assert.ThrowsException<ArgumentException>(() => uc.RegisterUser(email, dateOfBirth, username, fname, lname, q, a));
+            Assert.ThrowsException<ArgumentException>(() => uc.RegisterNormalUser(email, dateOfBirth, username, backupEmail));
         }
         [TestMethod]
         public void RegisterUser_ShouldThrowArgumentExceptionForInvalidUsername()
         {
             string email = "test4@example.com";
+            string backupEmail = "backupTest4@example.com";
             DateTime dateOfBirth = new DateTime(1800, 1, 1);
             string username = "testuser4!"; //should return an invalid username
             string fname = "John";
@@ -77,7 +79,7 @@ namespace TeamPhoenix.MusiCali.Tests.Services
             // Act
 
             // Assert
-            Assert.ThrowsException<ArgumentException>(() => uc.RegisterUser(email, dateOfBirth, username, fname, lname, q, a));
+            Assert.ThrowsException<ArgumentException>(() => uc.RegisterNormalUser(email, dateOfBirth, username, backupEmail));
         }
 
         // Add more test methods for other scenarios.
