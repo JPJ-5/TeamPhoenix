@@ -3,7 +3,6 @@ using TeamPhoenix.MusiCali.Services;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using modifyUserService = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
 using DataAccessUserDeletion = TeamPhoenix.MusiCali.DataAccessLayer.UserDeletion; // Alias for clarity
-using cr = TeamPhoenix.MusiCali.DataAccessLayer.UserCreation;
 using mU = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
 
 namespace TeamPhoenix.MusiCali.Controllers
@@ -13,7 +12,7 @@ namespace TeamPhoenix.MusiCali.Controllers
     public class ModifyUserProfileController : ControllerBase
     {
         [HttpGet("{username}")]
-        public ActionResult<UserProfile> GetProfile(string username)
+        public IActionResult GetProfile(string username)
         {
             var modifyUserService = new modifyUserService(); // Create an instance of ModifyUser
             var userProfile = modifyUserService.GetProfile(username); // Now you can call the instance method
@@ -26,13 +25,13 @@ namespace TeamPhoenix.MusiCali.Controllers
 
         public class UpdateClaimsRequest
         {
-            public string Username { get; set; }
-            public UserClaims Claims { get; set; }
+            public string Username { get; set; } = string.Empty;
+            public UserClaims Claims { get; set; } = new UserClaims();
         }
 
         public class UserClaims
         {
-            public string UserRole { get; set; }
+            public string UserRole { get; set; } = string.Empty;
         }
 
         [HttpPost("updateClaims")]
@@ -70,9 +69,9 @@ namespace TeamPhoenix.MusiCali.Controllers
 
         public class UserProfileUpdateModel
         {
-            public string Username { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
+            public string Username { get; set; } = string.Empty;
+            public string FirstName { get; set; } = string.Empty;
+            public string LastName { get; set; } = string.Empty;
         }
 
         [HttpPost("ModifyProfile")]
@@ -101,7 +100,7 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
         [HttpGet("GetUserInformation/{username}")]
-        public ActionResult GetUserInformation(string username)
+        public IActionResult GetUserInformation(string username)
         {
             try
             {

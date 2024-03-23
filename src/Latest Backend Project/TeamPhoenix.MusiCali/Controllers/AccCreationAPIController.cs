@@ -14,37 +14,36 @@ namespace AccCreationAPI.Controllers
     {
 
         [HttpPost("api/NormalAccCreationAPI")]
-        public JsonResult RegisterNormalUser(string email, DateTime dob, string uname, string bmail)
+        public IActionResult RegisterNormalUser(string email, DateTime dob, string uname, string bmail)
         {
             if (uC.RegisterNormalUser(email, dob, uname, bmail))
             {
-                return new JsonResult(true);
+                return Ok(true); // Changed from JsonResult to IActionResult with Ok result
             }
-            return new JsonResult(false);
-
+            return Ok(false); // Changed from JsonResult to IActionResult with Ok result
         }
 
         public class AdminUserModel
         {
-            public string Email { get; set; }
+            public string Email { get; set; } = string.Empty;
             public DateTime Dob { get; set; }
-            public string Uname { get; set; }
-            public string Bmail { get; set; }
+            public string Uname { get; set; } = string.Empty;   
+            public string Bmail { get; set; } = string.Empty;
         }
 
-        [HttpPost("api/AdminlAccCreationAPI")]
-        public JsonResult RegisterAdminUser([FromBody] AdminUserModel model)
+        [HttpPost("api/AdminAccCreationAPI")]
+        public IActionResult RegisterAdminUser([FromBody] AdminUserModel model)
         {
             if (model == null)
             {
-                return new JsonResult("Invalid data") { StatusCode = 400 }; // Bad Request
+                return BadRequest("Invalid data"); // Changed from JsonResult to IActionResult with BadRequest result
             }
 
             if (uC.RegisterAdminUser(model.Email, model.Dob, model.Uname, model.Bmail))
             {
-                return new JsonResult(true);
+                return Ok(true); // Changed from JsonResult to IActionResult with Ok result
             }
-            return new JsonResult(false);
+            return Ok(false); // Changed from JsonResult to IActionResult with Ok result
         }
 
     }

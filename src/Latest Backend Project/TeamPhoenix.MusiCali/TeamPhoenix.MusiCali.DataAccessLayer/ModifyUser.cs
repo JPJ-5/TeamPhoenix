@@ -76,8 +76,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-
-
         public bool ModifyProfile(string username, string firstName, string lastName)
         {
             string query = "UPDATE UserProfile SET FirstName = @FirstName, LastName = @LastName WHERE Username = @Username";
@@ -132,47 +130,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public bool DeleteProfile(string username)
-        {
-            string queryUserProfile = "DELETE FROM UserProfile WHERE Username = @Username";
-            string queryUserAccount = "DELETE FROM UserAccount WHERE Username = @Username";
-
-            try
-            {
-                using (var connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-
-                    using (var transaction = connection.BeginTransaction())
-                    {
-                        // Attempt to delete from UserProfile
-                        using (var commandUserProfile = new MySqlCommand(queryUserProfile, connection, transaction))
-                        {
-                            commandUserProfile.Parameters.AddWithValue("@Username", username);
-                            commandUserProfile.ExecuteNonQuery(); // Execute but don't need to check result
-                        }
-
-                        // Attempt to delete from UserAccount
-                        using (var commandUserAccount = new MySqlCommand(queryUserAccount, connection, transaction))
-                        {
-                            commandUserAccount.Parameters.AddWithValue("@Username", username);
-                            commandUserAccount.ExecuteNonQuery(); // Execute but don't need to check result
-                        }
-
-                        // Commit transaction assuming no exception occurred
-                        transaction.Commit();
-                        return true;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                // If an exception occurs, it means there was a problem with the connection, command, or transaction,
-                // not necessarily with the existence of the user records.
-                return false;
-            }
-        }
-
         public object GetUserInformation(string username)
         {
             string query = @"
@@ -200,7 +157,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                         if (reader.Read())
                         {
                             var claimsJson = reader["Claims"].ToString();
-                            var claimsDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(claimsJson);
+                            var claimsDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(claimsJson!)!;
                             string userRole = "Unknown";
                             userRole = claimsDict["UserRole"];
 

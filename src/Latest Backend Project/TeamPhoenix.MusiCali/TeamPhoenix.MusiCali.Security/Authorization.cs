@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.Security;
 using TeamPhoenix.MusiCali.Security.Contracts;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using TeamPhoenix.MusiCali.Security.Contracts;
+//using TeamPhoenix.MusiCali.Security.Contracts;
 using System.Net;
 
 namespace TeamPhoenix.MusiCali.Security
