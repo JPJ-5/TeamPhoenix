@@ -22,7 +22,7 @@ namespace TeamPhoenix.MusiCali.Tests.Services
             DateTime dob = new DateTime(2001, 01, 26);
             UserAccount userAccount = new UserAccount("username", "testsalt", "fakehash", "email");
             UserAuthN userAuth = new UserAuthN("username", "testotp", DateTime.Now, "testsalt");
-            UserRecovery userR = new UserRecovery("username", "security question", "answer to question");
+            UserRecovery userR = new UserRecovery("username", "backupEmail");
             UserClaims userC = new UserClaims("username", claims);
 
             UserProfile userP = new UserProfile("username", "prof", "vong", dob);
@@ -32,10 +32,9 @@ namespace TeamPhoenix.MusiCali.Tests.Services
 
             // Arrange
             string username = "username";
-            string answer = "answer to question";
 
             // Act
-            bool result = rc.recoverDisabledAccount(username, answer);
+            bool result = rc.EnableUser(username);
 
             // Assert
             Assert.IsTrue(result);
@@ -56,45 +55,29 @@ namespace TeamPhoenix.MusiCali.Tests.Services
         }
 
         [TestMethod]
-        public void ValidateAnswer_ShouldReturnTrueForMatchingAnswers()
+        public void ValidateOTP_ShouldReturnTrueForMatching()
         {
             // Arrange
-            string answer = "TestAnswer";
-            string userAnswer = "TestAnswer";
+            string OTP = "TestAnswer";
+            string storedOTP = "TestAnswer";
 
             // Act
-            bool result = rc.ValidateAnswer(answer, userAnswer);
+            bool result = rc.ValidateOTP(OTP, storedOTP);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void RecoverDisabledAccount_ShouldThrowExceptionForNonMatchingAnswers()
+        public void RecoverDisabledAccount_ShouldThrowExceptionForNonMatchingUsername()
         {
-            Dictionary<string, string> claims = new Dictionary<string, string>
-            {
-                {"UserRole", "User"}
-            };
-            DateTime dob = new DateTime(2001, 01, 26);
-            UserAccount userAccount = new UserAccount("username", "testsalt", "fakehash", "email");
-            UserAuthN userAuth = new UserAuthN("username", "testotp", DateTime.Now, "testsalt");
-            UserRecovery userR = new UserRecovery("username", "security question", "answer to question");
-            UserClaims userC = new UserClaims("username", claims);
-
-            UserProfile userP = new UserProfile("username", "prof", "vong", dob);
-
-            // Act
-            UserCreation.CreateUser(userAccount, userAuth, userR, userC, userP);
-
             // Arrange
-            string username = "username";
-            string answer = "wrong answer to question";
+            string username = "testuser";
 
             // Act
 
             // Assert
-            Assert.ThrowsException<Exception>(() => rc.recoverDisabledAccount(username, answer));
+            Assert.ThrowsException<Exception>(() => rc.EnableUser(username));
         }
 
         // Add more test methods for other scenarios
