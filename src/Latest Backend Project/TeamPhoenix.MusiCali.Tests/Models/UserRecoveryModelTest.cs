@@ -11,17 +11,15 @@ namespace TeamPhoenix.MusiCali.Tests.Models
         {
             // Arrange
             string username = "TestUser";
-            string question = "Test Question";
-            string answer = "Test Answer";
+            string backupEmail = "TestEmail";
 
             //Act
-            UserRecovery userRecovery = new UserRecovery(username, question, answer);
+            UserRecovery userRecovery = new UserRecovery(username, backupEmail);
 
             // Assert
             Assert.IsNotNull(userRecovery);
             Assert.AreEqual(username, userRecovery.Username);
-            Assert.AreEqual(question, userRecovery.Question);
-            Assert.AreEqual(answer, userRecovery.Answer);
+            Assert.AreEqual(backupEmail, userRecovery.backupEmail);
         }
     }
 }
