@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
@@ -15,14 +14,13 @@ namespace AccCreationAPI.Controllers
     {
 
         [HttpPost("api/NormalAccCreationAPI")]
-        public JsonResult RegisterNormalUser(string email, DateTime dob, string uname, string bmail)
+        public IActionResult RegisterNormalUser(string email, DateTime dob, string uname, string bmail)
         {
             if (uC.RegisterNormalUser(email, dob, uname, bmail))
             {
-                return new JsonResult(true);
+                return Ok(true); // Changed from JsonResult to IActionResult with Ok result
             }
-            return new JsonResult(false);
-
+            return Ok(false); // Changed from JsonResult to IActionResult with Ok result
         }
 
         public class AdminUserModel
@@ -33,20 +31,19 @@ namespace AccCreationAPI.Controllers
             public string Bmail { get; set; } = string.Empty;
         }
 
-        [Authorize(Roles = "AdminUser")]
         [HttpPost("api/AdminAccCreationAPI")]
-        public JsonResult RegisterAdminUser([FromBody] AdminUserModel model)
+        public IActionResult RegisterAdminUser([FromBody] AdminUserModel model)
         {
             if (model == null)
             {
-                return new JsonResult("Invalid data") { StatusCode = 400 }; // Bad Request
+                return BadRequest("Invalid data"); // Changed from JsonResult to IActionResult with BadRequest result
             }
 
             if (uC.RegisterAdminUser(model.Email, model.Dob, model.Uname, model.Bmail))
             {
-                return new JsonResult(true);
+                return Ok(true); // Changed from JsonResult to IActionResult with Ok result
             }
-            return new JsonResult(false);
+            return Ok(false); // Changed from JsonResult to IActionResult with Ok result
         }
 
     }

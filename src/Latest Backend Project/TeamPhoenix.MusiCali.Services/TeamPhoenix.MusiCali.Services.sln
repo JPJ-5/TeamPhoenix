@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34714.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Services", "TeamPhoenix.MusiCali.Services.csproj", "{737006E8-1DD6-4125-9B48-A35ED172A9F7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Logging", "..\TeamPhoenix.MusiCali.Logging\TeamPhoenix.MusiCali.Logging.csproj", "{DD67B2A3-76CB-4CD7-B32D-E86B1B5957A8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.DataAccessLayer", "..\TeamPhoenix.MusiCali.DataAccessLayer\TeamPhoenix.MusiCali.DataAccessLayer.csproj", "{BB63FE4C-CA37-405B-A347-B789402A1DA5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Security", "..\TeamPhoenix.MusiCali.Security\TeamPhoenix.MusiCali.Security.csproj", "{42EC0F7E-4E94-4331-ACA4-EC1F8498A716}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali", "..\TeamPhoenix.MusiCali\TeamPhoenix.MusiCali.csproj", "{EC9553D2-0285-45D5-8FFE-E3F00BE3CFC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{737006E8-1DD6-4125-9B48-A35ED172A9F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{737006E8-1DD6-4125-9B48-A35ED172A9F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{737006E8-1DD6-4125-9B48-A35ED172A9F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{737006E8-1DD6-4125-9B48-A35ED172A9F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD67B2A3-76CB-4CD7-B32D-E86B1B5957A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD67B2A3-76CB-4CD7-B32D-E86B1B5957A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD67B2A3-76CB-4CD7-B32D-E86B1B5957A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD67B2A3-76CB-4CD7-B32D-E86B1B5957A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB63FE4C-CA37-405B-A347-B789402A1DA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB63FE4C-CA37-405B-A347-B789402A1DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB63FE4C-CA37-405B-A347-B789402A1DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB63FE4C-CA37-405B-A347-B789402A1DA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42EC0F7E-4E94-4331-ACA4-EC1F8498A716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42EC0F7E-4E94-4331-ACA4-EC1F8498A716}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42EC0F7E-4E94-4331-ACA4-EC1F8498A716}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42EC0F7E-4E94-4331-ACA4-EC1F8498A716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC9553D2-0285-45D5-8FFE-E3F00BE3CFC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC9553D2-0285-45D5-8FFE-E3F00BE3CFC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC9553D2-0285-45D5-8FFE-E3F00BE3CFC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC9553D2-0285-45D5-8FFE-E3F00BE3CFC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {010CD639-C83E-4EEB-B61C-0EB9AECCD62B}
+	EndGlobalSection
+EndGlobal
