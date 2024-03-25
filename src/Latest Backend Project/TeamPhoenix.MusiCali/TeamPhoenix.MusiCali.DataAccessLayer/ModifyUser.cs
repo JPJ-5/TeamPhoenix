@@ -11,7 +11,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class ModifyUser
     {
-        private readonly string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+        private static readonly string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
         public static void UpdateProfile(UserProfile userProfile)
         {
             string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
@@ -173,7 +173,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public object GetUserInformation(string username)
+        public static object GetUserInformation(string username)
         {
             string query = @"
                 SELECT 

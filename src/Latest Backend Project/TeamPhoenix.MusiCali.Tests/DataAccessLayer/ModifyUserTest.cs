@@ -31,8 +31,8 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
             dao.UpdateProfile(userProfile);
 
             //getuserinformation returnes an unclassed object
-            /*
-             * var updatedProfile = new {
+            
+            object updatedProfile = new {
                 FirstName = "",
                 LastName = "",
                 DateOfBirth = "",
@@ -40,12 +40,12 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
                 UserStatus = "",
                 UserRole =""
             };
-            */
+            
             // Assert - Check if the profile is updated
-            var updatedProfile = dao.GetUserInformation(username);
+            updatedProfile = dao.GetUserInformation(username);
             Assert.AreEqual(userProfile.FirstName, updatedProfile.FirstName);
             Assert.AreEqual(userProfile.LastName, updatedProfile.LastName);
-            Assert.AreEqual(userProfile.DOB, updatedProfile.DOB);
+            Assert.AreEqual(userProfile.DOB, updatedProfile.DateOfBirth);
         }
 
         [TestMethod]
