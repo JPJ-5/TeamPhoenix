@@ -12,7 +12,7 @@ namespace TeamPhoenix.MusiCali.Tests.Services
     public class UserDeletionTest
     {
         [TestMethod]
-        public void DeleteUser_ShouldReturnTrue()
+        public void DeleteUser_ShouldReturnTrueAndDeleteUser()
         {
             string email = "deletetest@example.com";
             string backupEmail = "backupdeleteTest@example.com";
@@ -25,6 +25,19 @@ namespace TeamPhoenix.MusiCali.Tests.Services
             Result deleteRes = uD.DeleteAccount(username);
 
             Assert.IsTrue(deleteRes.Success);
+
+        }
+
+        public void DeleteUser_ShouldReturnFalseForInvalidUsername()
+        {
+            string username = "deletetestuser";
+            string errorMes = "Failed to delete user profile.";
+
+            Result deleteRes = uD.DeleteAccount(username);
+
+            Assert.IsFalse(deleteRes.Success);
+            Assert.IsTrue(deleteRes.HasError);
+            Assert.AreEqual(errorMes, deleteRes.ErrorMessage);
 
         }
     }
