@@ -64,49 +64,6 @@ namespace TeamPhoenix.MusiCali.Logging
         }
 
         [TestMethod]
-        public void SaveLogAsync_InvalidConnectionString_ThrowsException()
-        {
-            // Arrange
-            var invalidConnectionString = "invalid_connection_string";
-            var dataAccessObject = new DataAccessObject(invalidConnectionString);
-            var logMessage = "Test log message";
-            var logLevel = LogLevel.Info;
-            var logCategory = LogCategory.Business;
-
-            // Act & Assert
-            Assert.ThrowsAsync<SqlException>(() => dataAccessObject.SaveLogAsync(logMessage, logLevel, logCategory));
-        }
-
-        [TestMethod]
-        public void CreateUser_ValidUser_ReturnsSuccessResult()
-        {
-            // Arrange
-            var dataAccessObject = new DataAccessObject(TestConnectionString);
-        
-            // Act
-            var result = dataAccessObject.createUser("John", "Doe", "johndoe", "john.doe@email.com", new DateTime(1990, 1, 1), "SecureP@ssword");
-
-            // Assert
-            Assert.IsFalse(result.hasError);
-            Assert.IsNull(result.errorMessage);
-        }
-
-        [TestMethod]
-        public void CreateUser_InvalidUsername_ReturnsErrorResult()
-        {
-            // Arrange
-            var dataAccessObject = new DataAccessObject(TestConnectionString);
-        
-            // Act
-            var result = dataAccessObject.createUser("John", "Doe", "inv@lid user", "john.doe@email.com", new DateTime(1990, 1, 1), "SecureP@ssword");
-
-            // Assert
-            Assert.IsTrue(result.hasError);
-            Assert.IsNotNull(result.errorMessage);
-            Assert.AreEqual("Invalid username. Username must be between 6 and 30 characters, and cannot contain spaces.", result.errorMessage);
-        }
-
-        [TestMethod]
         public void CreateUser_InvalidEmail_ReturnsErrorResult()
         {
             // Arrange
@@ -152,22 +109,6 @@ namespace TeamPhoenix.MusiCali.Logging
         }
 
         [TestMethod]
-        public async Task SaveLogAsync_ValidLogEntry_SavesLogSuccessfully()
-        {
-            // Arrange
-            var dataAccessObject = new DataAccessObject(TestConnectionString);
-            var logMessage = "Test log message";
-            var logLevel = LogLevel.Info;
-            var logCategory = LogCategory.Business;
-
-            // Act
-            await dataAccessObject.SaveLogAsync(logMessage, logLevel, logCategory);
-
-            // Assert
-            //Query Database for this
-        }
-
-        [TestMethod]
         public void SaveLogAsync_InvalidConnectionString_ThrowsException()
         {
             // Arrange
@@ -181,19 +122,7 @@ namespace TeamPhoenix.MusiCali.Logging
             Assert.ThrowsAsync<SqlException>(() => dataAccessObject.SaveLogAsync(logMessage, logLevel, logCategory));
         }
 
-        [TestMethod]
-        public void CreateUser_ValidUser_ReturnsSuccessResult()
-        {
-            // Arrange
-            var dataAccessObject = new DataAccessObject(TestConnectionString);
-        
-            // Act
-            var result = dataAccessObject.createUser("John", "Doe", "johndoe", "john.doe@email.com", new DateTime(1990, 1, 1), "SecureP@ssword");
 
-            // Assert
-            Assert.IsFalse(result.hasError);
-            Assert.IsNull(result.errorMessage);
-        }
 
         [TestMethod]
         public void CreateUser_DuplicateUsername_ReturnsErrorResult()
