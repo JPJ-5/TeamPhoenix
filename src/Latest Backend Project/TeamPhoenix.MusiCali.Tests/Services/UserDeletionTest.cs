@@ -24,6 +24,8 @@ namespace TeamPhoenix.MusiCali.Tests.Services
 
             Result deleteRes = uD.DeleteAccount(username);
 
+            Assert.IsTrue(deleteRes.Success);
+
         }
     }
 }
