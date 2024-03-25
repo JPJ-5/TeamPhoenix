@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using uC = TeamPhoenix.MusiCali.Services.UserCreation;
 
 namespace TeamPhoenix.MusiCali.Logging
 {
@@ -20,26 +21,27 @@ namespace TeamPhoenix.MusiCali.Logging
             var dataAccessObject = new SqlDAO();//DataAccessObject(TestConnectionString);
         
             // Act
-            var result = dataAccessObject.createUser("John", "Doe", "johndoe", "john.doe@email.com", new DateTime(1990, 1, 1), "SecureP@ssword");
+            var result = uC.RegisterNormalUser("john.doe@email.com", new DateTime(1990, 1, 1), "johndoe", "johndoe2@email.com");
 
             // Assert
-            Assert.IsFalse(result.hasError);
-            Assert.IsNull(result.errorMessage);
+            Assert.IsTrue(result);//(result.hasError);
+            //Assert.IsNull(result.errorMessage);
         }
 
         [TestMethod]
         public void CreateUser_InvalidUsername_ReturnsErrorResult()
         {
             // Arrange
-            var dataAccessObject = new DataAccessObject(TestConnectionString);
-        
+            var dataAccessObject = new SqlDAO();//DataAccessObject(TestConnectionString);
+
             // Act
-            var result = dataAccessObject.createUser("John", "Doe", "inv@lid user", "john.doe@email.com", new DateTime(1990, 1, 1), "SecureP@ssword");
+            var result = uC.RegisterNormalUser("john.doe@email.com", new DateTime(1990, 1, 1), "inv@lid username", "johndoe2@email.com");
 
             // Assert
-            Assert.IsTrue(result.hasError);
-            Assert.IsNotNull(result.errorMessage);
-            Assert.AreEqual("Invalid username. Username must be between 6 and 30 characters, and cannot contain spaces.", result.errorMessage);
+            Assert.IsFalse(result);
+            //Assert.IsTrue(result.hasError);
+            //Assert.IsNotNull(result.errorMessage);
+            //Assert.AreEqual("Invalid username. Username must be between 6 and 30 characters, and cannot contain spaces.", result.errorMessage);
         }
 
         [TestMethod]
