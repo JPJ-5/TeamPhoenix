@@ -18,8 +18,6 @@ namespace TeamPhoenix.MusiCali.Tests.Services
             string backupEmail = "backupTest@example.com";
             DateTime dateOfBirth = new DateTime(1990, 1, 1);
             string username = "testuser";
-            string q = "Security Question";
-            string a = "a";
 
             // Act
             bool result = uc.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
@@ -36,13 +34,8 @@ namespace TeamPhoenix.MusiCali.Tests.Services
             string backupEmail = "backupTest2@example.com";
             DateTime dateOfBirth = new DateTime(1950, 1, 1);
             string username = "testuser2";
-            string fname = "John";
-            string lname = "Doe";
-            string q = "Security Question";
-            string a = "a";
-
             // Act
-
+            bool result = uc.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
             // Assert
             Assert.ThrowsException<ArgumentException>(() => uc.RegisterNormalUser(email, dateOfBirth, username, backupEmail));
         }
@@ -54,13 +47,9 @@ namespace TeamPhoenix.MusiCali.Tests.Services
             string backupEmail = "backupTest3@example.com";
             DateTime dateOfBirth = new DateTime(1669, 1, 1);
             string username = "testuser3";
-            string fname = "John";
-            string lname = "Doe";
-            string q = "Security Question";
-            string a = "a";
 
             // Act
-
+            bool result = uc.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
             // Assert
             Assert.ThrowsException<ArgumentException>(() => uc.RegisterNormalUser(email, dateOfBirth, username, backupEmail));
         }
@@ -71,13 +60,9 @@ namespace TeamPhoenix.MusiCali.Tests.Services
             string backupEmail = "backupTest4@example.com";
             DateTime dateOfBirth = new DateTime(1800, 1, 1);
             string username = "testuser4!"; //should return an invalid username
-            string fname = "John";
-            string lname = "Doe";
-            string q = "Security Question";
-            string a = "a";
 
             // Act
-
+            bool result = uc.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
             // Assert
             Assert.ThrowsException<ArgumentException>(() => uc.RegisterNormalUser(email, dateOfBirth, username, backupEmail));
         }
