@@ -16,7 +16,7 @@ namespace TeamPhoenix.MusiCali.Logging
         private const string TestConnectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
 
         [TestMethod]
-        public void CreateLog()
+        public void CreateLog_And_Returns_Success()
         {
             string hash = "testHash";
             string level = "test level";
