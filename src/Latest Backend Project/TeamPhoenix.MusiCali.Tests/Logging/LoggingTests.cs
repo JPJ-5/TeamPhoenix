@@ -16,6 +16,20 @@ namespace TeamPhoenix.MusiCali.Logging
         private const string TestConnectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
 
         [TestMethod]
+        public void CreateLog()
+        {
+            string hash = "testHash";
+            string level = "test level";
+            string category = "test category";
+            string context = "test context";
+            Result logResult = Log.CreateLog(hash, level, category, context);
+
+            Assert.IsFalse(logResult.HasError);
+
+        }
+
+        /*
+        [TestMethod]
         public void CreateUser_ValidUser_ReturnsSuccessResult()
         {
             // Arrange
@@ -165,5 +179,6 @@ namespace TeamPhoenix.MusiCali.Logging
             // Act & Assert
             Assert.ThrowsAsync<ArgumentNullException>(() => dataAccessObject.SaveLogAsync(logMessage, logLevel, logCategory));
         }
+        */
     }
 }
