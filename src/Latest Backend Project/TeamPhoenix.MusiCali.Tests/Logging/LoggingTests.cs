@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using uC = TeamPhoenix.MusiCali.Services.UserCreation;
+using Log = TeamPhoenix.MusiCali.Logging.Logger;
 
 namespace TeamPhoenix.MusiCali.Logging
 {
@@ -48,15 +49,17 @@ namespace TeamPhoenix.MusiCali.Logging
         public async Task SaveLogAsync_ValidLogEntry_SavesLogSuccessfully()
         {
             // Arrange
-            var dataAccessObject = new DataAccessObject(TestConnectionString);
-            var logMessage = "Test log message";
-            var logLevel = LogLevel.Info;
-            var logCategory = LogCategory.Business;
+            var dataAccessObject = new SqlDAO();//DataAccessObject(TestConnectionString);
+            string logMessage = "Test log message";
+            string logLevel = "LogLevel.Info";
+            string logCategory = "LogCategory.Business";
 
             // Act
-            await dataAccessObject.SaveLogAsync(logMessage, logLevel, logCategory);
+            //await dataAccessObject.SaveLogAsync(logMessage, logLevel, logCategory);
+            Result res = Log.CreateLog("testHash", logMessage, logLevel, logCategory);
 
             // Assert
+            Assert.IsTrue(res.HasError);
             //Query Database for this
         }
 
