@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<h1 class="neon-text">Welcome to Scale Display!</h1>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale Display</title>
+<p>Choose a scale then pick a type of scale!</p>
+<style>
+  /* Style for the buttons */
+  button {
+    margin: 5px;
+  }
+</style>
+</head>
+<body>
+<select id="note-options" size="5">
+  <option value="A">A</option>
+  <option value="B">B</option>
+  <option value="C">C</option>
+  <option value="D">D</option>
+  <option value="E">E</option>
+  <option value="F">F</option>
+  <option value="G">G</option>
+</select>
+<select id="options" size="5">
+    <option value="major">Major</option>
+    <option value="minor">minor</option>
+    <option value="Lydian">Lydian</option>
+    <option value="HarmonicMinor">Harmonic minor</option>
+    <option value="Dorian">Dorian</option>
+    <option value="Pentatonic">Pentatonic</option>
+</select>
+<br>
+<button onclick="printSelectedScale()">Print Scale</button>
+<br>
+
+<div id="display"></div>
+
+<script>
+var scales = {
+  'A': ['A'],
+  'B': ['B'],
+  'C': ['C'],
+  'D': ['D'],
+  'E': ['E'],
+  'F': ['F'],
+  'G': ['G']
+};
+
+var scaleTypes = {
+    'major': ['a', 'b', 'c sharp', 'd', 'e', 'f sharp', 'g sharp', 'a'],
+    'minor': ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'a'],
+    'Lydian': ['a', 'b', 'c sharp', 'd sharp', 'e', 'f sharp', 'g sharp', 'a'],
+    'HarmonicMinor': ['a', 'b', 'c', 'd', 'e', 'f', 'g sharp', 'a'],
+    'Dorian': ['a', 'b', 'c', 'd', 'e', 'f sharp', 'g', 'a'],
+    'Pentatonic': ['a', 'c', 'd', 'e', 'g', 'a']
+};
+
+function generateScales() {
+  var alphabet = 'ABCDEFG';
+  var index = document.getElementById('note-options').selectedIndex;
+  var currentNote = alphabet[index];
+  var currentScales = {};
+  for (var i = 0; i < alphabet.length; i++) {
+    var scaleLetter = alphabet[i];
+    currentScales[scaleLetter] = [scaleLetter];
+  }
+  scales = currentScales;
+}
+
+function updateDisplay() {
+  generateScales(); // Update scales based on the selected index
+  var selectBox = document.getElementById('note-options');
+  var selectedIndex = selectBox.selectedIndex;
+  var selectedValue = selectBox.options[selectedIndex].value;
+  var selectedScale = scales[selectedValue]; 
+  var selectBoxType = document.getElementById('options');
+  var selectedType = selectBoxType.options[selectBoxType.selectedIndex].value;
+  var selectedScaleType = scaleTypes[selectedType];
+
+  
+  /////////////Scale Notes for A///////////////////
+  if(selectedValue === 'A') {
+    if(selectedType === 'major'){
+        selectedScaleType = ['A', 'B','C#','D','E','F#','G#'];
+    }
+    else if(selectedType === 'minor'){
+        selectedScaleType = ['A', 'B', 'C', 'D', 'E','F','G'];
+    }
+    else if(selectedType === 'Lydian'){
+        selectedScaleType = ['A', 'B', 'C', 'D#', 'E','F#','G#'];
+    }
+    else if(selectedType === 'HarmonicMinor'){
+        selectedScaleType = ['A', 'B', 'C', 'D', 'Eb','F#','G'];
+    }
+    else if(selectedType === 'Dorian'){
+        selectedScaleType = ['A', 'B', 'C', 'D', 'E','F#','G'];
+    }
+    else if(selectedType === 'Pentatonic'){
+        selectedScaleType = ['A','C', 'D', 'E','G'];
+    }
+  }
+  /////////////Scale Notes for B///////////////////
+  if(selectedValue === 'B') {
+    if(selectedType === 'major'){
+        selectedScaleType = ['B','C#','D#','E','F#','G#','A#'];
+    }
+    else if(selectedType === 'minor'){
+        selectedScaleType = ['B','C#','D','E','F#','G','A'];
+    }
+    else if(selectedType === 'Lydian'){
+        selectedScaleType = ['B','C#','D#','E#','F#','G#','A#'];
+    }
+    else if(selectedType === 'HarmonicMinor'){
+        selectedScaleType = ['B','C#','D','E','F','G#','A'];
+    }
+    else if(selectedType === 'Dorian'){
+        selectedScaleType = ['B','C#','D','E','F#','G#','A'];
+    }
+    else if(selectedType === 'Pentatonic'){
+        selectedScaleType = ['B','D','E','F#','A'];
+    }
+  }
+
+  /////////////Scale Notes for C///////////////////
+  if(selectedValue === 'C' && selectedType === 'minor') {
+    selectedScaleType = ['c', 'd', 'e flat', 'f', 'g', 'a', 'b flat'];
+  }
+  
+  document.getElementById('display').textContent = selectedScale.join() + " " + selectedType + ": " + "\n" + selectedScaleType.join(', ');
+}
+
+function moveLeft() {
+  var selectBox = document.getElementById('note-options');
+  var selectedIndex = selectBox.selectedIndex;
+  if (selectedIndex > 0) {
+    selectBox.selectedIndex = selectedIndex - 1;
+    updateDisplay();
+  }
+}
+
+function moveRight() {
+  var selectBox = document.getElementById('note-options');
+  var selectedIndex = selectBox.selectedIndex;
+  if (selectedIndex < selectBox.options.length - 1) {
+    selectBox.selectedIndex = selectedIndex + 1;
+    updateDisplay();
+  }
+}
+
+function printSelectedScale() {
+  updateDisplay(); // Make sure the display is up to date
+  var displayContent = document.getElementById('display').textContent;
+  var displayScaleType = document.getElementById('display')
+  alert("Here Is Your Selected Scale: \n" + displayContent);
+}
+
+// Initial update of display
+updateDisplay();
+</script>
+</body>
+</html>
