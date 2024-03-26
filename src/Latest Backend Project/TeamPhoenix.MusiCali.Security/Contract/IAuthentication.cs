@@ -10,6 +10,7 @@ namespace TeamPhoenix.MusiCali.Security.Contracts
 {
     public interface IAuthentication
     {
+        public bool AuthenticateUsername(string username);
         public Dictionary<string, string> Authenticate(string username, string otp);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using _hash = TeamPhoenix.MusiCali.Security.Hasher;
+using _logger = TeamPhoenix.MusiCali.Logging.Logger;
 using _dao = TeamPhoenix.MusiCali.DataAccessLayer.UserCreation;
+using _auth = TeamPhoenix.MusiCali.Security.Authentication;
 using System;
 using System.Net;
 using System.Net.Mail;
@@ -86,7 +88,7 @@ namespace TeamPhoenix.MusiCali.Services
 
             UserProfile userP = new UserProfile(username, dateOfBirth);
 
-            bool emailSent = SendConfirmationEmail(email, otp);
+            bool emailSent = _auth.SendConfirmationEmail(email, otp);
             if (!emailSent)
             {
                 throw new InvalidOperationException("Unable to send otp to email, please try again.");
@@ -99,6 +101,11 @@ namespace TeamPhoenix.MusiCali.Services
                 {
                     throw new Exception("Unable To Create User");
                 }
+                //_loggerCreation loggerCreation = new _loggerCreation();
+                string level = "Info";
+                string category = "View";
+                string context = "Creating new user";
+                _logger.CreateLog(userAccount.UserHash, level, category, context);
 
             }
             catch (Exception ex)
@@ -220,39 +227,39 @@ namespace TeamPhoenix.MusiCali.Services
             return (!IsNullString(answer) && IsValidLength(answer, 3, 50) && IsValidDigit(answer, @"^[a-zA-Z0-9@. -]*$"));
         }
 
-        public static bool SendConfirmationEmail(string email, string otp)
-        {
-            try
-            {
-                // Your email configuration
-                string smtpServer = "smtp.gmail.com";
-                int smtpPort = 587; // Use 587 for TLS
-                string smtpUsername = "themusicali.otp@gmail.com";
-                string smtpPassword = "wqpgjtdy xnsjcsvm";
+        //public static bool SendConfirmationEmail(string email, string otp)
+        //{
+        //    try
+        //    {
+        //        // Your email configuration
+        //        string smtpServer = "smtp.gmail.com";
+        //        int smtpPort = 587; // Use 587 for TLS
+        //        string smtpUsername = "themusicali.otp@gmail.com";
+        //        string smtpPassword = "wqpgjtdy xnsjcsvm";
 
-                // Create a new SmtpClient with the specified configuration
-                SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort);
-                smtpClient.EnableSsl = true; // Use SSL/TLS
-                smtpClient.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
+        //        // Create a new SmtpClient with the specified configuration
+        //        SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort);
+        //        smtpClient.EnableSsl = true; // Use SSL/TLS
+        //        smtpClient.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
 
-                // Create the email message
-                MailMessage mailMessage = new MailMessage();
-                mailMessage.From = new MailAddress(smtpUsername);
-                mailMessage.To.Add(email);
-                mailMessage.Subject = "MusiCali Confirmation Email";
-                mailMessage.Body = $"Your OTP for MusiCali confirmation is: {otp}";
+        //        // Create the email message
+        //        MailMessage mailMessage = new MailMessage();
+        //        mailMessage.From = new MailAddress(smtpUsername);
+        //        mailMessage.To.Add(email);
+        //        mailMessage.Subject = "MusiCali Confirmation Email";
+        //        mailMessage.Body = $"Your OTP for MusiCali confirmation is: {otp}";
 
-                // Send the email
-                smtpClient.Send(mailMessage);
+        //        // Send the email
+        //        smtpClient.Send(mailMessage);
 
-                Console.WriteLine($"Confirmation email sent to {email}. Please check your email for the OTP.");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error sending confirmation email: {ex.Message}");
-                return false;
-            }
-        }
+        //        Console.WriteLine($"Confirmation email sent to {email}. Please check your email for the OTP.");
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error sending confirmation email: {ex.Message}");
+        //        return false;
+        //    }
+        //}
     }
 }

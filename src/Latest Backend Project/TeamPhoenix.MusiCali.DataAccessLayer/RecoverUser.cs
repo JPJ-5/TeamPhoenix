@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using _logger = TeamPhoenix.MusiCali.Logging.Logger;
+//using _logger = TeamPhoenix.MusiCali.Logging.Logger;
 using System.Collections;
 
 
@@ -225,11 +225,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 {
                     return false;
                 }
-                string userHash = GetUserHash(userR.Username);
-                string level = "Info";
-                string category = "View";
-                string context = "Recover User";
-                _logger.CreateLog(userHash, level, category, context);
+                //string userHash = GetUserHash(userR.Username);
+                //string level = "Info";
+                //string category = "View";
+                //string context = "Recover User";
+                //_logger.CreateLog(userHash, level, category, context);
                 return true;
             }
         }
@@ -255,11 +255,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 {
                     throw new Exception($"Error updating UserAuthN: {ex.Message}");
                 }
-                string userHash = GetUserHash(userAuthN.Username);
-                string level = "Info";
-                string category = "View";
-                string context = "Disable User";
-                _logger.CreateLog(userHash, level, category, context);
+                //string userHash = GetUserHash(userAuthN.Username);
+                //string level = "Info";
+                //string category = "View";
+                //string context = "Disable User";
+                //_logger.CreateLog(userHash, level, category, context);
                 return true;
             }
         }
@@ -285,11 +285,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 {
                     throw new Exception($"Error updating UserAuthN: {ex.Message}");
                 }
-                string userHash = GetUserHash(userAuthN.Username);
-                string level = "Info";
-                string category = "View";
-                string context = "Enable User";
-                _logger.CreateLog(userHash, level, category, context);
+                //string userHash = GetUserHash(userAuthN.Username);
+                //string level = "Info";
+                //string category = "View";
+                //string context = "Enable User";
+                //_logger.CreateLog(userHash, level, category, context);
                 return true;
             }
 

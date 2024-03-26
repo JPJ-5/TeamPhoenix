@@ -6,7 +6,7 @@ using TeamPhoenix.MusiCali.Security.Contracts;
 using _dao = TeamPhoenix.MusiCali.DataAccessLayer.Authentication;
 using _log = TeamPhoenix.MusiCali.Logging.Authentication;
 using _hash = TeamPhoenix.MusiCali.Security.Hasher;
-using _uc = TeamPhoenix.MusiCali.Services.UserCreation;
+using Microsoft.Extensions.Configuration;
 using _loggerAuthN = TeamPhoenix.MusiCali.Logging.Logger;
 using System.Security.Policy;
 using Microsoft.IdentityModel.Tokens;
@@ -16,6 +16,8 @@ using System.Text;
 using System.Configuration;
 using Newtonsoft.Json.Linq;
 using Google.Protobuf.WellKnownTypes;
+using System.Net.Mail;
+using System.Net;
 
 namespace TeamPhoenix.MusiCali.Security
 {
@@ -63,7 +65,6 @@ namespace TeamPhoenix.MusiCali.Security
             return true;
         }
 
-
         public Dictionary<string, string> Authenticate(string username, string otp)
         {
             AuthResult authR = _dao.findUsernameInfo(username);
@@ -101,12 +102,6 @@ namespace TeamPhoenix.MusiCali.Security
                         Dictionary<string, string> claims = userC.Claims;
                         appPrincipal = new Principal(userA.Username, claims);
 
-
-
-
-
-
-
                         // If authentication is successful, create a session token
                         idToken = GenerateIdToken(username);
 
@@ -134,11 +129,6 @@ namespace TeamPhoenix.MusiCali.Security
                     TimeSpan timePassed = DateTime.Now - userA.otpTimestamp;
                     if (timePassed.TotalHours > 2)
                     {
-                        //bool emailSent = newOTP(userA, userAcc);
-                        //if (!emailSent)
-                        //{
-                        //    throw new InvalidOperationException("otp expired. Unable to send otp to email, please try again.");
-                        //}
                         throw new Exception("OTP has expired, New OTP has been sent to email");
                     }
                     if (!IsValidOTP(otp))
@@ -154,21 +144,10 @@ namespace TeamPhoenix.MusiCali.Security
                         _dao.updateAuthentication(userA);
                         Dictionary<string, string> claims = userC.Claims;
                         appPrincipal = new Principal(userA.Username, claims);
-
-
-
-
-
-
-
                         // If authentication is successful, create a session token
                         idToken = GenerateIdToken(username);
-
                         // Generate Access token
                         accessToken = GenerateAccessToken(username, claims);
-
-
-
                         activeSessions.Add(idToken, appPrincipal);
                         appPrincipal.IDToken = idToken;
                         appPrincipal.AccessToken = accessToken;
@@ -177,7 +156,6 @@ namespace TeamPhoenix.MusiCali.Security
                         string category = "View";
                         string context = "User Log In";
                         _loggerAuthN.CreateLog(userAcc.UserHash, level, category, context);
-
                         tokens["IdToken"] = idToken;
                         tokens["AccessToken"] = accessToken;
                         return tokens;
@@ -273,18 +251,12 @@ namespace TeamPhoenix.MusiCali.Security
 
         private bool newOTP(UserAuthN userA, UserAccount userAcc)
         {
-            //TimeSpan timeSinceLastOTP = DateTime.Now - userA.otpTimestamp;
-            //if (timeSinceLastOTP.TotalMinutes <= 2)
-            //{
-            //    // An OTP was recently sent, so we do not generate a new one
-            //    return true; // Assuming the previous OTP email was sent successfully
-            //}
             // Generate OTP for email confirmation
             string otp = _hash.GenerateOTP();
             DateTime otpTime = DateTime.Now;
             userA.OTP = _hash.HashPassword(otp, userA.Salt);
             userA.otpTimestamp = otpTime;
-            bool emailSent = _uc.SendConfirmationEmail(userAcc.Email, otp);
+            bool emailSent = SendConfirmationEmail(userAcc.Email, otp);
             bool update = _dao.updateAuthentication(userA);
             if (emailSent && update)
             {
@@ -302,7 +274,7 @@ namespace TeamPhoenix.MusiCali.Security
             DateTime otpTime = DateTime.Now;
             userA.OTP = _hash.HashPassword(otp, userA.Salt);
             userA.otpTimestamp = otpTime;
-            bool emailSent = _uc.SendConfirmationEmail(userR.backupEmail, otp);
+            bool emailSent = SendConfirmationEmail(userR.backupEmail, otp);
             bool update = _dao.updateAuthentication(userA);
             if (emailSent && update)
             {
@@ -313,11 +285,6 @@ namespace TeamPhoenix.MusiCali.Security
                 throw new InvalidOperationException("Unable to send otp to email, and update database.");
             }
         }
-
-
-
-
-
 
         private string GenerateIdToken(string userName)
         {
@@ -367,7 +334,39 @@ namespace TeamPhoenix.MusiCali.Security
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public static bool SendConfirmationEmail(string email, string otp)
+        {
+            try
+            {
+                // Your email configuration
+                string smtpServer = "smtp.gmail.com";
+                int smtpPort = 587; // Use 587 for TLS
+                string smtpUsername = "themusicali.otp@gmail.com";
+                string smtpPassword = "wqpgjtdy xnsjcsvm";
 
+                // Create a new SmtpClient with the specified configuration
+                SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort);
+                smtpClient.EnableSsl = true; // Use SSL/TLS
+                smtpClient.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
 
+                // Create the email message
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.From = new MailAddress(smtpUsername);
+                mailMessage.To.Add(email);
+                mailMessage.Subject = "MusiCali Confirmation Email";
+                mailMessage.Body = $"Your OTP for MusiCali confirmation is: {otp}";
+
+                // Send the email
+                smtpClient.Send(mailMessage);
+
+                Console.WriteLine($"Confirmation email sent to {email}. Please check your email for the OTP.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error sending confirmation email: {ex.Message}");
+                return false;
+            }
+        }
     }
 }

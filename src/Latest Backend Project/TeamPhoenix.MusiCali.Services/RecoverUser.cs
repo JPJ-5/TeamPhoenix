@@ -6,8 +6,10 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using daoRecov = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
 using _hash = TeamPhoenix.MusiCali.Security.Hasher;
-using _uc = TeamPhoenix.MusiCali.Services.UserCreation;
+//using _uc = TeamPhoenix.MusiCali.Services.UserCreation;
+using _auth = TeamPhoenix.MusiCali.Security.Authentication;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using _logger = TeamPhoenix.MusiCali.Logging.Logger;
 using Microsoft.IdentityModel.Tokens;
 
 
@@ -39,7 +41,7 @@ public class RecoverUser
             userA.otpTimestamp = otpTime;
             userA.IsDisabled = false;
 
-            bool emailSent = _uc.SendConfirmationEmail(userAcc.Email, otp);
+            bool emailSent = _auth.SendConfirmationEmail(userAcc.Email, otp);
             if (!emailSent)
             {
                 throw new InvalidOperationException("Unable to send otp to email, please try again.");
@@ -60,6 +62,12 @@ public class RecoverUser
                 throw new Exception($"Unable to recover user, try again or contact admin");
             }
 
+            string userHash = userR.Username;
+            string level = "Info";
+            string category = "View";
+            string context = "Sent Recovery Email";
+            _logger.CreateLog(userHash, level, category, context);
+
             return true;
         }
         catch (Exception ex)
@@ -77,7 +85,11 @@ public class RecoverUser
         {
             throw new Exception($"Unable to recover user, try again or contact admin");
         }
-
+        string userHash = userR.Username;
+        string level = "Info";
+        string category = "View";
+        string context = "Updated User Recovery Email";
+        _logger.CreateLog(userHash, level, category, context);
         return true;
     }
 
@@ -110,6 +122,12 @@ public class RecoverUser
             {
                 throw new Exception($"Error updating UserAccount");
             }
+
+            string userHash = daoRecov.GetUserHash(username);
+            string level = "Info";
+            string category = "View";
+            string context = "Disable User";
+            _logger.CreateLog(userHash, level, category, context);
             return true;
 
         }
@@ -138,6 +156,11 @@ public class RecoverUser
             {
                 throw new Exception($"Error updating UserAccount");
             }
+            string userHash = daoRecov.GetUserHash(username);
+            string level = "Info";
+            string category = "View";
+            string context = "Enable User";
+            _logger.CreateLog(userHash, level, category, context);
             return true;
 
         }

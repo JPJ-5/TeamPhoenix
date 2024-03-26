@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
+//using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class UserCreation
@@ -132,11 +132,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
 
 
-            //_loggerCreation loggerCreation = new _loggerCreation();
-            string level = "Info";
-            string category = "View";
-            string context = "Creating new user";
-            _loggerCreation.CreateLog(userAccount.UserHash, level, category, context);
+            ////_loggerCreation loggerCreation = new _loggerCreation();
+            //string level = "Info";
+            //string category = "View";
+            //string context = "Creating new user";
+            //_loggerCreation.CreateLog(userAccount.UserHash, level, category, context);
 
             Console.WriteLine("Data inserted successfully!");
             return true;

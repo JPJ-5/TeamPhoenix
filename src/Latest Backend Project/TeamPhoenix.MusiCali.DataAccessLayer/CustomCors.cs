@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
 
 public class CustomCorsMiddleware
 {

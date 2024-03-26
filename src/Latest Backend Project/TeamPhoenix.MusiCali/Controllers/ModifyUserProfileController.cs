@@ -106,6 +106,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             {
                 var modifyUserService = new mU(); // Assuming ModifyUser is in the TeamPhoenix.MusiCali.DataAccessLayer namespace
                 var userInformation = modifyUserService.GetUserInformation(username);
+                Console.WriteLine(userInformation);
 
                 if (userInformation != null)
                 {
