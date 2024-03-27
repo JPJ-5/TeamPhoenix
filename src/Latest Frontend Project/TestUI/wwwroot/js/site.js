@@ -12,6 +12,8 @@
     document.getElementById('enter-tempoTool').addEventListener('click', function () {
         document.querySelector('.main').style.display = 'none'; // Hide main content
         document.getElementById('tempoToolView').style.display = 'block'; // Show tempo tool content
+        var username = document.getElementById("username").value;
+        logTempoUsage(username);
     });
 
     menuButton.addEventListener('click', function () {
@@ -940,5 +942,33 @@
             form.style.display = 'block';
         }
     });
+
+    function logTempoUsage(username) {
+        const requestData = {
+            UserName: username
+        };
+
+        fetch('http://localhost:8080/TempoTool/api/logTempoAPI', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to log tempo usage');
+                }
+            })
+            .then(data => {
+                console.log('Tempo usage logged successfully');
+            })
+            .catch(error => {
+                console.error('Error logging tempo usage:', error.message);
+            });
+    }
+
 
 });
