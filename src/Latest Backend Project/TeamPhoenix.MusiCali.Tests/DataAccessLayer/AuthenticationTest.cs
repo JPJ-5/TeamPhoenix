@@ -25,7 +25,7 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
             string backupEmail = "";
 
             // Act
-            uC.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
+            uC.RegisterNormalUser(email, dateOfBirth, username, backupEmail);//change this
             // Arrange
 
             // Act

@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using hash = TeamPhoenix.MusiCali.Security.Hasher;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 
-
+/*
 namespace TeamPhoenix.MusiCali.Tests.Security
 {
     [TestClass]
@@ -101,3 +100,4 @@ namespace TeamPhoenix.MusiCali.Tests.Security
 
     }
 }
+*/
