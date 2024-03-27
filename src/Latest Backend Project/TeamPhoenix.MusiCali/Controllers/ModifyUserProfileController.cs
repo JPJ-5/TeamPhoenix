@@ -79,7 +79,7 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             try
             {
-                DataAccessLayer.ModifyUser modifyUser = new DataAccessLayer.ModifyUser();
+                DataAccessLayer.ModifyUser modifyUser = new mU();
 
                 // Call ModifyProfile method to update the user profile using the model properties
                 bool success = modifyUser.ModifyProfile(model.Username, model.FirstName, model.LastName);

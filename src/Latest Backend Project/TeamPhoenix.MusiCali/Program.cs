@@ -1,14 +1,8 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 //using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.Services;
-using Microsoft.EntityFrameworkCore;
-using TeamPhoenix.MusiCali.Security;
 using Authentication = TeamPhoenix.MusiCali.Security.Authentication;
 using TeamPhoenix.MusiCali.Security.Contracts;
 
@@ -93,7 +87,7 @@ namespace AccCreationAPI
             // Use the custom CORS middleware
             app.UseCustomCors();
 
-            //app.UseMiddleware<AuthenticationMiddleware>();
+            app.UseMiddleware<AuthenticationMiddleware>();
 
             // Then register the AuthorizationMiddleware
             //app.UseMiddleware<AuthorizationMiddleware>();

@@ -14,7 +14,7 @@ namespace TeamPhoenix.MusiCali.Security
     {
         public bool IsUserAuthorized(Principal userPrincipal, string resource, string action)
         {
-            if (userPrincipal.Claims.ContainsKey("UserRole") && userPrincipal.Claims["UserRole"] == "Admin")
+            if (userPrincipal.Claims.ContainsKey("UserRole") && userPrincipal.Claims["UserRole"] == "AdminUser")
             {
                 // User is authorized
                 return true;
