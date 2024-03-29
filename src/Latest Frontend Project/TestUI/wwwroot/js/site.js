@@ -8,8 +8,8 @@
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
-    var baseUrl = 'https://themusicali.com:5000';
-    // var baseUrl = 'https://themusicali.com/api';
+    var baseUrl = 'http://localhost:8080';
+
 
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
@@ -56,7 +56,6 @@
 
         // AJAX request to backend
         fetch(checkUsernameApiUrl, {
-            // fetch ('https://themusicali.com/api/Login/api/CheckUsernameAPI', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -65,6 +64,7 @@
         })
             .then(response => response.json())
             .then(exists => {
+                console.log(exists); // Log the parsed JSON data
                 if (exists) {
                     // Email exists and OTP sent
                     alert("OTP sent to your email.");
@@ -79,7 +79,6 @@
                 console.error('Error:', error);
             });
     });
-
 
     // Add event listener for OTP form submission
     document.getElementById("submit-otp").addEventListener("click", function (event) {
@@ -146,7 +145,7 @@
                 return response.json();
             })
             .then(userProfile => {
-                displayUserProfile(userProfile); // Assuming you have a function to display the user profile
+                displayUserProfile(userProfile);
             })
             .catch(error => {
                 console.error('Failed to fetch user profile:', error);

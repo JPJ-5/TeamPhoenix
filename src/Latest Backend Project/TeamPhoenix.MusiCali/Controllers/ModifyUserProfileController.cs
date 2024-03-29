@@ -12,7 +12,7 @@ namespace TeamPhoenix.MusiCali.Controllers
     public class ModifyUserProfileController : ControllerBase
     {
         [HttpGet("{username}")]
-        public ActionResult<UserProfile> GetProfile(string username)
+        public IActionResult GetProfile(string username)
         {
             var modifyUserService = new modifyUserService(); // Create an instance of ModifyUser
             var userProfile = modifyUserService.GetProfile(username); // Now you can call the instance method
@@ -79,7 +79,7 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             try
             {
-                DataAccessLayer.ModifyUser modifyUser = new DataAccessLayer.ModifyUser();
+                DataAccessLayer.ModifyUser modifyUser = new mU();
 
                 // Call ModifyProfile method to update the user profile using the model properties
                 bool success = modifyUser.ModifyProfile(model.Username, model.FirstName, model.LastName);
@@ -100,12 +100,13 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
         [HttpGet("GetUserInformation/{username}")]
-        public ActionResult GetUserInformation(string username)
+        public IActionResult GetUserInformation(string username)
         {
             try
             {
                 var modifyUserService = new mU(); // Assuming ModifyUser is in the TeamPhoenix.MusiCali.DataAccessLayer namespace
                 var userInformation = modifyUserService.GetUserInformation(username);
+                Console.WriteLine(userInformation);
 
                 if (userInformation != null)
                 {
