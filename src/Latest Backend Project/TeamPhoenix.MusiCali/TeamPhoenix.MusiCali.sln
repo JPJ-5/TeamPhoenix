@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamPhoenix.MusiCali", "TeamPhoenix.MusiCali.csproj", "{F2926B5B-CAE9-41CC-AE92-9AAE375F32D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali", "TeamPhoenix.MusiCali.csproj", "{F2926B5B-CAE9-41CC-AE92-9AAE375F32D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Logging", "..\TeamPhoenix.MusiCali.Logging\TeamPhoenix.MusiCali.Logging.csproj", "{98DE83E0-15B4-4849-9E81-3C7520DD878D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Security", "..\TeamPhoenix.MusiCali.Security\TeamPhoenix.MusiCali.Security.csproj", "{967E40D2-1386-4A57-A571-0B60179446AF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Services", "..\TeamPhoenix.MusiCali.Services\TeamPhoenix.MusiCali.Services.csproj", "{F8CA366B-56D9-403C-8677-2EB4ED81B08E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix - Backup.MusiCali.DataAccessLayer", "..\TeamPhoenix.MusiCali.DataAccessLayer\TeamPhoenix - Backup.MusiCali.DataAccessLayer.csproj", "{890DF4F4-29DF-4A1D-AEE9-060828519FA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{F2926B5B-CAE9-41CC-AE92-9AAE375F32D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2926B5B-CAE9-41CC-AE92-9AAE375F32D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2926B5B-CAE9-41CC-AE92-9AAE375F32D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98DE83E0-15B4-4849-9E81-3C7520DD878D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98DE83E0-15B4-4849-9E81-3C7520DD878D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98DE83E0-15B4-4849-9E81-3C7520DD878D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98DE83E0-15B4-4849-9E81-3C7520DD878D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{967E40D2-1386-4A57-A571-0B60179446AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{967E40D2-1386-4A57-A571-0B60179446AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{967E40D2-1386-4A57-A571-0B60179446AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{967E40D2-1386-4A57-A571-0B60179446AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8CA366B-56D9-403C-8677-2EB4ED81B08E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8CA366B-56D9-403C-8677-2EB4ED81B08E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8CA366B-56D9-403C-8677-2EB4ED81B08E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8CA366B-56D9-403C-8677-2EB4ED81B08E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{890DF4F4-29DF-4A1D-AEE9-060828519FA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890DF4F4-29DF-4A1D-AEE9-060828519FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890DF4F4-29DF-4A1D-AEE9-060828519FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890DF4F4-29DF-4A1D-AEE9-060828519FA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -53,9 +53,10 @@ namespace TeamPhoenix.MusiCali.Controllers
 
 
 
-        [HttpDelete("{username}")]
-        public IActionResult DeleteUser(string username)
+        [HttpDelete("DeleteProfile")]
+        public IActionResult DeleteUser([FromHeader]string username)
         {
+            Console.WriteLine("IN DELETE");
             // Call the DeleteProfile method from UserDeletion class
             if (DataAccessUserDeletion.DeleteProfile(username))
             {
@@ -79,7 +80,7 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             try
             {
-                DataAccessLayer.ModifyUser modifyUser = new DataAccessLayer.ModifyUser();
+                DataAccessLayer.ModifyUser modifyUser = new mU();
 
                 // Call ModifyProfile method to update the user profile using the model properties
                 bool success = modifyUser.ModifyProfile(model.Username, model.FirstName, model.LastName);
@@ -99,13 +100,15 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
-        [HttpGet("GetUserInformation/{username}")]
-        public IActionResult GetUserInformation(string username)
+        [HttpGet("GetUserInformation")]
+        public IActionResult GetUserInformation([FromHeader]string username)
         {
+            Console.WriteLine("HEREEEEE");
             try
             {
                 var modifyUserService = new mU(); // Assuming ModifyUser is in the TeamPhoenix.MusiCali.DataAccessLayer namespace
                 var userInformation = modifyUserService.GetUserInformation(username);
+                Console.WriteLine(userInformation);
 
                 if (userInformation != null)
                 {

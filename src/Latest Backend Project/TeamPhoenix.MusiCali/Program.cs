@@ -1,13 +1,10 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 //using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.Services;
-using Microsoft.EntityFrameworkCore;
+using Authentication = TeamPhoenix.MusiCali.Security.Authentication;
+using TeamPhoenix.MusiCali.Security.Contracts;
 
 namespace AccCreationAPI
 {
@@ -32,6 +29,7 @@ namespace AccCreationAPI
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<LogoutRepository>();
             builder.Services.AddScoped<LogoutService>();
+            builder.Services.AddScoped<IAuthentication, Authentication>();
 
             builder.Services.AddScoped<MariaDB>();          // Register MariaDB Class with Dependency Injection 
             //jwt token
@@ -48,13 +46,6 @@ namespace AccCreationAPI
                 ValidAudience = tkConf["Audience"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tkConf["Key"]!))
             };
-
-            //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(o =>
-            //    {
-            //        o.TokenValidationParameters = tokenValidationParameters;
-            //    });
-
 
             // Configuring CORS using settings from appsettings.json
             var corsPolicy = builder.Configuration.GetSection("CorsPolicy");
@@ -95,11 +86,11 @@ namespace AccCreationAPI
 
             // Use the custom CORS middleware
             app.UseCustomCors();
-            //app.UseCors("CustomCorsPolicy");
 
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseMiddleware<AuthenticationMiddleware>();
 
+            // Then register the AuthorizationMiddleware
+            app.UseMiddleware<AuthorizationMiddleware>();
 
             app.MapControllers();
 

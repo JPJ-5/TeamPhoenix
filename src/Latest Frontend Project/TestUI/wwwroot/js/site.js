@@ -8,6 +8,9 @@
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
+    var baseUrl = 'http://localhost:8080';
+    var idToken = sessionStorage.getItem("idToken");
+    var accessToken = sessionStorage.getItem("accessToken");
 
 
     menuButton.addEventListener('click', function () {
@@ -50,8 +53,11 @@
         sessionStorage.clear()
         //var email = document.getElementById("email").value;
         var username = document.getElementById("username").value;
+
+        var checkUsernameApiUrl = baseUrl + '/Login/api/CheckUsernameAPI?';
+
         // AJAX request to backend
-        fetch('http://localhost:8080/Login/api/CheckUsernameAPI?', {
+        fetch(checkUsernameApiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -60,6 +66,7 @@
         })
             .then(response => response.json())
             .then(exists => {
+                console.log(exists); // Log the parsed JSON data
                 if (exists) {
                     // Email exists and OTP sent
                     alert("OTP sent to your email.");
@@ -75,7 +82,6 @@
             });
     });
 
-
     // Add event listener for OTP form submission
     document.getElementById("submit-otp").addEventListener("click", function (event) {
         event.preventDefault(); // Prevent the default form submission
@@ -84,8 +90,10 @@
         sessionStorage.setItem('username', username);
         var otp = document.getElementById("enter-otp").value;
 
+        var getJwtApiUrl = baseUrl + '/Login/api/GetJwtAPI';
+
         // AJAX request to the backend
-        fetch('http://localhost:8080/Login/api/GetJwtAPI', {
+        fetch(getJwtApiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -127,31 +135,51 @@
             });
     });
 
+    // Need To Ask Parth
     function fetchUserProfile(username) {
         var username = document.getElementById('username').value;
-        fetch(`http://localhost:8080/ModifyUserProfile/GetUserInformation/${username}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+        var userProfileUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
+        var idToken = sessionStorage.getItem("idToken");
+        var accessToken = sessionStorage.getItem("accessToken");
+
+        fetch(userProfileUrl, {
+            method: 'GET',
+            headers: {
+                'userName': username,
+                'Authentication': idToken,
+                'Authorization': accessToken
             }
-            return response.json();
         })
-        .then(userProfile => {
-            displayUserProfile(userProfile); // Assuming you have a function to display the user profile
-        })
-        .catch(error => {
-            console.error('Failed to fetch user profile:', error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(userProfile => {
+                displayUserProfile(userProfile);
+            })
+            .catch(error => {
+                console.error('Failed to fetch user profile:', error);
+            });
     }
-    
 
     // After successful login or when displaying the user profile, call this function to fetch and set the user role
     function fetchAndSetUserRole(username) {
         var username = document.getElementById('username').value;
         // Assuming the base URL and the necessary route to your controller
-        var url = `http://localhost:8080/ModifyUserProfile/GetUserInformation/${username}`;
+        var getUserRoleUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
+        var idToken = sessionStorage.getItem("idToken");
+        var accessToken = sessionStorage.getItem("accessToken");
 
-        fetch(url)
+        fetch(getUserRoleUrl, {
+            method: 'GET',
+            headers: {
+                'userName': username,
+                'Authentication': idToken,
+                'Authorization': accessToken
+            }
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch user role');
@@ -198,6 +226,7 @@
     document.getElementById('submit-recovery-username').addEventListener('click', function (event) {
         event.preventDefault();
         var userName = document.getElementById('User Name').value;
+        var recoverUserUrl = `${baseUrl}/api/RecoverUser`;
 
         // Prepare the headers
         var headers = new Headers();
@@ -210,7 +239,7 @@
         };
 
         // Make the fetch call to the API
-        fetch("http://localhost:8080/api/RecoverUser", requestOptions)
+        fetch(recoverUserUrl, requestOptions)
             .then(response => response.json()) // Parse JSON response
             .then(result => {
                 console.log(result);
@@ -253,27 +282,30 @@
         var username = sessionStorage.getItem('username');
         var token = sessionStorage.getItem('idToken');
         if (username && token) {
-            fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
+            var deleteUserUrl = `${baseUrl}/ModifyUserProfile/DeleteProfile`;
+            fetch(deleteUserUrl, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': 'Bearer ' + token, // Include the token in the request for authorization
-                },
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.text();
-                } else {
-                    throw new Error('Failed to delete user.');
+                    'userName': username,
+                    'Authentication': idToken,
+                    'Authorization': accessToken
                 }
             })
-            .then(data => {
-                alert('User deleted successfully.');
-                logoutUser(); // Call a function to handle the logout process
-            })
-            .catch(error => {
-                console.error('Error deleting user:', error);
-                alert(error.message);
-            });
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Failed to delete user.');
+                    }
+                })
+                .then(data => {
+                    alert('User deleted successfully.');
+                    logoutUser(); // Call a function to handle the logout process
+                })
+                .catch(error => {
+                    console.error('Error deleting user:', error);
+                    alert(error.message);
+                });
         } else {
             alert('Error: User information not found.');
         }
@@ -300,11 +332,15 @@
             LastName: lastName,
         };
 
+        var modifyProfileUrl = `${baseUrl}/ModifyUserProfile/ModifyProfile`;
 
-        fetch('http://localhost:8080/ModifyUserProfile/ModifyProfile', {
+
+        fetch(modifyProfileUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Authentication': idToken,
+                'Authorization': accessToken,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(userProfileUpdate),
         })
@@ -350,74 +386,38 @@
     }
 
     // Inside prepareAdminUI
-    //document.getElementById('admin-delete-user').addEventListener('click', function () {
-    //    var username = prompt("Enter the username of the user to delete:");
-    //    var userName = document.getElementById('username').value;
-
-    //    if (username) {
-    //        // Check if the username to delete is the admin's own username
-    //        if (username === userName) {
-    //            alert('Cannot delete your own admin account.');
-    //            return; // Exit the function to prevent the deletion process
-    //        }
-
-    //        fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
-    //            method: 'DELETE'
-    //        })
-    //            .then(response => {
-    //                if (response.ok) {
-    //                    return response.text();
-    //                } else {
-    //                    throw new Error('Failed to delete user.');
-    //                }
-    //            })
-    //            .then(data => {
-    //                alert('User deleted successfully.');
-    //                // Further actions upon successful deletion
-    //            })
-    //            .catch(error => {
-    //                console.error('Error deleting user:', error);
-    //            });
-    //    }
-    //});
-
     document.getElementById('admin-delete-user').addEventListener('click', function () {
-    var usernameToDelete = prompt("Enter the username of the user to delete:");
-    var loggedInUsername = document.getElementById('username').value; // Assuming this is the logged-in admin's username
+        var username = prompt("Enter the username of the user to delete:");
+        var userName = document.getElementById('username').value;
 
-    if (usernameToDelete) {
-        // Check if the admin is trying to delete their own account
-        if (usernameToDelete === loggedInUsername) {
-            alert('Cannot delete your own admin account.');
-            return; // Exit the function to prevent deletion
+        if (username) {
+            // Check if the username to delete is the admin's own username
+            if (username === userName) {
+                alert('Cannot delete your own admin account.');
+                return; // Exit the function to prevent the deletion process
+            }
+
+            var deleteUserUrl = `${baseUrl}/ModifyUserProfile/${username}`;
+
+            fetch(deleteUserUrl, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Failed to delete user.');
+                    }
+                })
+                .then(data => {
+                    alert('User deleted successfully.');
+                    // Further actions upon successful deletion
+                })
+                .catch(error => {
+                    console.error('Error deleting user:', error);
+                });
         }
-        var baseUrl = "http://localhost:8080";
-        var deleteUserUrl = ${baseUrl}/ModifyUserProfile/${usernameToDelete};
-        var accessToken = sessionStorage.getItem('accessToken'); // Retrieve the access token from sessionStorage
-
-        fetch(deleteUserUrl, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': 'Bearer ' + accessToken // Include the access token in the Authorization header
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.text();
-            } else {
-                throw new Error('Failed to delete user.');
-            }
-        })
-        .then(data => {
-            alert('User deleted successfully.');
-            // Further actions upon successful deletion
-        })
-        .catch(error => {
-            console.error('Error deleting user:', error);
-        });
-    }
-});
-
+    });
 
     //Inside prepareAdminUI
     document.getElementById('admin-user-creation-button').addEventListener('click', function () {
@@ -439,9 +439,11 @@
             const uname = form.querySelector('#uname').value;
             const bmail = form.querySelector('#bmail').value;
 
+            var adminUseCreate = `${baseUrl}/AccCreationAPI/api/AdminAccCreationAPI`;
+
             const data = { email, dob, uname, bmail };
 
-            fetch('http://localhost:8080/AccCreationAPI/api/AdminAccCreationAPI', {
+            fetch(adminUseCreate, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -478,7 +480,7 @@
     document.getElementById('admin-get-user').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to fetch:");
         if (username) {
-            fetch(`http://localhost:8080/ModifyUserProfile/${username}`, {
+            fetch(`${baseUrl}/ModifyUserProfile/${username}`, {
                 method: 'GET'
             })
                 .then(response => {
@@ -533,7 +535,7 @@
                 }
             };
 
-            fetch('http://localhost:8080/ModifyUserProfile/updateClaims', {
+            fetch(`${baseUrl}/ModifyUserProfile/updateClaims`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -573,10 +575,10 @@
 
         document.getElementById('user-profile').style.display = 'block';
 
-        document.getElementById('modify-profile').addEventListener('click', function() {
+        document.getElementById('modify-profile').addEventListener('click', function () {
             // Ensure the modify profile section is shown when the button is clicked
             document.getElementById('modify-profile-section').style.display = 'block';
-    
+
             // Assuming fetchAndSetUserRole should also be called here
             var username = sessionStorage.getItem('username'); // Make sure this is correctly retrieving the username
             if (username) {
@@ -585,7 +587,7 @@
                 console.error('Username not found');
                 alert('Error: Could not fetch user role. Please log in again.');
             }
-        });              
+        });
     }
 
     document.getElementById('logoutButton').addEventListener('click', function () {
@@ -594,7 +596,7 @@
         sessionStorage.clear()
         var userName = document.getElementById("username").value;
 
-        fetch('http://localhost:8080/Logout/api/logout', {
+        fetch(`${baseUrl}/Logout/api/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -662,7 +664,7 @@
         params.append('bmail', bmail);
 
         // Construct the URL with the encoded parameters
-        var url = 'http://localhost:8080/AccCreationAPI/api/NormalAccCreationAPI?' + params.toString();
+        var url = `${baseUrl}/AccCreationAPI/api/NormalAccCreationAPI?${params.toString()}`;
 
         // Log the URL
         console.log('URL:', url);
@@ -684,6 +686,4 @@
                 // Handle error (e.g., show error message)
             });
     });
-
-
 });

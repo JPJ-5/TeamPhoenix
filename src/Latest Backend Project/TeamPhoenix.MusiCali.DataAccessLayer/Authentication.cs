@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -138,16 +139,17 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
         private static Dictionary<string, string> ParseClaimsFromJson(string claimsJson)
         {
-            // Implement logic to deserialize JSON or parse the string to create a Dictionary<string, string>
-            // You may use a JSON library like Newtonsoft.Json for deserialization
-            // For simplicity, I'm providing a basic example assuming a simple key-value pair format
-            // Adjust this based on your actual data structure
-
-            Dictionary<string, string> claims = new Dictionary<string, string>();
-
-            // Parse the claimsJson string and populate the claims dictionary
-
-            return claims;
+            try
+            {
+                // Deserialize the JSON string into a Dictionary
+                var claims = JsonConvert.DeserializeObject<Dictionary<string, string>>(claimsJson);
+                return claims ?? new Dictionary<string, string>(); // Return an empty dictionary if null
+            }
+            catch (JsonException ex)
+            {
+                // Handle or log the exception as needed
+                throw new Exception("Error parsing claims JSON: " + ex.Message);
+            }
         }
     }
 }
