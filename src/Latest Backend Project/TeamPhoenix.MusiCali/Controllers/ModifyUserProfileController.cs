@@ -4,6 +4,7 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using modifyUserService = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
 using DataAccessUserDeletion = TeamPhoenix.MusiCali.DataAccessLayer.UserDeletion; // Alias for clarity
 using mU = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
+using wowC = TeamPhoenix.MusiCali.Security.Authentication;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
@@ -11,8 +12,8 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class ModifyUserProfileController : ControllerBase
     {
-        [HttpGet("{username}")]
-        public ActionResult<UserProfile> GetProfile(string username)
+        [HttpGet("AdminLookUp")]
+        public IActionResult GetProfile([FromHeader]string username)
         {
             var modifyUserService = new modifyUserService(); // Create an instance of ModifyUser
             var userProfile = modifyUserService.GetProfile(username); // Now you can call the instance method
@@ -53,9 +54,10 @@ namespace TeamPhoenix.MusiCali.Controllers
 
 
 
-        [HttpDelete("{username}")]
-        public IActionResult DeleteUser(string username)
+        [HttpDelete("DeleteProfile")]
+        public IActionResult DeleteUser([FromHeader]string username)
         {
+            Console.WriteLine("IN DELETE");
             // Call the DeleteProfile method from UserDeletion class
             if (DataAccessUserDeletion.DeleteProfile(username))
             {
@@ -79,7 +81,7 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             try
             {
-                DataAccessLayer.ModifyUser modifyUser = new DataAccessLayer.ModifyUser();
+                DataAccessLayer.ModifyUser modifyUser = new mU();
 
                 // Call ModifyProfile method to update the user profile using the model properties
                 bool success = modifyUser.ModifyProfile(model.Username, model.FirstName, model.LastName);
@@ -99,22 +101,32 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
-        [HttpGet("GetUserInformation/{username}")]
-        public ActionResult GetUserInformation(string username)
+        [HttpGet("GetUserInformation")]
+        public IActionResult GetUserInformation([FromHeader]string username)
         {
+            //Console.WriteLine("HEREEEEE");
             try
             {
-                var modifyUserService = new mU(); // Assuming ModifyUser is in the TeamPhoenix.MusiCali.DataAccessLayer namespace
-                var userInformation = modifyUserService.GetUserInformation(username);
-
-                if (userInformation != null)
+                if(wowC.CheckIdExisting(username))
                 {
-                    return Ok(userInformation);
+                    var modifyUserService = new mU(); // Assuming ModifyUser is in the TeamPhoenix.MusiCali.DataAccessLayer namespace
+                    var userInformation = modifyUserService.GetUserInformation(username);
+                    //Console.WriteLine(userInformation);
+
+                    if (userInformation != null)
+                    {
+                        return Ok(userInformation);
+                    }
+                    else
+                    {
+                        return NotFound("User information not found.");
+                    }
                 }
                 else
                 {
-                    return NotFound("User information not found.");
+                    return BadRequest("Get A Life!!!");
                 }
+                
             }
             catch (KeyNotFoundException knf)
             {

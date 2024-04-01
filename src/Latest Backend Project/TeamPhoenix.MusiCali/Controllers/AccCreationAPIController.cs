@@ -14,37 +14,28 @@ namespace AccCreationAPI.Controllers
     {
 
         [HttpPost("api/NormalAccCreationAPI")]
-        public JsonResult RegisterNormalUser(string email, DateTime dob, string uname, string bmail)
+        public IActionResult RegisterNormalUser([FromBody] AccCreationModel registration)
         {
-            if (uC.RegisterNormalUser(email, dob, uname, bmail))
+            if (uC.RegisterNormalUser(registration.Email, registration.Dob, registration.Uname, registration.Bmail))
             {
-                return new JsonResult(true);
+                return Ok(true); // Changed from JsonResult to IActionResult with Ok result
             }
-            return new JsonResult(false);
-
-        }
-
-        public class AdminUserModel
-        {
-            public string Email { get; set; } = string.Empty;
-            public DateTime Dob { get; set; }
-            public string Uname { get; set; } = string.Empty;   
-            public string Bmail { get; set; } = string.Empty;
+            return BadRequest(false); // Changed from JsonResult to IActionResult with Ok result
         }
 
         [HttpPost("api/AdminAccCreationAPI")]
-        public JsonResult RegisterAdminUser([FromBody] AdminUserModel model)
+        public IActionResult RegisterAdminUser([FromBody] AccCreationModel model)
         {
             if (model == null)
             {
-                return new JsonResult("Invalid data") { StatusCode = 400 }; // Bad Request
+                return BadRequest("Invalid data"); // Changed from JsonResult to IActionResult with BadRequest result
             }
 
             if (uC.RegisterAdminUser(model.Email, model.Dob, model.Uname, model.Bmail))
             {
-                return new JsonResult(true);
+                return Ok(true); // Changed from JsonResult to IActionResult with Ok result
             }
-            return new JsonResult(false);
+            return BadRequest(false); // Changed from JsonResult to IActionResult with Ok result
         }
 
     }
