@@ -1,4 +1,0 @@
-/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Models/obj/Debug/net6.0/Phoenix.MusiCali.Models.GeneratedMSBuildEditorConfig.editorconfig
-/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Models/obj/Debug/net6.0/Phoenix.MusiCali.Models.AssemblyInfoInputs.cache
-/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Models/obj/Debug/net6.0/Phoenix.MusiCali.Models.AssemblyInfo.cs
-/Users/danielmuhumuza/TeamPhoenix/src/Phoenix.MusiCali.Models/obj/Debug/net6.0/Phoenix.MusiCali.Models.csproj.CoreCompileInputs.cache
