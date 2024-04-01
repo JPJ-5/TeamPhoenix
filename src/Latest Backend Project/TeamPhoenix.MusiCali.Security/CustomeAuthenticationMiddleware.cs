@@ -28,6 +28,7 @@ public class AuthenticationMiddleware
     public async Task Invoke(HttpContext context)
     {
         var idToken = context.Request.Headers["Authentication"].FirstOrDefault()?.Split(" ").Last();
+        //Console.WriteLine(idToken);
 
         if (idToken == null)
         {
@@ -37,6 +38,7 @@ public class AuthenticationMiddleware
             var uri = new Uri(fullUrl);
             var path = uri.AbsolutePath;
             Console.WriteLine(path);
+            //Console.WriteLine(path);
 
             // Check if the path matches your criteria
             //if (path.StartsWith("/Login/api/CheckUsernameAPI") || path.StartsWith("/Login/api/GetJwtAPI") || path.StartsWith("/AccCreationAPI/api/NormalAccCreationAPI"))
@@ -48,6 +50,7 @@ public class AuthenticationMiddleware
             }
             else
             {
+
                 // Call the next middleware in the pipeline
                 context.Response.StatusCode = 401; // Unauthenticated
                 return;
@@ -60,6 +63,7 @@ public class AuthenticationMiddleware
             return;
         }
         else{
+            Console.WriteLine("Here");
             context.Response.StatusCode = 401; // Unauthenticated
             return;
         }
@@ -70,7 +74,7 @@ public class AuthenticationMiddleware
     {
         try
         {
-            Console.WriteLine(idToken);
+            //Console.WriteLine(idToken);
             var parts = idToken.Split('.');
             if (parts.Length != 3)
                 return false;
@@ -78,14 +82,13 @@ public class AuthenticationMiddleware
             var header = parts[0];
             var payload = parts[1];
             var signature = parts[2];
-            Console.WriteLine(signature);
             
 
 
 
 
             var computedSignature = ComputeHmacSha256(header + "." + payload, "simple-key");
-            Console.WriteLine(computedSignature);
+            //Console.WriteLine(computedSignature);
 
             var payloadJson = Encoding.UTF8.GetString(Base64UrlDecode(payload));
             //Console.WriteLine(payloadJson);
@@ -93,9 +96,10 @@ public class AuthenticationMiddleware
             var jObject = JObject.Parse(payloadJson);
 
             string audience = jObject["aud"]!.ToString();
-            Console.WriteLine(audience);
+            //Console.WriteLine(audience);
 
-            if(signature.Equals(computedSignature, StringComparison.OrdinalIgnoreCase) && _configuration.GetSection("Jwt:Audience").Value!.Equals(audience))
+            if(signature.Equals(computedSignature, StringComparison.OrdinalIgnoreCase) 
+                && _configuration.GetSection("Jwt:Audience").Value!.Equals(audience))
             {
                 return true;
             }

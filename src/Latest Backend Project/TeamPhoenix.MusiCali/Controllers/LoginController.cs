@@ -36,7 +36,7 @@ namespace AccCreationAPI.Controllers
                 Dictionary<string, string> tokens = new Dictionary<string, string>();
                 tokens["IdToken"] = idToken;
                 tokens["AccessToken"] = accessToken;
-                Console.WriteLine(tokens);
+                //Console.WriteLine(tokens);
                 return Ok(tokens);
             }
 

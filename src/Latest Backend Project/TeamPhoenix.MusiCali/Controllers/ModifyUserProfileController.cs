@@ -4,6 +4,7 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using modifyUserService = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
 using DataAccessUserDeletion = TeamPhoenix.MusiCali.DataAccessLayer.UserDeletion; // Alias for clarity
 using mU = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
+using wowC = TeamPhoenix.MusiCali.Security.Authentication;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
@@ -11,8 +12,8 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class ModifyUserProfileController : ControllerBase
     {
-        [HttpGet("{username}")]
-        public IActionResult GetProfile(string username)
+        [HttpGet("AdminLookUp")]
+        public IActionResult GetProfile([FromHeader]string username)
         {
             var modifyUserService = new modifyUserService(); // Create an instance of ModifyUser
             var userProfile = modifyUserService.GetProfile(username); // Now you can call the instance method
@@ -103,21 +104,29 @@ namespace TeamPhoenix.MusiCali.Controllers
         [HttpGet("GetUserInformation")]
         public IActionResult GetUserInformation([FromHeader]string username)
         {
-            Console.WriteLine("HEREEEEE");
+            //Console.WriteLine("HEREEEEE");
             try
             {
-                var modifyUserService = new mU(); // Assuming ModifyUser is in the TeamPhoenix.MusiCali.DataAccessLayer namespace
-                var userInformation = modifyUserService.GetUserInformation(username);
-                Console.WriteLine(userInformation);
-
-                if (userInformation != null)
+                if(wowC.CheckIdExisting(username))
                 {
-                    return Ok(userInformation);
+                    var modifyUserService = new mU(); // Assuming ModifyUser is in the TeamPhoenix.MusiCali.DataAccessLayer namespace
+                    var userInformation = modifyUserService.GetUserInformation(username);
+                    //Console.WriteLine(userInformation);
+
+                    if (userInformation != null)
+                    {
+                        return Ok(userInformation);
+                    }
+                    else
+                    {
+                        return NotFound("User information not found.");
+                    }
                 }
                 else
                 {
-                    return NotFound("User information not found.");
+                    return BadRequest("Get A Life!!!");
                 }
+                
             }
             catch (KeyNotFoundException knf)
             {

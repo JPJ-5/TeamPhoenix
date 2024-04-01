@@ -27,7 +27,7 @@ public class RecoverUser
             {
                 throw new Exception($"Unable to find user, try again or contact admin");
             }
-
+            Console.WriteLine(username);
             UserRecovery userR = daoRecov.GetUserRecovery(username);
             userR.Success = true;
             userAcc.Email = userR.backupEmail;

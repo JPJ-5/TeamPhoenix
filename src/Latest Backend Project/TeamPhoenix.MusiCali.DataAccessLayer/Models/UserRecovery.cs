@@ -9,8 +9,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
 {
     public class UserRecovery
     {
-        public string Username { get; set; }
-        public string backupEmail { get; set; }
+        public UserRecovery() { }
+        public string Username { get; set; } = string.Empty;
+        public string backupEmail { get; set; } = string.Empty;
         public bool Success { get; set; }
 
         public UserRecovery(string username, string email)

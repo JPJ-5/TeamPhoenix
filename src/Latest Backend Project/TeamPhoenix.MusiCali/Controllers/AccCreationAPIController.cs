@@ -14,25 +14,17 @@ namespace AccCreationAPI.Controllers
     {
 
         [HttpPost("api/NormalAccCreationAPI")]
-        public IActionResult RegisterNormalUser(string email, DateTime dob, string uname, string bmail)
+        public IActionResult RegisterNormalUser([FromBody] AccCreationModel registration)
         {
-            if (uC.RegisterNormalUser(email, dob, uname, bmail))
+            if (uC.RegisterNormalUser(registration.Email, registration.Dob, registration.Uname, registration.Bmail))
             {
                 return Ok(true); // Changed from JsonResult to IActionResult with Ok result
             }
-            return Ok(false); // Changed from JsonResult to IActionResult with Ok result
-        }
-
-        public class AdminUserModel
-        {
-            public string Email { get; set; } = string.Empty;
-            public DateTime Dob { get; set; }
-            public string Uname { get; set; } = string.Empty;   
-            public string Bmail { get; set; } = string.Empty;
+            return BadRequest(false); // Changed from JsonResult to IActionResult with Ok result
         }
 
         [HttpPost("api/AdminAccCreationAPI")]
-        public IActionResult RegisterAdminUser([FromBody] AdminUserModel model)
+        public IActionResult RegisterAdminUser([FromBody] AccCreationModel model)
         {
             if (model == null)
             {
@@ -43,7 +35,7 @@ namespace AccCreationAPI.Controllers
             {
                 return Ok(true); // Changed from JsonResult to IActionResult with Ok result
             }
-            return Ok(false); // Changed from JsonResult to IActionResult with Ok result
+            return BadRequest(false); // Changed from JsonResult to IActionResult with Ok result
         }
 
     }

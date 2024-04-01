@@ -29,7 +29,7 @@ public class AuthorizationMiddleware
             // Parse the URL to get the path
             var uri = new Uri(fullUrl);
             var path = uri.AbsolutePath;
-            Console.WriteLine(path);
+            //Console.WriteLine(path);
 
             // Check if the path matches your criteria
             //if (path.StartsWith("/Login/api/CheckUsernameAPI") || path.StartsWith("/Login/api/GetJwtAPI") || path.StartsWith("/AccCreationAPI/api/NormalAccCreationAPI"))
@@ -75,13 +75,13 @@ public class AuthorizationMiddleware
 
 
         var payloadJson = Encoding.UTF8.GetString(Base64UrlDecode(payload));
-        Console.WriteLine(payloadJson);
+        //Console.WriteLine(payloadJson);
 
         var jObject = JObject.Parse(payloadJson);
 
         string audience = jObject["aud"]!.ToString();
         string scope = jObject["scope"]!.ToString();
-        Console.WriteLine(scope);
+        //Console.WriteLine(scope);
 
 
         if (signature.Equals(computedSignature, StringComparison.OrdinalIgnoreCase)

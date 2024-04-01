@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 //using _logger = TeamPhoenix.MusiCali.Logging.Logger;
 using System.Collections;
+using Google.Protobuf.WellKnownTypes;
 
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
@@ -18,29 +19,38 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
         public static UserRecovery GetUserRecovery(string username)
         {
-#pragma warning disable CS8603, CS8604
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
 
-                string selectUserProfileSql = "SELECT * FROM UserRecovery WHERE Username = @Username";
-                using (MySqlCommand cmd = new MySqlCommand(selectUserProfileSql, connection))
+            try
+            {   
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@Username", username);
+                    connection.Open();
 
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    string selectUserAccountSql = "SELECT * FROM UserRecovery WHERE Username = @Username";
+                    using (MySqlCommand cmd = new MySqlCommand(selectUserAccountSql, connection))
                     {
-                        if (reader.Read())
+                        cmd.Parameters.AddWithValue("@Username", username);
+                        
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            return new UserRecovery(
-                                reader["Username"].ToString(),
-                                reader["backupEmail"].ToString());
+                            Console.WriteLine("0");
+                            if (reader.Read())
+                            {
+                                return new UserRecovery(
+                                    reader["Username"].ToString()!,
+                                    reader["backupEmail"].ToString()!);
+                            }
                         }
+                        
                     }
+                    return new UserRecovery();
                 }
-                return null;
             }
-#pragma warning restore CS8603, CS8604
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new UserRecovery();
+            }
         }
 
         public static string GetOTP(string username)

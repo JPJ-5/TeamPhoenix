@@ -19,16 +19,18 @@ namespace TeamPhoenix.MusiCali.Services
 
         private static bool RegisterUser(string email, DateTime dateOfBirth, string username, string backupEmail, string role)
         {
-
+            Console.WriteLine(backupEmail);
             // Validate email format
             if (!IsValidEmail(email))
             {
+                Console.WriteLine("Here 1");
                 return false;
                 throw new ArgumentException("Invalid email provided. Retry again or contact system administrator");
             }
 
             if (!IsValidEmail(backupEmail))
             {
+                Console.WriteLine("Here 2");
                 return false;
                 throw new ArgumentException("Invalid email provided. Retry again or contact system administrator");
             }
@@ -110,6 +112,7 @@ namespace TeamPhoenix.MusiCali.Services
             }
             catch (Exception ex)
             {
+                Console.WriteLine("Here 3");
                 Console.WriteLine($"Error updating UserProfile: {ex.Message}");
                 return false;
             }

@@ -9,8 +9,7 @@
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
     var baseUrl = 'http://localhost:8080';
-    var idToken = sessionStorage.getItem("idToken");
-    var accessToken = sessionStorage.getItem("accessToken");
+    
 
 
     menuButton.addEventListener('click', function () {
@@ -121,6 +120,7 @@
                         // Handle plain text response
                         sessionStorage.setItem("jwt", token);
                         if (sessionStorage.getItem('idToken', token) != "Login Failed") {
+                            
                             fetchUserProfile(username)
                         }
                         else {
@@ -135,13 +135,16 @@
             });
     });
 
+    var idToken = sessionStorage.getItem("idToken");
+    var accessToken = sessionStorage.getItem("accessToken");
+
     // Need To Ask Parth
     function fetchUserProfile(username) {
         var username = document.getElementById('username').value;
         var userProfileUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
-        var idToken = sessionStorage.getItem("idToken");
-        var accessToken = sessionStorage.getItem("accessToken");
 
+
+        
         fetch(userProfileUrl, {
             method: 'GET',
             headers: {
@@ -150,18 +153,18 @@
                 'Authorization': accessToken
             }
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(userProfile => {
-                displayUserProfile(userProfile);
-            })
-            .catch(error => {
-                console.error('Failed to fetch user profile:', error);
-            });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(userProfile => {
+            displayUserProfile(userProfile);
+        })
+        .catch(error => {
+            console.error('Failed to fetch user profile:', error);
+        });
     }
 
     // After successful login or when displaying the user profile, call this function to fetch and set the user role
@@ -171,7 +174,8 @@
         var getUserRoleUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
         var idToken = sessionStorage.getItem("idToken");
         var accessToken = sessionStorage.getItem("accessToken");
-
+        //console.log(idToken);
+        //console.log(accessToken);
         fetch(getUserRoleUrl, {
             method: 'GET',
             headers: {
@@ -203,6 +207,7 @@
             prepareNormalUserUI()
         } else if (userRole === 'AdminUser') {
             prepareAdminUI()
+            
         }
     }
 
@@ -227,12 +232,13 @@
         event.preventDefault();
         var userName = document.getElementById('User Name').value;
         var recoverUserUrl = `${baseUrl}/api/RecoverUser`;
-
+        console.log(userName);
         // Prepare the headers
         var headers = new Headers();
-        headers.append('userName', userName); // Assuming the ID of the input is 'User Name', which is unusual due to the space. Consider changing this ID to 'user-name' or similar for better consistency.
-
-        // Prepare the request options
+        headers.append("userName", userName); // Assuming the ID of the input is 'User Name', which is unusual due to the space. Consider changing this ID to 'user-name' or similar for better consistency.
+        //headers.append("Authentication", idToken);
+        //headers.append("Authorization", accessToken);
+        //Prepare the request options
         var requestOptions = {
             method: 'POST',
             headers: headers
@@ -280,15 +286,18 @@
     // Inside prepareNormalUserUI
     document.getElementById('normal-user-delete').addEventListener('click', function () {
         var username = sessionStorage.getItem('username');
-        var token = sessionStorage.getItem('idToken');
-        if (username && token) {
+        //var idToken = sessionStorage.getItem("idToken");
+        //var accessToken = sessionStorage.getItem("accessToken");
+
+
+        if (username && idToken && accessToken) {
             var deleteUserUrl = `${baseUrl}/ModifyUserProfile/DeleteProfile`;
             fetch(deleteUserUrl, {
                 method: 'DELETE',
                 headers: {
-                    'userName': username,
                     'Authentication': idToken,
-                    'Authorization': accessToken
+                    'Authorization': accessToken,
+                    'userName': username                    
                 }
             })
                 .then(response => {
@@ -397,10 +406,15 @@
                 return; // Exit the function to prevent the deletion process
             }
 
-            var deleteUserUrl = `${baseUrl}/ModifyUserProfile/${username}`;
+            var deleteUserUrl = `${baseUrl}/ModifyUserProfile/DeleteProfile`;
 
             fetch(deleteUserUrl, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    "Authentication": idToken,
+                    "Authorization": accessToken,
+                    "userName": username
+                }
             })
                 .then(response => {
                     if (response.ok) {
@@ -447,6 +461,8 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authentication': idToken,
+                    'Authorization': accessToken
                 },
                 body: JSON.stringify(data),
             })
@@ -480,8 +496,13 @@
     document.getElementById('admin-get-user').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to fetch:");
         if (username) {
-            fetch(`${baseUrl}/ModifyUserProfile/${username}`, {
-                method: 'GET'
+            fetch(`${baseUrl}/ModifyUserProfile/AdminLookUp`, {
+                method: 'GET',
+                headers: {
+                    'Authentication': idToken,
+                    'Authorization': accessToken,
+                    'userName': username
+                },
             })
                 .then(response => {
                     if (response.ok) {
@@ -539,6 +560,8 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authentication': idToken,
+                    'Authorization': accessToken
                 },
                 body: JSON.stringify(payload), // Use the constructed payload
             })
@@ -592,14 +615,18 @@
 
     document.getElementById('logoutButton').addEventListener('click', function () {
         const startTime = Date.now();
-        localStorage.clear()
-        sessionStorage.clear()
         var userName = document.getElementById("username").value;
+        var idToken = sessionStorage.getItem("idToken");
+        var accessToken = sessionStorage.getItem("accessToken");
+        //console.log(idToken);
+        //console.log(accessToken);
 
         fetch(`${baseUrl}/Logout/api/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authentication': idToken,
+                'Authorization': accessToken,
             },
             body: JSON.stringify({ UserName: userName }),
         })
@@ -617,6 +644,8 @@
                 alert(data.message); // Display logout message from server
                 // Redirect to home page with default culture settings
                 window.location.href = 'index.html'; // Adjust this to your home page URL
+                localStorage.clear()
+                sessionStorage.clear()
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -655,7 +684,7 @@
         var dob = document.getElementById('dob').value;
         var uname = document.getElementById('user-name').value;
         var bmail = document.getElementById('backup-email').value;
-
+        console.log(bmail);
         // Create a URLSearchParams object to encode the data
         var params = new URLSearchParams();
         params.append('email', email);
@@ -664,7 +693,7 @@
         params.append('bmail', bmail);
 
         // Construct the URL with the encoded parameters
-        var url = `${baseUrl}/AccCreationAPI/api/NormalAccCreationAPI?${params.toString()}`;
+        var url = `${baseUrl}/AccCreationAPI/api/NormalAccCreationAPI`;
 
         // Log the URL
         console.log('URL:', url);
@@ -673,8 +702,11 @@
         fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
             },
+            body: JSON.stringify({
+                email: email, dob: dob, uname: uname, bmail:bmail
+            })
         })
             .then(response => response.json())
             .then(data => {

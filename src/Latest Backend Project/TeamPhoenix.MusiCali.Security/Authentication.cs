@@ -32,6 +32,7 @@ namespace TeamPhoenix.MusiCali.Security
             _configuration = configuration;
         }
 
+        
         public bool AuthenticateUsername(string username)
         {
 
@@ -73,9 +74,9 @@ namespace TeamPhoenix.MusiCali.Security
             UserAuthN userA = authR.userA!;
             UserClaims userC = authR.userC!;
             Principal appPrincipal;
-            string idToken;
-            string accessToken;
-            Dictionary<string, string> tokens = new Dictionary<string, string>();
+            //string idToken;
+            //string accessToken;
+           // Dictionary<string, string> tokens = new Dictionary<string, string>();
             
             try
             {
@@ -335,6 +336,16 @@ namespace TeamPhoenix.MusiCali.Security
         //    return new JwtSecurityTokenHandler().WriteToken(token);
         //}
 
+        public static bool CheckIdExisting(string username)
+        {
+            AuthResult authR = _dao.findUsernameInfo(username);
+            if (authR != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static bool SendConfirmationEmail(string email, string otp)
         {
             try
@@ -479,5 +490,6 @@ namespace TeamPhoenix.MusiCali.Security
 
             return WebEncoders.Base64UrlEncode(bytes);
         }
+
     }
 }
