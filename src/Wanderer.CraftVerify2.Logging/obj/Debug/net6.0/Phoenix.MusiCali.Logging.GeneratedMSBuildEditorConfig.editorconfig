@@ -8,4 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Phoenix.MusiCali.Logging
-build_property.ProjectDir = C:\Users\Joshu\OneDrive\Documents\GitHub\TeamPhoenix\src\Wanderer.CraftVerify2.Logging\
+build_property.ProjectDir = C:\Users\Joshu\OneDrive\Documents\sandbox\localMC\src\Wanderer.CraftVerify2.Logging\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
