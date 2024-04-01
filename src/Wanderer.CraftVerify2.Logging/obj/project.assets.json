@@ -1,0 +1,109 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0": {
+      "Phoenix.MusiCali.DataAccessLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Phoenix.MusiCali.Models": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Phoenix.MusiCali.DataAccessLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Phoenix.MusiCali.DataAccessLayer.dll": {}
+        }
+      },
+      "Phoenix.MusiCali.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Phoenix.MusiCali.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Phoenix.MusiCali.Models.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Phoenix.MusiCali.DataAccessLayer/1.0.0": {
+      "type": "project",
+      "path": "../Wanderer.CraftVerify2.Data/Phoenix.MusiCali.DataAccessLayer.csproj",
+      "msbuildProject": "../Wanderer.CraftVerify2.Data/Phoenix.MusiCali.DataAccessLayer.csproj"
+    },
+    "Phoenix.MusiCali.Models/1.0.0": {
+      "type": "project",
+      "path": "../Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj",
+      "msbuildProject": "../Phoenix.MusiCali.Models/Phoenix.MusiCali.Models.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net6.0": [
+      "Phoenix.MusiCali.DataAccessLayer >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Joshu\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Wanderer.CraftVerify2.Logging\\Phoenix.MusiCali.Logging.csproj",
+      "projectName": "Phoenix.MusiCali.Logging",
+      "projectPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Wanderer.CraftVerify2.Logging\\Phoenix.MusiCali.Logging.csproj",
+      "packagesPath": "C:\\Users\\Joshu\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Wanderer.CraftVerify2.Logging\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\Joshu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "projectReferences": {
+            "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Wanderer.CraftVerify2.Data\\Phoenix.MusiCali.DataAccessLayer.csproj": {
+              "projectPath": "C:\\Users\\Joshu\\OneDrive\\Documents\\GitHub\\TeamPhoenix\\src\\Wanderer.CraftVerify2.Data\\Phoenix.MusiCali.DataAccessLayer.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0": {
+        "targetAlias": "net6.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
