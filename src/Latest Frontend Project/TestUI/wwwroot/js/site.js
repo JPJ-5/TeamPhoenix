@@ -11,6 +11,11 @@
     var baseUrl = 'https://themusicali.com:5000';
     // var baseUrl = 'https://themusicali.com/api';
 
+    document.getElementById('collab-search-button').addEventListener('click', function () {
+        document.querySelector('.main').style.display = 'none'; // Hide main content
+        document.getElementById('CollabSearch').display = 'block'; // Show Collab Search View content
+    });
+
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         // Reset the visibility of login and register buttons when menu is toggled

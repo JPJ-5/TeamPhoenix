@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Musicali</title>
     <link href="css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="collabSearchStyle.css" />
 </head>
 <body>
 
@@ -74,7 +75,7 @@
                     <button id="modify-profile" class="modify-profile">Modify Profile</button>
 
                     <!--Collab Search Section, Initially Hidden-->
-                    <button id="collab-search-button" onclick="window.location.href='collab_search.html'">Collab Search</button>
+                    <button id="collab-search-button">Collab Search</button>
 
                     <!-- Modify Profile Section (Hidden Initially) -->
                     <div id="modify-profile-section" style="display: none;">
@@ -138,7 +139,17 @@
 
     </div>
 
+    <div class="CollabSearch">
+        <h1>Collab Search</h1>
+        <div class="search-form">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search by username">
+            <button id="searchButton" class="search-button">Search</button>
+        </div>
+        <div id="resultsBox" class="results-box"></div>
+    </div>
+
 
     <script src="js/site.js"></script>
+    <script src="js/collabSearchScript.js"></script>
 </body>
 </html>
