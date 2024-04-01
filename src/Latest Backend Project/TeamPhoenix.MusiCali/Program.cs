@@ -31,7 +31,7 @@ namespace AccCreationAPI
             builder.Services.AddScoped<LogoutService>();
             builder.Services.AddScoped<IAuthentication, Authentication>();
 
-            builder.Services.AddScoped<MariaDB>();          // Register MariaDB Class with Dependency Injection
+            builder.Services.AddScoped<MariaDB>();          // Register MariaDB Class with Dependency Injection 
             //jwt token
 
             var tkConf = builder.Configuration.GetSection("Jwt");
@@ -76,13 +76,13 @@ namespace AccCreationAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Production")
+            if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             // Use the custom CORS middleware
             app.UseCustomCors();

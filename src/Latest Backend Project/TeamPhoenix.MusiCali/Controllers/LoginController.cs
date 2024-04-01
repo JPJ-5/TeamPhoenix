@@ -59,5 +59,5 @@ namespace AccCreationAPI.Controllers
 
         //[AllowAnonymous]
         //[HttpPost("/secure/createIDToken")]
-    }
+    }  
 }

@@ -62,17 +62,4 @@ namespace TeamPhoenix.MusiCali.Security
             }
         }
     }
-<<<<<<<< HEAD:src/Phoenix.MusiCali.Services/Hasher.cs
-
-    /*
-        public class RandomValue{
-            public static byte[] GenerateRandom(int size){
-                var rng = RandomNumberGenerator.GetBytes(size)
-                var rndom = 
-            }
-        }
-    */
 }
-========
-}
->>>>>>>> 72f693b5df2daec32f621445a51313f102d5003c:src/Latest Backend Project/TeamPhoenix.MusiCali.Security/Hasher.cs

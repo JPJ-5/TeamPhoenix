@@ -9,7 +9,7 @@
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
     var baseUrl = 'http://localhost:8080';
-
+    
 
 
     menuButton.addEventListener('click', function () {
@@ -120,7 +120,7 @@
                         // Handle plain text response
                         sessionStorage.setItem("jwt", token);
                         if (sessionStorage.getItem('idToken', token) != "Login Failed") {
-
+                            
                             fetchUserProfile(username)
                         }
                         else {
@@ -144,7 +144,7 @@
         var userProfileUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
 
 
-
+        
         fetch(userProfileUrl, {
             method: 'GET',
             headers: {
@@ -207,7 +207,7 @@
             prepareNormalUserUI()
         } else if (userRole === 'AdminUser') {
             prepareAdminUI()
-
+            
         }
     }
 
@@ -297,7 +297,7 @@
                 headers: {
                     'Authentication': idToken,
                     'Authorization': accessToken,
-                    'userName': username
+                    'userName': username                    
                 }
             })
                 .then(response => {
