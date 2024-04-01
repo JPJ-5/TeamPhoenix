@@ -13,7 +13,7 @@
         document.querySelector('.main').style.display = 'none'; // Hide main content
         document.getElementById('tempoToolView').style.display = 'block'; // Show tempo tool content
         var username = document.getElementById("username").value;
-        logTempoUsage(username);
+        logTempoUsage(username, "Tempo Tool");
     });
 
     menuButton.addEventListener('click', function () {
@@ -943,9 +943,10 @@
         }
     });
 
-    function logTempoUsage(username) {
+    function logTempoUsage(username, feature) {
         const requestData = {
-            UserName: username
+            UserName: username,
+            Feature: feature
         };
 
         fetch('http://localhost:8080/TempoTool/api/logTempoAPI', {

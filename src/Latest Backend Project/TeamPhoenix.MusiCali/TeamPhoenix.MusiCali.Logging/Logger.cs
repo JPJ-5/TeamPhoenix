@@ -21,12 +21,12 @@ namespace TeamPhoenix.MusiCali.Logging
             return result;
         }
 
-        public static bool LogTempo(string UserName)
+        public static bool LogFeature(string UserName, string Feature)
         {
             //logging
             var level = "Info";
             var category = "View";
-            var context = "User is using Tempo Tool";
+            var context = "User is using " + Feature;
             var userHash = rU.GetUserHash(UserName);
             CreateLog(userHash, level, category, context);
             Console.WriteLine("Gig successfully viewed");

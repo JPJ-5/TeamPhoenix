@@ -11,11 +11,11 @@ namespace TeamPhoenix.MusiCali.Controllers
     {
 
         [HttpPost("api/logTempoAPI")]
-        public IActionResult LogTempo([FromBody] LogTempoRequest request)
+        public IActionResult LogTempo([FromBody] LogFeature request)
         {
             // Perform any validation checks here
 
-            bool success = Logger.LogTempo(request.UserName);
+            bool success = Logger.LogFeature(request.UserName, request.Feature);
             return Ok(new { success });
         }
     }
