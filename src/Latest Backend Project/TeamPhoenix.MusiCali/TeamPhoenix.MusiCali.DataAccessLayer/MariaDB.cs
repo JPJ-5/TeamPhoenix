@@ -85,6 +85,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     }
                     var res = new Result();
                     res.HasError = false;
+                    res.ErrorMessage = "unable to insert create log";
                     return res;
 
                 }
