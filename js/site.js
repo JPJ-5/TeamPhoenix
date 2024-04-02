@@ -8,7 +8,7 @@
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
-    var baseUrl = 'http://localhost:8080';
+    var baseUrl = 'https://themusicali.com:5000';
     var idToken;
     var accessToken;
 
