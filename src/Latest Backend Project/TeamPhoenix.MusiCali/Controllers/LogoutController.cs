@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.Services;
+using authN = TeamPhoenix.MusiCali.Security.Authentication;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Text;
 
 [ApiController]
 [Route("[controller]")]
@@ -23,19 +26,39 @@ public class LogoutController : ControllerBase
     [HttpPost("api/logout")]
     public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
     {
-        if (request == null || string.IsNullOrEmpty(request.UserName))
-        {
-            return BadRequest(new { message = "User hash is required" });
-        }
+        var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-        var result = await _logoutService.LogoutUserAsync(request.UserName);
-        if (result)
+        //Console.WriteLine(accessToken);
+
+       
+        var role = authN.getScopeFromToken(accessToken!);
+
+
+        if ((role != string.Empty) && authN.CheckIdRoleExisting(request.UserName, role))
         {
-            return Ok(new { message = "Logout successful and logged" });
+            
+            if (request == null || string.IsNullOrEmpty(request.UserName))
+            {
+                return BadRequest(new { message = "User hash is required" });
+            }
+
+            var result = await _logoutService.LogoutUserAsync(request.UserName);
+            if (result)
+            {
+                return Ok(new { message = "Logout successful and logged" });
+            }
+            else
+            {
+                return BadRequest(new { message = "Logout failed" });
+            }
+            
         }
         else
         {
-            return BadRequest(new { message = "Logout failed" });
+            return BadRequest("Unauthenticated!");
         }
     }
+
+
+    
 }

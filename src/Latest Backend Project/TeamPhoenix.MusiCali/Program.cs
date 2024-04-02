@@ -90,8 +90,7 @@ namespace AccCreationAPI
             app.UseMiddleware<AuthenticationMiddleware>();
 
             // Then register the AuthorizationMiddleware
-            //app.UseMiddleware<AuthorizationMiddleware>();
-
+            app.UseMiddleware<AuthorizationMiddleware>();
 
             app.MapControllers();
 

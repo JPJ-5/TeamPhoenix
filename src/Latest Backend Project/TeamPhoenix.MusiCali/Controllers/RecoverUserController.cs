@@ -17,6 +17,7 @@ namespace TeamPhoenix.MusiCali.Controllers
         [HttpPost("/api/RecoverUser")]
         public IActionResult RecoverUser([FromHeader] string userName)
         {
+           
             if (rU.SendRecoveryEmail(userName))
             {
                 var result = new Dictionary<bool, string>

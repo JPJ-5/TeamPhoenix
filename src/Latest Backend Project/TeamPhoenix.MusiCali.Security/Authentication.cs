@@ -9,8 +9,6 @@ using _hash = TeamPhoenix.MusiCali.Security.Hasher;
 using Microsoft.Extensions.Configuration;
 using _loggerAuthN = TeamPhoenix.MusiCali.Logging.Logger;
 using System.Security.Policy;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Configuration;
@@ -18,6 +16,9 @@ using Newtonsoft.Json.Linq;
 using Google.Protobuf.WellKnownTypes;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Security.Cryptography;
+using System.Text.Json;
 
 namespace TeamPhoenix.MusiCali.Security
 {
@@ -31,6 +32,7 @@ namespace TeamPhoenix.MusiCali.Security
             _configuration = configuration;
         }
 
+        
         public bool AuthenticateUsername(string username)
         {
 
@@ -65,16 +67,16 @@ namespace TeamPhoenix.MusiCali.Security
             return true;
         }
 
-        public Dictionary<string, string> Authenticate(string username, string otp)
+        public bool Authenticate(string username, string otp)
         {
             AuthResult authR = _dao.findUsernameInfo(username);
             UserAccount userAcc = authR.userAcc!;
             UserAuthN userA = authR.userA!;
             UserClaims userC = authR.userC!;
             Principal appPrincipal;
-            string idToken;
-            string accessToken;
-            Dictionary<string, string> tokens = new Dictionary<string, string>();
+            //string idToken;
+            //string accessToken;
+           // Dictionary<string, string> tokens = new Dictionary<string, string>();
             
             try
             {
@@ -102,26 +104,26 @@ namespace TeamPhoenix.MusiCali.Security
                         Dictionary<string, string> claims = userC.Claims;
                         appPrincipal = new Principal(userA.Username, claims);
 
-                        // If authentication is successful, create a session token
-                        idToken = GenerateIdToken(username);
+                        //// If authentication is successful, create a session token
+                        //idToken = GenerateIdToken(username);
 
-                        // Generate Access token
-                        accessToken = GenerateAccessToken(username, claims);
+                        //// Generate Access token
+                        //accessToken = GenerateAccessToken(username, claims);
 
 
 
-                        activeSessions.Add(idToken, appPrincipal);
-                        appPrincipal.IDToken = idToken;
-                        appPrincipal.AccessToken = accessToken;
+                        //activeSessions.Add(idToken, appPrincipal);
+                        //appPrincipal.IDToken = idToken;
+                        //appPrincipal.AccessToken = accessToken;
                         // Fix to return token
                         string level = "Info";
                         string category = "View";
                         string context = "User Log In";
                         _loggerAuthN.CreateLog(userAcc.UserHash, level, category, context);
 
-                        tokens["IdToken"] = idToken;
-                        tokens["AccessToken"] = accessToken;
-                        return tokens;
+                        //tokens["IdToken"] = idToken;
+                        //tokens["AccessToken"] = accessToken;
+                        return true;
                     }
                 }
                 else
@@ -144,21 +146,21 @@ namespace TeamPhoenix.MusiCali.Security
                         _dao.updateAuthentication(userA);
                         Dictionary<string, string> claims = userC.Claims;
                         appPrincipal = new Principal(userA.Username, claims);
-                        // If authentication is successful, create a session token
-                        idToken = GenerateIdToken(username);
-                        // Generate Access token
-                        accessToken = GenerateAccessToken(username, claims);
-                        activeSessions.Add(idToken, appPrincipal);
-                        appPrincipal.IDToken = idToken;
-                        appPrincipal.AccessToken = accessToken;
+                        //// If authentication is successful, create a session token
+                        //idToken = GenerateIdToken(username);
+                        //// Generate Access token
+                        //accessToken = GenerateAccessToken(username, claims);
+                        //activeSessions.Add(idToken, appPrincipal);
+                        //appPrincipal.IDToken = idToken;
+                        //appPrincipal.AccessToken = accessToken;
                         // Fix to return token
                         string level = "Info";
                         string category = "View";
                         string context = "User Log In";
                         _loggerAuthN.CreateLog(userAcc.UserHash, level, category, context);
-                        tokens["IdToken"] = idToken;
-                        tokens["AccessToken"] = accessToken;
-                        return tokens;
+                        //tokens["IdToken"] = idToken;
+                        //tokens["AccessToken"] = accessToken;
+                        return true;
                     }
                 }
             }
@@ -166,11 +168,11 @@ namespace TeamPhoenix.MusiCali.Security
             {
                 //throw new Exception($"Error authenticating {ex.Message}");
                 Console.WriteLine(ex.ToString());
-                return tokens;        
+                return false;        
             }
             // Fix to return token
             
-            return tokens;
+            return false;
         }
 
         public Principal? GetPrincipalBySessionToken(string sessionToken)
@@ -286,53 +288,137 @@ namespace TeamPhoenix.MusiCali.Security
             }
         }
 
-        private string GenerateIdToken(string userName)
+        //private string GenerateIdToken(string userName)
+        //{
+        //    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
+        //    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        //    var claims = new[]
+        //    {
+        //        new Claim(ClaimTypes.NameIdentifier, userName)
+        //    };
+
+        //    var token = new JwtSecurityToken(_configuration.GetSection("Jwt:Issuer").Value, _configuration.GetSection("Jwt:Audience").Value,
+        //        claims, expires: DateTime.Now.AddMinutes(20), signingCredentials: credentials);
+
+        //    return new JwtSecurityTokenHandler().WriteToken(token);
+        //}
+
+        //private string GenerateAccessToken(string userName, Dictionary<string, string> userRoles)
+        //{
+        //    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
+        //    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        //    var claims = new List<Claim>
+        //    {
+        //        // new Claim(ClaimTypes.Name, userName)      I dont want to include the username in the access token => //
+        //        // Additional claims...
+        //    };
+
+        //    // Iterate over the roles in the dictionary and add them as claims
+        //    foreach (var roleEntry in userRoles)
+        //    {
+        //        if (roleEntry.Key == "UserRole")
+        //        {
+        //            claims.Add(new Claim(ClaimTypes.Role, roleEntry.Value));
+        //        }
+        //        // Add other types of claims if needed...
+        //    }
+
+        //    var token = new JwtSecurityToken(
+        //        issuer: _configuration.GetSection("Jwt:Issuer").Value,
+        //        audience: _configuration.GetSection("Jwt:Audience").Value,
+        //        claims: claims,
+        //        expires: DateTime.UtcNow.AddMinutes(20),
+        //        signingCredentials: credentials
+        //    );
+
+        //    return new JwtSecurityTokenHandler().WriteToken(token);
+        //}
+
+        public static bool CheckIdRoleExisting(string username, string role)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[]
+            AuthResult authR = _dao.findUsernameInfo(username);
+            if (authR != null && (authR.userC!.Claims["UserRole"] == role))
             {
-                new Claim(ClaimTypes.NameIdentifier, userName)
-            };
-
-            var token = new JwtSecurityToken(_configuration.GetSection("Jwt:Issuer").Value, _configuration.GetSection("Jwt:Audience").Value,
-                claims, expires: DateTime.Now.AddMinutes(20), signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        private string GenerateAccessToken(string userName, Dictionary<string, string> userRoles)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>
-            {
-                // new Claim(ClaimTypes.Name, userName)      I dont want to include the username in the access token => //
-                // Additional claims...
-            };
-
-            // Iterate over the roles in the dictionary and add them as claims
-            foreach (var roleEntry in userRoles)
-            {
-                if (roleEntry.Key == "UserRole")
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, roleEntry.Value));
-                }
-                // Add other types of claims if needed...
+                return true;
             }
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration.GetSection("Jwt:Issuer").Value,
-                audience: _configuration.GetSection("Jwt:Audience").Value,
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(20),
-                signingCredentials: credentials
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return false;
         }
+
+
+        private static byte[] Base64UrlDecode(string input)
+        {
+            string output = input;
+            output = output.Replace('-', '+').Replace('_', '/');
+            switch (output.Length % 4)
+            {
+                case 0: break;
+                case 2: output += "=="; break;
+                case 3: output += "="; break;
+                default: throw new FormatException("Illegal base64url string!");
+            }
+            return Convert.FromBase64String(output);
+        }
+
+        public static string getScopeFromToken(string token)
+        {
+            if (!string.IsNullOrWhiteSpace(token) && !string.IsNullOrEmpty(token))
+            {
+                var parts = token!.Split('.');
+                if (parts.Length != 3)
+                    return string.Empty;
+
+                var header = parts[0];
+                var payload = parts[1];
+                var signature = parts[2];
+
+                var payloadJson = Encoding.UTF8.GetString(Base64UrlDecode(payload));
+
+                var jObject = JObject.Parse(payloadJson);
+
+                string scope = jObject["scope"]!.ToString();
+                return scope;
+            }
+            return string.Empty;
+        }
+
+        public static string getUserFromToken(string token)
+        {
+            if (!string.IsNullOrWhiteSpace(token) && !string.IsNullOrEmpty(token))
+            {
+                var parts = token!.Split('.');
+                if (parts.Length != 3)
+                    return string.Empty;
+
+                var header = parts[0];
+                var payload = parts[1];
+                var signature = parts[2];
+
+                var payloadJson = Encoding.UTF8.GetString(Base64UrlDecode(payload));
+
+                var jObject = JObject.Parse(payloadJson);
+
+                string user = jObject["sub"]!.ToString();
+                return user;
+            }
+            return string.Empty;
+        }
+
+
+        //public static string getRole(string username)
+        //{
+
+        //    AuthResult authR = _dao.findUsernameInfo(username);
+        //    if (CheckIdExisting(username))
+        //    {
+        //        return authR.userC!.Claims["UserRole"];
+        //    }
+        //    else
+        //    {
+        //        return string.Empty;
+        //    }
+        //}
 
         public static bool SendConfirmationEmail(string email, string otp)
         {
@@ -368,5 +454,116 @@ namespace TeamPhoenix.MusiCali.Security
                 return false;
             }
         }
+
+        public string CreateIDJwt(LoginModel loginRequest)
+        {
+            // TODO: Check security credentials match Database
+
+            var header = new JwtHeader();
+            var payload = new JwtPayload()
+            {
+                Iss = _configuration.GetSection("Jwt:Issuer").Value!,
+                Sub = loginRequest.Username,
+                Aud = _configuration.GetSection("Jwt:Audience").Value!,
+                Iat = DateTime.UtcNow.Ticks,
+                Exp = DateTime.UtcNow.AddMinutes(20).Ticks
+            };
+
+            // TODO: Add custom permissions to payload
+
+
+            var serializerOptions = new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = false
+            };
+
+            var encodedHeader = Base64UrlEncode(JsonSerializer.Serialize(header, serializerOptions));
+            var encodedPayload = Base64UrlEncode(JsonSerializer.Serialize(payload, serializerOptions));
+
+
+            using (var hash = new HMACSHA256(Encoding.UTF8.GetBytes("simple-key")))
+            {
+                // String to Byte[]
+                var signatureInput = $"{encodedHeader}.{encodedPayload}";
+                var signatureInputBytes = Encoding.UTF8.GetBytes(signatureInput);
+
+                // Byte[] to String
+                var signatureDigestBytes = hash.ComputeHash(signatureInputBytes);
+                var encodedSignature = WebEncoders.Base64UrlEncode(signatureDigestBytes);
+                string jwt = $"{encodedHeader}.{encodedPayload}.{encodedSignature}";
+                return jwt;
+            }
+        }
+
+        //[AllowAnonymous]
+        //[HttpPost("/secure/createAccessToken")]
+        public string CreateAccessJwt( LoginModel loginRequest)
+        {
+            // TODO: Check security credentials match Database
+            var info = _dao.findUsernameInfo(loginRequest.Username);
+            var userRoles = info.userC!.Claims["UserRole"];
+            //string claims;
+            //foreach (var roleEntry in userRoles)
+            //{
+            //    if (roleEntry.Key == "UserRole")
+            //    {
+            //        claims.Add(new Claim(ClaimTypes.Role, roleEntry.Value));
+            //    }
+            //    // Add other types of claims if needed...
+            //}
+
+            var header = new JwtHeader();
+            var payload = new JwtPayload()
+            {
+                Iss = _configuration.GetSection("Jwt:Issuer").Value!,
+                Sub = loginRequest.Username,
+                Aud = _configuration.GetSection("Jwt:Audience").Value!,
+                Iat = DateTime.UtcNow.Ticks,
+                Exp = DateTime.UtcNow.AddMinutes(20).Ticks,
+                Azp = _configuration.GetSection("Jwt:Azp").Value!,
+                Scope = userRoles.ToString()
+            };
+
+            // TODO: Add custom permissions to payload
+
+
+            var serializerOptions = new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = false
+            };
+
+            var encodedHeader = Base64UrlEncode(JsonSerializer.Serialize(header, serializerOptions));
+            var encodedPayload = Base64UrlEncode(JsonSerializer.Serialize(payload, serializerOptions));
+
+
+            using (var hash = new HMACSHA256(Encoding.UTF8.GetBytes("simple-key")))
+            {
+                // String to Byte[]
+                var signatureInput = $"{encodedHeader}.{encodedPayload}";
+                var signatureInputBytes = Encoding.UTF8.GetBytes(signatureInput);
+
+                // Byte[] to String
+                var signatureDigestBytes = hash.ComputeHash(signatureInputBytes);
+                var encodedSignature = WebEncoders.Base64UrlEncode(signatureDigestBytes);
+                var jwt = $"{encodedHeader}.{encodedPayload}.{encodedSignature}";
+                //var jwt = new Jwt()
+                //{
+                //    Header = header,
+                //    Payload = payload,
+                //    Signature = encodedSignature
+                //};
+                return jwt;
+            }
+        }
+
+        private static string Base64UrlEncode(string input)
+        {
+            var bytes = Encoding.UTF8.GetBytes(input);
+
+            return WebEncoders.Base64UrlEncode(bytes);
+        }
+
     }
 }

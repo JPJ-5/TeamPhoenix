@@ -4,6 +4,8 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using modifyUserService = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
 using DataAccessUserDeletion = TeamPhoenix.MusiCali.DataAccessLayer.UserDeletion; // Alias for clarity
 using mU = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
+using wowC = TeamPhoenix.MusiCali.Security.Authentication;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
@@ -11,16 +13,33 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class ModifyUserProfileController : ControllerBase
     {
-        [HttpGet("{username}")]
-        public IActionResult GetProfile(string username)
+        [HttpGet("AdminLookUp")]
+        public IActionResult GetProfile([FromHeader]string username)
         {
-            var modifyUserService = new modifyUserService(); // Create an instance of ModifyUser
-            var userProfile = modifyUserService.GetProfile(username); // Now you can call the instance method
-            if (userProfile == null)
+            var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
+            var role = wowC.getScopeFromToken(accessToken!);
+
+            var user = wowC.getUserFromToken(accessToken!);
+
+
+            if ((role != string.Empty) && wowC.CheckIdRoleExisting(user, role))
             {
-                return NotFound("User profile not found.");
+                var modifyUserService = new modifyUserService(); // Create an instance of ModifyUser
+                var userProfile = modifyUserService.GetProfile(username); // Now you can call the instance method
+                if (userProfile == null)
+                {
+                    return NotFound("User profile not found.");
+                }
+                return Ok(userProfile);
+
+
             }
-            return Ok(userProfile);
+            else
+            {
+                return BadRequest("Unauthenticated!");
+            }
+
         }
 
         public class UpdateClaimsRequest
@@ -37,33 +56,65 @@ namespace TeamPhoenix.MusiCali.Controllers
         [HttpPost("updateClaims")]
         public IActionResult UpdateClaims([FromBody] UpdateClaimsRequest request)
         {
-            // Assuming mU is an alias for your ModifyUser class
-            var modifyUserService = new mU(); // Create an instance of ModifyUser
-            bool success = modifyUserService.UpdateClaims(request.Username, new Dictionary<string, string> { { "UserRole", request.Claims.UserRole } });
 
-            if (success)
+
+
+            var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
+            var role = wowC.getScopeFromToken(accessToken!);
+
+            var user = wowC.getUserFromToken(accessToken!);
+
+            if ((role != string.Empty) && wowC.CheckIdRoleExisting(user, role))
             {
-                return Ok(new { success = true, message = "Claims updated successfully, user promoted to admin." });
+                // Assuming mU is an alias for your ModifyUser class
+                var modifyUserService = new mU(); // Create an instance of ModifyUser
+                bool success = modifyUserService.UpdateClaims(request.Username, new Dictionary<string, string> { { "UserRole", request.Claims.UserRole } });
+
+                if (success)
+                {
+                    return Ok(new { success = true, message = "Claims updated successfully, user promoted to admin." });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Failed to update claims." });
+                }
             }
             else
             {
-                return BadRequest(new { success = false, message = "Failed to update claims." });
+                return BadRequest("Unauthenticated!");
             }
+
+            
         }
 
 
 
-        [HttpDelete("{username}")]
-        public IActionResult DeleteUser(string username)
+        [HttpDelete("DeleteProfile")]
+        public IActionResult DeleteUser([FromHeader]string username)
         {
-            // Call the DeleteProfile method from UserDeletion class
-            if (DataAccessUserDeletion.DeleteProfile(username))
+
+            var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
+            var role = wowC.getScopeFromToken(accessToken!);
+
+            var user = wowC.getUserFromToken(accessToken!);
+
+            if ((role != string.Empty) && wowC.CheckIdRoleExisting(user, role))
             {
-                return Ok("User profile deleted successfully.");
+                // Call the DeleteProfile method from UserDeletion class
+                if (DataAccessUserDeletion.DeleteProfile(username))
+                {
+                    return Ok("User profile deleted successfully.");
+                }
+                else
+                {
+                    return BadRequest("Failed to delete user profile.");
+                }
             }
             else
             {
-                return BadRequest("Failed to delete user profile.");
+                return BadRequest("Unauthenticated!");
             }
         }
 
@@ -79,19 +130,34 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             try
             {
-                DataAccessLayer.ModifyUser modifyUser = new mU();
 
-                // Call ModifyProfile method to update the user profile using the model properties
-                bool success = modifyUser.ModifyProfile(model.Username, model.FirstName, model.LastName);
+                var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-                if (success)
+                var role = wowC.getScopeFromToken(accessToken!);
+
+
+
+                if ((role != string.Empty) && wowC.CheckIdRoleExisting(model.Username, role))
                 {
-                    return Ok("User profile updated successfully.");
+                    DataAccessLayer.ModifyUser modifyUser = new mU();
+
+                    // Call ModifyProfile method to update the user profile using the model properties
+                    bool success = modifyUser.ModifyProfile(model.Username, model.FirstName, model.LastName);
+
+                    if (success)
+                    {
+                        return Ok("User profile updated successfully.");
+                    }
+                    else
+                    {
+                        return StatusCode(500, "Failed to update user profile.");
+                    }
                 }
                 else
                 {
-                    return StatusCode(500, "Failed to update user profile.");
+                    return BadRequest("Unauthenticated!");
                 }
+
             }
             catch (Exception ex)
             {
@@ -99,22 +165,37 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
-        [HttpGet("GetUserInformation/{username}")]
-        public IActionResult GetUserInformation(string username)
+        [HttpGet("GetUserInformation")]
+        public IActionResult GetUserInformation([FromHeader]string username)
         {
+            //Console.WriteLine("HEREEEEE");
             try
             {
-                var modifyUserService = new mU(); // Assuming ModifyUser is in the TeamPhoenix.MusiCali.DataAccessLayer namespace
-                var userInformation = modifyUserService.GetUserInformation(username);
-                Console.WriteLine(userInformation);
 
-                if (userInformation != null)
+                var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
+                var role = wowC.getScopeFromToken(accessToken!);
+
+
+
+                if ((role != string.Empty) && wowC.CheckIdRoleExisting(username, role))
                 {
-                    return Ok(userInformation);
+                    var modifyUserService = new mU(); // Assuming ModifyUser is in the TeamPhoenix.MusiCali.DataAccessLayer namespace
+                    var userInformation = modifyUserService.GetUserInformation(username);
+                    //Console.WriteLine(userInformation);
+
+                    if (userInformation != null)
+                    {
+                        return Ok(userInformation);
+                    }
+                    else
+                    {
+                        return NotFound("User information not found.");
+                    }
                 }
                 else
                 {
-                    return NotFound("User information not found.");
+                    return BadRequest("Unauthenticated!");
                 }
             }
             catch (KeyNotFoundException knf)
