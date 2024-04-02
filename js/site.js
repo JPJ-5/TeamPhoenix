@@ -8,7 +8,7 @@
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
-    var baseUrl = 'http://54.183.27.148:3000';
+    var baseUrl = 'http://localhost:8080';
 
 
     menuButton.addEventListener('click', function () {
@@ -64,6 +64,7 @@
         })
             .then(response => response.json())
             .then(exists => {
+                console.log(exists); // Log the parsed JSON data
                 if (exists) {
                     // Email exists and OTP sent
                     alert("OTP sent to your email.");
@@ -78,7 +79,6 @@
                 console.error('Error:', error);
             });
     });
-
 
     // Add event listener for OTP form submission
     document.getElementById("submit-otp").addEventListener("click", function (event) {
@@ -133,32 +133,43 @@
             });
     });
 
+    // Need To Ask Parth
     function fetchUserProfile(username) {
         var username = document.getElementById('username').value;
-        var userProfileUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation/${username}`;
+        var userProfileUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
 
-        fetch(userProfileUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+        fetch(userProfileUrl, {
+            method: 'GET',
+            headers: {
+                'userName': username
             }
-            return response.json();
         })
-        .then(userProfile => {
-            displayUserProfile(userProfile); // Assuming you have a function to display the user profile
-        })
-        .catch(error => {
-            console.error('Failed to fetch user profile:', error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(userProfile => {
+                displayUserProfile(userProfile);
+            })
+            .catch(error => {
+                console.error('Failed to fetch user profile:', error);
+            });
     }
 
     // After successful login or when displaying the user profile, call this function to fetch and set the user role
     function fetchAndSetUserRole(username) {
         var username = document.getElementById('username').value;
         // Assuming the base URL and the necessary route to your controller
-        var getUserRoleUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation/${username}`;
+        var getUserRoleUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
 
-        fetch(getUserRoleUrl)
+        fetch(getUserRoleUrl, {
+            method: 'GET',
+            headers: {
+                'userName': username
+            }
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch user role');
@@ -268,21 +279,21 @@
                     'Authorization': 'Bearer ' + token, // Include the token in the request for authorization
                 },
             })
-            .then(response => {
-                if (response.ok) {
-                    return response.text();
-                } else {
-                    throw new Error('Failed to delete user.');
-                }
-            })
-            .then(data => {
-                alert('User deleted successfully.');
-                logoutUser(); // Call a function to handle the logout process
-            })
-            .catch(error => {
-                console.error('Error deleting user:', error);
-                alert(error.message);
-            });
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Failed to delete user.');
+                    }
+                })
+                .then(data => {
+                    alert('User deleted successfully.');
+                    logoutUser(); // Call a function to handle the logout process
+                })
+                .catch(error => {
+                    console.error('Error deleting user:', error);
+                    alert(error.message);
+                });
         } else {
             alert('Error: User information not found.');
         }
@@ -550,10 +561,10 @@
 
         document.getElementById('user-profile').style.display = 'block';
 
-        document.getElementById('modify-profile').addEventListener('click', function() {
+        document.getElementById('modify-profile').addEventListener('click', function () {
             // Ensure the modify profile section is shown when the button is clicked
             document.getElementById('modify-profile-section').style.display = 'block';
-    
+
             // Assuming fetchAndSetUserRole should also be called here
             var username = sessionStorage.getItem('username'); // Make sure this is correctly retrieving the username
             if (username) {
@@ -562,7 +573,7 @@
                 console.error('Username not found');
                 alert('Error: Could not fetch user role. Please log in again.');
             }
-        });              
+        });
     }
 
     document.getElementById('logoutButton').addEventListener('click', function () {
