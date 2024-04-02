@@ -21,17 +21,16 @@ namespace TeamPhoenix.MusiCali.Logging
             return result;
         }
 
-        public static bool LogFeature(string UserName, string Feature)
+        public static Result LogFeature(string UserName, string Feature)
         {
             //logging
             var level = "Info";
             var category = "View";
             var context = "User is using " + Feature;
             var userHash = recoverUser.GetUserHash(UserName);
-            CreateLog(userHash, level, category, context);
             // calling dao function createLog
-            var result = daoMaria.CreateLog(userHash, level, category, context);
-            return !result.HasError;
+            var result = CreateLog(userHash, level, category, context);
+            return result;
         }
     }
 }

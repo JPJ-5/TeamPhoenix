@@ -15,8 +15,8 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             // Perform any validation checks here
 
-            bool success = Logger.LogFeature(request.UserName, request.Feature);
-            if (success)
+            Result success = Logger.LogFeature(request.UserName, request.Feature);
+            if (!success.HasError)
             {
                 return Ok(new { success });
             }
