@@ -336,15 +336,89 @@ namespace TeamPhoenix.MusiCali.Security
         //    return new JwtSecurityTokenHandler().WriteToken(token);
         //}
 
-        public static bool CheckIdExisting(string username)
+        public static bool CheckIdRoleExisting(string username, string role)
         {
             AuthResult authR = _dao.findUsernameInfo(username);
-            if (authR != null)
+            if (authR != null && (authR.userC!.Claims["UserRole"] == role))
             {
                 return true;
             }
             return false;
         }
+
+
+        private static byte[] Base64UrlDecode(string input)
+        {
+            string output = input;
+            output = output.Replace('-', '+').Replace('_', '/');
+            switch (output.Length % 4)
+            {
+                case 0: break;
+                case 2: output += "=="; break;
+                case 3: output += "="; break;
+                default: throw new FormatException("Illegal base64url string!");
+            }
+            return Convert.FromBase64String(output);
+        }
+
+        public static string getScopeFromToken(string token)
+        {
+            if (!string.IsNullOrWhiteSpace(token) && !string.IsNullOrEmpty(token))
+            {
+                var parts = token!.Split('.');
+                if (parts.Length != 3)
+                    return string.Empty;
+
+                var header = parts[0];
+                var payload = parts[1];
+                var signature = parts[2];
+
+                var payloadJson = Encoding.UTF8.GetString(Base64UrlDecode(payload));
+
+                var jObject = JObject.Parse(payloadJson);
+
+                string scope = jObject["scope"]!.ToString();
+                return scope;
+            }
+            return string.Empty;
+        }
+
+        public static string getUserFromToken(string token)
+        {
+            if (!string.IsNullOrWhiteSpace(token) && !string.IsNullOrEmpty(token))
+            {
+                var parts = token!.Split('.');
+                if (parts.Length != 3)
+                    return string.Empty;
+
+                var header = parts[0];
+                var payload = parts[1];
+                var signature = parts[2];
+
+                var payloadJson = Encoding.UTF8.GetString(Base64UrlDecode(payload));
+
+                var jObject = JObject.Parse(payloadJson);
+
+                string user = jObject["sub"]!.ToString();
+                return user;
+            }
+            return string.Empty;
+        }
+
+
+        //public static string getRole(string username)
+        //{
+
+        //    AuthResult authR = _dao.findUsernameInfo(username);
+        //    if (CheckIdExisting(username))
+        //    {
+        //        return authR.userC!.Claims["UserRole"];
+        //    }
+        //    else
+        //    {
+        //        return string.Empty;
+        //    }
+        //}
 
         public static bool SendConfirmationEmail(string email, string otp)
         {
