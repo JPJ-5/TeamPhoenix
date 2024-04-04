@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Musicali</title>
     <link href="css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/collabSearchStyle.css" />
     <link href="css/tempoToolStyles.css" rel="stylesheet" />
 </head>
 <body>
@@ -118,6 +119,9 @@
                             <div id="feedback-box" style="display: none;"></div>
                         </div>
                     </div>
+
+                    <!--Collab Search Section, Initially Hidden-->
+                    <button id="collab-search-button">Collab Search</button>
 
                     <!-- Tempo Tool Coding Starts Here -->
                     <button id="enter-tempoTool" class="enter-tempoTool">Tempo Tool</button>
@@ -258,6 +262,16 @@
 
     </div>
 
+    <!-- Page for collab search feature -->
+    <div id="CollabSearch" style="display: none;">
+        <h1>Collab Search</h1>
+        <div class="search-form">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search by username">
+            <button id="searchButton" class="search-button">Search</button>
+        </div>
+        <div id="resultsBox" class="results-box"></div>
+    </div>
+
     <!-- Page for tempo tool feature -->
     <div id="tempoToolView" style="display: none;">
         <!-- Content of the tempo tool view -->
@@ -273,6 +287,7 @@
     </div>
 
     <script src="js/site.js"></script>
+    <script src="js/collabSearchScript.js"></script>
     <script src="js/tempoTool.js"></script>
 </body>
 </html>

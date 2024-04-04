@@ -9,6 +9,14 @@
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
 
+    document.getElementById('collab-search-button').addEventListener('click', function () {
+        document.querySelector('.main').style.display = 'none'; // Hide main content
+        document.getElementById('tempoToolView').style.display = 'none';// Hide tempo tool content
+        document.getElementById('CollabSearch').style.display = 'block'; // Show Collab Search View content
+        var username = document.getElementById("username").value;
+        logFeatureUsage(username, "Collab Search");
+    });
+
     document.getElementById('enter-tempoTool').addEventListener('click', function () {
         document.querySelector('.main').style.display = 'none'; // Hide main content
         document.getElementById('tempoToolView').style.display = 'block'; // Show tempo tool content
