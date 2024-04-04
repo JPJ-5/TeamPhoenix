@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Musicali</title>
     <link href="css/site.css" rel="stylesheet" />
+    <link href="css/tempoToolStyles.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -117,11 +118,15 @@
                             <div id="feedback-box" style="display: none;"></div>
                         </div>
                     </div>
+
+                    <!-- Tempo Tool Coding Starts Here -->
+                    <button id="enter-tempoTool" class="enter-tempoTool">Tempo Tool</button>
+
                     <!-- Artist Profile Calendar Coding Starts Here -->
                     <button id="enter-calendar" class="enter-calendar">Artist Profile Calendar</button>
                     <!-- Artist Profile Calendar Section (Hidden Initally) -->
                     <div id="artist-calendar-section" style="display: none;">
-                        
+
                         <button id="artist-calendar-visibility">Calendar Visibility</button>
                         <!-- Calendar Visibility Form -->
                         <form id="artist-calendar-visibility-form" style="display: none;">
@@ -253,7 +258,21 @@
 
     </div>
 
+    <!-- Page for tempo tool feature -->
+    <div id="tempoToolView" style="display: none;">
+        <!-- Content of the tempo tool view -->
+        <div id="container">
+            <span id="speedDisplay">Speed: 120 BPM</span>
+            <input type="range" min="35" max="250" value="120" id="tempoSlider">
+            <button id="startStopButton">Start</button>
+            <div id="metronomeContainer">
+                <div id="mainCircle"></div>
+                <div id="innerCircle"></div>
+            </div>
+        </div>
+    </div>
 
     <script src="js/site.js"></script>
+    <script src="js/tempoTool.js"></script>
 </body>
 </html>

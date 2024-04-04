@@ -9,6 +9,12 @@
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
 
+    document.getElementById('enter-tempoTool').addEventListener('click', function () {
+        document.querySelector('.main').style.display = 'none'; // Hide main content
+        document.getElementById('tempoToolView').style.display = 'block'; // Show tempo tool content
+        var username = document.getElementById("username").value;
+        logFeatureUsage(username, "Tempo Tool");
+    });
 
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
@@ -936,5 +942,34 @@
             form.style.display = 'block';
         }
     });
+
+    function logFeatureUsage(username, feature) {
+        const requestData = {
+            UserName: username,
+            Feature: feature
+        };
+
+        fetch('http://localhost:8080/TempoTool/api/logTempoAPI', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(response.json());
+                }
+            })
+            .then(data => {
+                console.log('Tempo usage logged successfully');
+            })
+            .catch(error => {
+                console.error('Error logging tempo usage:', error.message);
+            });
+    }
+
 
 });
