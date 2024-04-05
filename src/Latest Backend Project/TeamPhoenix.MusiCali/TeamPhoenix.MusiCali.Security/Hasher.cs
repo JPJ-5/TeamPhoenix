@@ -45,7 +45,7 @@ namespace TeamPhoenix.MusiCali.Security
         {
             // Create a random number generator
             //using (var rng = new RNGCryptoServiceProvider())
-            using (var rng  = RandomNumberGenerator.Create())
+            using (var rng = RandomNumberGenerator.Create())
             {
                 // Generate an array of random bytes
                 byte[] randomBytes = new byte[8];

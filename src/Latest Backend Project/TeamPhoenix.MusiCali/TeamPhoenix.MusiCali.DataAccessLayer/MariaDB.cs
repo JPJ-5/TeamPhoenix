@@ -31,16 +31,16 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     connection.Open();
                     Console.WriteLine("Connected to the database.");
                     return true;
-                    
+                   
 
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error: {ex.Message}");
                     return false;
-                    
                 }
             }
+
             //Console.ReadLine(); // Pause console application
         }
 
@@ -85,6 +85,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     }
                     var res = new Result();
                     res.HasError = false;
+                    res.ErrorMessage = "unable to insert create log";
                     return res;
 
                 }

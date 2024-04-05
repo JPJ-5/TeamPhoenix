@@ -28,7 +28,7 @@ namespace AccCreationAPI.Controllers
         {
             public string Email { get; set; } = string.Empty;
             public DateTime Dob { get; set; }
-            public string Uname { get; set; } = string.Empty;   
+            public string Uname { get; set; } = string.Empty;
             public string Bmail { get; set; } = string.Empty;
         }
 

@@ -9,7 +9,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
 {
     public class AuthResult
     {
-        public UserAuthN? userA { get; set; }
+        public  UserAuthN? userA {  get; set; }
         public UserAccount? userAcc { get; set; }    
 
         public UserClaims? userC {  get; set; }

@@ -8,7 +8,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
 {
     public class UserAuthN
     {
-        public string Username { get; set; }
+        public string Username { get; set; } = string.Empty;
         public string Salt { get; set; } = string.Empty;
         public string OTP { get; set; } = string.Empty;
         public DateTime otpTimestamp { get; set; }
