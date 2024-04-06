@@ -10,7 +10,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class LogoutRepository
     {
-        private static readonly string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
         public async Task<bool> LogUserLogoutAsync(string userName)
         {
             try
