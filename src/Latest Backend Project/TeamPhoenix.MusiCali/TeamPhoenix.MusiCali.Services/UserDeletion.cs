@@ -7,7 +7,7 @@ namespace TeamPhoenix.MusiCali.Services
 {
     public class UserDeletion
     {
-        public Result DeleteAccount(string username)
+        public static Result DeleteAccount(string username)
         {
             try
             {
