@@ -72,11 +72,13 @@ namespace TeamPhoenix.MusiCali.Tests.Services
         [TestCleanup]
         public void Cleanup()
         {
+            /*
             Tester.DeleteAllRows("UserAuthN");
             Tester.DeleteAllRows("UserProfile");
             Tester.DeleteAllRows("UserRecovery");
             Tester.DeleteAllRows("UserClaims");
             Tester.DeleteAllRows("UserAccount");
+            */
         }
     }
 }

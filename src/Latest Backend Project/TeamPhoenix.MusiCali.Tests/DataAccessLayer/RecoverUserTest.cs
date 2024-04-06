@@ -76,11 +76,13 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
         [TestCleanup]
         public void Cleanup()
         {
+            /*
             Tester.DeleteAllRows("UserAuthN");
             Tester.DeleteAllRows("UserProfile");
             Tester.DeleteAllRows("UserRecovery");
             Tester.DeleteAllRows("UserClaims");
             Tester.DeleteAllRows("UserAccount");
+            */
         }
     }
 }

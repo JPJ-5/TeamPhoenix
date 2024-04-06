@@ -234,7 +234,9 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
         [TestCleanup]
         public void Cleanup()
         {
+            /*
             Tester.DeleteAllRows("UserAccount");
+            */
         }
     }
 }

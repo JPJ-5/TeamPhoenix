@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using dao = TeamPhoenix.MusiCali.DataAccessLayer.Authentication;
 using uC = TeamPhoenix.MusiCali.Services.UserCreation;
+using uD = TeamPhoenix.MusiCali.Services.UserDeletion;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 
 namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
@@ -65,11 +66,13 @@ namespace TeamPhoenix.MusiCali.Tests.DataAccessLayer
         [TestCleanup]
         public void Cleanup()
         {
+            /*
             Tester.DeleteAllRows("UserAuthN");
             Tester.DeleteAllRows("UserProfile");
             Tester.DeleteAllRows("UserRecovery");
             Tester.DeleteAllRows("UserClaims");
             Tester.DeleteAllRows("UserAccount");
+            */
         }
         // Add more test methods for other scenarios
 
