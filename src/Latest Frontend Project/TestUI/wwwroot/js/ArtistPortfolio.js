@@ -1,13 +1,14 @@
-document.getElementById('enter-artistPortfolio').addEventListener('click', function () {
-    var activeUsername = sessionStorage.getItem('username');
-    var profileDiv = document.getElementById('artistPortfolioView');
-    var feedbackBox = document.getElementById('portfolio-feedback');
-    // Check if the profile is already displayed
-    if (profileDiv.style.display === 'block') {
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('enter-artistPortfolio').addEventListener('click', function () {
+        var activeUsername = sessionStorage.getItem('username');
+        var profileDiv = document.getElementById('artistPortfolioView');
+        var feedbackBox = document.getElementById('portfolio-feedback');
+        // Check if the profile is already displayed
+
         const query = new URLSearchParams({
             username: activeUsername
         }).toString();
-        const url = 'http://localhost:8080/ArtistPortfolio/api/loadApi?' + query;
+        const url = 'http://localhost:8080/ArtistPortfolio/api/loadApi?' + query.toString();
         fetch(url, {
             method: 'GET',
         })
@@ -15,7 +16,7 @@ document.getElementById('enter-artistPortfolio').addEventListener('click', funct
                 if (response.ok) {
                     return response.json();
                 } else {
-                    throw new Error('Failed to load artist profile');
+                    return response.text().then(text => { throw new Error(text); });
                 }
             })
             .then(profileData => {
@@ -26,50 +27,104 @@ document.getElementById('enter-artistPortfolio').addEventListener('click', funct
                 feedbackBox.textContent = 'Error loading artist profile. Please try again.';
                 feedbackBox.style.color = 'red';
             });
-    } else {
-        profileDiv.style.display = 'block';
-    }
+    });
 });
 
-function displayArtistProfile(profileData) {
-    const profileInfo = profileData.List1;
-    const localFileInfo = profileData.List2;
-    console.log('Profile info:', ProfileInfo);
-    console.log('Profile occ:', ProfileInfo[0]);
+function displayArtistProfile(portfolioInfo) {
+    console.log('Profile info:', portfolioInfo);
 
     // Update profile info
-    document.getElementById('bio-content').textContent = profileInfo[1] || 'N/A';
-    document.getElementById('occupation-content').textContent = profileInfo[0] || 'N/A';
+    const bioContent = document.getElementById('bio-content');
+    const occupationContent = document.getElementById('occupation-content');
 
-    // Update profile pic
-    const profilePicContent = document.getElementById('media-slot-0-content');
-    if (localFileInfo && localFileInfo.length > 0 && localFileInfo[0].length > 0) {
-        profilePicContent.textContent = 'Profile Pic';
+    if (bioContent && occupationContent) {
+        bioContent.textContent = portfolioInfo.bio || 'No bio yet';
+        occupationContent.textContent = portfolioInfo.occupation || 'Unknown';
     } else {
-        profilePicContent.textContent = 'N/A';
+        console.error('Bio content or occupation content element is null.');
+        return;
     }
 
-    // Update media slots
-    for (let i = 1; i <= 5; i++) {
-        const mediaSlotContent = document.getElementById(`media-slot-${i}-content`);
-        if (localFileInfo && localFileInfo.length >= 1 && localFileInfo[0].length >= i) {
-            mediaSlotContent.textContent = `${localFileInfo[0][i - 1]}` || 'N/A';
-        } else {
-            mediaSlotContent.textContent = 'N/A';
+    // Set media sources based on file type for each media slot
+    for (let i = 0; i <= 5; i++) {
+        const fileContent = portfolioInfo[`file${i}Path`];
+        const fileDesc = portfolioInfo[`file${i}Desc`] || 'No file selected';
+        const fileGenre = portfolioInfo[`file${i}Genre`] || 'N/A';
+
+        const mediaSlot = document.getElementById(`slot-${i}`);
+        const mediaSlotContent = mediaSlot ? mediaSlot.querySelector('span') : null;
+        const mediaSlotDesc = mediaSlot ? mediaSlot.querySelector(`#file-desc-${i}`) : null;
+        const mediaSlotGenre = mediaSlot ? mediaSlot.querySelector(`#file-genre-${i}`) : null;
+        console.log(i + ": " + fileContent)
+
+        if (fileContent == null) {
+            if (mediaSlotContent) {
+                mediaSlotContent.textContent = 'No file yet';
+            }
+        } else if (i === 0 && fileContent && (fileContent.endsWith('.png') || fileContent.endsWith('.jpg') || fileContent.endsWith('.jpeg'))) {
+            // Image file for slot 0
+            const image = document.createElement('img');
+            image.src = fileContent;
+            image.style.maxWidth = '100%';
+            image.style.height = 'auto';
+            image.style.display = 'block';
+            if (mediaSlot) {
+                mediaSlot.insertBefore(image, mediaSlotContent);
+            } else {
+                console.error(`Media slot ${i} is null.`);
+            }
+        } else if (i !== 0 && fileContent) {
+            // Audio or video file for slots 1 to 5
+            if (fileContent.endsWith('.mp3') || fileContent.endsWith('.wav') || fileContent.endsWith('.mp')) {
+                // Audio file
+                const audio = document.createElement('audio');
+                audio.src = fileContent;
+                audio.controls = true;
+                audio.style.maxWidth = '100%';
+                audio.style.height = 'auto';
+                audio.style.display = 'block';
+                if (mediaSlot) {
+                    mediaSlot.insertBefore(audio, mediaSlotContent);
+                } else {
+                    console.error(`Media slot ${i} is null.`);
+                }
+            } else if (fileContent.endsWith('.mp4')) {
+                // Video file
+                const video = document.createElement('video');
+                video.src = fileContent;
+                video.controls = true;
+                video.style.maxWidth = '100%';
+                video.style.height = 'auto';
+                video.style.display = 'block';
+                if (mediaSlot) {
+                    mediaSlot.insertBefore(video, mediaSlotContent);
+                } else {
+                    console.error(`Media slot ${i} is null.`);
+                }
+            }
+        }
+
+        if (i !== 0) {
+            if (mediaSlotDesc) {
+                mediaSlotDesc.placeholder = 'File Description';
+                mediaSlotDesc.value = fileDesc;
+            }
+            if (mediaSlotGenre) {
+                mediaSlotGenre.placeholder = 'File Genre';
+                mediaSlotGenre.value = fileGenre;
+            }
         }
     }
 
-    // Update genre and description for media slots
-    for (let i = 1; i <= 5; i++) {
-        const genreContent = document.getElementById(`file-genre-${i}`);
-        const descContent = document.getElementById(`file-desc-${i}`);
-        if (localFileInfo && localFileInfo.length >= 3 && localFileInfo[1].length >= i && localFileInfo[2].length >= i) {
-            genreContent.textContent = `${localFileInfo[1][i - 1]}` || 'N/A';
-            descContent.textContent = `${localFileInfo[2][i - 1]}` || 'N/A';
-        } else {
-            genreContent.textContent = 'N/A';
-            descContent.textContent = 'N/A';
-        }
-    }
+    document.querySelector('.main').style.display = 'none'; // Hide main content
+    document.getElementById('tempoToolView').style.display = 'none'; // Show tempo tool content
+    document.getElementById('artistPortfolioView').style.display = 'block';
 }
 
+function uploadFile(slotNumber) {
+    // Implement file upload logic
+}
+
+function deleteFile(slotNumber) {
+    // Implement file deletion logic
+}

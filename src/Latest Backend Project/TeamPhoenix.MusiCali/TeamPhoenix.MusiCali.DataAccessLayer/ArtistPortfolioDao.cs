@@ -191,18 +191,18 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                         {
                             if (reader.Read())
                             {
-                                occ = reader[$"ArtistOccupation"] != DBNull.Value ? reader[$"ArtistOccupation"].ToString() : "";
-                                bio = reader[$"ArtistBio"] != DBNull.Value ? reader[$"ArtistBio"].ToString() : "";
-                                loc = reader[$"ArtistBio"] != DBNull.Value ? reader[$"ArtistLocation"].ToString() : "";
+                                occ = reader[$"ArtistOccupation"].ToString() ?? string.Empty;
+                                bio = reader[$"ArtistBio"].ToString() ?? string.Empty;
+                                loc = reader[$"ArtistBio"].ToString() ?? string.Empty;
                                 artistInfo.Add(occ);
                                 artistInfo.Add(bio);
                                 artistInfo.Add(loc);
                             }
                             else
                             {
-                                artistInfo.Add("");
-                                artistInfo.Add("");
-                                artistInfo.Add("");
+                                artistInfo.Add(string.Empty);
+                                artistInfo.Add(string.Empty);
+                                artistInfo.Add(string.Empty);
                             }
                         }
                     }
@@ -241,16 +241,12 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 {
                                     if (reader.Read())
                                     {
-                                        string filePath = reader[$"File{i}Path"] != DBNull.Value ? reader[$"File{i}Path"].ToString() : "";
+                                        string filePath = reader[$"File{i}Path"].ToString() ?? string.Empty;
                                         filePaths.Add(filePath);
-                                        fileGenres.Add("");
-                                        fileDescriptions.Add("");
                                     }
                                     else
                                     {
-                                        filePaths.Add(""); // If no record is found, add empty string to maintain slot order
-                                        fileGenres.Add("");
-                                        fileDescriptions.Add("");
+                                        filePaths.Add(string.Empty); // If no record is found, add empty string to maintain slot order
                                     }
                                 }
 
@@ -268,18 +264,18 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 {
                                     if (reader.Read())
                                     {
-                                        string filePath = reader[$"File{i}Path"] != DBNull.Value ? reader[$"File{i}Path"].ToString() : "";
-                                        string fileGenre = reader[$"File{i}Genre"] != DBNull.Value ? reader[$"File{i}Genre"].ToString() : "";
-                                        string fileDesc = reader[$"File{i}Desc"] != DBNull.Value ? reader[$"File{i}Desc"].ToString() : "";
+                                        string filePath = reader[$"File{i}Path"].ToString() ?? string.Empty;
+                                        string fileGenre = reader[$"File{i}Genre"].ToString() ?? string.Empty;
+                                        string fileDesc = reader[$"File{i}Desc"].ToString() ?? string.Empty;
                                         filePaths.Add(filePath);
                                         fileGenres.Add(fileGenre);
                                         fileDescriptions.Add(fileDesc);
                                     }
                                     else
                                     {
-                                        filePaths.Add(""); // If no record is found, add empty string to maintain slot order
-                                        fileGenres.Add("");
-                                        fileDescriptions.Add("");
+                                        filePaths.Add(string.Empty); // If no record is found, add empty string to maintain slot order
+                                        fileGenres.Add(string.Empty);
+                                        fileDescriptions.Add(string.Empty);
                                     }
                                 }
                             }

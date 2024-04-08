@@ -21,7 +21,7 @@
         document.getElementById('tempoToolView').style.display = 'none'; // Show tempo tool content
         document.getElementById('artistPortfolioView').style.display = 'block';
         var username = document.getElementById("username").value;
-        logFeatureUsage(username, "Artist Portfolio");
+        logFeatureUsage(username, "ArtistPortfolio");
     });
 
     menuButton.addEventListener('click', function () {
@@ -972,7 +972,7 @@
                 }
             })
             .then(data => {
-                console.log('Tempo usage logged successfully');
+                console.log(feature + 'usage logged successfully');
             })
             .catch(error => {
                 console.error('Error logging tempo usage:', error.message);

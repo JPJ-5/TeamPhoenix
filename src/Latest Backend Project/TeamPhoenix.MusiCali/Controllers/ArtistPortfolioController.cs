@@ -55,11 +55,6 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
-        public class ArtistProfileData
-        {
-            public List<string> List1 { get; set; }
-            public List<List<string>> List2 { get; set; }
-        }
 
         [HttpGet("api/loadApi")]
         public IActionResult LoadArtistProfile([FromQuery] string username)
@@ -68,18 +63,46 @@ namespace TeamPhoenix.MusiCali.Controllers
             {
                 var artistInfo = ArtistPortfolioDao.GetProfileInfo(username);
                 var fileInfo = ArtistPortfolioDao.GetAllFileInfo(username);
+                if (artistInfo == null)
+                {
+                    return NotFound("Artist Info not found.");
+                }
+                if (fileInfo == null)
+                {
+                    return NotFound("Artist Info not found.");
+                }
                 var filePaths = fileInfo[0];
                 var localFilePaths = ArtistPortfolio.DownloadFilesLocally(filePaths);
+                if (localFilePaths == null)
+                {
+                    return NotFound("local files unable to be saved locally not found.");
+                }
                 var genreList = fileInfo[1];
                 var descList = fileInfo[2];
-                var localFileInfo = new List<List<string>> { localFilePaths, genreList, descList };
 
 
                 // Prepare the response object
-                var responseData = new ArtistProfileData
+                var responseData = new ArtistProfileViewModel
                 {
-                    List1 = artistInfo,
-                    List2 = localFileInfo
+                    Occupation = artistInfo[0],
+                    Bio = artistInfo[1],
+                    Location = artistInfo[2],
+                    File0Path = localFilePaths[0],
+                    File1Path = localFilePaths[1],
+                    File1Genre = genreList[0],
+                    File1Desc = descList[0],
+                    File2Path = localFilePaths[2],
+                    File2Genre = genreList[1],
+                    File2Desc = descList[1],
+                    File3Path = localFilePaths[3],
+                    File3Genre = genreList[2],
+                    File3Desc = descList[2],
+                    File4Path = localFilePaths[4],
+                    File4Genre = genreList[3],
+                    File4Desc = descList[3],
+                    File5Path = localFilePaths[5],
+                    File5Genre = genreList[4],
+                    File5Desc = descList[4],
                 };
 
                 return Ok(responseData);

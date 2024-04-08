@@ -143,7 +143,7 @@ namespace TeamPhoenix.MusiCali.Services
 
                         foreach (var filePath in filePaths)
                         {
-                            if (filePath != null)
+                            if (filePath != string.Empty)
                             {
                                 // Extract file name from the file path
                                 var fileName = Path.GetFileName(filePath);
@@ -163,7 +163,7 @@ namespace TeamPhoenix.MusiCali.Services
                             else
                             {
                                 // Add null to maintain slot order
-                                localFilePaths.Add("");
+                                localFilePaths.Add(string.Empty);
                             }
                         }
                     }
