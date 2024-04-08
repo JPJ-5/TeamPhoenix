@@ -37,7 +37,7 @@ namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
                                 Convert.ToDateTime(reader["GigDateTime"])
                                 );
                             gigs.Add(newGig);
-                            reader.NextResult();
+                            //reader.NextResult();
                         }
                     }
                 }
