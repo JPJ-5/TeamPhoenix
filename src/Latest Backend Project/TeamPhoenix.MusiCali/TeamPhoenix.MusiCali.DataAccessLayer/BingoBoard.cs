@@ -1,7 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using rU = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
 using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
 
 namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
@@ -42,7 +42,7 @@ namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
                         }
                         if(gigs.Count == 0)
                         {
-                            userHash = currentUsername;
+                            userHash = rU.GetUserHash(currentUsername);
                             level = "Info";
                             category = "View";
                             context = "Failed to retrieve gigs";
@@ -51,7 +51,7 @@ namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
                         }
                         if(gigs.Count == numberOfGigs)
                         {
-                            userHash = currentUsername;
+                            userHash = rU.GetUserHash(currentUsername);
                             level = "Info";
                             category = "View";
                             context = $"{numberOfGigs} gigs successfully retrieved from database";
@@ -59,7 +59,7 @@ namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
                         }
                         else
                         {
-                            userHash = currentUsername;
+                            userHash = rU.GetUserHash(currentUsername);
                             level = "Info";
                             category = "View";
                             context = $"{gigs.Count} gigs successfully retrieved from database, but {numberOfGigs} were requested";
