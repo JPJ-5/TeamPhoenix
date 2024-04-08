@@ -26,7 +26,7 @@ namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
                     
                     using(var reader = command.ExecuteReader())
                     {
-                        if(reader.Read())
+                        while(reader.Read())
                         {
 
                         }
