@@ -1,0 +1,468 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Musicali</title>
+    <link href="css/site.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="#other" class="left">Other Functions</a>
+
+        <div class="navbar">
+            <a href="#other" class="left">Other Functions</a>
+            <div class="hamburger" id="menu-btn">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+
+            <!--<button onclick="listNoteOptions()">Scale Display</button> -->
+ 
+            <div class="dropdown" id="myDropdown">
+                <!-- Group 1: Login-related elements -->
+                <button id="show-login">Login Now</button>
+                <form id="login-form" class="group1">
+                    <!--<input type="email" placeholder="Enter your Email" id="email">-->
+                    <input type="text" placeholder="Enter your User Name" id="username">
+                    <button type="button" id="email-otp">Send OTP via Email</button>
+                </form>
+
+                <!-- OTP verification form -->
+                <form id="otp-form" class="group1">
+                    <input type="text" placeholder="Enter OTP from your email" id="enter-otp">
+                    <button type="submit" id="submit-otp">Submit</button>
+                </form>
+
+                <!-- Group 2: Registration-related elements -->
+                <button id="show-register">Register</button>
+                <form id="register-email-form" class="group2">
+                    <input type="email" placeholder="Enter Email" id="register-email">
+                    <button type="button" id="show-details-form">Submit</button>
+                </form>
+                <form id="register-details-form" class="group2">
+                    <input type="text" placeholder="User Name" id="user-name">
+                    <input type="email" placeholder="Recovery Email" id="backup-email">
+                    <input type="date" id="dob">
+                    <button type="submit" id="finalize-registration">Submit</button>
+                </form>
+                <!-- Group 3: Account-recover-related elements -->
+                <button id="account-recovery-button">Account Recovery</button>
+
+                <!-- Account Recovery Section -->
+                <form id="account-recovery-section" class="group3" style="display: none;">
+                    <input type="text" id="User Name" placeholder="Enter Username for Recovery">
+                    <button id="submit-recovery-username">Submit</button>
+                </form>
+
+                <form id="otp-recovery-section" class="group3">
+                    <input type="text" placeholder="Re-enter OTP" id="re-enter-otp">
+                    <button type="submit" id="submit-recovery-otp">Submit</button>
+                </form>
+
+                <!-------------------- Scale Display ------------------->
+                <button>Scale Display</button>
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                    <h1 class="neon-text">Welcome to Scale Display!</h1>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <!--<title>Scale Display</title>-->
+                    <p>Choose a scale then pick its type!</p>
+                    <style>
+                    /* Style for the buttons */
+                    button {
+                        margin: 5px;
+                    }
+                    </style>
+                    </head>
+                    <body>
+                    <select id="note-options" size="7">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                    </select>
+                    <select id="options" size="7">
+                        <option value="major">Major</option>
+                        <option value="minor">minor</option>
+                        <option value="Lydian">Lydian</option>
+                        <option value="HarmonicMinor">Harmonic minor</option>
+                        <option value="Dorian">Dorian</option>
+                        <option value="Pentatonic">Pentatonic</option>
+                    </select>
+                    <br>
+                    <button onclick="printSelectedScale()">Print Scale</button>
+                    <br>
+
+                    <div id="display"></div>
+
+                    <script>
+                    var scales = {
+                    'A': ['A'],
+                    'B': ['B'],
+                    'C': ['C'],
+                    'D': ['D'],
+                    'E': ['E'],
+                    'F': ['F'],
+                    'G': ['G']
+                    };
+
+                    
+                    var scaleTypes = {
+                        'major': ['a', 'b', 'c sharp', 'd', 'e', 'f sharp', 'g sharp', 'a'],
+                        'minor': ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'a'],
+                        'Lydian': ['a', 'b', 'c sharp', 'd sharp', 'e', 'f sharp', 'g sharp', 'a'],
+                        'HarmonicMinor': ['a', 'b', 'c', 'd', 'e', 'f', 'g sharp', 'a'],
+                        'Dorian': ['a', 'b', 'c', 'd', 'e', 'f sharp', 'g', 'a'],
+                        'Pentatonic': ['a', 'c', 'd', 'e', 'g', 'a']
+                    };
+
+                    function generateScales() {
+                    var alphabet = 'ABCDEFG';
+                    var index = document.getElementById('note-options').selectedIndex;
+                    var currentNote = alphabet[index];
+                    var currentScales = {};
+                    for (var i = 0; i < alphabet.length; i++) {
+                        var scaleLetter = alphabet[i];
+                        currentScales[scaleLetter] = [scaleLetter];
+                    }
+                    scales = currentScales;
+                    }
+
+                    function updateDisplay() {
+                    generateScales(); // Update scales based on the selected index
+                    var selectBox = document.getElementById('note-options');
+                    var selectedIndex = selectBox.selectedIndex;
+                    var selectedValue = selectBox.options[selectedIndex].value;
+                    var selectedScale = scales[selectedValue]; 
+                    var selectBoxType = document.getElementById('options');
+                    var selectedType = selectBoxType.options[selectBoxType.selectedIndex].value;
+                    var selectedScaleType = scaleTypes[selectedType];
+
+                    
+                    /////////////Scale Notes for A///////////////////
+                    if(selectedValue === 'A') {
+                        if(selectedType === 'major'){
+                            selectedScaleType = ['A', 'B','C#','D','E','F#','G#'];
+                        }
+                        else if(selectedType === 'minor'){
+                            selectedScaleType = ['A', 'B', 'C', 'D', 'E','F','G'];
+                        }
+                        else if(selectedType === 'Lydian'){
+                            selectedScaleType = ['A', 'B', 'C', 'D#', 'E','F#','G#'];
+                        }
+                        else if(selectedType === 'HarmonicMinor'){
+                            selectedScaleType = ['A', 'B', 'C', 'D', 'Eb','F#','G'];
+                        }
+                        else if(selectedType === 'Dorian'){
+                            selectedScaleType = ['A', 'B', 'C', 'D', 'E','F#','G'];
+                        }
+                        else if(selectedType === 'Pentatonic'){
+                            selectedScaleType = ['A','C', 'D', 'E','G'];
+                        }
+                    }
+                    /////////////Scale Notes for B///////////////////
+                    if(selectedValue === 'B') {
+                        if(selectedType === 'major'){
+                            selectedScaleType = ['B','C#','D#','E','F#','G#','A#'];
+                        }
+                        else if(selectedType === 'minor'){
+                            selectedScaleType = ['B','C#','D','E','F#','G','A'];
+                        }
+                        else if(selectedType === 'Lydian'){
+                            selectedScaleType = ['B','C#','D#','E#','F#','G#','A#'];
+                        }
+                        else if(selectedType === 'HarmonicMinor'){
+                            selectedScaleType = ['B','C#','D','E','F','G#','A'];
+                        }
+                        else if(selectedType === 'Dorian'){
+                            selectedScaleType = ['B','C#','D','E','F#','G#','A'];
+                        }
+                        else if(selectedType === 'Pentatonic'){
+                            selectedScaleType = ['B','D','E','F#','A'];
+                        }
+                    }
+
+                    /////////////Scale Notes for C///////////////////
+                    if(selectedValue === 'C') {
+                        if(selectedType === 'major'){
+                            selectedScaleType = ['C','D','E','F','G','A','B'];
+                        }
+                        else if(selectedType === 'minor'){
+                            selectedScaleType = ['C','D','Eb','F','G','Ab','Bb'];
+                        }
+                        else if(selectedType === 'Lydian'){
+                            selectedScaleType = ['C','D','E','F#','G','A','B'];
+                        }
+                        else if(selectedType === 'HarmonicMinor'){
+                            selectedScaleType = ['C','D','Eb','F','G','Ab','B'];
+                        }
+                        else if(selectedType === 'Dorian'){
+                            selectedScaleType = ['C','D','Eb','F','G','A','Bb'];
+                        }
+                        else if(selectedType === 'Pentatonic'){
+                            selectedScaleType = ['C','Eb','F','G','Bb'];
+                        }
+                    }
+
+                    /////////////Scale Notes for D ///////////////////
+                    if(selectedValue === 'D') {
+                        if(selectedType === 'major'){
+                            selectedScaleType = ['D','E','F#','G','A','B','C#'];
+                        }
+                        else if(selectedType === 'minor'){
+                            selectedScaleType = ['D','E','F','G','A','Bb','C'];
+                        }
+                        else if(selectedType === 'Lydian'){
+                            selectedScaleType = ['D','E','F','G#','A','B','C#'];
+                        }
+                        else if(selectedType === 'HarmonicMinor'){
+                            selectedScaleType = ['D','E','F','G','A','Bb','C#'];
+                        }
+                        else if(selectedType === 'Dorian'){
+                            selectedScaleType = ['D','E','F','G','A','Bb','C'];
+                        }
+                        else if(selectedType === 'Pentatonic'){
+                            selectedScaleType = ['D','F','G','A','C'];
+                        }
+                    }
+
+                    ////////////Scale Notes for E /////////////////////
+                    if(selectedValue === 'E') {
+                        if(selectedType === 'major'){
+                            selectedScaleType = ['E','F#','G#','A','B','C#','D#'];
+                        }
+                        else if(selectedType === 'minor'){
+                            selectedScaleType = ['E','F#','G','A','B','C','D'];
+                        }
+                        else if(selectedType === 'Lydian'){
+                            selectedScaleType = ['E','F#','G#','A#','B','C#','D#'];
+                        }
+                        else if(selectedType === 'HarmonicMinor'){
+                            selectedScaleType = ['E','F#','G','A','B','C','D#'];
+                        }
+                        else if(selectedType === 'Dorian'){
+                            selectedScaleType = ['E','F#','G','A','B','C#','D'];
+                        }
+                        else if(selectedType === 'Pentatonic'){
+                            selectedScaleType = ['E','G','A','B','D'];
+                        }
+                    }
+
+                    ////////////// Scale Notes for F /////////////////////
+
+                    if(selectedValue === 'F'){
+                        if(selectedType === 'major'){
+                            selectedScaleType = ['F','G','A','Bb','C','D', 'E'];
+                        }
+                        else if(selectedType === 'minor'){
+                            selectedScaleType = ['E','F#','G','A','B','C','D'];
+                        }
+                        else if(selectedType === 'Lydian'){
+                            selectedScaleType = ['E','F#','G#','A#','B','C#','D#'];
+                        }
+                        else if(selectedType === 'HarmonicMinor'){
+                            selectedScaleType = ['E','F#','G','A','B','C','D#'];
+                        }
+                        else if(selectedType === 'Dorian'){
+                            selectedScaleType = ['E','F#','G','A','B','C#','D'];
+                        }
+                        else if(selectedType === 'Pentatonic'){
+                            selectedScaleType = ['E','G','A','B','D'];
+                        }
+                    }
+                    
+                    ////////////// Scale Notes for G /////////////////
+                    if(selectedValue === 'G'){
+                        if(selectedType === 'major'){
+                            selectedScaleType = ['G','A','B','C','D', 'E', 'F#'];
+                        }
+                        else if(selectedType === 'minor'){
+                            selectedScaleType = ['G','A','Bb','C','D', 'Eb', 'F'];
+                        }
+                        else if(selectedType === 'Lydian'){
+                            selectedScaleType = ['G','A','B','C#','D', 'E', 'F#'];
+                        }
+                        else if(selectedType === 'HarmonicMinor'){
+                            selectedScaleType = ['G','A','Bb','C','D', 'E', 'F#'];
+                        }
+                        else if(selectedType === 'Dorian'){
+                            selectedScaleType = ['G','A','Bb','C','D', 'E', 'F'];
+                        }
+                        else if(selectedType === 'Pentatonic'){
+                            selectedScaleType = ['G','Bb','C','D', 'F'];
+                        }
+                    }
+                    
+                    document.getElementById('display').textContent = selectedScale.join() + " " + selectedType + ": " + "\n" + selectedScaleType.join(', ');
+                    }
+
+                    function moveLeft() {
+                    var selectBox = document.getElementById('note-options');
+                    var selectedIndex = selectBox.selectedIndex;
+                    if (selectedIndex > 0) {
+                        selectBox.selectedIndex = selectedIndex - 1;
+                        updateDisplay();
+                    }
+                    }
+
+                    function moveRight() {
+                    var selectBox = document.getElementById('note-options');
+                    var selectedIndex = selectBox.selectedIndex;
+                    if (selectedIndex < selectBox.options.length - 1) {
+                        selectBox.selectedIndex = selectedIndex + 1;
+                        updateDisplay();
+                    }
+                    }
+
+                    function printSelectedScale() {
+                    updateDisplay(); // Make sure the display is up to date
+                    var displayContent = document.getElementById('display').textContent;
+                    var displayScaleType = document.getElementById('display')
+                    alert("Here Is Your Selected Scale: \n" + displayContent);
+                    }
+
+                    // Initial update of display
+                    updateDisplay();
+                    </script>
+                    </body>
+                    </html>
+
+
+
+
+
+
+
+
+                <!-- User Profile Section, initially hidden -->
+                <div id="user-profile" class="user-profile scrollable-content" style="display: none;">
+                    <p><strong>First Name:</strong> <span id="user-first-name"></span></p>
+                    <p><strong>Last Name:</strong> <span id="user-last-name"></span></p>
+                    <p><strong>Date of Birth:</strong> <span id="user-dob"></span></p>
+                    <p><strong>Email:</strong> <span id="user-email"></span></p>
+                    <p><strong>User Role:</strong> <span id="user-role"></span></p>
+                    <p><strong>User Status:</strong> <span id="user-status"></span></p>
+                    <p><strong>Description:</strong> <span id="user-description"></span></p>
+                    <img id="user-profile-pic" src="" alt="Profile Pic" style="width: 200px; height: 200px;" />
+
+                    <button id="modify-profile" class="modify-profile">Modify Profile</button>
+                    <!-- Modify Profile Section (Hidden Initially) -->
+                    <div id="modify-profile-section" style="display: none;">
+                        <!-- Normal User Profile Modification Section -->
+                        <div id="normal-user-modify-section" style="display: none;">
+                            <h3>Modify Your Profile</h3>
+                            <input type="text" id="normal-user-first-name" placeholder="First Name"><br>
+                            <input type="text" id="normal-user-last-name" placeholder="Last Name"><br>
+                            <button id="normal-user-save-changes">Save Changes</button>
+                            <button id="normal-user-delete">Delete Account</button>
+                        </div>
+
+                        <div id="user-details-display" style="display:none; padding:10px; margin-top:20px; border:1px solid #ddd; background-color: #f9f9f9;">
+                            <!-- User details will be populated here -->
+                        </div>
+
+                        <!-- Admin Management Section -->
+                        <div id="admin-management-section">
+                            <h3>Admin Management Tools</h3>
+                            <button id="admin-get-user">Get User</button>
+                            <button id="admin-delete-user">Delete User</button>
+                            <button id="admin-update-claims">Update User Claims</button>
+                            <button id="admin-user-creation-button">Create Another Admin Account</button>
+                            <!-- Admin Account Creation Form -->
+                            <form id="admin-creation-form" style="display: none;">
+                                <div>
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div>
+                                    <label for="dob">Date of Birth:</label>
+                                    <input type="date" id="dob" name="dob" required>
+                                </div>
+                                <div>
+                                    <label for="uname">Username:</label>
+                                    <input type="text" id="uname" name="uname" required>
+                                </div>
+                                <div>
+                                    <label for="bmail">Backup Email:</label>
+                                    <input type="email" id="bmail" name="bmail" required>
+                                </div>
+                                <button type="button" id="admin-user-creation">Create Another Admin Account</button>
+                            </form>
+                            <div id="feedback-box" style="display: none;"></div>
+                        </div>
+                    </div>
+                    <!-- Logout Button -->
+                    <button id="logoutButton" class="logout-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <h1 class="neon-text">Welcome to The Musicali</h1>
+        <p class="neon-text">This is AWS ec2 running ubuntu for apache web server.</p>
+        <p class="neon-text">command for ssh control to reclone HTML from github repo using putty:.</p>
+        <p class="neon-text">cd /var/www/</p>
+        <p class="neon-text">sudo rm -r html</p>
+        <p class="neon-text">sudo git clone https://github.com/banhmy3t/testingUI.git html</p>
+        <p class="neon-text">Https installed using command on https://certbot.eff.org/ </p>
+
+    </div>
+
+
+    <script src="js/site.js"></script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Move Options Left/Right</title>
+<style>
+  /* Style for the buttons */
+  button {
+    margin: 5px;
+  }
+</style>
+</head>
+<body>
+<select id="options" size="1">
+  <option value="A">A</option>
+  <option value="B">B</option>
+  <option value="C">C</option>
+  <option value="D">D</option>
+  <option value="E">E</option>
+</select>
+<br>
+<button onclick="moveLeft()">Left</button>
+<button onclick="moveRight()">Right</button>
+
+<script>
+function moveLeft() {
+  var selectBox = document.getElementById('options');
+  var selectedIndex = selectBox.selectedIndex;
+  if (selectedIndex > 0) {
+    selectBox.selectedIndex = selectedIndex - 1;
+  }
+}
+
+function moveRight() {
+  var selectBox = document.getElementById('options');
+  var selectedIndex = selectBox.selectedIndex;
+  if (selectedIndex < selectBox.options.length - 1) {
+    selectBox.selectedIndex = selectedIndex + 1;
+  }
+}
+</script>
+</body>
+</html>
