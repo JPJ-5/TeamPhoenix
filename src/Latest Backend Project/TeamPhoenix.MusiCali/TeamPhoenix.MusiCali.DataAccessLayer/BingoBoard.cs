@@ -1,5 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
 
 namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
 {
@@ -21,6 +23,14 @@ namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
                 using (var command = new MySqlCommand(viewGigSummarySql, connection))
                 {
                     command.Parameters.AddWithValue("@GigLoadLimit", numberOfGigs);
+                    
+                    using(var reader = command.ExecuteReader())
+                    {
+                        if(reader.Read())
+                        {
+
+                        }
+                    }
                 }
             }
 
