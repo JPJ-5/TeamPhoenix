@@ -8,7 +8,7 @@ namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class BingoBoard
     {
-        public static List<GigSummary>? ViewGigSummary(ushort numberOfGigs)
+        public static List<GigSummary>? ViewGigSummary(ushort numberOfGigs, string currentUsername)
         {
             string level;
             string category;
@@ -29,6 +29,7 @@ namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
                     
                     using(var reader = command.ExecuteReader())
                     {
+                        //should add every gig summary to a gigsummary list to be returned
                         while(reader.Read())
                         {
                             var newGig = new GigSummary(
@@ -39,11 +40,35 @@ namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
                             gigs.Add(newGig);
                             //reader.NextResult();
                         }
+                        if(gigs.Count == 0)
+                        {
+                            userHash = currentUsername;
+                            level = "Info";
+                            category = "View";
+                            context = "Failed to retrieve gigs";
+                            _loggerCreation.CreateLog(userHash, level, category, context);
+                            return null;
+                        }
+                        if(gigs.Count == numberOfGigs)
+                        {
+                            userHash = currentUsername;
+                            level = "Info";
+                            category = "View";
+                            context = $"{numberOfGigs} gigs successfully retrieved from database";
+                            _loggerCreation.CreateLog(userHash, level, category, context);
+                        }
+                        else
+                        {
+                            userHash = currentUsername;
+                            level = "Info";
+                            category = "View";
+                            context = $"{gigs.Count} gigs successfully retrieved from database, but {numberOfGigs} were requested";
+                            _loggerCreation.CreateLog(userHash, level, category, context);
+                        }
+                        return gigs;
                     }
                 }
             }
-
-                return null;
         }
     }
 }
