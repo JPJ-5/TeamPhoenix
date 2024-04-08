@@ -1,4 +1,5 @@
-﻿using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+﻿using MySql.Data.MySqlClient;
+using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
 {
@@ -13,7 +14,17 @@ namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
 
             string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
             string viewGigSummarySql = "SELECT PosterUsername, GigName, GigDateTime FROM Gig WHERE GigVisibility = TRUE ORDER BY GigDateTime LIMIT @giglimit";
-            return null;
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new MySqlCommand(viewGigSummarySql, connection))
+                {
+
+                }
+            }
+
+                return null;
         }
     }
 }
