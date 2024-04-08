@@ -15,7 +15,7 @@ namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
             string context;
             string userHash;
 
-            List<GigSummary> gigs;
+            List<GigSummary> gigs = new List<GigSummary>();
 
             string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
             string viewGigSummarySql = "SELECT PosterUsername, GigName, GigDateTime FROM Gig WHERE GigVisibility = TRUE ORDER BY GigDateTime LIMIT @GigLoadLimit";
@@ -31,7 +31,13 @@ namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
                     {
                         while(reader.Read())
                         {
-
+                            var newGig = new GigSummary(
+                                reader["PosterUsername"].ToString() ?? string.Empty,
+                                reader["GigName"].ToString() ?? string.Empty,
+                                Convert.ToDateTime(reader["GigDateTime"])
+                                );
+                            gigs.Add(newGig);
+                            reader.NextResult();
                         }
                     }
                 }
