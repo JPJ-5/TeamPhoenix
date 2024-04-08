@@ -11,7 +11,7 @@ namespace TeamPhoenix.MusiCali.Services
 {
     public class ArtistPortfolio
     {
-        public static async Task<Result> UploadFile(string username, int slot,  IFormFile file, string genre, string desc)
+        public static async Task<Result> UploadFile(string username, int slot, IFormFile file, string genre, string desc)
         {
             var privateKeyFilePath = "C:/Users/Joshu/Downloads/juliek.pem";
             var sshUsername = "ec2-user";
@@ -163,7 +163,7 @@ namespace TeamPhoenix.MusiCali.Services
                             else
                             {
                                 // Add null to maintain slot order
-                                localFilePaths.Add(null);
+                                localFilePaths.Add("");
                             }
                         }
                     }

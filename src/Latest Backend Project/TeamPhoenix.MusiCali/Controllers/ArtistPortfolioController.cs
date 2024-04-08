@@ -14,7 +14,7 @@ namespace TeamPhoenix.MusiCali.Controllers
     {
 
         [HttpPost("api/uploadApi")]
-        public async Task<IActionResult> UploadFile([FromForm] FileUploadViewModel model)
+        public async Task<IActionResult> UploadFile([FromBody] FileUploadViewModel model)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
         [HttpDelete("api/deleteApi")]
-        public IActionResult DeleteFile(string username, int slot)
+        public IActionResult DeleteFile([FromBody] string username, int slot)
         {
             try
             {
@@ -55,8 +55,14 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
+        public class ArtistProfileData
+        {
+            public List<string> List1 { get; set; }
+            public List<List<string>> List2 { get; set; }
+        }
+
         [HttpGet("api/loadApi")]
-        public IActionResult LoadArtistProfile(string username)
+        public IActionResult LoadArtistProfile([FromQuery] string username)
         {
             try
             {
@@ -64,20 +70,19 @@ namespace TeamPhoenix.MusiCali.Controllers
                 var fileInfo = ArtistPortfolioDao.GetAllFileInfo(username);
                 var filePaths = fileInfo[0];
                 var localFilePaths = ArtistPortfolio.DownloadFilesLocally(filePaths);
-                List<List<string>> localFileInfo = new List<List<string>>();
-                localFileInfo.Add(localFilePaths);
-                localFileInfo.Add(fileInfo[1]);
-                localFileInfo.Add(fileInfo[1]);
+                var genreList = fileInfo[1];
+                var descList = fileInfo[2];
+                var localFileInfo = new List<List<string>> { localFilePaths, genreList, descList };
 
 
-                // Prepare ViewModel and send it to frontend
-                var viewModel = new ArtistProfileViewModel
+                // Prepare the response object
+                var responseData = new ArtistProfileData
                 {
-                    ProfileInfo = artistInfo,
-                    LocalFileInfo = localFileInfo
+                    List1 = artistInfo,
+                    List2 = localFileInfo
                 };
 
-                return Ok(viewModel);
+                return Ok(responseData);
             }
             catch (Exception ex)
             {
@@ -85,8 +90,10 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
+
+
         [HttpPost("api/deleteLocalFilesApi")]
-        public IActionResult DeleteLocalFiles(List<string> filePaths)
+        public IActionResult DeleteLocalFiles([FromBody] List<string> filePaths)
         {
             try
             {
@@ -98,5 +105,6 @@ namespace TeamPhoenix.MusiCali.Controllers
                 return StatusCode(500, $"Error deleting local files: {ex.Message}");
             }
         }
+
     }
 }

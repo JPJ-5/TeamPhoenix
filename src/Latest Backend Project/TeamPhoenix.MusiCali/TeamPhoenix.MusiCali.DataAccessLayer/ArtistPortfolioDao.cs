@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Collections.Generic;
+
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class ArtistPortfolioDao
@@ -20,11 +21,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 using (MySqlConnection connection = new MySqlConnection(_connectionString))
                 {
                     connection.Open();
-                    
+
                     // Update the file path in the database
                     var query = $"UPDATE ArtistProfile SET File{slot}Path = @FilePath WHERE Username = @Username";
 
-                    //If 0 then its for picture and only needs file path
+                    // If 0 then it's for a picture and only needs file path
                     if (slot == 0)
                     {
                         using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -54,7 +55,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw new Exception($"An error occurred adding file ptath to database: {ex.Message}");
+                throw new Exception($"An error occurred adding file path to the database: {ex.Message}");
             }
         }
 
@@ -95,7 +96,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw new Exception($"An error occurred deleting file path from database: {ex.Message}");
+                throw new Exception($"An error occurred deleting file path from the database: {ex.Message}");
             }
         }
 
@@ -103,7 +104,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         {
             try
             {
-                string filePath = null;
+                string filePath = "";
 
                 // SQL query to retrieve the file path based on the username and slot number
                 string query = $"SELECT File{slot}Path FROM ArtistProfile WHERE Username = @Username";
@@ -138,7 +139,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         {
             try
             {
-                string artistUsername = null;
+                string artistUsername = "";
 
                 string query = $"SELECT Username FROM ArtistProfile WHERE Username = @Username";
 
@@ -172,9 +173,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         {
             try
             {
-                string occ = null;
-                string bio = null;
-                string loc = null;
+                string occ = "";
+                string bio = "";
+                string loc = "";
                 List<string> artistInfo = new List<string>();
                 string query = $"SELECT ArtistOccupation, ArtistBio, ArtistLocation FROM ArtistProfile WHERE Username = @Username";
 
@@ -190,12 +191,18 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                         {
                             if (reader.Read())
                             {
-                                occ = reader[$"ArtistOccupation"].ToString();
-                                bio = reader[$"ArtistBio"].ToString();
-                                loc = reader[$"ArtistLocation"].ToString();
+                                occ = reader[$"ArtistOccupation"] != DBNull.Value ? reader[$"ArtistOccupation"].ToString() : "";
+                                bio = reader[$"ArtistBio"] != DBNull.Value ? reader[$"ArtistBio"].ToString() : "";
+                                loc = reader[$"ArtistBio"] != DBNull.Value ? reader[$"ArtistLocation"].ToString() : "";
                                 artistInfo.Add(occ);
                                 artistInfo.Add(bio);
                                 artistInfo.Add(loc);
+                            }
+                            else
+                            {
+                                artistInfo.Add("");
+                                artistInfo.Add("");
+                                artistInfo.Add("");
                             }
                         }
                     }
@@ -208,7 +215,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 throw new Exception($"An error occurred retrieving genre: {ex.Message}");
             }
         }
-
 
         public static List<List<string>> GetAllFileInfo(string username)
         {
@@ -235,16 +241,16 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 {
                                     if (reader.Read())
                                     {
-                                        string filePath = reader[$"File{i}Path"] != DBNull.Value ? reader[$"File{i}Path"].ToString() : null;
+                                        string filePath = reader[$"File{i}Path"] != DBNull.Value ? reader[$"File{i}Path"].ToString() : "";
                                         filePaths.Add(filePath);
-                                        fileGenres.Add(null);
-                                        fileDescriptions.Add(null);
+                                        fileGenres.Add("");
+                                        fileDescriptions.Add("");
                                     }
                                     else
                                     {
-                                        filePaths.Add(null); // If no record is found, add null to maintain slot order
-                                        fileGenres.Add(null);
-                                        fileDescriptions.Add(null);
+                                        filePaths.Add(""); // If no record is found, add empty string to maintain slot order
+                                        fileGenres.Add("");
+                                        fileDescriptions.Add("");
                                     }
                                 }
 
@@ -257,23 +263,23 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             using (MySqlCommand command = new MySqlCommand(query, connection))
                             {
                                 command.Parameters.AddWithValue("@Username", username);
-                                
+
                                 using (MySqlDataReader reader = command.ExecuteReader())
                                 {
                                     if (reader.Read())
                                     {
-                                        string filePath = reader[$"File{i}Path"] != DBNull.Value ? reader[$"File{i}Path"].ToString() : null;
-                                        string fileGenre = reader[$"File{i}Genre"] != DBNull.Value ? reader[$"File{i}Genre"].ToString() : null;
-                                        string fileDesc = reader[$"File{i}Desc"] != DBNull.Value ? reader[$"File{i}Desc"].ToString() : null;
+                                        string filePath = reader[$"File{i}Path"] != DBNull.Value ? reader[$"File{i}Path"].ToString() : "";
+                                        string fileGenre = reader[$"File{i}Genre"] != DBNull.Value ? reader[$"File{i}Genre"].ToString() : "";
+                                        string fileDesc = reader[$"File{i}Desc"] != DBNull.Value ? reader[$"File{i}Desc"].ToString() : "";
                                         filePaths.Add(filePath);
                                         fileGenres.Add(fileGenre);
                                         fileDescriptions.Add(fileDesc);
                                     }
                                     else
                                     {
-                                        filePaths.Add(null); // If no record is found, add null to maintain slot order
-                                        fileGenres.Add(null);
-                                        fileDescriptions.Add(null);
+                                        filePaths.Add(""); // If no record is found, add empty string to maintain slot order
+                                        fileGenres.Add("");
+                                        fileDescriptions.Add("");
                                     }
                                 }
                             }
