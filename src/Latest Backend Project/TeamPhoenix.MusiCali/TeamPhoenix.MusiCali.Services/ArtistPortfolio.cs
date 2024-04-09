@@ -13,7 +13,7 @@ namespace TeamPhoenix.MusiCali.Services
     {
         public static async Task<Result> UploadFile(string username, int slot, IFormFile file, string genre, string desc)
         {
-            var privateKeyFilePath = "../../Latest Backend Project/TeamPhoenix.MusiCali/TeamPhoenix.MusiCali.Services/juliek.pem";
+            var privateKeyFilePath = "../../juliek.pem";
             var sshUsername = "ec2-user";
             var sshHostname = "3.142.241.151";
             var remoteFilePath = "/home/ubuntu/MusiCali/";
@@ -75,7 +75,7 @@ namespace TeamPhoenix.MusiCali.Services
                 // Get the file path from the database
                 string filePath = ArtistPortfolioDao.GetFilePath(username, slot);
 
-                var privateKeyFilePath = "../../Latest Backend Project/TeamPhoenix.MusiCali/TeamPhoenix.MusiCali.Services/juliek.pem";
+                var privateKeyFilePath = "../../juliek.pem";
                 var sshUsername = "ec2-user";
                 var sshHostname = "3.142.241.151";
 
@@ -124,7 +124,7 @@ namespace TeamPhoenix.MusiCali.Services
 
             try
             {
-                var privateKeyFilePath = "../../Latest Backend Project/TeamPhoenix.MusiCali/TeamPhoenix.MusiCali.Services/juliek.pem";
+                var privateKeyFilePath = "../../juliek.pem";
                 var sshUsername = "ec2-user";
                 var sshHostname = "3.142.241.151";
                 var remoteFilePath = "/home/ubuntu/MusiCali/";
