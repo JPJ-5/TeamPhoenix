@@ -15,7 +15,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
         public static Result SaveFilePath(string username, int slot, string filePath, string genre, string desc)
         {
-
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(_connectionString))
@@ -23,11 +22,12 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     connection.Open();
 
                     // Update the file path in the database
-                    var query = $"UPDATE ArtistProfile SET File{slot}Path = @FilePath WHERE Username = @Username";
+                    var query = $"UPDATE ArtistProfile SET File{slot}Path = @FilePath";
 
                     // If 0 then it's for a picture and only needs file path
                     if (slot == 0)
                     {
+                        query += " WHERE Username = @Username";
                         using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
                             command.Parameters.AddWithValue("@FilePath", filePath);
@@ -38,9 +38,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     }
                     else
                     {
+                        query += $", File{slot}Genre = @FileG, File{slot}Desc = @FileD WHERE Username = @Username";
                         using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
-                            query = $"UPDATE ArtistProfile SET File{slot}Path = @FilePath, File{slot}Genre = @FileG, File{slot}Desc = desc WHERE Username = @Username";
                             command.Parameters.AddWithValue("@FilePath", filePath);
                             command.Parameters.AddWithValue("@FileG", genre);
                             command.Parameters.AddWithValue("@FileD", desc);
@@ -58,6 +58,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 throw new Exception($"An error occurred adding file path to the database: {ex.Message}");
             }
         }
+
+
 
         public static Result DeleteFilePath(string username, int slot)
         {
@@ -193,7 +195,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             {
                                 occ = reader[$"ArtistOccupation"].ToString() ?? string.Empty;
                                 bio = reader[$"ArtistBio"].ToString() ?? string.Empty;
-                                loc = reader[$"ArtistBio"].ToString() ?? string.Empty;
+                                loc = reader[$"ArtistLocation"].ToString() ?? string.Empty;
                                 artistInfo.Add(occ);
                                 artistInfo.Add(bio);
                                 artistInfo.Add(loc);

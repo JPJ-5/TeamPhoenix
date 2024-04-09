@@ -1,3 +1,12 @@
+// Define the playMedia function globally
+function playMedia(slot) {
+    const mediaSlot = document.getElementById(`slot-${slot}`);
+    const media = mediaSlot.querySelector('audio') || mediaSlot.querySelector('video');
+    if (media) {
+        media.play();
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('enter-artistPortfolio').addEventListener('click', function () {
         var activeUsername = sessionStorage.getItem('username');
@@ -5,12 +14,12 @@ document.addEventListener('DOMContentLoaded', function () {
         var feedbackBox = document.getElementById('portfolio-feedback');
         // Check if the profile is already displayed
 
-        const query = new URLSearchParams({
-            username: activeUsername
-        }).toString();
-        const url = 'http://localhost:8080/ArtistPortfolio/api/loadApi?' + query.toString();
-        fetch(url, {
-            method: 'GET',
+        fetch('http://localhost:8080/ArtistPortfolio/api/loadApi', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(activeUsername)
         })
             .then(response => {
                 if (response.ok) {
@@ -33,85 +42,52 @@ document.addEventListener('DOMContentLoaded', function () {
 function displayArtistProfile(portfolioInfo) {
     console.log('Profile info:', portfolioInfo);
 
-    // Update profile info
-    const bioContent = document.getElementById('bio-content');
-    const occupationContent = document.getElementById('occupation-content');
-
-    if (bioContent && occupationContent) {
-        bioContent.textContent = portfolioInfo.bio || 'No bio yet';
-        occupationContent.textContent = portfolioInfo.occupation || 'Unknown';
-    } else {
-        console.error('Bio content or occupation content element is null.');
-        return;
-    }
+    // Update profile info...
 
     // Set media sources based on file type for each media slot
     for (let i = 0; i <= 5; i++) {
-        const fileContent = portfolioInfo[`file${i}Path`];
-        const fileDesc = portfolioInfo[`file${i}Desc`] || 'No file selected';
-        const fileGenre = portfolioInfo[`file${i}Genre`] || 'N/A';
-
+        const fileContent = portfolioInfo[`file${i}`];
         const mediaSlot = document.getElementById(`slot-${i}`);
         const mediaSlotContent = mediaSlot ? mediaSlot.querySelector('span') : null;
-        const mediaSlotDesc = mediaSlot ? mediaSlot.querySelector(`#file-desc-${i}`) : null;
-        const mediaSlotGenre = mediaSlot ? mediaSlot.querySelector(`#file-genre-${i}`) : null;
-        console.log(i + ": " + fileContent)
+        console.log(i + ": " + fileContent);
 
         if (fileContent == null) {
             if (mediaSlotContent) {
                 mediaSlotContent.textContent = 'No file yet';
             }
-        } else if (i === 0 && fileContent && (fileContent.endsWith('.png') || fileContent.endsWith('.jpg') || fileContent.endsWith('.jpeg'))) {
-            // Image file for slot 0
-            const image = document.createElement('img');
-            image.src = fileContent;
-            image.style.maxWidth = '100%';
-            image.style.height = 'auto';
-            image.style.display = 'block';
-            if (mediaSlot) {
-                mediaSlot.insertBefore(image, mediaSlotContent);
-            } else {
-                console.error(`Media slot ${i} is null.`);
-            }
-        } else if (i !== 0 && fileContent) {
-            // Audio or video file for slots 1 to 5
-            if (fileContent.endsWith('.mp3') || fileContent.endsWith('.wav') || fileContent.endsWith('.mp')) {
-                // Audio file
+        } else {
+            // Hardcode the file extension for filepath1
+            const extension = i === 1 ? '.mp3' : getFileExtension(fileContent);
+            console.log('File extension:', extension);
+
+            // Supported file formats
+            const supportedAudioFormats = ['.mp3', '.wav'];
+            const supportedVideoFormats = ['.mp4'];
+
+            if (supportedAudioFormats.includes(extension)) {
+                // Create audio player
                 const audio = document.createElement('audio');
-                audio.src = fileContent;
+                audio.src = 'data:audio/' + extension.substring(1) + ';base64,' + fileContent;
                 audio.controls = true;
                 audio.style.maxWidth = '100%';
                 audio.style.height = 'auto';
                 audio.style.display = 'block';
-                if (mediaSlot) {
-                    mediaSlot.insertBefore(audio, mediaSlotContent);
-                } else {
-                    console.error(`Media slot ${i} is null.`);
-                }
-            } else if (fileContent.endsWith('.mp4')) {
-                // Video file
+                mediaSlot.appendChild(audio);
+
+                // Add play button for audio files
+                const playButton = document.createElement('button');
+                playButton.textContent = 'Play';
+                playButton.onclick = () => playMedia(i); // Use the globally defined playMedia function
+                mediaSlot.appendChild(playButton);
+            } else if (supportedVideoFormats.includes(extension)) {
+                // Create video player
                 const video = document.createElement('video');
-                video.src = fileContent;
+                video.src = 'data:video/' + extension.substring(1) + ';base64,' + fileContent;
                 video.controls = true;
                 video.style.maxWidth = '100%';
                 video.style.height = 'auto';
                 video.style.display = 'block';
-                if (mediaSlot) {
-                    mediaSlot.insertBefore(video, mediaSlotContent);
-                } else {
-                    console.error(`Media slot ${i} is null.`);
-                }
-            }
-        }
-
-        if (i !== 0) {
-            if (mediaSlotDesc) {
-                mediaSlotDesc.placeholder = 'File Description';
-                mediaSlotDesc.value = fileDesc;
-            }
-            if (mediaSlotGenre) {
-                mediaSlotGenre.placeholder = 'File Genre';
-                mediaSlotGenre.value = fileGenre;
+                mediaSlot.appendChild(video);
             }
         }
     }
@@ -121,10 +97,12 @@ function displayArtistProfile(portfolioInfo) {
     document.getElementById('artistPortfolioView').style.display = 'block';
 }
 
-function uploadFile(slotNumber) {
-    // Implement file upload logic
-}
-
-function deleteFile(slotNumber) {
-    // Implement file deletion logic
+// Function to extract file extension from file content
+function getFileExtension(fileContent) {
+    const index = fileContent.indexOf(';base64,');
+    if (index !== -1) {
+        const mimeType = fileContent.substring(0, index).split(':')[1];
+        return '.' + mimeType.split('/')[1];
+    }
+    return '';
 }

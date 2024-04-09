@@ -19,7 +19,7 @@ namespace TeamPhoenix.MusiCali.Tests
             var username = "juliereyes";
             var slot = 0;
             var filePath = "test_file_path.jpg";
-            var genre = "Test Genre";
+            var genre = "Test Genre.....";
             var desc = "Test Description";
 
             // Act
@@ -38,9 +38,9 @@ namespace TeamPhoenix.MusiCali.Tests
         {
             // Arrange
             var username = "juliereyes";
-            var slot = 1;
+            var slot = 4;
             var filePath = "test_file_path.mp3";
-            var genre = "Test Genre";
+            var genre = "Test Genre....";
             var desc = "Test Description";
 
             // Act
@@ -51,7 +51,6 @@ namespace TeamPhoenix.MusiCali.Tests
             Assert.IsNull(result.ErrorMessage);
 
             // Clean up: Delete the file path
-            ArtistPortfolioDao.DeleteFilePath(username, slot);
         }
 
         [TestMethod]

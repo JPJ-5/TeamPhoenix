@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-using TeamPhoenix.MusiCali.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
-using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using System.IO;
+using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer;
+using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using TeamPhoenix.MusiCali.Services;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
@@ -12,96 +13,42 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class ArtistPortfolioController : ControllerBase
     {
-
-        [HttpPost("api/uploadApi")]
-        public async Task<IActionResult> UploadFile([FromBody] FileUploadViewModel model)
-        {
-            try
-            {
-                var result = await ArtistPortfolio.UploadFile(model.Username, model.Slot, model.File, model.Genre, model.Desc);
-                if (result.Success)
-                {
-                    return Ok("File uploaded successfully.");
-                }
-                else
-                {
-                    return StatusCode(500, $"Error uploading file: {result.ErrorMessage}");
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error uploading file: {ex.Message}");
-            }
-        }
-
-        [HttpDelete("api/deleteApi")]
-        public IActionResult DeleteFile([FromBody] string username, int slot)
-        {
-            try
-            {
-                var result = ArtistPortfolio.DeleteFile(username, slot);
-                if (result.Success)
-                {
-                    return Ok("File deleted successfully.");
-                }
-                else
-                {
-                    return StatusCode(500, $"Error deleting file: {result.ErrorMessage}");
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error deleting file: {ex.Message}");
-            }
-        }
-
-
-        [HttpGet("api/loadApi")]
-        public IActionResult LoadArtistProfile([FromQuery] string username)
+        [HttpPost("api/loadApi")]
+        public IActionResult LoadArtistProfile([FromBody] string username)
         {
             try
             {
                 var artistInfo = ArtistPortfolioDao.GetProfileInfo(username);
-                var fileInfo = ArtistPortfolioDao.GetAllFileInfo(username);
-                if (artistInfo == null)
+                var file = ArtistPortfolioDao.GetAllFileInfo(username);
+                var fileInfo = file[0];
+                var localFiles = ArtistPortfolio.DownloadFilesLocally(fileInfo);
+                var genreList = file[1];
+                var descList = file[2];
+                if (artistInfo == null || fileInfo == null)
                 {
-                    return NotFound("Artist Info not found.");
+                    return NotFound("Artist info or file info not found.");
                 }
-                if (fileInfo == null)
-                {
-                    return NotFound("Artist Info not found.");
-                }
-                var filePaths = fileInfo[0];
-                var localFilePaths = ArtistPortfolio.DownloadFilesLocally(filePaths);
-                if (localFilePaths == null)
-                {
-                    return NotFound("local files unable to be saved locally not found.");
-                }
-                var genreList = fileInfo[1];
-                var descList = fileInfo[2];
 
-
-                // Prepare the response object
                 var responseData = new ArtistProfileViewModel
                 {
                     Occupation = artistInfo[0],
                     Bio = artistInfo[1],
                     Location = artistInfo[2],
-                    File0Path = localFilePaths[0],
-                    File1Path = localFilePaths[1],
+                    File0 = GetFileBase64(localFiles[0]),
+                    File1 = GetFileBase64(localFiles[1]),
+                    File2 = GetFileBase64(localFiles[2]),
+                    File3 = GetFileBase64(localFiles[3]),
+                    File4 = GetFileBase64(localFiles[4]),
+                    File5 = GetFileBase64(localFiles[5]),
                     File1Genre = genreList[0],
-                    File1Desc = descList[0],
-                    File2Path = localFilePaths[2],
                     File2Genre = genreList[1],
-                    File2Desc = descList[1],
-                    File3Path = localFilePaths[3],
                     File3Genre = genreList[2],
-                    File3Desc = descList[2],
-                    File4Path = localFilePaths[4],
                     File4Genre = genreList[3],
-                    File4Desc = descList[3],
-                    File5Path = localFilePaths[5],
                     File5Genre = genreList[4],
+                    File1Desc = descList[0],
+                    File2Desc = descList[1],
+                    File3Desc = descList[2],
+                    File4Desc = descList[3],
                     File5Desc = descList[4],
                 };
 
@@ -113,19 +60,47 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
-
-
-        [HttpPost("api/deleteLocalFilesApi")]
-        public IActionResult DeleteLocalFiles([FromBody] List<string> filePaths)
+        private string GetFileBase64(string filePath)
         {
             try
             {
-                ArtistPortfolio.DeleteLocalFiles(filePaths);
-                return Ok("Local files deleted successfully.");
+                if (System.IO.File.Exists(filePath))
+                {
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                    return Convert.ToBase64String(fileBytes);
+                }
+                else
+                {
+                    Console.WriteLine($"File '{filePath}' does not exist.");
+                    return null;
+                }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error deleting local files: {ex.Message}");
+                Console.WriteLine($"Error reading file '{filePath}': {ex.Message}");
+                return null;
+            }
+        }
+
+        [HttpPost("api/uploadApi")]
+        public async Task<IActionResult> UploadFile([FromForm] FileUploadViewModel model)
+        {
+            try
+            {
+                // Save the file and other information to the database
+                var result = await ArtistPortfolio.UploadFile(model.Username, model.Slot, model.File, model.Genre, model.Desc);
+                if (result.Success)
+                {
+                    return Ok("File uploaded successfully.");
+                }
+                else
+                {
+                    return BadRequest("Failed to upload file.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error uploading file: {ex.Message}");
             }
         }
 

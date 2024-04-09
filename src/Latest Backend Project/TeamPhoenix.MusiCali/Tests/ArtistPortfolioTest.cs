@@ -18,12 +18,12 @@ namespace TeamPhoenix.MusiCali.Tests
             var username = "juliereyes";
 
             // Load the test file 'tick.mp' from the test files folder
-            var filePath = @"..\..\..\Tests\tick2.mp3";
+            var filePath = @"..\..\..\Tests\tick3.wav";
             var fileBytes = await File.ReadAllBytesAsync(filePath);
-            var formFile = new FormFile(new MemoryStream(fileBytes), 1, fileBytes.Length, null, "tick.mp");
+            var formFile = new FormFile(new MemoryStream(fileBytes), 2, fileBytes.Length, null, "tick.wav");
 
             // Act
-            var result = await ArtistPortfolio.UploadFile(username, 1, formFile, "", "");
+            var result = await ArtistPortfolio.UploadFile(username, 2, formFile, "wav", "tick sound but in wav");
 
             // Assert
             Assert.IsTrue(result.Success);
