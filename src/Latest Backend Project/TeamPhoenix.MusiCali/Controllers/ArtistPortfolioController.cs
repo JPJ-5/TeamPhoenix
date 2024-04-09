@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-using TeamPhoenix.MusiCali.Services;
 using System;
-using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer;
+using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using TeamPhoenix.MusiCali.Services;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
@@ -12,7 +13,6 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class ArtistPortfolioController : ControllerBase
     {
-
         [HttpPost("api/uploadApi")]
         public async Task<IActionResult> UploadFile([FromBody] FileUploadViewModel model)
         {
@@ -55,7 +55,6 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
-
         [HttpGet("api/loadApi")]
         public IActionResult LoadArtistProfile([FromQuery] string username)
         {
@@ -72,14 +71,8 @@ namespace TeamPhoenix.MusiCali.Controllers
                     return NotFound("Artist Info not found.");
                 }
                 var filePaths = fileInfo[0];
-                var localFilePaths = ArtistPortfolio.DownloadFilesLocally(filePaths);
-                if (localFilePaths == null)
-                {
-                    return NotFound("local files unable to be saved locally not found.");
-                }
                 var genreList = fileInfo[1];
                 var descList = fileInfo[2];
-
 
                 // Prepare the response object
                 var responseData = new ArtistProfileViewModel
@@ -87,21 +80,21 @@ namespace TeamPhoenix.MusiCali.Controllers
                     Occupation = artistInfo[0],
                     Bio = artistInfo[1],
                     Location = artistInfo[2],
-                    File0Path = localFilePaths[0],
-                    File1Path = localFilePaths[1],
+                    File0Path = GetBase64EncodedFile(filePaths[0]),
+                    File1Path = GetBase64EncodedFile(filePaths[1]),
+                    File2Path = GetBase64EncodedFile(filePaths[2]),
+                    File3Path = GetBase64EncodedFile(filePaths[3]),
+                    File4Path = GetBase64EncodedFile(filePaths[4]),
+                    File5Path = GetBase64EncodedFile(filePaths[5]),
                     File1Genre = genreList[0],
-                    File1Desc = descList[0],
-                    File2Path = localFilePaths[2],
                     File2Genre = genreList[1],
-                    File2Desc = descList[1],
-                    File3Path = localFilePaths[3],
                     File3Genre = genreList[2],
-                    File3Desc = descList[2],
-                    File4Path = localFilePaths[4],
                     File4Genre = genreList[3],
-                    File4Desc = descList[3],
-                    File5Path = localFilePaths[5],
                     File5Genre = genreList[4],
+                    File1Desc = descList[0],
+                    File2Desc = descList[1],
+                    File3Desc = descList[2],
+                    File4Desc = descList[3],
                     File5Desc = descList[4],
                 };
 
@@ -112,8 +105,6 @@ namespace TeamPhoenix.MusiCali.Controllers
                 return StatusCode(500, $"Error loading artist profile: {ex.Message}");
             }
         }
-
-
 
         [HttpPost("api/deleteLocalFilesApi")]
         public IActionResult DeleteLocalFiles([FromBody] List<string> filePaths)
@@ -129,5 +120,19 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
+        // Helper method to read file content and return base64 encoding
+        private string GetBase64EncodedFile(string filePath)
+        {
+            try
+            {
+                var fileBytes = System.IO.File.ReadAllBytes(filePath);
+                return Convert.ToBase64String(fileBytes);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading file '{filePath}': {ex.Message}");
+                return null;
+            }
+        }
     }
 }
