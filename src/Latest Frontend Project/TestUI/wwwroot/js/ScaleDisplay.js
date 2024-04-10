@@ -50,10 +50,10 @@ var scales = {
                 selectedScaleType = ['A', 'B', 'C', 'D', 'E','F','G'];
             }
             else if(selectedType === 'Lydian'){
-                selectedScaleType = ['A', 'B', 'C', 'D#', 'E','F#','G#'];
+                selectedScaleType = ['A', 'B', 'C#', 'D#', 'E','F#','G#'];
             }
             else if(selectedType === 'HarmonicMinor'){
-                selectedScaleType = ['A', 'B', 'C', 'D', 'Eb','F#','G'];
+                selectedScaleType = ['A', 'B', 'C', 'D', 'E','F','G#'];
             }
             else if(selectedType === 'Dorian'){
                 selectedScaleType = ['A', 'B', 'C', 'D', 'E','F#','G'];
@@ -74,7 +74,7 @@ var scales = {
                 selectedScaleType = ['B','C#','D#','E#','F#','G#','A#'];
             }
             else if(selectedType === 'HarmonicMinor'){
-                selectedScaleType = ['B','C#','D','E','F','G#','A'];
+                selectedScaleType = ['B','C#','D','E','F','G','A#'];
             }
             else if(selectedType === 'Dorian'){
                 selectedScaleType = ['B','C#','D','E','F#','G#','A'];
@@ -115,13 +115,13 @@ var scales = {
                 selectedScaleType = ['D','E','F','G','A','Bb','C'];
             }
             else if(selectedType === 'Lydian'){
-                selectedScaleType = ['D','E','F','G#','A','B','C#'];
+                selectedScaleType = ['D','E','F#','G#','A','B','C#'];
             }
             else if(selectedType === 'HarmonicMinor'){
                 selectedScaleType = ['D','E','F','G','A','Bb','C#'];
             }
             else if(selectedType === 'Dorian'){
-                selectedScaleType = ['D','E','F','G','A','Bb','C'];
+                selectedScaleType = ['D','E','F','G','A','B','C'];
             }
             else if(selectedType === 'Pentatonic'){
                 selectedScaleType = ['D','F','G','A','C'];
@@ -157,19 +157,19 @@ var scales = {
                 selectedScaleType = ['F','G','A','Bb','C','D', 'E'];
             }
             else if(selectedType === 'minor'){
-                selectedScaleType = ['E','F#','G','A','B','C','D'];
+                selectedScaleType = ['F','G','Ab','Bb','C','Db', 'Eb'];
             }
             else if(selectedType === 'Lydian'){
-                selectedScaleType = ['E','F#','G#','A#','B','C#','D#'];
+                selectedScaleType = ['F','G','A','B','C','D', 'E'];
             }
             else if(selectedType === 'HarmonicMinor'){
-                selectedScaleType = ['E','F#','G','A','B','C','D#'];
+                selectedScaleType = ['F','G','A','Bb','C','D', 'E'];
             }
             else if(selectedType === 'Dorian'){
-                selectedScaleType = ['E','F#','G','A','B','C#','D'];
+                selectedScaleType = ['F','G','Ab','Bb','C','D', 'Eb'];
             }
             else if(selectedType === 'Pentatonic'){
-                selectedScaleType = ['E','G','A','B','D'];
+                selectedScaleType = ['F','Ab','Bb','C', 'Eb'];
             }
         }
         
@@ -185,7 +185,7 @@ var scales = {
                 selectedScaleType = ['G','A','B','C#','D', 'E', 'F#'];
             }
             else if(selectedType === 'HarmonicMinor'){
-                selectedScaleType = ['G','A','Bb','C','D', 'E', 'F#'];
+                selectedScaleType = ['G','A','Bb','C','D', 'Eb', 'F#'];
             }
             else if(selectedType === 'Dorian'){
                 selectedScaleType = ['G','A','Bb','C','D', 'E', 'F'];
