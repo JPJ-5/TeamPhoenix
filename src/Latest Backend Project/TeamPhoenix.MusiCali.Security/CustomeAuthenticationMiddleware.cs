@@ -1,17 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
-using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using System;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Configuration;
-using System.Text.Json;
 using Microsoft.AspNetCore.WebUtilities;
-using Newtonsoft.Json.Linq;
-using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
+using System.Text.Json;
 
 public class AuthenticationMiddleware
 {
@@ -28,22 +20,15 @@ public class AuthenticationMiddleware
     public async Task Invoke(HttpContext context)
     {
         var idToken = context.Request.Headers["Authentication"].FirstOrDefault()?.Split(" ").Last();
-        //Console.WriteLine(idToken);
+
 
         if (idToken == null)
         {
-            var fullUrl = context.Request.GetDisplayUrl();
-
-            // Parse the URL to get the path
-            var uri = new Uri(fullUrl);
-            var path = uri.AbsolutePath;
-            Console.WriteLine(path);
+            var path = context.Request.Path;
             //Console.WriteLine(path);
 
             // Check if the path matches your criteria
-            //if (path.StartsWith("/Login/api/CheckUsernameAPI") || path.StartsWith("/Login/api/GetJwtAPI") || path.StartsWith("/AccCreationAPI/api/NormalAccCreationAPI"))
-            if(_configuration.GetSection("AllowedEndpoints:Anonymous").Get<List<string>>().Contains(path)
-                /*|| _configuration.GetSection("AllowedEndpoints:NormAd").Get<List<string>>().Contains(path)*/)
+            if(_configuration.GetSection("AllowedEndpoints:Anonymous").Get<List<string>>().Contains(path))
             {
                 await _next(context);
                 return;
@@ -90,12 +75,14 @@ public class AuthenticationMiddleware
             var computedSignature = ComputeHmacSha256(header + "." + payload, "simple-key");
             //Console.WriteLine(computedSignature);
 
-            var payloadJson = Encoding.UTF8.GetString(Base64UrlDecode(payload));
+            var decodedPayload = Base64UrlDecode(payload);
             //Console.WriteLine(payloadJson);
 
-            var jObject = JObject.Parse(payloadJson);
+            using JsonDocument doc = JsonDocument.Parse(decodedPayload);
+            JsonElement root = doc.RootElement;
 
-            string audience = jObject["aud"]!.ToString();
+
+            string audience = root.GetProperty("aud").GetString()!;
             //Console.WriteLine(audience);
 
             if(signature.Equals(computedSignature, StringComparison.OrdinalIgnoreCase) 
@@ -122,22 +109,17 @@ public class AuthenticationMiddleware
         using (var hmacsha256 = new HMACSHA256(Encoding.UTF8.GetBytes(key)))
         {
             byte[] hashmessage = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(text));
+            // Encode using Base64
             return Convert.ToBase64String(hashmessage).TrimEnd('=')
-                .Replace('+', '-').Replace('/', '_'); // Base64Url Encoding
+                .Replace('+', '-').Replace('/', '_');
         }
     }
 
-    private static byte[] Base64UrlDecode(string input)
+    private static string Base64UrlDecode(string input)
     {
-        string output = input;
-        output = output.Replace('-', '+').Replace('_', '/');
-        switch (output.Length % 4)
-        {
-            case 0: break;
-            case 2: output += "=="; break;
-            case 3: output += "="; break;
-            default: throw new FormatException("Illegal base64url string!");
-        }
-        return Convert.FromBase64String(output);
+
+        var bytes = WebEncoders.Base64UrlDecode(input);
+
+        return Encoding.UTF8.GetString(bytes);
     }
 }

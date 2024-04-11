@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Security.Contracts;
 using _dao = TeamPhoenix.MusiCali.DataAccessLayer.Authentication;
@@ -8,12 +6,8 @@ using _log = TeamPhoenix.MusiCali.Logging.Authentication;
 using _hash = TeamPhoenix.MusiCali.Security.Hasher;
 using Microsoft.Extensions.Configuration;
 using _loggerAuthN = TeamPhoenix.MusiCali.Logging.Logger;
-using System.Security.Policy;
-using System.Security.Claims;
 using System.Text;
-using System.Configuration;
 using Newtonsoft.Json.Linq;
-using Google.Protobuf.WellKnownTypes;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.AspNetCore.WebUtilities;
@@ -63,7 +57,6 @@ namespace TeamPhoenix.MusiCali.Security
                     throw new InvalidOperationException("Unable to send otp to email, please try again.");
                 }
             }
-            //bool emailSentAnyway = newOTP(userA, userAcc);
             return true;
         }
 
@@ -74,9 +67,6 @@ namespace TeamPhoenix.MusiCali.Security
             UserAuthN userA = authR.userA!;
             UserClaims userC = authR.userC!;
             Principal appPrincipal;
-            //string idToken;
-            //string accessToken;
-           // Dictionary<string, string> tokens = new Dictionary<string, string>();
             
             try
             {
@@ -104,25 +94,11 @@ namespace TeamPhoenix.MusiCali.Security
                         Dictionary<string, string> claims = userC.Claims;
                         appPrincipal = new Principal(userA.Username, claims);
 
-                        //// If authentication is successful, create a session token
-                        //idToken = GenerateIdToken(username);
-
-                        //// Generate Access token
-                        //accessToken = GenerateAccessToken(username, claims);
-
-
-
-                        //activeSessions.Add(idToken, appPrincipal);
-                        //appPrincipal.IDToken = idToken;
-                        //appPrincipal.AccessToken = accessToken;
-                        // Fix to return token
                         string level = "Info";
                         string category = "View";
                         string context = "User Log In";
                         _loggerAuthN.CreateLog(userAcc.UserHash, level, category, context);
 
-                        //tokens["IdToken"] = idToken;
-                        //tokens["AccessToken"] = accessToken;
                         return true;
                     }
                 }
@@ -146,20 +122,12 @@ namespace TeamPhoenix.MusiCali.Security
                         _dao.updateAuthentication(userA);
                         Dictionary<string, string> claims = userC.Claims;
                         appPrincipal = new Principal(userA.Username, claims);
-                        //// If authentication is successful, create a session token
-                        //idToken = GenerateIdToken(username);
-                        //// Generate Access token
-                        //accessToken = GenerateAccessToken(username, claims);
-                        //activeSessions.Add(idToken, appPrincipal);
-                        //appPrincipal.IDToken = idToken;
-                        //appPrincipal.AccessToken = accessToken;
-                        // Fix to return token
+
                         string level = "Info";
                         string category = "View";
                         string context = "User Log In";
                         _loggerAuthN.CreateLog(userAcc.UserHash, level, category, context);
-                        //tokens["IdToken"] = idToken;
-                        //tokens["AccessToken"] = accessToken;
+
                         return true;
                     }
                 }
@@ -173,17 +141,6 @@ namespace TeamPhoenix.MusiCali.Security
             // Fix to return token
             
             return false;
-        }
-
-        public Principal? GetPrincipalBySessionToken(string sessionToken)
-        {
-            // Retrieve Principal using the session token
-            if (activeSessions.TryGetValue(sessionToken, out var principal))
-            {
-                return principal;
-            }
-
-            return null; // Session token not found
         }
 
         private bool IsValidUsername(string username)
@@ -288,54 +245,6 @@ namespace TeamPhoenix.MusiCali.Security
             }
         }
 
-        //private string GenerateIdToken(string userName)
-        //{
-        //    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
-        //    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-        //    var claims = new[]
-        //    {
-        //        new Claim(ClaimTypes.NameIdentifier, userName)
-        //    };
-
-        //    var token = new JwtSecurityToken(_configuration.GetSection("Jwt:Issuer").Value, _configuration.GetSection("Jwt:Audience").Value,
-        //        claims, expires: DateTime.Now.AddMinutes(20), signingCredentials: credentials);
-
-        //    return new JwtSecurityTokenHandler().WriteToken(token);
-        //}
-
-        //private string GenerateAccessToken(string userName, Dictionary<string, string> userRoles)
-        //{
-        //    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
-        //    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-        //    var claims = new List<Claim>
-        //    {
-        //        // new Claim(ClaimTypes.Name, userName)      I dont want to include the username in the access token => //
-        //        // Additional claims...
-        //    };
-
-        //    // Iterate over the roles in the dictionary and add them as claims
-        //    foreach (var roleEntry in userRoles)
-        //    {
-        //        if (roleEntry.Key == "UserRole")
-        //        {
-        //            claims.Add(new Claim(ClaimTypes.Role, roleEntry.Value));
-        //        }
-        //        // Add other types of claims if needed...
-        //    }
-
-        //    var token = new JwtSecurityToken(
-        //        issuer: _configuration.GetSection("Jwt:Issuer").Value,
-        //        audience: _configuration.GetSection("Jwt:Audience").Value,
-        //        claims: claims,
-        //        expires: DateTime.UtcNow.AddMinutes(20),
-        //        signingCredentials: credentials
-        //    );
-
-        //    return new JwtSecurityTokenHandler().WriteToken(token);
-        //}
-
         public static bool CheckIdRoleExisting(string username, string role)
         {
             AuthResult authR = _dao.findUsernameInfo(username);
@@ -404,21 +313,6 @@ namespace TeamPhoenix.MusiCali.Security
             }
             return string.Empty;
         }
-
-
-        //public static string getRole(string username)
-        //{
-
-        //    AuthResult authR = _dao.findUsernameInfo(username);
-        //    if (CheckIdExisting(username))
-        //    {
-        //        return authR.userC!.Claims["UserRole"];
-        //    }
-        //    else
-        //    {
-        //        return string.Empty;
-        //    }
-        //}
 
         public static bool SendConfirmationEmail(string email, string otp)
         {
@@ -496,22 +390,11 @@ namespace TeamPhoenix.MusiCali.Security
             }
         }
 
-        //[AllowAnonymous]
-        //[HttpPost("/secure/createAccessToken")]
         public string CreateAccessJwt( LoginModel loginRequest)
         {
             // TODO: Check security credentials match Database
             var info = _dao.findUsernameInfo(loginRequest.Username);
             var userRoles = info.userC!.Claims["UserRole"];
-            //string claims;
-            //foreach (var roleEntry in userRoles)
-            //{
-            //    if (roleEntry.Key == "UserRole")
-            //    {
-            //        claims.Add(new Claim(ClaimTypes.Role, roleEntry.Value));
-            //    }
-            //    // Add other types of claims if needed...
-            //}
 
             var header = new JwtHeader();
             var payload = new JwtPayload()
@@ -548,12 +431,6 @@ namespace TeamPhoenix.MusiCali.Security
                 var signatureDigestBytes = hash.ComputeHash(signatureInputBytes);
                 var encodedSignature = WebEncoders.Base64UrlEncode(signatureDigestBytes);
                 var jwt = $"{encodedHeader}.{encodedPayload}.{encodedSignature}";
-                //var jwt = new Jwt()
-                //{
-                //    Header = header,
-                //    Payload = payload,
-                //    Signature = encodedSignature
-                //};
                 return jwt;
             }
         }

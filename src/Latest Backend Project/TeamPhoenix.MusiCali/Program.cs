@@ -32,47 +32,6 @@ namespace AccCreationAPI
             builder.Services.AddScoped<IAuthentication, Authentication>();
 
             builder.Services.AddScoped<MariaDB>();          // Register MariaDB Class with Dependency Injection 
-            //jwt token
-
-            var tkConf = builder.Configuration.GetSection("Jwt");
-
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = tkConf["Issuer"],
-                ValidAudience = tkConf["Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tkConf["Key"]!))
-            };
-
-            // Configuring CORS using settings from appsettings.json
-            var corsPolicy = builder.Configuration.GetSection("CorsPolicy");
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("CustomCorsPolicy", policy =>
-                {
-                    var allowedOrigins = corsPolicy.GetSection("AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
-                    var allowedMethods = corsPolicy.GetSection("AllowedMethods").Get<string[]>() ?? Array.Empty<string>();
-                    var allowedHeaders = corsPolicy.GetSection("AllowedHeaders").Get<string[]>() ?? Array.Empty<string>();
-
-                    policy.WithOrigins(allowedOrigins)
-                          .WithMethods(allowedMethods)
-                          .WithHeaders(allowedHeaders);
-
-                    // Conditionally allow credentials based on configuration
-                    if (corsPolicy.GetValue<bool>("AllowCredentials"))
-                    {
-                        policy.AllowCredentials();
-                    }
-                    else
-                    {
-                        policy.DisallowCredentials();
-                    }
-                });
-            });
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -87,9 +46,10 @@ namespace AccCreationAPI
             // Use the custom CORS middleware
             app.UseCustomCors();
 
+            // Use the custom Authentication Middleware
             app.UseMiddleware<AuthenticationMiddleware>();
 
-            // Then register the AuthorizationMiddleware
+            // Use the Authorization Middleware
             app.UseMiddleware<AuthorizationMiddleware>();
 
             app.MapControllers();
