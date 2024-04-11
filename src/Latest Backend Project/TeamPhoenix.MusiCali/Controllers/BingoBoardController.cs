@@ -8,9 +8,15 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class BingoBoardController : Controller
     {
-        public IActionResult ViewMultipleGigs()
+        [HttpGet("api/BingoBoardLoadGigs")]
+        public ActionResult ViewMultipleGigs([FromQuery] ushort numberOfGigs, [FromQuery] string username)
         {
-            return View();
+            var gigSummaries = BB.ViewMultGigSummary(numberOfGigs, username);
+            if (gigSummaries == null)
+            {
+                return NotFound("Error retrieving gigs");
+            }
+            return Ok(gigSummaries);
         }
     }
 }
