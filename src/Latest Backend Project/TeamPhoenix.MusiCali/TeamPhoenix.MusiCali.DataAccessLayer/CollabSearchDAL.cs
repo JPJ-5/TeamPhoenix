@@ -36,3 +36,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         }
     }
 }
+
+//Create fuction to retrieve email from ArtistProfile using Username
+
+//Create fucntion to save new collab to database
+
+//Create second function to find collab based on sender and reciever and accept = true now
+
+//Create function to get all collab tables by logged in user
