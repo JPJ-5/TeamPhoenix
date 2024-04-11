@@ -1,40 +1,37 @@
-using System;
+using MySql.Data.MySqlClient;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient; //how we're connecting to the database using the connection string
-using System.Threading.Tasks;
 
-namespace TeamPhoenix.MusiCali.DataAccessLayer // Replace YourNamespace with your actual namespace
+namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class CollabSearchDao
     {
-        private readonly string _connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;"
+        private static readonly string _connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
 
-        public async Task<List<string>> SearchUsers(string userSearch) //userSearch means the user that's being typed into the search bar
+        public static List<string> SearchUsers(string userSearch)
         {
+            string search = userSearch + '%';
             List<string> users = new List<string>();
 
-            using (SqlConnection connection = new SqlConnection(_connectionString)) 
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-                await connection.OpenAsync(); //opens the connection string
+                connection.Open();
 
-                string sql = "SELECT Username FROM ArtistProfile WHERE Username LIKE @userSearch + '%' AND ArtistCollabSearchVisibility = 1"; //sets the string up for search
+                string sql = "SELECT Username FROM ArtistProfile WHERE Username LIKE @userSearch AND ArtistCollabSearchVisibility = 1";
 
-                using (SqlCommand command = new SqlCommand(sql, connection)) //let's us run the command
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@userSearch", userSearch);
+                    command.Parameters.AddWithValue("@userSearch", search);
 
-                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        while (await reader.ReadAsync())
+                        while (reader.Read())
                         {
                             string username = reader.GetString(0);
-                            users.Add(username); 
+                            users.Add(username);
                         }
                     }
                 }
             }
-
             return users;
         }
     }
