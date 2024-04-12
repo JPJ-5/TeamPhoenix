@@ -16,7 +16,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public async Task SaveFilePath_ShouldUpdateFilePath_WhenSlotIsZero()
         {
             // Arrange
-            var username = "juliereyes";
+            var username = "kihambo.wav";
             var slot = 3;
             var filePath = "test_file_path.jpg";
             var genre = "Test Genre.....";
@@ -37,7 +37,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public async Task SaveFilePath_ShouldUpdateFilePath_WhenSlotIsNotZero()
         {
             // Arrange
-            var username = "juliereyes";
+            var username = "kihambo.wav";
             var slot = 4;
             var filePath = "test_file_path.mp3";
             var genre = "Test Genre....";
@@ -57,7 +57,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public void DeleteFilePath_ShouldSetFilePathToNull_WhenSlotIsZero()
         {
             // Arrange
-            var username = "juliereyes";
+            var username = "kihambo.wav";
             var slot = 4;
 
             // Act
@@ -72,7 +72,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public void DeleteFilePath_ShouldSetFilePathToNull_WhenSlotIsNotZero()
         {
             // Arrange
-            var username = "juliereyes";
+            var username = "kihambo.wav";
             var slot = 2;
 
             // Act
@@ -87,12 +87,15 @@ namespace TeamPhoenix.MusiCali.Tests
         public void GetFilePath_ShouldReturnFilePath_WhenSlotIsZero()
         {
             // Arrange
-            var username = "juliereyes";
+            var username = "kihambo.wav";
             var slot = 0;
             var expectedFilePath = "test_file_path.jpg";
+            var result = ArtistPortfolioDao.SaveFilePath(username, slot, expectedFilePath, null, null);
 
             // Act
             var actualFilePath = ArtistPortfolioDao.GetFilePath(username, slot);
+
+            var res = ArtistPortfolioDao.DeleteFilePath(username, 0);
 
             // Assert
             Assert.AreEqual(expectedFilePath, actualFilePath);
@@ -103,7 +106,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public void GetFilePath_ShouldReturnFilePath_WhenSlotIsNotZero()
         {
             // Arrange
-            var username = "juliereyes";
+            var username = "kihambo.wav";
             var slot = 1;
             var expectedFilePath = "test_file_path.mp3";
             ArtistPortfolioDao.SaveFilePath(username, slot, expectedFilePath, "", "");
@@ -122,7 +125,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public void GetUsername_ShouldReturnUsername_WhenUsernameExists()
         {
             // Arrange
-            var username = "juliereyes";
+            var username = "kihambo.wav";
             ArtistPortfolioDao.SaveFilePath(username, 0, "", "", "");
 
             // Act
@@ -143,7 +146,6 @@ namespace TeamPhoenix.MusiCali.Tests
             var expectedOccupation = "Artist";
             var expectedBio = "Into shoegaze, alt, indie music and jungle, phonk, and house for edm";
             var expectedLocation = "Los Angeles";
-            ArtistPortfolioDao.SaveFilePath(username, 0, "", "", "");
 
             // Act
             var profileInfo = ArtistPortfolioDao.GetProfileInfo(username);
@@ -156,15 +158,14 @@ namespace TeamPhoenix.MusiCali.Tests
             Assert.AreEqual(expectedBio, actualBio);
             Assert.AreEqual(expectedLocation, actualLocation);
 
-            // Clean up: Delete the file path
-            ArtistPortfolioDao.DeleteFilePath(username, 0);
+
         }
 
         [TestMethod]
         public void GetAllFileInfo_ShouldReturnFileInfo_WhenUsernameExists()
         {
             // Arrange
-            var username = "juliereyes";
+            var username = "kihambo.wav";
             var expectedFilePath = "test_file_path.mp3";
             ArtistPortfolioDao.SaveFilePath(username, 3, expectedFilePath, "test", "test");
 

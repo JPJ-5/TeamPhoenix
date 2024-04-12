@@ -15,7 +15,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public async Task UploadFile_ShouldReturnSuccess_WhenFileIsValid()
         {
             // Arrange
-            var username = "juliereyes";
+            var username = "kihambo.wav";
 
             // Load the test file 'tick.mp' from the test files folder
             var filePath = @"..\..\..\Tests\tick3.wav";
@@ -35,7 +35,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public void getFileInfo()
         {
             // Arrange
-            var username = "juliereyes";
+            var username = "kihambo.wav";
 
             int slot = 1;
             List<List<string>> fileData = ArtistPortfolioDao.GetAllFileInfo(username);
@@ -50,7 +50,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public void DeleteFile_and_filepath()
         {
             // Arrange
-            var username = "juliereyes";
+            var username = "kihambo.wav";
 
             int slot = 1;
             var result = ArtistPortfolio.DeleteFile(username, slot);
