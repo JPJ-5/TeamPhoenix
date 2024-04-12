@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using BB = TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.Services.BingoBoard;
+using BB = TeamPhoenix.MusiCali.Services.BingoBoard;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
