@@ -1,4 +1,4 @@
-// Define the playMedia function globally
+
 function playMedia(slot) {
     const mediaSlot = document.getElementById(`slot-${slot}`);
     const media = mediaSlot.querySelector('audio') || mediaSlot.querySelector('video');
@@ -43,66 +43,195 @@ function displayArtistProfile(portfolioInfo) {
     console.log('Profile info:', portfolioInfo);
 
     // Update profile info...
+    document.getElementById('bio-content').textContent = portfolioInfo.bio || 'N/A';
+    document.getElementById('occupation-content').textContent = portfolioInfo.occupation || 'N/A';
+    document.getElementById('location-content').textContent = portfolioInfo.location || 'N/A';
+
+    // Track the number of elements that need to be loaded
+    let elementsToLoad = 0;
+
+    if (portfolioInfo[`file0`]) {
+        elementsToLoad++;
+        const image = document.createElement('img');
+        var ext = portfolioInfo[`file${0}Ext`];
+        const filePath = 'data:image/' + ext + ';base64,' + portfolioInfo[`file0`];
+        image.src = filePath;
+        image.onload = () => {
+            elementsToLoad--;
+            checkAllLoaded();
+        };
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete Profile Pic';
+        deleteButton.addEventListener('click', function() {
+            deleteFile(0);
+        });
+        const mediaSlot = document.getElementById(`file-upload-0`);
+        mediaSlot.appendChild(image);
+        mediaSlot.appendChild(deleteButton);
+    } else {
+        const uploadButton = document.createElement('button');
+        const mediaSlot = document.getElementById(`file-upload-0`);
+        uploadButton.textContent = 'Upload Profile Pic';
+        uploadButton.addEventListener('click', function() {
+            triggerFileInput(0);
+        });
+        mediaSlot.appendChild(uploadButton);
+    }
 
     // Set media sources based on file type for each media slot
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 1; i <= 5; i++) {
         const fileContent = portfolioInfo[`file${i}`];
         const mediaSlot = document.getElementById(`slot-${i}`);
-        const mediaSlotContent = mediaSlot ? mediaSlot.querySelector('span') : null;
-        console.log(i + ": " + fileContent);
 
         if (fileContent == null) {
-            if (mediaSlotContent) {
-                mediaSlotContent.textContent = 'No file yet';
-            }
-        } else {
-            // Hardcode the file extension for filepath1
-            const extension = i === 1 ? '.mp3' : getFileExtension(fileContent);
-            console.log('File extension:', extension);
+            const genreParagraph = document.createElement('p');
+            genreParagraph.innerHTML = `<strong>Genre: </strong>No file yet`;
+            mediaSlot.appendChild(genreParagraph);
 
-            // Supported file formats
+            const descParagraph = document.createElement('p');
+            descParagraph.innerHTML = `<strong>Desc: </strong>No file yet`;
+            mediaSlot.appendChild(descParagraph);
+            
+            const uploadButton = document.createElement('button');
+            uploadButton.textContent = 'Upload Media';
+            uploadButton.addEventListener('click', function() {
+                triggerFileInput(i);
+            });
+            const genreInput = document.createElement('input');
+            genreInput.type = 'text';
+            genreInput.id = `genre-input-${i}`;
+            genreInput.placeholder = 'Enter Genre';
+            mediaSlot.appendChild(genreInput);
+
+            const descInput = document.createElement('input');
+            descInput.type = 'text';
+            descInput.id = `desc-input-${i}`;
+            descInput.placeholder = 'Enter Description';
+            mediaSlot.appendChild(descInput);
+            mediaSlot.appendChild(uploadButton);
+        } else {
+            const genre = portfolioInfo[`file${i}Genre`] || 'N/A';
+            const desc = portfolioInfo[`file${i}Desc`] || 'N/A';
+        
+            const genreParagraph = document.createElement('p');
+            genreParagraph.innerHTML = `<strong>Genre: </strong>${genre}`;
+            mediaSlot.appendChild(genreParagraph);
+        
+            const descParagraph = document.createElement('p');
+            descParagraph.innerHTML = `<strong>Desc: </strong>${desc}`;
+            mediaSlot.appendChild(descParagraph);
+        
+            const extension = portfolioInfo[`file${i}Ext`];
+            console.log('Extension:', extension);
             const supportedAudioFormats = ['.mp3', '.wav'];
             const supportedVideoFormats = ['.mp4'];
-
-            if (supportedAudioFormats.includes(extension)) {
-                // Create audio player
-                const audio = document.createElement('audio');
-                audio.src = 'data:audio/' + extension.substring(1) + ';base64,' + fileContent;
-                audio.controls = true;
-                audio.style.maxWidth = '100%';
-                audio.style.height = 'auto';
-                audio.style.display = 'block';
-                mediaSlot.appendChild(audio);
-
-                // Add play button for audio files
-                const playButton = document.createElement('button');
-                playButton.textContent = 'Play';
-                playButton.onclick = () => playMedia(i); // Use the globally defined playMedia function
-                mediaSlot.appendChild(playButton);
-            } else if (supportedVideoFormats.includes(extension)) {
-                // Create video player
-                const video = document.createElement('video');
-                video.src = 'data:video/' + extension.substring(1) + ';base64,' + fileContent;
-                video.controls = true;
-                video.style.maxWidth = '100%';
-                video.style.height = 'auto';
-                video.style.display = 'block';
-                mediaSlot.appendChild(video);
+        
+            if (supportedAudioFormats.includes(extension) || supportedVideoFormats.includes(extension)) {
+                elementsToLoad++;
+                const media = extension === '.mp3' ? document.createElement('audio') : document.createElement('video');
+                media.src = 'data:audio/' + extension.substring(1) + ';base64,' + fileContent;
+                media.controls = true;
+                media.style.display = 'block';
+                media.onloadeddata = () => {
+                    elementsToLoad--;
+                    checkAllLoaded();
+                };
+                mediaSlot.appendChild(media);
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete File';
+                deleteButton.addEventListener('click', function() {
+                    deleteFile(i);
+                });
+                mediaSlot.appendChild(deleteButton);
+        
+                // Add play button for audio elements only
+                if (extension === '.mp3') {
+                    const playButton = document.createElement('button');
+                    playButton.textContent = 'Play';
+                    playButton.addEventListener('click', () => {
+                        playMedia(i);
+                    });
+                    mediaSlot.appendChild(playButton);
+                }
             }
-        }
+        }     
     }
 
-    document.querySelector('.main').style.display = 'none'; // Hide main contents
-    document.getElementById('tempoToolView').style.display = 'none'; // Show tempo tool content
-    document.getElementById('artistPortfolioView').style.display = 'block';
+    const checkAllLoaded = () => {
+        if (elementsToLoad === 0) {
+            // Once all elements are loaded, display the profile view
+            document.querySelector('.main').style.display = 'none'; // Hide main contents
+            document.getElementById('tempoToolView').style.display = 'none'; // Show tempo tool content
+            document.getElementById('artistPortfolioView').style.display = 'block'; // Display artist portfolio
+        }
+    };
 }
 
-// Function to extract file extension from file content
-function getFileExtension(fileContent) {
-    const index = fileContent.indexOf(';base64,');
-    if (index !== -1) {
-        const mimeType = fileContent.substring(0, index).split(':')[1];
-        return '.' + mimeType.split('/')[1];
-    }
-    return '';
+function deleteFile(slot){
+    var activeUsername = sessionStorage.getItem('username');
+    // Send POST request to upload API endpoint
+    deleteForm = new FormData();
+    deleteForm.append('Username', activeUsername);
+    deleteForm.append('SlotNumber', slot);
+    fetch('http://localhost:8080/ArtistPortfolio/api/deleteApi', {
+        method: 'POST',
+        body: deleteForm // Remove 'Content-Type' header and send FormData directly
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.text();
+        } else {
+            return response.text().then(text => { throw new Error(text); });
+        }
+    })
+    .then(responseText => {
+        console.log(responseText); // Log success message
+    })
+    .catch(error => {
+        console.error('Error:', error); // Log error message
+    });
+}
+
+// Modify triggerFileInput to accept slot parameter and pass it with the event
+function triggerFileInput(slot) {
+    const input = document.getElementById(`media-slot-${slot}-content`);
+    input.addEventListener('change', function() {
+        const file = input.files[0];
+
+        // Create FormData object to send file and other data
+        const formData = new FormData();
+        formData.append('username', sessionStorage.getItem('username'));
+        formData.append('slot', slot);
+        formData.append('file', file);
+
+        if (slot > 0) {
+            const genre = document.getElementById(`genre-input-${slot}`).value; // Use slot number to identify genre input
+            const description = document.getElementById(`desc-input-${slot}`).value; // Use slot number to identify description input
+            formData.append('genre', genre);
+            formData.append('desc', description);
+        } else {
+            const genre = null 
+            const description = null
+        }
+
+        // Send POST request to upload API endpoint
+        fetch('http://localhost:8080/ArtistPortfolio/api/uploadApi', {
+            method: 'POST',
+            body: formData // Remove 'Content-Type' header and send FormData directly
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                return response.text().then(text => { throw new Error(text); });
+            }
+        })
+        .then(responseText => {
+            console.log(responseText); // Log success message
+        })
+        .catch(error => {
+            console.error('Error:', error); // Log error message
+        });
+    });
+    input.click();
 }

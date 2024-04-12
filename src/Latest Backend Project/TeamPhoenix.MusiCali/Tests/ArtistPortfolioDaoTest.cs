@@ -17,7 +17,7 @@ namespace TeamPhoenix.MusiCali.Tests
         {
             // Arrange
             var username = "juliereyes";
-            var slot = 0;
+            var slot = 3;
             var filePath = "test_file_path.jpg";
             var genre = "Test Genre.....";
             var desc = "Test Description";
@@ -58,7 +58,7 @@ namespace TeamPhoenix.MusiCali.Tests
         {
             // Arrange
             var username = "juliereyes";
-            var slot = 0;
+            var slot = 4;
 
             // Act
             var result = ArtistPortfolioDao.DeleteFilePath(username, slot);
@@ -73,7 +73,7 @@ namespace TeamPhoenix.MusiCali.Tests
         {
             // Arrange
             var username = "juliereyes";
-            var slot = 1;
+            var slot = 2;
 
             // Act
             var result = ArtistPortfolioDao.DeleteFilePath(username, slot);
@@ -90,7 +90,6 @@ namespace TeamPhoenix.MusiCali.Tests
             var username = "juliereyes";
             var slot = 0;
             var expectedFilePath = "test_file_path.jpg";
-            ArtistPortfolioDao.SaveFilePath(username, slot, expectedFilePath, "", "");
 
             // Act
             var actualFilePath = ArtistPortfolioDao.GetFilePath(username, slot);
@@ -98,8 +97,6 @@ namespace TeamPhoenix.MusiCali.Tests
             // Assert
             Assert.AreEqual(expectedFilePath, actualFilePath);
 
-            // Clean up: Delete the file path
-            ArtistPortfolioDao.DeleteFilePath(username, slot);
         }
 
         [TestMethod]
@@ -169,17 +166,19 @@ namespace TeamPhoenix.MusiCali.Tests
             // Arrange
             var username = "juliereyes";
             var expectedFilePath = "test_file_path.mp3";
-            ArtistPortfolioDao.SaveFilePath(username, 1, expectedFilePath, "", "");
+            ArtistPortfolioDao.SaveFilePath(username, 3, expectedFilePath, "test", "test");
 
             // Act
             var fileData = ArtistPortfolioDao.GetAllFileInfo(username);
-            var actualFilePath = fileData[0][1];
+            var actualFilePath = fileData[0][3];
 
             // Assert
             Assert.AreEqual(expectedFilePath, actualFilePath);
+            Assert.AreEqual("test", fileData[1][2]);
+            Assert.AreEqual("test", fileData[2][2]);
 
             // Clean up: Delete the file path
-            ArtistPortfolioDao.DeleteFilePath(username, 1);
+            ArtistPortfolioDao.DeleteFilePath(username, 3);
         }
     }
 }

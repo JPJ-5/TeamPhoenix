@@ -40,6 +40,12 @@ namespace TeamPhoenix.MusiCali.Controllers
                     File3 = GetFileBase64(localFiles[3]),
                     File4 = GetFileBase64(localFiles[4]),
                     File5 = GetFileBase64(localFiles[5]),
+                    File0Ext = Path.GetExtension(localFiles[0]),
+                    File1Ext = Path.GetExtension(localFiles[1]),
+                    File2Ext = Path.GetExtension(localFiles[2]),
+                    File3Ext = Path.GetExtension(localFiles[3]),
+                    File4Ext = Path.GetExtension(localFiles[4]),
+                    File5Ext = Path.GetExtension(localFiles[5]),
                     File1Genre = genreList[0],
                     File2Genre = genreList[1],
                     File3Genre = genreList[2],
@@ -51,6 +57,11 @@ namespace TeamPhoenix.MusiCali.Controllers
                     File4Desc = descList[3],
                     File5Desc = descList[4],
                 };
+                foreach (string path in localFiles) {
+                    if (System.IO.File.Exists(path) && path is not null) {
+                        System.IO.File.Delete(path);
+                    }
+                }
 
                 return Ok(responseData);
             }
@@ -87,6 +98,8 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             try
             {
+                var genre = model.Genre ?? "N/A";
+                var desc = model.Desc ?? "N/A";
                 // Save the file and other information to the database
                 var result = await ArtistPortfolio.UploadFile(model.Username, model.Slot, model.File, model.Genre, model.Desc);
                 if (result.Success)
@@ -101,6 +114,22 @@ namespace TeamPhoenix.MusiCali.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error uploading file: {ex.Message}");
+            }
+        }
+
+        [HttpPost("api/deleteApi")]
+        public IActionResult DeleteFile([FromForm] DeleteFileRequest req)
+        {
+            string user = req.Username;
+            int fileSlot = req.SlotNumber;
+            try
+            {
+                var result = ArtistPortfolio.DeleteFile(user, fileSlot);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error deleting file: ", ex);
             }
         }
 

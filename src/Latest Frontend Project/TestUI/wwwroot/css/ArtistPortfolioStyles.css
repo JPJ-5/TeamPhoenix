@@ -1,7 +1,6 @@
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+APcontainer {
+    text-align: center;
+    margin-top: 50px;
 }
 
 h1 {
@@ -9,10 +8,30 @@ h1 {
 }
 
 #profile-info {
-    margin-bottom: 20px;
+    grid-column: 2; /* Second column */
+    grid-row: 1; /* First row */
+    margin-top: 100px; /* Smaller margin */
 }
 
-#file-upload, #file-delete {
-    margin-top: 20px;
-    text-align: center;
+#file-upload-0 {
+    grid-column: 1; /* First column */
+    grid-row: 1; /* First row */
+    margin-top: 72px; /* Smaller margin */
+}
+
+
+.media-slots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-end;
+    grid-column: 2; /* Second column */
+    grid-row: 2; /* Second row */
+    margin-top: 50px; /* Smaller margin */
+}
+
+.media-slot {
+    margin-bottom: 20px;
+    margin-left: 20px;
+
 }
