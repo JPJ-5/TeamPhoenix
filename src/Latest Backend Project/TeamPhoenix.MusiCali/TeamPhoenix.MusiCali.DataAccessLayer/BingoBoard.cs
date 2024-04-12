@@ -35,6 +35,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 reader["PosterUsername"].ToString() ?? string.Empty,
                                 reader["GigName"].ToString() ?? string.Empty,
                                 Convert.ToDateTime(reader["GigDateTime"])
+                                reader["Location"].ToString() ?? string.Empty,
+                                reader["Pay"].ToString() ?? string.Empty
                                 );
                             gigs.Add(newGig);
                             //reader.NextResult();
@@ -98,6 +100,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 reader["PosterUsername"].ToString() ?? string.Empty,
                                 reader["GigName"].ToString() ?? string.Empty,
                                 Convert.ToDateTime(reader["GigDateTime"])
+                                reader["Location"].ToString() ?? string.Empty,
+                                reader["Pay"].ToString() ?? string.Empty
                                 );
                             gigs.Add(newGig);
                             //reader.NextResult();
