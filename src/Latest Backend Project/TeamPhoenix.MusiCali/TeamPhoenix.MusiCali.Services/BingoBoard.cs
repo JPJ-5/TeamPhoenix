@@ -1,7 +1,7 @@
-﻿using TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using _dao = TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer.BingoBoard;
+﻿using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using _dao = TeamPhoenix.MusiCali.DataAccessLayer.BingoBoard;
 
-namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.Services
+namespace TeamPhoenix.MusiCali.Services
 {
     public class BingoBoard
     {

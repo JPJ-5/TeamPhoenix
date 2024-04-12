@@ -1,10 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using rU = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
 using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
 
-namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer
+namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class BingoBoard
     {
