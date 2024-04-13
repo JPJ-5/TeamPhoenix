@@ -19,7 +19,6 @@
     document.getElementById('enter-artistPortfolio').addEventListener('click', function () {
         document.querySelector('.main').style.display = 'none'; // Hide main content
         document.getElementById('tempoToolView').style.display = 'none'; // Show tempo tool content
-        document.getElementById('artistPortfolioView').style.display = 'block';
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "ArtistPortfolio");
     });
