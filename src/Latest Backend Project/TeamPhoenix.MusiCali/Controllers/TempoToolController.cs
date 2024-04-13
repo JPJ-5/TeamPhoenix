@@ -7,11 +7,11 @@ namespace TeamPhoenix.MusiCali.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class LogFeatureController : ControllerBase
+    public class TempoToolController : ControllerBase
     {
 
-        [HttpPost("api/LogFeatureAPI")]
-        public IActionResult LogFeature([FromBody] LogFeature request)
+        [HttpPost("api/logTempoAPI")]
+        public IActionResult LogTempo([FromBody] LogFeature request)
         {
             // Perform any validation checks here
 
