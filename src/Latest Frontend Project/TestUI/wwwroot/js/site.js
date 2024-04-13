@@ -20,7 +20,15 @@
         document.querySelector('.main').style.display = 'none'; // Hide main content
         document.getElementById('tempoToolView').style.display = 'none'; // Show tempo tool content
         var username = document.getElementById("username").value;
-        logFeatureUsage(username, "ArtistPortfolio");
+        logFeatureUsage(username, "ArtistPortfolio")
+    });
+        
+    document.getElementById('enter-scaleDisplay').addEventListener('click', function () {
+        document.querySelector('.main').style.display = 'none'; // Hide main content
+        document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
+        document.getElementById('ScaleDisplayView').style.display = 'block'; // Show tempo tool content
+        var username = document.getElementById("username").value;
+        logFeatureUsage(username, "Scale Display");
     });
 
     menuButton.addEventListener('click', function () {
@@ -956,7 +964,7 @@
             Feature: feature
         };
 
-        fetch('http://localhost:8080/TempoTool/api/logTempoAPI', {
+        fetch('http://localhost:8080/LogFeature/api/LogFeatureAPI', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

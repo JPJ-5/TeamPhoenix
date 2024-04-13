@@ -120,11 +120,13 @@
                         </div>
                     </div>
 
-                    <!-- Tempo Tool Coding Starts Here -->
+                    <!-- Tempo Tool Button Here -->
                     <button id="enter-tempoTool" class="enter-tempoTool">Tempo Tool</button>
 
                     <!-- Tempo Tool Coding Starts Here -->
                     <button id="enter-artistPortfolio" class="enter-artistPortfolio">Artist Portfolio</button>
+                    <!-- Scale Display Button Here -->
+                    <button id="enter-scaleDisplay" class="enter-scaleDisplay">Scale Display</button>
 
                     <!-- Artist Profile Calendar Coding Starts Here -->
                     <button id="enter-calendar" class="enter-calendar">Artist Profile Calendar</button>
@@ -276,6 +278,32 @@
         </div>
     </div>
 
+    <!-- Page for scale display feature -->
+    <div id="ScaleDisplayView">
+        <h1 class="neon-text">Welcome to Scale Display!</h1>
+        <p>Choose a scale then pick its type!</p>
+        <select id="note-options" size="7">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+        </select>
+        <select id="options" size="7">
+            <option value="major">Major</option>
+            <option value="minor">minor</option>
+            <option value="Lydian">Lydian</option>
+            <option value="HarmonicMinor">Harmonic minor</option>
+            <option value="Dorian">Dorian</option>
+            <option value="Pentatonic">Pentatonic</option>
+        </select>
+        <br>
+        <button onclick="printSelectedScale()">Print Scale</button>
+        <br>
+    </div>
+
     <div id="artistPortfolioView" style="display: none;">
         <div class="APcontainer"></div>
             <div id="profile-info" style="float: right;">
@@ -333,6 +361,7 @@
 
     <script src="js/site.js"></script>
     <script src="js/tempoTool.js"></script>
+    <script src="js/ScaleDisplay.js"></script>
     <script src="js/ArtistPortfolio.js"></script>
 </body>
 </html>
