@@ -1,11 +1,10 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Musicali</title>
     <link href="css/site.css" rel="stylesheet" />
-    <link href="css/tempoToolStyles.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -89,7 +88,7 @@
                         </div>
 
                         <!-- Admin Management Section -->
-                        <div id="admin-management-section">
+                        <div id="admin-management-section" style="display: none;">
                             <h3>Admin Management Tools</h3>
                             <button id="admin-get-user">Get User</button>
                             <button id="admin-delete-user">Delete User</button>
@@ -118,129 +117,6 @@
                             <div id="feedback-box" style="display: none;"></div>
                         </div>
                     </div>
-
-                    <!-- Tempo Tool Coding Starts Here -->
-                    <button id="enter-tempoTool" class="enter-tempoTool">Tempo Tool</button>
-
-                    <!-- Artist Profile Calendar Coding Starts Here -->
-                    <button id="enter-calendar" class="enter-calendar">Artist Profile Calendar</button>
-                    <!-- Artist Profile Calendar Section (Hidden Initally) -->
-                    <div id="artist-calendar-section" style="display: none;">
-
-                        <button id="artist-calendar-visibility">Calendar Visibility</button>
-                        <!-- Calendar Visibility Form -->
-                        <form id="artist-calendar-visibility-form" style="display: none;">
-                            <div>
-                                <label for="calendarVisibilityUpdate">Is your Calendar Available to the Public?:</label>
-                                <input type="checkbox" id="calendarVisibilityUpdate" name="calendarVisibilityUpdate" required>
-                                <button type="button" id="artist-calendar-visibility-save-database">Submit Privacy Settings</button>
-                            </div>
-                        </form>
-                        <div id="artist-calendar-visibility-feedback" style="display: none;"></div>
-
-                        <button id="artist-calendar-view-gig">View Gig</button>
-                        <div id="view-gig-listing" style="display: none;">
-                            <p><strong>Username of Gig Owner:</strong> <span id="artist-calendar-view-username"></span></p>
-                            <p><strong>Name of Gig:</strong> <span id="artist-calendar-view-gig-name"></span></p>
-                            <p><strong>Start Time of Gig:</strong> <span id="artist-calendar-view-date"></span></p>
-                            <p><strong>Description:</strong> <span id="artist-calendar-view-description"></span></p>
-                            <p><strong>Location:</strong> <span id="artist-calendar-view-location"></span></p>
-                            <p><strong>Payment:</strong> <span id="artist-calendar-view-pay"></span></p>
-                        </div>
-
-                        <!-- Gig View Form -->
-                        <form id="view-gig-form" style="display: none;">
-                            <div>
-                                <label for="gigUsernameOwnerView">Username of Gig Owner:</label>
-                                <input type="text" id="gigUsernameOwnerView" name="gigUsernameOwnerView" required>
-                            </div>
-                            <div>
-                                <label for="gigDateView">Gig Start Time of Gig to View:</label>
-                                <input type="datetime-local" id="gigDateView" name="gigDateView" required>
-                            </div>
-                            <button type="button" id="view-gig-from-database">View Selected Gig</button>
-                        </form>
-                        <div id="view-gig-feedback" style="display: none;"></div>
-
-                        <button id="artist-calendar-delete-gig">Delete Gig</button>
-                        <!-- Gig Delete Form -->
-                        <form id="delete-gig-form" style="display: none;">
-                            <div>
-                                <label for="gigDateDelete">Gig Start Time of Gig to Delete:</label>
-                                <input type="datetime-local" id="gigDateDelete" name="gigDateDelete" required>
-                            </div>
-                            <button type="button" id="delete-gig-from-database">Delete Selected Gig</button>
-                        </form>
-                        <div id="delete-gig-feedback" style="display: none;"></div>
-
-                        <button id="artist-calendar-update-gig">Update Gig</button>
-                        <!-- Gig Update Form -->
-                        <form id="update-gig-form" style="display: none;">
-                            <div>
-                                <label for="gigDateOriginal">Original Gig Start Time:</label>
-                                <input type="datetime-local" id="gigDateOriginal" name="gigDateOriginal" required>
-                            </div>
-                            <div>
-                                <label for="gigNameUpdate">New Gig Name:</label>
-                                <input type="text" id="gigNameUpdate" name="gigNameUpdate" required>
-                            </div>
-                            <div>
-                                <label for="gigDateUpdate">New Gig Start Time:</label>
-                                <input type="datetime-local" id="gigDateUpdate" name="gigDateUpdate" required>
-                            </div>
-                            <div>
-                                <label for="gigVisibilityUpdate">Is this Gig Available to the Public?:</label>
-                                <input type="checkbox" id="gigVisibilityUpdate" name="gigVisibilityUpdate" required>
-                            </div>
-                            <div>
-                                <label for="gigDescriptionUpdate">New Gig Description:</label>
-                                <input type="text" id="gigDescriptionUpdate" name="gigDescriptionUpdate">
-                            </div>
-                            <div>
-                                <label for="gigLocationUpdate">New Gig Location:</label>
-                                <input type="text" id="gigLocationUpdate" name="gigLocationUpdate">
-                            </div>
-                            <div>
-                                <label for="gigPayUpdate">New Gig Payment for Ticket:</label>
-                                <input type="text" id="gigPayUpdate" name="gigPayUpdate">
-                            </div>
-                            <!-- Specify the type of button as buttons inside a form defaults to submit which causes the URL to change -->
-                            <button type="button" id="update-gig-save-database">Submit Updated Gig</button>
-                        </form>
-                        <div id="update-gig-feedback" style="display: none;"></div>
-
-                        <button id="artist-calendar-create-gig">Create Gig</button>
-                        <!-- Gig Creation Form -->
-                        <form id="create-gig-form" style="display: none;">
-                            <div>
-                                <label for="gigName">Gig Name:</label>
-                                <input type="text" id="gigName" name="gigName" required>
-                            </div>
-                            <div>
-                                <label for="gigDate">Gig Start Time:</label>
-                                <input type="datetime-local" id="gigDate" name="gigDate" required>
-                            </div>
-                            <div>
-                                <label for="gigVisibility">Is this Gig Available to the Public?:</label>
-                                <input type="checkbox" id="gigVisibility" name="gigVisibility" required>
-                            </div>
-                            <div>
-                                <label for="gigDescription">Gig Description:</label>
-                                <input type="text" id="gigDescription" name="gigDescription">
-                            </div>
-                            <div>
-                                <label for="gigLocation">Gig Location:</label>
-                                <input type="text" id="gigLocation" name="gigLocation">
-                            </div>
-                            <div>
-                                <label for="gigPay">Gig Payment for Ticket:</label>
-                                <input type="text" id="gigPay" name="gigPay">
-                            </div>
-                            <!-- Specify the type of button as buttons inside a form defaults to submit which causes the URL to change -->
-                            <button type="button" id="create-gig-save-database">Submit Gig</button>
-                        </form>
-                        <div id="create-gig-feedback" style="display: none;"></div>
-                    </div>
                     <!-- Logout Button -->
                     <button id="logoutButton" class="logout-btn">Logout</button>
                 </div>
@@ -258,21 +134,7 @@
 
     </div>
 
-    <!-- Page for tempo tool feature -->
-    <div id="tempoToolView" style="display: none;">
-        <!-- Content of the tempo tool view -->
-        <div id="container">
-            <span id="speedDisplay">Speed: 120 BPM</span>
-            <input type="range" min="35" max="250" value="120" id="tempoSlider">
-            <button id="startStopButton">Start</button>
-            <div id="metronomeContainer">
-                <div id="mainCircle"></div>
-                <div id="innerCircle"></div>
-            </div>
-        </div>
-    </div>
 
     <script src="js/site.js"></script>
-    <script src="js/tempoTool.js"></script>
 </body>
 </html>
