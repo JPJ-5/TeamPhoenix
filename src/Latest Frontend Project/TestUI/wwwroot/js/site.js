@@ -8,11 +8,15 @@
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
-    var baseUrl = 'http://localhost:8080';
-    var idToken;
-    var accessToken;
+    var baseUrl = 'https://themusicali.com:5000';
+    // var baseUrl = 'https://themusicali.com/api';
 
-
+    document.getElementById('enter-tempoTool').addEventListener('click', function () {
+        document.querySelector('.main').style.display = 'none'; // Hide main content
+        document.getElementById('tempoToolView').style.display = 'block'; // Show tempo tool content
+        var username = document.getElementById("username").value;
+        logFeatureUsage(username, "Tempo Tool");
+    });
 
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
@@ -59,6 +63,7 @@
 
         // AJAX request to backend
         fetch(checkUsernameApiUrl, {
+            // fetch ('https://themusicali.com/api/Login/api/CheckUsernameAPI', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -67,7 +72,6 @@
         })
             .then(response => response.json())
             .then(exists => {
-                console.log(exists); // Log the parsed JSON data
                 if (exists) {
                     // Email exists and OTP sent
                     alert("OTP sent to your email.");
@@ -82,6 +86,7 @@
                 console.error('Error:', error);
             });
     });
+
 
     // Add event listener for OTP form submission
     document.getElementById("submit-otp").addEventListener("click", function (event) {
@@ -112,8 +117,6 @@
                             //sessionStorage.setItem("jwt", data.token);
                             sessionStorage.setItem("idToken", data.IdToken);
                             sessionStorage.setItem("accessToken", data.AccessToken);
-                            idToken = data.idToken;
-                            accessToken = data.accessToken;
                             fetchUserProfile(username)
                         } else {
                             alert("Invalid OTP or error occurred.");
@@ -124,7 +127,6 @@
                         // Handle plain text response
                         sessionStorage.setItem("jwt", token);
                         if (sessionStorage.getItem('idToken', token) != "Login Failed") {
-                            
                             fetchUserProfile(username)
                         }
                         else {
@@ -139,56 +141,31 @@
             });
     });
 
-
-
-    // Need To Ask Parth
     function fetchUserProfile(username) {
         var username = document.getElementById('username').value;
-        var userProfileUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
-        idToken = sessionStorage.getItem("idToken");
-        accessToken = sessionStorage.getItem("accessToken");
-        //console.log(idToken);
-        //console.log(accessToken);
-        
-        fetch(userProfileUrl, {
-            method: 'GET',
-            headers: {
-                'userName': username,
-                'Authentication': idToken,
-                'Authorization': accessToken
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(userProfile => {
-            displayUserProfile(userProfile);
-        })
-        .catch(error => {
-            console.error('Failed to fetch user profile:', error);
-        });
+        fetch(`http://localhost:8080/ModifyUserProfile/GetUserInformation/${username}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(userProfile => {
+                displayUserProfile(userProfile); // Assuming you have a function to display the user profile
+            })
+            .catch(error => {
+                console.error('Failed to fetch user profile:', error);
+            });
     }
+
 
     // After successful login or when displaying the user profile, call this function to fetch and set the user role
     function fetchAndSetUserRole(username) {
         var username = document.getElementById('username').value;
         // Assuming the base URL and the necessary route to your controller
-        var getUserRoleUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
-        idToken = sessionStorage.getItem("idToken");
-        accessToken = sessionStorage.getItem("accessToken");
-        //console.log(idToken);
-        //console.log(accessToken);
-        fetch(getUserRoleUrl, {
-            method: 'GET',
-            headers: {
-                'userName': username,
-                'Authentication': idToken,
-                'Authorization': accessToken
-            }
-        })
+        var getUserRoleUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation/${username}`;
+
+        fetch(getUserRoleUrl)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch user role');
@@ -212,7 +189,6 @@
             prepareNormalUserUI()
         } else if (userRole === 'AdminUser') {
             prepareAdminUI()
-            
         }
     }
 
@@ -236,21 +212,19 @@
     document.getElementById('submit-recovery-username').addEventListener('click', function (event) {
         event.preventDefault();
         var userName = document.getElementById('User Name').value;
-        var recoverUserUrl = `${baseUrl}/api/RecoverUser`;
-        console.log(userName);
+
         // Prepare the headers
         var headers = new Headers();
-        headers.append("userName", userName); // Assuming the ID of the input is 'User Name', which is unusual due to the space. Consider changing this ID to 'user-name' or similar for better consistency.
-        //headers.append("Authentication", idToken);
-        //headers.append("Authorization", accessToken);
-        //Prepare the request options
+        headers.append('userName', userName); // Assuming the ID of the input is 'User Name', which is unusual due to the space. Consider changing this ID to 'user-name' or similar for better consistency.
+
+        // Prepare the request options
         var requestOptions = {
             method: 'POST',
             headers: headers
         };
 
         // Make the fetch call to the API
-        fetch(recoverUserUrl, requestOptions)
+        fetch("http://localhost:8080/api/RecoverUser", requestOptions)
             .then(response => response.json()) // Parse JSON response
             .then(result => {
                 console.log(result);
@@ -291,21 +265,14 @@
     // Inside prepareNormalUserUI
     document.getElementById('normal-user-delete').addEventListener('click', function () {
         var username = sessionStorage.getItem('username');
-        //var idToken = sessionStorage.getItem("idToken");
-        //var accessToken = sessionStorage.getItem("accessToken");
-        idToken = sessionStorage.getItem("idToken");
-        accessToken = sessionStorage.getItem("accessToken");
-
-
-        if (username && idToken && accessToken) {
-            var deleteUserUrl = `${baseUrl}/ModifyUserProfile/DeleteProfile`;
+        var token = sessionStorage.getItem('idToken');
+        if (username && token) {
+            var deleteUserUrl = `${baseUrl}/ModifyUserProfile/${username}`;
             fetch(deleteUserUrl, {
                 method: 'DELETE',
                 headers: {
-                    'Authentication': idToken,
-                    'Authorization': accessToken,
-                    'userName': username                    
-                }
+                    'Authorization': 'Bearer ' + token, // Include the token in the request for authorization
+                },
             })
                 .then(response => {
                     if (response.ok) {
@@ -340,8 +307,7 @@
         var firstName = document.getElementById('normal-user-first-name').value;
         var lastName = document.getElementById('normal-user-last-name').value;
         var username = document.getElementById('username').value;
-        idToken = sessionStorage.getItem("idToken");
-        accessToken = sessionStorage.getItem("accessToken");
+
 
         const userProfileUpdate = {
             Username: username,
@@ -355,9 +321,7 @@
         fetch(modifyProfileUrl, {
             method: 'POST',
             headers: {
-                'Authentication': idToken,
-                'Authorization': accessToken,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(userProfileUpdate),
         })
@@ -406,8 +370,6 @@
     document.getElementById('admin-delete-user').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to delete:");
         var userName = document.getElementById('username').value;
-        idToken = sessionStorage.getItem("idToken");
-        accessToken = sessionStorage.getItem("accessToken");
 
         if (username) {
             // Check if the username to delete is the admin's own username
@@ -416,15 +378,10 @@
                 return; // Exit the function to prevent the deletion process
             }
 
-            var deleteUserUrl = `${baseUrl}/ModifyUserProfile/DeleteProfile`;
+            var deleteUserUrl = `${baseUrl}/ModifyUserProfile/${username}`;
 
             fetch(deleteUserUrl, {
-                method: 'DELETE',
-                headers: {
-                    "Authentication": idToken,
-                    "Authorization": accessToken,
-                    "userName": username
-                }
+                method: 'DELETE'
             })
                 .then(response => {
                     if (response.ok) {
@@ -454,8 +411,6 @@
     document.getElementById('admin-user-creation').addEventListener('click', function () {
         var form = document.getElementById('admin-creation-form');
         var feedbackBox = document.getElementById('feedback-box');
-        idToken = sessionStorage.getItem("idToken");
-        accessToken = sessionStorage.getItem("accessToken");
 
         // Check if the form is already displayed
         if (form.style.display === 'block') {
@@ -465,8 +420,6 @@
             const uname = form.querySelector('#uname').value;
             const bmail = form.querySelector('#bmail').value;
 
-            idToken = sessionStorage.getItem("idToken");
-            accessToken = sessionStorage.getItem("accessToken");
             var adminUseCreate = `${baseUrl}/AccCreationAPI/api/AdminAccCreationAPI`;
 
             const data = { email, dob, uname, bmail };
@@ -475,8 +428,6 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authentication': idToken,
-                    'Authorization': accessToken
                 },
                 body: JSON.stringify(data),
             })
@@ -509,16 +460,9 @@
     // Inside prepareAdminUI
     document.getElementById('admin-get-user').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to fetch:");
-        idToken = sessionStorage.getItem("idToken");
-        accessToken = sessionStorage.getItem("accessToken");
         if (username) {
-            fetch(`${baseUrl}/ModifyUserProfile/AdminLookUp`, {
-                method: 'GET',
-                headers: {
-                    'Authentication': idToken,
-                    'Authorization': accessToken,
-                    'userName': username
-                },
+            fetch(`${baseUrl}/ModifyUserProfile/${username}`, {
+                method: 'GET'
             })
                 .then(response => {
                     if (response.ok) {
@@ -562,8 +506,6 @@
     document.getElementById('admin-update-claims').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to update claims for:");
         var userRole = prompt("Enter the new user role for the user:");
-        idToken = sessionStorage.getItem("idToken");
-        accessToken = sessionStorage.getItem("accessToken");
 
         if (username && userRole) {
             // Construct the payload according to the expected structure
@@ -578,8 +520,6 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authentication': idToken,
-                    'Authorization': accessToken
                 },
                 body: JSON.stringify(payload), // Use the constructed payload
             })
@@ -633,18 +573,14 @@
 
     document.getElementById('logoutButton').addEventListener('click', function () {
         const startTime = Date.now();
+        localStorage.clear()
+        sessionStorage.clear()
         var userName = document.getElementById("username").value;
-        idToken = sessionStorage.getItem("idToken");
-        accessToken = sessionStorage.getItem("accessToken");
-        //console.log(idToken);
-        //console.log(accessToken);
 
         fetch(`${baseUrl}/Logout/api/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authentication': idToken,
-                'Authorization': accessToken,
             },
             body: JSON.stringify({ UserName: userName }),
         })
@@ -662,8 +598,6 @@
                 alert(data.message); // Display logout message from server
                 // Redirect to home page with default culture settings
                 window.location.href = 'index.html'; // Adjust this to your home page URL
-                localStorage.clear()
-                sessionStorage.clear()
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -702,7 +636,7 @@
         var dob = document.getElementById('dob').value;
         var uname = document.getElementById('user-name').value;
         var bmail = document.getElementById('backup-email').value;
-        console.log(bmail);
+
         // Create a URLSearchParams object to encode the data
         var params = new URLSearchParams();
         params.append('email', email);
@@ -711,7 +645,7 @@
         params.append('bmail', bmail);
 
         // Construct the URL with the encoded parameters
-        var url = `${baseUrl}/AccCreationAPI/api/NormalAccCreationAPI`;
+        var url = `${baseUrl}/AccCreationAPI/api/NormalAccCreationAPI?${params.toString()}`;
 
         // Log the URL
         console.log('URL:', url);
@@ -720,11 +654,8 @@
         fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify({
-                email: email, dob: dob, uname: uname, bmail:bmail
-            })
         })
             .then(response => response.json())
             .then(data => {
@@ -736,4 +667,324 @@
                 // Handle error (e.g., show error message)
             });
     });
+
+    // Event Listeners for Artist Profile Calendar
+    document.getElementById('enter-calendar').addEventListener('click', function () {
+        // display the artist calendar section when the button is clicked
+        document.getElementById('artist-calendar-section').style.display = 'block';
+    });
+
+    document.getElementById('artist-calendar-visibility').addEventListener('click', function () {
+        var form = document.getElementById('artist-calendar-visibility-form')
+        form.style.display = 'block';
+    });
+
+    document.getElementById('artist-calendar-visibility-save-database').addEventListener('click', function () {
+        // get the username which is needed for gig updating.
+        var username = sessionStorage.getItem('username'); // Make sure this is correctly retrieving the username
+        var form = document.getElementById('artist-calendar-visibility-form');
+        var feedbackBox = document.getElementById('artist-calendar-visibility-feedback');
+
+        // Check if the form is already displayed
+        if (form.style.display === 'block') {
+            // Form is displayed, try to submit form data
+            const visibility = form.querySelector('#calendarVisibilityUpdate').checked;
+
+            var payload = {
+                username: username,
+                gigVisibility: visibility
+            }
+
+            fetch('http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigVisibilityAPI', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+                .then(response => response.json())
+                .then(result => {
+                    feedbackBox.style.display = 'block';
+                    if (result) {
+                        feedbackBox.textContent = 'Calendar Visibilty updated successfully';
+                        feedbackBox.style.color = 'green';
+                        form.reset();
+                    } else {
+                        feedbackBox.textContent = 'Failed to update Calendar Visibilty';
+                        feedbackBox.style.color = 'red';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    feedbackBox.textContent = 'Error updating Calendar Visibilty. Please try again.';
+                    feedbackBox.style.color = 'red';
+                });
+        } else {
+            // Form is currently not displayed, so display it
+            form.style.display = 'block';
+        }
+    });
+
+    document.getElementById('artist-calendar-view-gig').addEventListener('click', function () {
+        var form = document.getElementById('view-gig-form')
+        if (form.style.display === 'block') {
+            form.style.display = 'none';
+            document.getElementById('view-gig-listing') = 'none'; //closes the gig being viewed.
+        } else {
+            form.style.display = 'block';
+        }
+    });
+
+    document.getElementById('view-gig-from-database').addEventListener('click', function () {
+        var activeUsername = sessionStorage.getItem('username');
+        var form = document.getElementById('view-gig-form');
+        var feedbackBox = document.getElementById('view-gig-feedback');
+        // Check if the form is already displayed
+        if (form.style.display === 'block') {
+            const usernameOwner = form.querySelector('#gigUsernameOwnerView').value;
+            const gigDate = form.querySelector('#gigDateView').value;
+            const queryView = new URLSearchParams({
+                username: activeUsername,
+                usernameOwner: usernameOwner,
+                dateOfGig: gigDate
+            }).toString();
+            url = 'http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigViewAPI?' + queryView.toString();
+            fetch(url, {
+                method: 'GET',
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to view gig');
+                    }
+                })
+                .then(gigView => {
+                    displayGigView(gigView);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    feedbackBox.textContent = 'Error viewing gig. Please try again.';
+                    feedbackBox.style.color = 'red';
+                });
+        } else {
+            form.style.display = 'block';
+        }
+    });
+    function displayGigView(gigView) {
+        // Dummy data for gigView, replace with real data as needed
+        document.getElementById('artist-calendar-view-username').textContent = gigView.username || 'N/A';
+        document.getElementById('artist-calendar-view-gig-name').textContent = gigView.gigName || 'N/A';
+        document.getElementById('artist-calendar-view-date').textContent = gigView.dateOfGig || 'N/A';
+        document.getElementById('artist-calendar-view-description').textContent = gigView.description || 'N/A';
+        document.getElementById('artist-calendar-view-location').textContent = gigView.location || 'N/A';
+        document.getElementById('artist-calendar-view-pay').textContent = gigView.pay || 'N/A';
+
+        document.getElementById('view-gig-listing').style.display = 'block';
+    }
+    
+    document.getElementById('artist-calendar-delete-gig').addEventListener('click', function () {
+        var form = document.getElementById('delete-gig-form');
+        form.style.display = 'block';
+    });
+
+    document.getElementById('delete-gig-from-database').addEventListener('click', function () {
+        // get the username which is needed for gig deletion.
+        var username = sessionStorage.getItem('username'); // Make sure this is correctly retrieving the username
+        var form = document.getElementById('delete-gig-form');
+        var feedbackBox = document.getElementById('delete-gig-feedback');
+        // Check if the form is already displayed
+        if (form.style.display === 'block') {
+            const gigDate = form.querySelector('#gigDateDelete').value;
+            var payload = {
+                username: username,
+                dateOfGig: gigDate
+            }
+            fetch('http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigDeletionAPI', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to delete gig');
+                    }
+                })
+                .then(data => {
+                    feedbackBox.style.display = 'block';
+                    feedbackBox.textContent = 'Gig deleted successfully';
+                    feedbackBox.style.color = 'green';
+                    form.reset();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    feedbackBox.textContent = 'Error deleting gig. Please try again.';
+                    feedbackBox.style.color = 'red';
+                });
+        } else {
+            form.style.display = 'block';
+        }
+
+    });
+
+    document.getElementById('artist-calendar-update-gig').addEventListener('click', function () {
+        var form = document.getElementById('update-gig-form');
+        form.style.display = 'block';
+    });
+
+    document.getElementById('update-gig-save-database').addEventListener('click', function () {
+        // get the username which is needed for gig updating.
+        var username = sessionStorage.getItem('username'); // Make sure this is correctly retrieving the username
+        var form = document.getElementById('update-gig-form');
+        var feedbackBox = document.getElementById('update-gig-feedback');
+
+        // Check if the form is already displayed
+        if (form.style.display === 'block') {
+            // Form is displayed, try to submit form data
+            const gigDateOld = form.querySelector('#gigDateOriginal').value;
+            const gigName = form.querySelector('#gigNameUpdate').value;
+            const gigDate = form.querySelector('#gigDateUpdate').value;
+            const gigVisibility = form.querySelector('#gigVisibilityUpdate').checked;
+            const gigDescription = form.querySelector('#gigDescriptionUpdate').value;
+            const gigLocation = form.querySelector('#gigLocationUpdate').value;
+            const gigPay = form.querySelector('#gigPayUpdate').value;
+
+            var payload = {
+                dateOfGigOriginal: gigDateOld,
+                username: username,
+                gigName: gigName,
+                dateOfGig: gigDate,
+                visibility: gigVisibility,
+                description: gigDescription,
+                location: gigLocation,
+                pay: gigPay
+            }
+
+            fetch('http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigUpdateAPI', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+                .then(response => response.json())
+                .then(result => {
+                    feedbackBox.style.display = 'block';
+                    if (result) {
+                        feedbackBox.textContent = 'Gig updated successfully';
+                        feedbackBox.style.color = 'green';
+                        form.reset();
+                    } else {
+                        feedbackBox.textContent = 'Failed to update gig';
+                        feedbackBox.style.color = 'red';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    feedbackBox.textContent = 'Error updating gig. Please try again.';
+                    feedbackBox.style.color = 'red';
+                });
+        } else {
+            // Form is currently not displayed, so display it
+            form.style.display = 'block';
+        }
+    });
+
+    document.getElementById('artist-calendar-create-gig').addEventListener('click', function () {
+        // get the username which is needed for gig creation.
+        var username = sessionStorage.getItem('username'); // Make sure this is correctly retrieving the username
+        var form = document.getElementById('create-gig-form');
+        form.style.display = 'block';
+    });
+
+    document.getElementById('create-gig-save-database').addEventListener('click', function () {
+        // get the username which is needed for gig creation.
+        var username = sessionStorage.getItem('username'); // Make sure this is correctly retrieving the username
+        var form = document.getElementById('create-gig-form');
+        var feedbackBox = document.getElementById('create-gig-feedback');
+
+        // Check if the form is already displayed
+        if (form.style.display === 'block')
+        {
+            // Form is displayed, try to submit form data
+            const gigName = form.querySelector('#gigName').value;
+            const gigDate = form.querySelector('#gigDate').value;
+            const gigVisibility = form.querySelector('#gigVisibility').checked;
+            const gigDescription = form.querySelector('#gigDescription').value;
+            const gigLocation = form.querySelector('#gigLocation').value;
+            const gigPay = form.querySelector('#gigPay').value;
+
+            var payload = {
+                username: username,
+                gigName: gigName,
+                dateOfGig: gigDate,
+                visibility: gigVisibility,
+                description: gigDescription,
+                location: gigLocation,
+                pay: gigPay
+            }
+
+            fetch('http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigCreationAPI', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+                .then(response => response.json())
+                .then(result => {
+                    feedbackBox.style.display = 'block';
+                    if (result) {
+                        feedbackBox.textContent = 'Gig created successfully';
+                        feedbackBox.style.color = 'green';
+                        form.reset();
+                    } else {
+                        feedbackBox.textContent = 'Failed to create gig';
+                        feedbackBox.style.color = 'red';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    feedbackBox.textContent = 'Error creating gig. Please try again.';
+                    feedbackBox.style.color = 'red';
+                });
+        } else {
+            // Form is currently not displayed, so display it
+            form.style.display = 'block';
+        }
+    });
+
+    function logFeatureUsage(username, feature) {
+        const requestData = {
+            UserName: username,
+            Feature: feature
+        };
+
+        fetch('http://localhost:8080/TempoTool/api/logTempoAPI', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(response.json());
+                }
+            })
+            .then(data => {
+                console.log('Tempo usage logged successfully');
+            })
+            .catch(error => {
+                console.error('Error logging tempo usage:', error.message);
+            });
+    }
+
+
 });
