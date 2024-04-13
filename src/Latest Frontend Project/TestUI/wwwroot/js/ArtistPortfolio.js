@@ -178,6 +178,7 @@ function displayArtistProfile(portfolioInfo) {
             // Once all elements are loaded, display the profile view
             document.querySelector('.main').style.display = 'none'; // Hide main contents
             document.getElementById('tempoToolView').style.display = 'none'; // Show tempo tool content
+            document.getElementById('ScaleDisplayView').style.display = 'none'; // Show scale display content
             document.getElementById('artistPortfolioView').style.display = 'block'; // Display artist portfolio
         }
     };

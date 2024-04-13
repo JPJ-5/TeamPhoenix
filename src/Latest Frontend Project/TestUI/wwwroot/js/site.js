@@ -9,24 +9,29 @@
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
 
+    function loadView(element) {
+        //hide all views first then loading specific element view
+        document.querySelector('.main').style.display = 'none';
+        document.getElementById('tempoToolView').style.display = 'none';
+        document.getElementById('artistPortfolioView').style.display = 'none';
+        document.getElementById('ScaleDisplayView').style.display = 'none';
+        element.style.display = 'block';
+    }
+
     document.getElementById('enter-tempoTool').addEventListener('click', function () {
-        document.querySelector('.main').style.display = 'none'; // Hide main content
-        document.getElementById('tempoToolView').style.display = 'block'; // Show tempo tool content
+        loadView(document.getElementById('tempoToolView'))
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "Tempo Tool");
     });
 
     document.getElementById('enter-artistPortfolio').addEventListener('click', function () {
-        document.querySelector('.main').style.display = 'none'; // Hide main content
-        document.getElementById('tempoToolView').style.display = 'none'; // Show tempo tool content
+        loadView(document.getElementById('artistPortfolioView'))
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "ArtistPortfolio")
     });
         
     document.getElementById('enter-scaleDisplay').addEventListener('click', function () {
-        document.querySelector('.main').style.display = 'none'; // Hide main content
-        document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
-        document.getElementById('ScaleDisplayView').style.display = 'block'; // Show tempo tool content
+        loadView(document.getElementById('ScaleDisplayView'))
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "Scale Display");
     });
