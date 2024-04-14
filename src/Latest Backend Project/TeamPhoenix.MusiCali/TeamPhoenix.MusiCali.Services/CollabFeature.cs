@@ -1,33 +1,89 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using MySqlX.XDevAPI.Common;
+//using MySqlX.XDevAPI.Common;
+using MySql.Data.MySqlClient;
+using TeamPhoenix.MusiCali.DataAccessLayer; // Import the namespace where CollabFeatureDAL is defined
+using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
-namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.Services
+namespace TeamPhoenix.MusiCali.Services
 {
     public class CollabFeature
     {
-        public Result SendCollabEmail(string username){
-            //create collab model based of collab table and input both usernames and emails
-             //to get emails use function to search for them using DAL function CREATE TABLE Collab {
-            // SenderUsername VARCHAR(255),
-            // RecieverUsername VARCHAR(255),
-            // Accepted BOOLEAN,
-            // SenderEmail VARCHAR(255),
-            // RecieverEmail VARCHAR(255)
+        public static Result SendCollabEmail(string senderUsername, string receiverUsername)
+        {
+            
+            Result result = new Result();
 
+            try
+            {
+                // Get sender and receiver email addresses using CollabFeatureDAL
+                string senderEmail = CollabFeatureDAL.GetEmailByUsername(senderUsername);
+                string receiverEmail = CollabFeatureDAL.GetEmailByUsername(receiverUsername);
+
+                // Insert a new collab record into the Collab table using CollabFeatureDAL
+                CollabFeatureDAL.InsertCollab(senderUsername, receiverUsername, senderEmail, receiverEmail);
+
+
+                result.Success = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to send collab email: " + ex.Message);
+            }
         }
 
-        public Result AcceptCollab(string RecieverUsername, string senderUsername){
-            //search for collab table using both usernames and change bool accept to true
-            //use the DAL function
+        public static Result AcceptCollab(string receiverUsername, string senderUsername)
+        {
+            try
+            {
+                // Search for the collab record based on sender and receiver usernames using CollabFeatureDAL
+                Result collab = CollabFeatureDAL.AcceptCollabByUsername(senderUsername, receiverUsername);
+
+
+                if (collab.Success == true)
+                {
+
+                    // senderEmail = GetEmailByUsername(collab);
+                    // receiverEmail = GetEmailByUsername(collab);
+                    // Update the 'Accepted' field to true using CollabFeatureDAL
+                    //collab.Success = true;
+                    collab = CollabFeatureDAL.AcceptCollabByUsername(senderUsername, receiverUsername);
+
+                    return collab;
+                }
+                else
+                {
+                    collab.Success = false;
+                    collab.ErrorMessage = "Collab record not found.";
+
+                    return collab;
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to accept collab: " + ex.Message);
+            }
         }
 
-        public Result LoadCollabFeature(string username) {
-            //load all 3 Accepted, recieved and sent collab for username
+        public static CollabData LoadCollabFeature(string username)
+        {
+            try
+            {
+                CollabData collabs = new CollabData();
+                // Load sent, received, and accepted collabs for the given username using CollabFeatureDAL
+                collabs.sentCollabs = CollabFeatureDAL.GetSentCollabsByUsername(username);
+                collabs.receivedCollabs = CollabFeatureDAL.GetReceivedCollabsByUsername(username);
+                collabs.acceptedCollabs = CollabFeatureDAL.GetAcceptedCollabsByUsername(username);
 
+                return collabs;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Collab failed to load" + ex.Message);
+            }
         }
     }
-    
 }
