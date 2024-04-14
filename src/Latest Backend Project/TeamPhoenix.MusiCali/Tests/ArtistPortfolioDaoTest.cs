@@ -148,7 +148,8 @@ namespace TeamPhoenix.MusiCali.Tests
             var expectedLocation = "Los Angeles";
 
             // Act
-            var profileInfo = ArtistPortfolioDao.GetProfileInfo(username);
+            var Portfolio = ArtistPortfolioDao.GetPortfolio(username);
+            var profileInfo = Portfolio[3];
             var actualOccupation = profileInfo[0];
             var actualBio = profileInfo[1];
             var actualLocation = profileInfo[2];
@@ -170,7 +171,7 @@ namespace TeamPhoenix.MusiCali.Tests
             ArtistPortfolioDao.SaveFilePath(username, 3, expectedFilePath, "test", "test");
 
             // Act
-            var fileData = ArtistPortfolioDao.GetAllFileInfo(username);
+            var fileData = ArtistPortfolioDao.GetPortfolio(username);
             var actualFilePath = fileData[0][3];
 
             // Assert

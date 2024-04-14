@@ -38,7 +38,7 @@ namespace TeamPhoenix.MusiCali.Tests
             var username = "kihambo.wav";
 
             int slot = 1;
-            List<List<string>> fileData = ArtistPortfolioDao.GetAllFileInfo(username);
+            List<List<string>> fileData = ArtistPortfolioDao.GetPortfolio(username);
             List<string> filePaths = fileData[0];
 
             // Assert

@@ -171,54 +171,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public static List<string> GetProfileInfo(string username)
-        {
-            try
-            {
-                string occ = "";
-                string bio = "";
-                string loc = "";
-                List<string> artistInfo = new List<string>();
-                string query = $"SELECT ArtistOccupation, ArtistBio, ArtistLocation FROM ArtistProfile WHERE Username = @Username";
-
-                using (MySqlConnection connection = new MySqlConnection(_connectionString))
-                {
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Username", username);
-
-                        connection.Open();
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                occ = reader[$"ArtistOccupation"].ToString() ?? string.Empty;
-                                bio = reader[$"ArtistBio"].ToString() ?? string.Empty;
-                                loc = reader[$"ArtistLocation"].ToString() ?? string.Empty;
-                                artistInfo.Add(occ);
-                                artistInfo.Add(bio);
-                                artistInfo.Add(loc);
-                            }
-                            else
-                            {
-                                artistInfo.Add(string.Empty);
-                                artistInfo.Add(string.Empty);
-                                artistInfo.Add(string.Empty);
-                            }
-                        }
-                    }
-                }
-
-                return artistInfo;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"An error occurred retrieving genre: {ex.Message}");
-            }
-        }
-
-        public static List<List<string>> GetAllFileInfo(string username)
+        public static List<List<string>> GetPortfolio(string username)
         {
             try
             {
@@ -226,6 +179,12 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 List<string> fileGenres = new List<string>();
                 List<string> fileDescriptions = new List<string>();
                 List<List<string>> fileData = new List<List<string>>();
+                List<string> artistInfo = new List<string>();
+                string occ = "";
+                string bio = "";
+                string loc = "";
+                string query = $"SELECT ArtistOccupation, ArtistBio, ArtistLocation FROM ArtistProfile WHERE Username = @Username";
+
                 using (MySqlConnection connection = new MySqlConnection(_connectionString))
                 {
                     connection.Open();
@@ -234,8 +193,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     {
                         if (i == 0)
                         {
-                            string query = $"SELECT File{i}Path FROM ArtistProfile WHERE Username = @Username";
-                            using (MySqlCommand command = new MySqlCommand(query, connection))
+                            string query2 = $"SELECT File{i}Path FROM ArtistProfile WHERE Username = @Username";
+                            using (MySqlCommand command = new MySqlCommand(query2, connection))
                             {
                                 command.Parameters.AddWithValue("@Username", username);
 
@@ -256,9 +215,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                         }
                         else
                         {
-                            string query = $"SELECT File{i}Path, File{i}Genre, File{i}Desc FROM ArtistProfile WHERE Username = @Username";
+                            string query2 = $"SELECT File{i}Path, File{i}Genre, File{i}Desc FROM ArtistProfile WHERE Username = @Username";
 
-                            using (MySqlCommand command = new MySqlCommand(query, connection))
+                            using (MySqlCommand command = new MySqlCommand(query2, connection))
                             {
                                 command.Parameters.AddWithValue("@Username", username);
 
@@ -282,17 +241,41 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 }
                             }
                         }
+                    }
 
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Username", username);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                occ = reader[$"ArtistOccupation"].ToString() ?? string.Empty;
+                                bio = reader[$"ArtistBio"].ToString() ?? string.Empty;
+                                loc = reader[$"ArtistLocation"].ToString() ?? string.Empty;
+                                artistInfo.Add(occ);
+                                artistInfo.Add(bio);
+                                artistInfo.Add(loc);
+                            }
+                            else
+                            {
+                                artistInfo.Add(string.Empty);
+                                artistInfo.Add(string.Empty);
+                                artistInfo.Add(string.Empty);
+                            }
+                        }
                     }
                 }
                 fileData.Add(filePaths);
                 fileData.Add(fileGenres);
                 fileData.Add(fileDescriptions);
+                fileData.Add(artistInfo);
                 return fileData;
             }
             catch (Exception ex)
             {
-                throw new Exception($"An error occurred retrieving file paths: {ex.Message}");
+                throw new Exception($"An error occurred retrieving genre: {ex.Message}");
             }
         }
 

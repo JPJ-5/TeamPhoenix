@@ -18,12 +18,12 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             try
             {
-                var artistInfo = ArtistPortfolioDao.GetProfileInfo(username);
-                var file = ArtistPortfolioDao.GetAllFileInfo(username);
+                var file = ArtistPortfolioDao.GetPortfolio(username);
                 var fileInfo = file[0];
                 var localFiles = ArtistPortfolio.DownloadFilesLocally(fileInfo);
                 var genreList = file[1];
                 var descList = file[2];
+                var artistInfo =file[3];
                 if (artistInfo == null || fileInfo == null)
                 {
                     return NotFound("Artist info or file info not found.");
