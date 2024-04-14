@@ -994,5 +994,19 @@
             });
     }
 
+    document.getElementById('BingoBoardView').addEventListener('click', function (){
+        const loadnotif = document.getElementById('BingoBoardLoadMsg')
+        loadnotif.innerHTML = "Loading Posts...";
+
+        var activeUsername = sessionStorage.getItem('username');
+        //
+
+        const boardtable = document.getElementById('BingoBoardPostsTable');
+        var BBTableHTML = "<table><tr><th>Post Title</th><th>Poster</th><th>Date</th><th>Location</th><th>Pay</th><th>Description</th></tr>";
+        //append additional post data to table html here
+        BBTableHTML+="</table";
+        boardtable.innerHTML = BBTableHTML;
+    });
+
 
 });
