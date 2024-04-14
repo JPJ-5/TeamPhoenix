@@ -117,6 +117,55 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
+        [HttpPost("api/updateInfoApi")]
+        public IActionResult UpdateInfo([FromBody] List<string> sectionInfo)
+        {
+            try
+            {
+                var username = sectionInfo[0];
+                var section = sectionInfo[1];
+                var info = sectionInfo[2];
+                // Save the information to the database
+                var result = ArtistPortfolioDao.updateInfo(username, section, info);
+                if (result.Success)
+                {
+                    return Ok("File uploaded successfully.");
+                }
+                else
+                {
+                    return BadRequest("Failed to upload file.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error updating portfolio info: {ex.Message}");
+            }
+        }
+
+        [HttpPost("api/delInfoApi")]
+        public IActionResult DeleteInfo([FromBody] List<string> sectionRequest)
+        {
+            try
+            {
+                var username = sectionRequest[0];
+                var section = sectionRequest[1];
+                // Save the information to the database
+                var result = ArtistPortfolioDao.DeleteSection(username, section);
+                if (result.Success)
+                {
+                    return Ok("Section deleted successfully.");
+                }
+                else
+                {
+                    return BadRequest("Failed to delete section info.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error updating portfolio info: {ex.Message}");
+            }
+        }
+
         [HttpPost("api/deleteApi")]
         public IActionResult DeleteFile([FromForm] DeleteFileRequest req)
         {

@@ -60,7 +60,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         }
 
 
-
         public static Result DeleteFilePath(string username, int slot)
         {
             try
@@ -137,40 +136,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public static string GetUsername(string username)
-        {
-            try
-            {
-                string artistUsername = "";
-
-                string query = $"SELECT Username FROM ArtistProfile WHERE Username = @Username";
-
-                using (MySqlConnection connection = new MySqlConnection(_connectionString))
-                {
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Username", username);
-
-                        connection.Open();
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                artistUsername = reader["Username"].ToString();
-                            }
-                        }
-                    }
-                }
-
-                return artistUsername;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"An error occurred retrieving username: {ex.Message}");
-            }
-        }
-
         public static List<List<string>> GetPortfolio(string username)
         {
             try
@@ -178,7 +143,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 List<string> filePaths = new List<string>();
                 List<string> fileGenres = new List<string>();
                 List<string> fileDescriptions = new List<string>();
-                List<List<string>> fileData = new List<List<string>>();
+                List<List<string>> ProfileData = new List<List<string>>();
                 List<string> artistInfo = new List<string>();
                 string occ = "";
                 string bio = "";
@@ -267,15 +232,70 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                         }
                     }
                 }
-                fileData.Add(filePaths);
-                fileData.Add(fileGenres);
-                fileData.Add(fileDescriptions);
-                fileData.Add(artistInfo);
-                return fileData;
+                ProfileData.Add(filePaths);
+                ProfileData.Add(fileGenres);
+                ProfileData.Add(fileDescriptions);
+                ProfileData.Add(artistInfo);
+                return ProfileData;
             }
             catch (Exception ex)
             {
                 throw new Exception($"An error occurred retrieving genre: {ex.Message}");
+            }
+        }
+
+        public static Result updateInfo(string username, string section, string info)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    string capSection = char.ToUpper(section[0]) + section.Substring(1);
+
+                    // Update the file path in the database
+                    var query = $"UPDATE ArtistProfile SET Artist{capSection} = @info WHERE Username = @Username";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@info", info);
+                        command.Parameters.AddWithValue("@Username", username);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                return new Result { Success = true };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred adding info to database: {ex.Message}");
+            }
+        }
+
+        public static Result DeleteSection(string username, string section)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    string capSection = char.ToUpper(section[0]) + section.Substring(1);
+                    var query = $"UPDATE ArtistProfile SET Artist{capSection} = NULL WHERE Username = @Username";
+                    // Update the file path in the database
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Username", username);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                return new Result { Success = true };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred deleting section from the database: {ex.Message}");
             }
         }
 

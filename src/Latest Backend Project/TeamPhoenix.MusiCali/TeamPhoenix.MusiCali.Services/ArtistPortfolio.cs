@@ -47,6 +47,7 @@ namespace TeamPhoenix.MusiCali.Services
                         ArtistPortfolioDao.SaveFilePath(username, slot, remoteFilePath + fileName, genre, desc);
                     }
 
+
                     sshClient.Disconnect();
                 }
 
@@ -101,11 +102,11 @@ namespace TeamPhoenix.MusiCali.Services
                         // Log the result of the command execution
                         Console.WriteLine($"Command execution result: {result}");
                     }
+                    sshClient.Disconnect();
 
                     // Update the file path in the database to null
                     ArtistPortfolioDao.DeleteFilePath(username, slot);
 
-                    sshClient.Disconnect();
                 }
 
                 return new Result { Success = true };

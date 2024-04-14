@@ -121,22 +121,6 @@ namespace TeamPhoenix.MusiCali.Tests
             ArtistPortfolioDao.DeleteFilePath(username, slot);
         }
 
-        [TestMethod]
-        public void GetUsername_ShouldReturnUsername_WhenUsernameExists()
-        {
-            // Arrange
-            var username = "kihambo.wav";
-            ArtistPortfolioDao.SaveFilePath(username, 0, "", "", "");
-
-            // Act
-            var actualUsername = ArtistPortfolioDao.GetUsername(username);
-
-            // Assert
-            Assert.AreEqual(username, actualUsername);
-
-            // Clean up: Delete the file path
-            ArtistPortfolioDao.DeleteFilePath(username, 0);
-        }
 
         [TestMethod]
         public void GetProfileInfo_ShouldReturnProfileInfo_WhenUsernameExists()
