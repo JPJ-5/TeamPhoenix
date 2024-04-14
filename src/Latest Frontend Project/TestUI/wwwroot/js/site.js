@@ -996,7 +996,7 @@
 
     document.getElementById('BingoBoardView').addEventListener('click', function (){
         const loadnotif = document.getElementById('BingoBoardLoadMsg')
-        loadnotif.innerHTML = "Loading Posts...";
+        loadnotif.innerHTML = "Loading Posts... Should take no longer than 3 seconds";
 
         var activeUsername = sessionStorage.getItem('username');
         //
