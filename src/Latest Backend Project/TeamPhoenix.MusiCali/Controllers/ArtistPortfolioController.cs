@@ -129,11 +129,11 @@ namespace TeamPhoenix.MusiCali.Controllers
                 var result = ArtistPortfolioDao.updateInfo(username, section, info);
                 if (result.Success)
                 {
-                    return Ok("File uploaded successfully.");
+                    return Ok("Info uploaded successfully.");
                 }
                 else
                 {
-                    return BadRequest("Failed to upload file.");
+                    return BadRequest("Failed to upload info.");
                 }
             }
             catch (Exception ex)
@@ -162,7 +162,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error updating portfolio info: {ex.Message}");
+                return StatusCode(500, $"Error deleting portfolio info: {ex.Message}");
             }
         }
 
