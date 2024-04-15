@@ -9,7 +9,7 @@ namespace TeamPhoenix.MusiCali.Controllers
     public class BingoBoardController : Controller
     {
         [HttpGet("api/BingoBoardLoadGigs")]
-        public ActionResult ViewMultipleGigs([FromQuery] ushort numberOfGigs, [FromQuery] string username)
+        public ActionResult ViewMultipleGigs([FromQuery] int numberOfGigs, [FromQuery] string username)
         {
             var gigSummaries = BB.ViewMultGigSummary(numberOfGigs, username);
             if (gigSummaries == null)

@@ -7,7 +7,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class BingoBoard
     {
-        public static List<GigSummary>? ViewGigSummary(ushort numberOfGigs, string currentUsername)
+        public static List<GigSummary>? ViewGigSummary(int numberOfGigs, string currentUsername)
         {
             string level;
             string category;

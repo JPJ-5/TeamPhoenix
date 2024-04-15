@@ -5,7 +5,7 @@ namespace TeamPhoenix.MusiCali.Services
 {
     public class BingoBoard
     {
-        public static List<GigSummary>? ViewMultGigSummary(ushort numberOfGigs, string username)
+        public static List<GigSummary>? ViewMultGigSummary(int numberOfGigs, string username)
         {
             try
             {
