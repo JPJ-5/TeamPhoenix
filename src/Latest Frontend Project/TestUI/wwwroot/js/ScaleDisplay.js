@@ -6,41 +6,74 @@ var scales = {
     'E': ['E'],
     'F': ['F'],
     'G': ['G']
-    };
+};
 
-    
-    var scaleTypes = {
-        'major': ['a', 'b', 'c sharp', 'd', 'e', 'f sharp', 'g shap', 'a'],
-        'minor': ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'a'],
-        'Lydian': ['a', 'b', 'c sharp', 'd sharp', 'e', 'f sharp', 'g sharp', 'a'],
-        'HarmonicMinor': ['a', 'b', 'c', 'd', 'e', 'f', 'g sharp', 'a'],
-        'Dorian': ['a', 'b', 'c', 'd', 'e', 'f sharp', 'g', 'a'],
-        'Pentatonic': ['a', 'c', 'd', 'e', 'g', 'a']
-    };
+var scaleTypes = {
+    'major': ['a', 'b', 'c sharp', 'd', 'e', 'f sharp', 'g sharp', 'a'],
+    'minor': ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'a'],
+    'Lydian': ['a', 'b', 'c sharp', 'd sharp', 'e', 'f sharp', 'g sharp', 'a'],
+    'HarmonicMinor': ['a', 'b', 'c', 'd', 'e', 'f', 'g sharp', 'a'],
+    'Dorian': ['a', 'b', 'c', 'd', 'e', 'f sharp', 'g', 'a'],
+    'Pentatonic': ['a', 'c', 'd', 'e', 'g', 'a']
+};
 
-    function generateScales() {
+function generateScales() {
     var alphabet = 'ABCDEFG';
-    var index = document.getElementById('note-options').selectedIndex;
+    var index = document.getElementById('note-options') ? document.getElementById('note-options').selectedIndex : 0;
     var currentNote = alphabet[index];
     var currentScales = {};
     for (var i = 0; i < alphabet.length; i++) {
-        var scaleLetter = alphabet[i];
+        var scaleLetter = scales[i];
         currentScales[scaleLetter] = [scaleLetter];
     }
     scales = currentScales;
+}
+
+function updateDisplay() {
+    var selectBox = document.getElementById('note-options');
+    var selectBoxType = document.getElementById('options');
+
+    // Check if both select boxes exist
+    if (!selectBox || !selectBoxType) {
+        console.error("One or more select boxes not found.");
+        return;
     }
 
-    function updateDisplay() {
-        generateScales(); // Update scales based on the selected index
-        var selectBox = document.getElementById('note-options');
-        var selectedIndex = selectBox.selectedIndex;
-        var selectedValue = selectBox.options[selectedIndex].value;
-        var selectedScale = scales[selectedValue]; 
-        var selectBoxType = document.getElementById('options');
-        var selectedType = selectBoxType.options[selectBoxType.selectedIndex].value;
-        var selectedScaleType = scaleTypes[selectedType];
+    var selectedIndex = selectBox.selectedIndex;
 
-        
+    // Check if selectedIndex is valid
+    if (selectedIndex < 0 || selectedIndex >= selectBox.options.length) {
+        console.error("Invalid selectedIndex:", selectedIndex);
+        return;
+    }
+
+    // Check if a value is selected
+    var selectedOption = selectBox.options[selectedIndex];
+    if (!selectedOption || !selectedOption.value) {
+        console.error("No option selected.");
+        return;
+    }
+
+    var selectedValue = selectBox.options[selectedIndex].value;
+
+    var selectedTypeIndex = selectBoxType.selectedIndex;
+
+    // Check if selectedTypeIndex is valid
+    if (selectedTypeIndex < 0 || selectedTypeIndex >= selectBoxType.options.length) {
+        console.error("Invalid selectedTypeIndex:", selectedTypeIndex);
+        return;
+    }
+
+    var selectedType = selectBoxType.options[selectedTypeIndex].value;
+    var selectedScale = scales[selectedValue];
+    var selectedScaleType = scaleTypes[selectedType];
+
+    // Ensure the display element exists
+    var displayElement = document.getElementById('display');
+    if (!displayElement) {
+        console.error("Display element not found.");
+        return;
+    }
         /////////////Scale Notes for A///////////////////
         if(selectedValue === 'A') {
             if(selectedType === 'major'){
@@ -194,33 +227,37 @@ var scales = {
                 selectedScaleType = ['G','Bb','C','D', 'F'];
             }
         }
-        
-        document.getElementById('display').textContent = selectedScale.join() + " " + selectedType + ": " + "\n" + selectedScaleType.join(', ');
-        }
+    // Update the display content
+    displayElement.textContent = selectedScale.join() + " " + selectedType + ": " + "\n" + selectedScaleType.join(', ');
+}
 
-    function moveLeft() {
+
+
+
+function moveLeft() {
     var selectBox = document.getElementById('note-options');
+    if (!selectBox) return;
     var selectedIndex = selectBox.selectedIndex;
     if (selectedIndex > 0) {
         selectBox.selectedIndex = selectedIndex - 1;
         updateDisplay();
     }
-    }
+}
 
-    function moveRight() {
+function moveRight() {
     var selectBox = document.getElementById('note-options');
+    if (!selectBox) return;
     var selectedIndex = selectBox.selectedIndex;
     if (selectedIndex < selectBox.options.length - 1) {
         selectBox.selectedIndex = selectedIndex + 1;
         updateDisplay();
     }
-    }
+}
 
-    function printSelectedScale() {
+function printSelectedScale() {
     updateDisplay(); // Make sure the display is up to date
-    var displayContent = document.getElementById('display').textContent;
-    var displayScaleType = document.getElementById('display')
+    var displayContent = document.getElementById('display') ? document.getElementById('display').textContent : '';
     alert("Here Is Your Selected Scale: \n" + displayContent);
-    }
-    // Initial update of display
-    updateDisplay();
+}
+
+
