@@ -1,0 +1,59 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    background-image: none; /* Add this line to remove the background image */
+}
+
+#container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#tempoSlider {
+    width: 80%;
+}
+
+#startStopButton {
+    margin-top: 400px;
+}
+
+#metronomeContainer {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 80px auto;
+}
+#speedDisplay {
+    position: absolute;
+    top: calc(50%); /* Adjust this value as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    color: #000; /* Adjust color as needed */
+}
+
+
+#mainCircle {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #3498db;
+}
+
+#innerCircle {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #2980b9;
+    transition: width 0.1s, height 0.1s;
+}

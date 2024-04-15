@@ -9,6 +9,32 @@
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
 
+    function loadView(element) {
+        //hide all views first then loading specific element view
+        document.querySelector('.main').style.display = 'none';
+        document.getElementById('tempoToolView').style.display = 'none';
+        document.getElementById('artistPortfolioView').style.display = 'none';
+        document.getElementById('ScaleDisplayView').style.display = 'none';
+        element.style.display = 'block';
+    }
+
+    document.getElementById('enter-tempoTool').addEventListener('click', function () {
+        loadView(document.getElementById('tempoToolView'))
+        var username = document.getElementById("username").value;
+        logFeatureUsage(username, "Tempo Tool");
+    });
+
+    document.getElementById('enter-artistPortfolio').addEventListener('click', function () {
+        loadView(document.getElementById('artistPortfolioView'))
+        var username = document.getElementById("username").value;
+        logFeatureUsage(username, "ArtistPortfolio")
+    });
+        
+    document.getElementById('enter-scaleDisplay').addEventListener('click', function () {
+        loadView(document.getElementById('ScaleDisplayView'))
+        var username = document.getElementById("username").value;
+        logFeatureUsage(username, "Scale Display");
+    });
 
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
@@ -648,5 +674,34 @@
     });
 
     
+
+    function logFeatureUsage(username, feature) {
+        const requestData = {
+            UserName: username,
+            Feature: feature
+        };
+
+        fetch('http://localhost:8080/LogFeature/api/LogFeatureAPI', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(response.json());
+                }
+            })
+            .then(data => {
+                console.log(feature + 'usage logged successfully');
+            })
+            .catch(error => {
+                console.error('Error logging tempo usage:', error.message);
+            });
+    }
+
 
 });
