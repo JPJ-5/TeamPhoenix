@@ -1040,5 +1040,9 @@
         boardtable.innerHTML = BBTableHTML;
     }
 
+    function LoadMoreBingoBoardPosts(){
+
+    }
+
 
 });
