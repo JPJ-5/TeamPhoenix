@@ -16,7 +16,7 @@ namespace TeamPhoenix.MusiCali.Tests
             List<string> expectedUsers = new List<string> { "juliereyes" };
 
             // Act
-            var matchingUsers = CollabSearchDao.SearchUsers(query);
+            var matchingUsers = CollabFeatureDAL.SearchUsers(query);
 
 
             // Assert
@@ -31,7 +31,7 @@ namespace TeamPhoenix.MusiCali.Tests
             var query = "NonExistentUser";
 
             // Act
-            var matchingUsers = CollabSearchDao.SearchUsers(query);
+            var matchingUsers = CollabFeatureDAL.SearchUsers(query);
 
             // Assert
             Assert.AreEqual(0, matchingUsers.Count);
@@ -44,7 +44,7 @@ namespace TeamPhoenix.MusiCali.Tests
             string query = null;
 
             // Act
-            var matchingUsers = CollabSearchDao.SearchUsers(query);
+            var matchingUsers = CollabFeatureDAL.SearchUsers(query);
 
             // Assert
             Assert.AreEqual(0, matchingUsers.Count);
@@ -57,7 +57,7 @@ namespace TeamPhoenix.MusiCali.Tests
             var query = "";
 
             // Act
-            var matchingUsers = CollabSearchDao.SearchUsers(query);
+            var matchingUsers = CollabFeatureDAL.SearchUsers(query);
 
             // Assert
             Assert.AreEqual(0, matchingUsers.Count);
