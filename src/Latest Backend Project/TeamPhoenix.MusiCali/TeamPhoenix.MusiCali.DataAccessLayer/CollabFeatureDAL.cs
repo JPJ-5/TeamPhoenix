@@ -121,7 +121,40 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             return result;
         }
+        //creates function to get all collab tables from the currently logged- in user
+
+        public static List<string> GetSentCollabsByUsername(string username)
+        {
+            List<string> sentCollabs = new List<string>();
+
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT * FROM Collab WHERE SenderUsername = @username";
+                sentCollabs = RetrieveCollabs(connection, query, username);
+            }
+
+            return sentCollabs;
+        }
+
+        private static List<string> RetrieveCollabs(MySqlConnection connection, string query, string username)
+        {
+            List<string> collabs = new List<string>();
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@username", username);
+
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        collabs.Add(reader.GetString(0)); // Assuming the collab data is stored in the first column
+                    }
+                }
+            }
+            return collabs;
+        }
     }
 }
-
-//Create function to get all collab tables by logged in user
