@@ -994,7 +994,13 @@
             });
     }
 
-    document.getElementById('BingoBoardView').addEventListener('click', function (){
+    //Bingo Board Features:
+    document.getElementById('enter-BingoBoardView').addEventListener('click', function (){
+        document.querySelector('.main').style.display = 'none'; // Hide main content
+        document.getElementById('BingoBoardView').style.display = 'block'; // Show bingo board
+        var username = document.getElementById("username").value;
+        logFeatureUsage(username, "Bingo Board");
+
         const loadnotif = document.getElementById('BingoBoardLoadMsg')
         loadnotif.innerHTML = "Loading Posts... Should take no longer than 3 seconds";
 
@@ -1006,7 +1012,7 @@
 
     
         //append additional post data to table html here
-        url = 'http://localhost:8080/BingoBoard/api/BingoBoardLoadGigs' + queryView.toString();
+        url = 'http://localhost:8080/BingoBoard/api/BingoBoardLoadGigs?' + queryView.toString();
             fetch(url, {
                 method: 'GET',
             })
