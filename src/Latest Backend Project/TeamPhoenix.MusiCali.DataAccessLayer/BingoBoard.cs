@@ -1,7 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using rU = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
-//using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
+using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
