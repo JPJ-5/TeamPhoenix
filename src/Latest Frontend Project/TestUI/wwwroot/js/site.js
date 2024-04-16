@@ -774,4 +774,60 @@
                 console.error('Error logging tempo usage:', error.message);
             });
     }
+
+    //Bingo Board Features:
+    document.getElementById('enter-BingoBoardView').addEventListener('click', function (){
+        document.querySelector('.main').style.display = 'none'; // Hide main content
+        document.getElementById('BingoBoardView').style.display = 'block'; // Show bingo board
+        var username = document.getElementById("username").value;
+        logFeatureUsage(username, "Bingo Board");
+
+        const loadnotif = document.getElementById('BingoBoardLoadMsg')
+        loadnotif.innerHTML = "Loading Posts... Should take no longer than 3 seconds";
+
+        var currentUsername = sessionStorage.getItem('username');
+        const queryView = new URLSearchParams({
+            numberOfGigs: 20,
+            username: currentUsername
+        }).toString();
+
+    
+        //append additional post data to table html here
+        url = 'http://localhost:8080/BingoBoard/api/BingoBoardLoadGigs?' + queryView.toString();
+            fetch(url, {
+                method: 'GET',
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to load gigs');
+                    }
+                })
+                .then(gigData => {
+                    constructGigListHTML(gigData);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    feedbackBox.textContent = 'Error loading gigs. Please try again.';
+                    feedbackBox.style.color = 'red';
+                    loadnotif.innerHTML = "There was an error with the loading. Please try again.";
+                });
+
+    });
+
+    function constructGigListHTML(gigData){
+        const boardtable = document.getElementById('BingoBoardPostsTable');
+        var BBTableHTML = "<table><tr><th>Post Title</th><th>Poster</th><th>Date</th><th>Location</th><th>Pay</th><th>Description</th></tr>";
+        var gigs = JSON.parse(gigData);
+        var gigList = gigs.list;
+        //
+
+        BBTableHTML+="</table";
+        boardtable.innerHTML = BBTableHTML;
+    }
+
+    function LoadMoreBingoBoardPosts(){
+
+    }
 });

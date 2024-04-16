@@ -124,6 +124,9 @@
 
                     <!-- Scale Display Button Here -->
                     <button id="enter-scaleDisplay" class="enter-scaleDisplay">Scale Display</button>
+                    
+                    <!-- Bingo Board button here -->
+                    <button id="enter-BingoBoardView" class=""enter-BingoBoardView>Bingo Board</button>
 
                     <!-- Artist Profile Calendar Coding Starts Here -->
                     <button id="enter-calendar" class="enter-calendar">Artist Profile Calendar</button>
@@ -301,6 +304,16 @@
         <br>
     </div>
     <div id="display"></div>
+
+     <!-- Page for bingo board feature-->
+     <div id="BingoBoardView" style="display: none;">
+        <h1 class="">Bingo Board:</h1>
+        <p id = "BingoBoardLoadMsg"></p>
+        <p id = "BingoBoardPostsTable"></p>
+        <br>
+        <br>
+        <button type="button" onclick="LoadMoreBingoBoardPosts()">Load More</button>
+    </div>
 
     <script src="js/site.js"></script>
     <script src="js/ScaleDisplay.js"></script>
