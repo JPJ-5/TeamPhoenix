@@ -18,6 +18,12 @@ public class CustomCorsMiddleware
         var allowedOrigins = corsPolicySection.GetSection("AllowedOrigins").Get<string[]>() ?? System.Array.Empty<string>();
         var origin = context.Request.Headers["Origin"].ToString();
 
+        if (context.Request.Method == "OPTIONS")
+            {
+                context.Response.Headers["Access-Control-Max-Age"] = "86400"; // Preflight cache duration
+                context.Response.StatusCode = StatusCodes.Status204NoContent;
+            }
+
         if (!string.IsNullOrEmpty(origin) && allowedOrigins.Contains(origin))
         {
             context.Response.Headers["Access-Control-Allow-Origin"] = origin;
@@ -27,12 +33,6 @@ public class CustomCorsMiddleware
             if (corsPolicySection.GetValue<bool>("AllowCredentials"))
             {
                 context.Response.Headers["Access-Control-Allow-Credentials"] = "true";
-            }
-
-            if (context.Request.Method == "OPTIONS")
-            {
-                context.Response.Headers["Access-Control-Max-Age"] = "86400"; // Preflight cache duration
-                context.Response.StatusCode = StatusCodes.Status204NoContent;
                 return;
             }
         }

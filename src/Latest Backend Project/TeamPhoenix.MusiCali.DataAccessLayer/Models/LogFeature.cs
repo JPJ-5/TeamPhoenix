@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
 {
-    public class JwtHeader
+    public class LogFeature
     {
-        public string Alg { get; set; } = "HS256";
-        public string Typ { get; set; } = "JWT";
+        public string UserName { get; set; } = string.Empty;
+
+        public string Feature { get; set; } = string.Empty;
     }
 }
