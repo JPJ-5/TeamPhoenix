@@ -1,7 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using rU = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
-using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
+//using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
@@ -47,7 +47,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             level = "Info";
                             category = "View";
                             context = "Failed to retrieve gigs";
-                            _loggerCreation.CreateLog(userHash, level, category, context);
+                            //_loggerCreation.CreateLog(userHash, level, category, context);
                             return null;
                         }
                         if (gigs.Count == numberOfGigs)
@@ -56,7 +56,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             level = "Info";
                             category = "View";
                             context = $"{numberOfGigs} gigs successfully retrieved from database";
-                            _loggerCreation.CreateLog(userHash, level, category, context);
+                            //_loggerCreation.CreateLog(userHash, level, category, context);
                         }
                         else
                         {
@@ -64,7 +64,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             level = "Info";
                             category = "View";
                             context = $"{gigs.Count} gigs successfully retrieved from database, but {numberOfGigs} were requested";
-                            _loggerCreation.CreateLog(userHash, level, category, context);
+                            //_loggerCreation.CreateLog(userHash, level, category, context);
                         }
                         return gigs;
                     }
@@ -72,7 +72,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public static List<GigSummary>? ViewGigSummaryByDate(string currentUsername, DateTime gigDateTime)
+        public static List<GigSummary>? ViewGigSummaryByPostID(string currentUsername, DateTime gigDateTime)
         {
             string level;
             string category;
@@ -112,7 +112,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             level = "Info";
                             category = "View";
                             context = "Failed to retrieve gigs.";
-                            _loggerCreation.CreateLog(userHash, level, category, context);
+                            //_loggerCreation.CreateLog(userHash, level, category, context);
                             return null;
                         }
 
@@ -122,7 +122,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             level = "Info";
                             category = "View";
                             context = $"{gigs.Count} gigs successfully retrieved from database.";
-                            _loggerCreation.CreateLog(userHash, level, category, context);
+                            //_loggerCreation.CreateLog(userHash, level, category, context);
                         }
                         return gigs;
                     }
