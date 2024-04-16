@@ -58,7 +58,7 @@ public class AuthorizationMiddleware
         var header = parts[0];
         var payload = parts[1];
         var signature = parts[2];
-        var computedSignature = ComputeHmacSha256(header + "." + payload, "simple-key");
+        var computedSignature = SignatureComputeHmacSha256(header,payload);
         
         var path = context.Request.Path;
 
@@ -96,14 +96,18 @@ public class AuthorizationMiddleware
         }
     }
 
-    private string ComputeHmacSha256(string text, string key)
+    private string SignatureComputeHmacSha256(string encodedHeader, string encodedPayload)
     {
-        using (var hmacsha256 = new HMACSHA256(Encoding.UTF8.GetBytes(key)))
+        using (var hash = new HMACSHA256(Encoding.UTF8.GetBytes("simple-key")))
         {
-            byte[] hashmessage = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(text));
-            // Encode using Base64
-            return Convert.ToBase64String(hashmessage).TrimEnd('=')
-                .Replace('+', '-').Replace('/', '_');
+            // String to Byte[]
+            var signatureInput = $"{encodedHeader}.{encodedPayload}";
+            var signatureInputBytes = Encoding.UTF8.GetBytes(signatureInput);
+
+            // Byte[] to String
+            var signatureDigestBytes = hash.ComputeHash(signatureInputBytes);
+            var encodedSignature = WebEncoders.Base64UrlEncode(signatureDigestBytes);
+            return encodedSignature;
         }
     }
 
