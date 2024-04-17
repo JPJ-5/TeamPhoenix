@@ -800,7 +800,9 @@
             })
                 .then(response => {
                     if (response.ok) {
+                        console.log(response.json());
                         return response.json();
+                        
                     } else {
                         throw new Error('Failed to load gigs');
                         loadnotif.innerHTML = "There was an error with the loading. Please try again.";
@@ -810,7 +812,7 @@
                     constructGigListHTML(gigData);
                 })
                 .catch(error => {
-                    loadnotif.innerHTML = "There was an error with the loading. Please try again.";
+                    loadnotif.innerHTML = "There was an error with the table. Please try again.";
                 });
 
     });
@@ -818,8 +820,8 @@
     function constructGigListHTML(gigData){
         const boardtable = document.getElementById('BingoBoardPostsTable');
         var BBTableHTML = "<table><tr><th>Post Title</th><th>Poster</th><th>Date</th><th>Location</th><th>Pay</th><th>Description</th></tr>";
-        var gigs = JSON.parse(gigData);
-        var gigList = gigs.list;
+        //var gigs = JSON.parse(gigData);
+        //var gigList = gigs.list;
         //
 
         BBTableHTML+="</table";
