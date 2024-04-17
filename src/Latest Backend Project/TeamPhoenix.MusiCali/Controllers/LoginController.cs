@@ -24,11 +24,6 @@ namespace AccCreationAPI.Controllers
             Authentication newAuth = new Authentication(_configuration);
             var checkExistence = newAuth.Authenticate(login.Username, login.Otp);
 
-            //if (tokens != null && tokens.ContainsKey("IdToken") && !string.IsNullOrEmpty(tokens["IdToken"])
-            //    && tokens.ContainsKey("AccessToken") && !string.IsNullOrEmpty(tokens["AccessToken"]))
-            //{
-            //    return Ok(tokens);
-            //}
             if (checkExistence)
             {
                 var idToken = newAuth.CreateIDJwt(login);
@@ -56,8 +51,5 @@ namespace AccCreationAPI.Controllers
             }
             return BadRequest(false); // Changed from JsonResult to IActionResult with Ok result
         }
-
-        //[AllowAnonymous]
-        //[HttpPost("/secure/createIDToken")]
     }  
 }
