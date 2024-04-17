@@ -1,17 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\workf\\source\\repos\\Latest Frontend Project\\",
+  "WorkspaceRootPath": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Frontend Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|c:\\users\\workf\\source\\repos\\latest frontend project\\testui\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|d:\\stuff2\\teamphoenix\\src\\latest frontend project\\testui\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|solutionrelative:testui\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|c:\\users\\workf\\source\\repos\\latest frontend project\\testui\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|d:\\stuff2\\teamphoenix\\src\\latest frontend project\\testui\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|solutionrelative:testui\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|c:\\users\\workf\\source\\repos\\latest frontend project\\testui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|d:\\stuff2\\teamphoenix\\src\\latest frontend project\\testui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|solutionrelative:testui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -22,25 +22,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "site.js",
-              "DocumentMoniker": "C:\\Users\\workf\\source\\repos\\Latest Frontend Project\\TestUI\\wwwroot\\js\\site.js",
+              "DocumentMoniker": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\js\\site.js",
               "RelativeDocumentMoniker": "TestUI\\wwwroot\\js\\site.js",
-              "ToolTip": "C:\\Users\\workf\\source\\repos\\Latest Frontend Project\\TestUI\\wwwroot\\js\\site.js",
+              "ToolTip": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\js\\site.js",
               "RelativeToolTip": "TestUI\\wwwroot\\js\\site.js",
-              "ViewState": "AQIAADcAAAAAAAAAAAAgwE4AAAARAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAOICAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2024-03-30T23:09:34.705Z",
               "EditorCaption": ""
@@ -49,9 +41,9 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "index.html",
-              "DocumentMoniker": "C:\\Users\\workf\\source\\repos\\Latest Frontend Project\\TestUI\\wwwroot\\index.html",
+              "DocumentMoniker": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\index.html",
               "RelativeDocumentMoniker": "TestUI\\wwwroot\\index.html",
-              "ToolTip": "C:\\Users\\workf\\source\\repos\\Latest Frontend Project\\TestUI\\wwwroot\\index.html",
+              "ToolTip": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\index.html",
               "RelativeToolTip": "TestUI\\wwwroot\\index.html",
               "ViewState": "AQIAAB8AAAAAAAAAAAAnwDUAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
@@ -61,9 +53,9 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\workf\\source\\repos\\Latest Frontend Project\\TestUI\\Program.cs",
+              "DocumentMoniker": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\Program.cs",
               "RelativeDocumentMoniker": "TestUI\\Program.cs",
-              "ToolTip": "C:\\Users\\workf\\source\\repos\\Latest Frontend Project\\TestUI\\Program.cs",
+              "ToolTip": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\Program.cs",
               "RelativeToolTip": "TestUI\\Program.cs",
               "ViewState": "AQIAAAgAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
