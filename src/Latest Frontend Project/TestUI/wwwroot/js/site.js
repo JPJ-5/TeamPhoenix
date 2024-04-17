@@ -803,6 +803,7 @@
                         return response.json();
                     } else {
                         throw new Error('Failed to load gigs');
+                        loadnotif.innerHTML = "There was an error with the loading. Please try again.";
                     }
                 })
                 .then(gigData => {
