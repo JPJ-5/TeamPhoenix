@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vHX5rbmZVWVOktw1JZ5Xpe0eGQ4DTXPUyqITEYbWvhA=",
+  "Hash": "fxZbEQfrdeDqeXBAx4liMw5PvgH4sJdIb3dsu/KE+rg=",
   "Source": "TeamPhoenix.MusiCali",
   "BasePath": "_content/TeamPhoenix.MusiCali",
   "Mode": "Default",
@@ -9,10 +9,10 @@
   "DiscoveryPatterns": [],
   "Assets": [
     {
-      "Identity": "C:\\Users\\workf\\Downloads\\Latest_Backend_Project\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\bundle\\TeamPhoenix.MusiCali.styles.css",
+      "Identity": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\bundle\\TeamPhoenix.MusiCali.styles.css",
       "SourceId": "TeamPhoenix.MusiCali",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\workf\\Downloads\\Latest_Backend_Project\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/TeamPhoenix.MusiCali",
       "RelativePath": "TeamPhoenix.MusiCali.styles.css",
       "AssetKind": "All",
@@ -25,13 +25,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\workf\\Downloads\\Latest_Backend_Project\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\bundle\\TeamPhoenix.MusiCali.styles.css"
+      "OriginalItemSpec": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\bundle\\TeamPhoenix.MusiCali.styles.css"
     },
     {
-      "Identity": "C:\\Users\\workf\\Downloads\\Latest_Backend_Project\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TeamPhoenix.MusiCali.bundle.scp.css",
+      "Identity": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TeamPhoenix.MusiCali.bundle.scp.css",
       "SourceId": "TeamPhoenix.MusiCali",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\workf\\Downloads\\Latest_Backend_Project\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/TeamPhoenix.MusiCali",
       "RelativePath": "TeamPhoenix.MusiCali.bundle.scp.css",
       "AssetKind": "All",
@@ -44,7 +44,7 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\workf\\Downloads\\Latest_Backend_Project\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TeamPhoenix.MusiCali.bundle.scp.css"
+      "OriginalItemSpec": "D:\\Stuff2\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TeamPhoenix.MusiCali.bundle.scp.css"
     }
   ]
 }

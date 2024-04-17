@@ -352,7 +352,7 @@ namespace TeamPhoenix.MusiCali.Security
         public string CreateIDJwt(LoginModel loginRequest)
         {
             // TODO: Check security credentials match Database
-
+            
             var header = new JwtHeader();
             var payload = new JwtPayload()
             {
@@ -362,6 +362,7 @@ namespace TeamPhoenix.MusiCali.Security
                 Iat = DateTime.UtcNow.Ticks,
                 Exp = DateTime.UtcNow.AddMinutes(20).Ticks
             };
+            Console.WriteLine(payload);
 
             // TODO: Add custom permissions to payload
 

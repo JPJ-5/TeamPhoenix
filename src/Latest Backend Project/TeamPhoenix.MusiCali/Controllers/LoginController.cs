@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using TeamPhoenix.MusiCali.Security;
 using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.Login;
+using Newtonsoft.Json.Linq;
 
 namespace AccCreationAPI.Controllers
 {
@@ -22,10 +23,14 @@ namespace AccCreationAPI.Controllers
         [HttpPost("api/GetJwtAPI")]
         public IActionResult Login([FromBody] LoginModel login)
         {
-            var tokens = UserLogin.AppLogin(login);
+           
+            var tokens = UserLogin.AppLogin(login, _configuration);
             if (tokens.Success == true)
             {
-                return Ok(tokens);
+                Dictionary<string, string> Tokens = new Dictionary<string, string>();
+                Tokens["IdToken"] = tokens.IdToken!;
+                Tokens["AccessToken"] = tokens.AccToken!;
+                return Ok(Tokens);
             } else
             {
                 return BadRequest("Login Failed");
