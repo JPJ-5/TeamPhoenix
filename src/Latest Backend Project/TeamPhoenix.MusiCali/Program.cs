@@ -11,15 +11,19 @@ namespace AccCreationAPI
 {
     public class Program
     {
-        private static IConfiguration? _configuration; // Static, nullable configuration
+        private static IConfiguration? _configuration;
+
+        public Program(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            _configuration = builder.Configuration ?? throw new InvalidOperationException("Configuration cannot be null");
 
             // Add services to the container.
-            // Set _configuration from builder configuration to ensure it's never null in usage context
-            _configuration = builder.Configuration ?? throw new InvalidOperationException("Configuration cannot be null");
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -72,5 +76,7 @@ namespace AccCreationAPI
 
             app.Run();
         }
+
+
     }
 }

@@ -9,20 +9,12 @@ public class AuthenticationMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IConfiguration _configuration;
-    private Func<Task> next;
-    private IConfiguration configuration;
 
     public AuthenticationMiddleware(RequestDelegate next, IConfiguration configuration)
     {
         _next = next;
         _configuration = configuration;
 
-    }
-
-    public AuthenticationMiddleware(Func<Task> next, IConfiguration configuration)
-    {
-        this.next = next;
-        this.configuration = configuration;
     }
 
     public async Task Invoke(HttpContext context)

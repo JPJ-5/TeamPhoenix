@@ -9,19 +9,11 @@ public class AuthorizationMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IConfiguration _configuration;
-    private Func<Task> next;
-    private IConfiguration configuration;
 
     public AuthorizationMiddleware(RequestDelegate next, IConfiguration configuration)
     {
         _next = next;
         _configuration = configuration;
-    }
-
-    public AuthorizationMiddleware(Func<Task> next, IConfiguration configuration)
-    {
-        this.next = next;
-        this.configuration = configuration;
     }
 
     public async Task Invoke(HttpContext context)
