@@ -11,7 +11,7 @@ namespace TeamPhoenix.MusiCali.Tests
         public void GigLoadTest()
         {
             List<GigSummary>? gigs = BB.ViewGigSummary(20, "bingoboardtests");
-            Console.WriteLine(gigs);
+            //Console.WriteLine(gigs[0].Username);
             Assert.IsNotNull(gigs);
         }
     }

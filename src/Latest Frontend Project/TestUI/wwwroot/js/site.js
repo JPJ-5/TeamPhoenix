@@ -779,28 +779,31 @@
     document.getElementById('enter-BingoBoardView').addEventListener('click', function (){
         document.querySelector('.main').style.display = 'none'; // Hide main content
         document.getElementById('BingoBoardView').style.display = 'block'; // Show bingo board
-        var username = document.getElementById("username").value;
-        logFeatureUsage(username, "Bingo Board");
+        //logFeatureUsage(username, "Bingo Board");
 
         const loadnotif = document.getElementById('BingoBoardLoadMsg')
         loadnotif.innerHTML = "Loading Posts... Should take no longer than 3 seconds";
 
         var currentusername = sessionStorage.getItem('username');
+        var idToken = sessionStorage.getItem('idToken');
+        var accessToken = sessionStorage.getItem('accessToken');
         var numGigs = 20;
 
-
+        
         //append additional post data to table html here
         BingoBoardUrl = baseUrl+'/BingoBoard/api/BingoBoardLoadGigs';
             fetch(BingoBoardUrl, {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authentication': idToken,
+                    'Authorization': accessToken
                 },
                 body: JSON.stringify({numberofgigs: numGigs, username: currentusername})
             })
                 .then(response => {
                     if (response.ok) {
-                        console.log(response.json());
+                        //console.log(response.json());
                         return response.json();
                         
                     } else {
@@ -812,6 +815,7 @@
                     constructGigListHTML(gigData);
                 })
                 .catch(error => {
+                    console.error('Error:', error);
                     loadnotif.innerHTML = "There was an error with the table. Please try again.";
                 });
 
@@ -820,6 +824,7 @@
     function constructGigListHTML(gigData){
         const boardtable = document.getElementById('BingoBoardPostsTable');
         var BBTableHTML = "<table><tr><th>Post Title</th><th>Poster</th><th>Date</th><th>Location</th><th>Pay</th><th>Description</th></tr>";
+        console.log(gigData);
         //var gigs = JSON.parse(gigData);
         //var gigList = gigs.list;
         //

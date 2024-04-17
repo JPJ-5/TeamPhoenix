@@ -8,7 +8,7 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class BingoBoardController : Controller
     {
-        [HttpGet("api/BingoBoardLoadGigs")]
+        [HttpPost("api/BingoBoardLoadGigs")]
         public ActionResult ViewMultipleGigs([FromBody] BingoBoardRequest BBReq)
         {
             List<GigSummary>? gigSummaries = BB.ViewMultGigSummary(BBReq.NumberOfGigs, BBReq.Username);

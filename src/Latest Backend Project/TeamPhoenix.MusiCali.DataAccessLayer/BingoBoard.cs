@@ -102,7 +102,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 reader["GigName"].ToString() ?? string.Empty,
                                 Convert.ToDateTime(reader["GigDateTime"]),
                                 reader["Location"].ToString() ?? string.Empty,
-                                reader["Pay"].ToString() ?? string.Empty
+                                reader["Pay"].ToString() ?? string.Empty,
+                                reader["Description"].ToString() ?? string.Empty
                                 );
                             gigs.Add(newGig);
                             //reader.NextResult();
