@@ -785,17 +785,18 @@
         const loadnotif = document.getElementById('BingoBoardLoadMsg')
         loadnotif.innerHTML = "Loading Posts... Should take no longer than 3 seconds";
 
-        var currentUsername = sessionStorage.getItem('username');
-        const queryView = new URLSearchParams({
-            numberOfGigs: 20,
-            username: currentUsername
-        }).toString();
+        var currentusername = sessionStorage.getItem('username');
+        var numGigs = 20;
 
-    
+
         //append additional post data to table html here
-        url = 'http://localhost:8080/BingoBoard/api/BingoBoardLoadGigs?' + queryView.toString();
-            fetch(url, {
+        BingoBoardUrl = baseUrl+'/BingoBoard/api/BingoBoardLoadGigs';
+            fetch(BingoBoardUrl, {
                 method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({numberofgigs: numGigs, username: currentusername})
             })
                 .then(response => {
                     if (response.ok) {
