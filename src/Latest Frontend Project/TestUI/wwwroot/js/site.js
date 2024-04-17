@@ -809,9 +809,6 @@
                     constructGigListHTML(gigData);
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    feedbackBox.textContent = 'Error loading gigs. Please try again.';
-                    feedbackBox.style.color = 'red';
                     loadnotif.innerHTML = "There was an error with the loading. Please try again.";
                 });
 
