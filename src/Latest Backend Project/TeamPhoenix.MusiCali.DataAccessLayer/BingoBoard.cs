@@ -17,7 +17,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             List<GigSummary> gigs = new List<GigSummary>();
 
             string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
-            string viewGigSummarySql = "SELECT PosterUsername, GigName, GigDateTime FROM Gig WHERE GigVisibility = TRUE ORDER BY GigDateTime LIMIT @GigLoadLimit";
+            string viewGigSummarySql = "SELECT PosterUsername, GigName, GigDateTime FROM Gig WHERE GigVisibility = TRUE ORDER BY GigID LIMIT @GigLoadLimit";
 
             using (var connection = new MySqlConnection(connectionString))
             {
