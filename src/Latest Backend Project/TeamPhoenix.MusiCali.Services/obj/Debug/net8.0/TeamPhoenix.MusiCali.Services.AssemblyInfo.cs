@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TeamPhoenix.MusiCali.Services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+55142b168cefaa4e0931536932aa0f3202482e33")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b7eae1a26ddae1da3f4b2a4ad7e12a414b8e118")]
 [assembly: System.Reflection.AssemblyProductAttribute("TeamPhoenix.MusiCali.Services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TeamPhoenix.MusiCali.Services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
