@@ -1,0 +1,17 @@
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\bin\Debug\net8.0\TeamPhoenix.MusiCali.Security.deps.json
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\bin\Debug\net8.0\TeamPhoenix.MusiCali.Security.dll
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\bin\Debug\net8.0\TeamPhoenix.MusiCali.Security.pdb
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\bin\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.dll
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\bin\Debug\net8.0\TeamPhoenix.MusiCali.Logging.dll
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\bin\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.pdb
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\bin\Debug\net8.0\TeamPhoenix.MusiCali.Logging.pdb
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\obj\Debug\net8.0\TeamPhoenix.MusiCali.Security.csproj.AssemblyReference.cache
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\obj\Debug\net8.0\TeamPhoenix.MusiCali.Security.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\obj\Debug\net8.0\TeamPhoenix.MusiCali.Security.AssemblyInfoInputs.cache
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\obj\Debug\net8.0\TeamPhoenix.MusiCali.Security.AssemblyInfo.cs
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\obj\Debug\net8.0\TeamPhoenix.MusiCali.Security.csproj.CoreCompileInputs.cache
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\obj\Debug\net8.0\TeamPhoe.98908155.Up2Date
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\obj\Debug\net8.0\TeamPhoenix.MusiCali.Security.dll
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\obj\Debug\net8.0\refint\TeamPhoenix.MusiCali.Security.dll
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\obj\Debug\net8.0\TeamPhoenix.MusiCali.Security.pdb
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Security\obj\Debug\net8.0\ref\TeamPhoenix.MusiCali.Security.dll

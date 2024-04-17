@@ -1,0 +1,12 @@
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.DataAccessLayer\bin\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.deps.json
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.DataAccessLayer\bin\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.dll
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.DataAccessLayer\bin\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.pdb
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.csproj.AssemblyReference.cache
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.AssemblyInfoInputs.cache
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.AssemblyInfo.cs
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.dll
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net8.0\refint\TeamPhoenix.MusiCali.DataAccessLayer.dll
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.pdb
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.DataAccessLayer\obj\Debug\net8.0\ref\TeamPhoenix.MusiCali.DataAccessLayer.dll

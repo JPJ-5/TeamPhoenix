@@ -8,7 +8,7 @@
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
-    var baseUrl = 'http://localhost:8080';
+    var baseUrl = 'https://themusicali.com:5000';
     var idToken;
     var accessToken;
 
@@ -736,42 +736,4 @@
                 // Handle error (e.g., show error message)
             });
     });
-
-    document.getElementById('enter-scaleDisplay').addEventListener('click', function () {
-        document.querySelector('.main').style.display = 'none'; // Hide main content
-        document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
-        document.getElementById('ScaleDisplayView').style.display = 'block'; // Show tempo tool content
-        var username = document.getElementById("username").value;
-        logFeatureUsage(username, "Scale Display");
-    });
-
-    function logFeatureUsage(username, feature) {
-        const requestData = {
-            UserName: username,
-            Feature: feature
-        };
-
-        fetch('http://localhost:8080/LogFeature/api/LogFeatureAPI', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authentication': idToken,
-                'Authorization': accessToken
-            },
-            body: JSON.stringify(requestData)
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error(response.json());
-                }
-            })
-            .then(data => {
-                console.log('Feature usage logged successfully');
-            })
-            .catch(error => {
-                console.error('Error logging tempo usage:', error.message);
-            });
-    }
 });

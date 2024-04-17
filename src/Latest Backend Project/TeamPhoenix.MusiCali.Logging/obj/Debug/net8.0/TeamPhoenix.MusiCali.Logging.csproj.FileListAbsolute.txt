@@ -1,0 +1,15 @@
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\bin\Debug\net8.0\TeamPhoenix.MusiCali.Logging.deps.json
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\bin\Debug\net8.0\TeamPhoenix.MusiCali.Logging.dll
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\bin\Debug\net8.0\TeamPhoenix.MusiCali.Logging.pdb
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\bin\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.dll
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\bin\Debug\net8.0\TeamPhoenix.MusiCali.DataAccessLayer.pdb
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\obj\Debug\net8.0\TeamPhoenix.MusiCali.Logging.csproj.AssemblyReference.cache
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\obj\Debug\net8.0\TeamPhoenix.MusiCali.Logging.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\obj\Debug\net8.0\TeamPhoenix.MusiCali.Logging.AssemblyInfoInputs.cache
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\obj\Debug\net8.0\TeamPhoenix.MusiCali.Logging.AssemblyInfo.cs
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\obj\Debug\net8.0\TeamPhoenix.MusiCali.Logging.csproj.CoreCompileInputs.cache
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\obj\Debug\net8.0\TeamPhoe.81E8B683.Up2Date
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\obj\Debug\net8.0\TeamPhoenix.MusiCali.Logging.dll
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\obj\Debug\net8.0\refint\TeamPhoenix.MusiCali.Logging.dll
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\obj\Debug\net8.0\TeamPhoenix.MusiCali.Logging.pdb
+C:\Users\workf\Downloads\Latest_Backend_Project\Latest Backend Project\TeamPhoenix.MusiCali.Logging\obj\Debug\net8.0\ref\TeamPhoenix.MusiCali.Logging.dll
