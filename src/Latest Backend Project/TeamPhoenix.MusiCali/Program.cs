@@ -5,21 +5,23 @@ using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.Services;
 using Authentication = TeamPhoenix.MusiCali.Security.Authentication;
 using TeamPhoenix.MusiCali.Security.Contracts;
+using Microsoft.Extensions.Configuration;
 
 namespace AccCreationAPI
 {
     public class Program
     {
-        public IConfiguration Configuration { get; }
+        private static IConfiguration? _configuration;
 
         public Program(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            _configuration = builder.Configuration ?? throw new InvalidOperationException("Configuration cannot be null");
 
             // Add services to the container.
 
@@ -32,47 +34,6 @@ namespace AccCreationAPI
             builder.Services.AddScoped<IAuthentication, Authentication>();
 
             builder.Services.AddScoped<MariaDB>();          // Register MariaDB Class with Dependency Injection 
-            //jwt token
-
-            var tkConf = builder.Configuration.GetSection("Jwt");
-
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = tkConf["Issuer"],
-                ValidAudience = tkConf["Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tkConf["Key"]!))
-            };
-
-            // Configuring CORS using settings from appsettings.json
-            var corsPolicy = builder.Configuration.GetSection("CorsPolicy");
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("CustomCorsPolicy", policy =>
-                {
-                    var allowedOrigins = corsPolicy.GetSection("AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
-                    var allowedMethods = corsPolicy.GetSection("AllowedMethods").Get<string[]>() ?? Array.Empty<string>();
-                    var allowedHeaders = corsPolicy.GetSection("AllowedHeaders").Get<string[]>() ?? Array.Empty<string>();
-
-                    policy.WithOrigins(allowedOrigins)
-                          .WithMethods(allowedMethods)
-                          .WithHeaders(allowedHeaders);
-
-                    // Conditionally allow credentials based on configuration
-                    if (corsPolicy.GetValue<bool>("AllowCredentials"))
-                    {
-                        policy.AllowCredentials();
-                    }
-                    else
-                    {
-                        policy.DisallowCredentials();
-                    }
-                });
-            });
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -86,16 +47,36 @@ namespace AccCreationAPI
 
             // Use the custom CORS middleware
             app.UseCustomCors();
+            //Console.WriteLine(path);
 
-            app.UseMiddleware<AuthenticationMiddleware>();
 
-            // Then register the AuthorizationMiddleware
-            app.UseMiddleware<AuthorizationMiddleware>();
+            app.Use(async (context, next) =>
+            {
+                var path = context.Request.Path;
+
+                // Check if the path matches the anonymous endpoints
+                if (_configuration!.GetSection("AllowedEndpoints:Anonymous").Get<List<string>>()!.Contains(path))
+                {
+                    await next(context); // Skip the authentication and authorization middleware
+                    return;
+                }
+                else
+                {
+                    await next(context);
+                    app.UseMiddleware<AuthenticationMiddleware>();
+
+                    // Use the Authorization Middleware
+                    app.UseMiddleware<AuthorizationMiddleware>();
+                }
+
+            });
+
 
             app.MapControllers();
 
             app.Run();
         }
+
 
     }
 }

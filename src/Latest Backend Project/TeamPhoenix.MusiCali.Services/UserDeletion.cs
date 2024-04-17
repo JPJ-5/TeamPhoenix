@@ -1,41 +1,83 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using _logger = TeamPhoenix.MusiCali.Logging.Logger;
-using _userDeletionDao = TeamPhoenix.MusiCali.DataAccessLayer.UserDeletion;
+using System;
 
-namespace TeamPhoenix.MusiCali.Services
+namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class UserDeletion
     {
-        public Result DeleteAccount(string username)
+        // Hardcoded connection string
+        private static string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+
+        public static bool DeleteProfile(string username)
         {
+            string queryUserProfile = "DELETE FROM UserProfile WHERE Username = @Username";
+            string queryUserAccount = "DELETE FROM UserAccount WHERE Username = @Username";
+
+
             try
             {
-                // Use the new DeleteProfile method
-                bool success = _userDeletionDao.DeleteProfile(username);
-
-                // Translate the boolean result to a Result object
-                if (success)
+                using (var connection = new MySqlConnection(connectionString))
                 {
-                    // Perform logging after successful deletion
-                    string userHash = _userDeletionDao.GetUserHash(username); // Simplified reference, assuming GetUserHash is accessible
-                    string level = "Info";
-                    string category = "View";
-                    string context = "Deleted User";
-                    _logger.CreateLog(userHash, level, category, context); // Use the logger with simplified reference
+                    connection.Open();
 
-                    return new Result { Success = true };
-                }
-                else
-                {
-                    return new Result { HasError = true, ErrorMessage = "Failed to delete user profile." };
+                    using (var transaction = connection.BeginTransaction())
+                    {
+                        // Attempt to delete from UserProfile
+                        using (var commandUserProfile = new MySqlCommand(queryUserProfile, connection, transaction))
+                        {
+                            commandUserProfile.Parameters.AddWithValue("@Username", username);
+                            int userProfileResult = commandUserProfile.ExecuteNonQuery(); // Execute and check result
+
+                            // Optionally, check the result of the execution to ensure that a record was deleted
+                            // Similar check can be done for UserAccount if needed
+                        }
+
+                        // Attempt to delete from UserAccount
+                        using (var commandUserAccount = new MySqlCommand(queryUserAccount, connection, transaction))
+                        {
+                            commandUserAccount.Parameters.AddWithValue("@Username", username);
+                            int userAccountResult = commandUserAccount.ExecuteNonQuery(); // Execute and check result
+                        }
+
+                        // Commit transaction assuming no exception occurred
+                        transaction.Commit();
+                        return true;
+                    }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Handle any unexpected exceptions
-                return new Result { HasError = true, ErrorMessage = ex.Message };
+                // If an exception occurs, it means there was a problem with the connection, command, or transaction
+                // Not necessarily with the existence of the user records
+                return false;
             }
+        }
+
+        public static string GetUserHash(string username)
+        {
+            // Implementation remains the same for GetUserHash
+            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string selectUserProfileSql = "SELECT UserHash FROM UserAccount WHERE Username = @Username";
+                using (MySqlCommand cmd = new MySqlCommand(selectUserProfileSql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Username", username);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string userHash = reader["UserHash"].ToString()!;
+                            return userHash;
+                        }
+                    }
+                }
+            }
+            return string.Empty; // Return null if user hash is not found
         }
     }
 }

@@ -4,14 +4,28 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali", "TeamPhoenix.MusiCali.csproj", "{F2926B5B-CAE9-41CC-AE92-9AAE375F32D4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{616ADCF6-B589-4FAE-AD80-2D4AAB3B1568} = {616ADCF6-B589-4FAE-AD80-2D4AAB3B1568}
+		{B64A2DE4-7821-4CCC-8BB3-E588A49AF321} = {B64A2DE4-7821-4CCC-8BB3-E588A49AF321}
+		{ED5FA23B-2297-44F7-BBC3-22B5461FA385} = {ED5FA23B-2297-44F7-BBC3-22B5461FA385}
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Logging", "..\TeamPhoenix.MusiCali.Logging\TeamPhoenix.MusiCali.Logging.csproj", "{98DE83E0-15B4-4849-9E81-3C7520DD878D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.DataAccessLayer", "..\TeamPhoenix.MusiCali.DataAccessLayer\TeamPhoenix.MusiCali.DataAccessLayer.csproj", "{CF3CE78C-3664-4E1F-A848-AEEE279883B1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Security", "..\TeamPhoenix.MusiCali.Security\TeamPhoenix.MusiCali.Security.csproj", "{967E40D2-1386-4A57-A571-0B60179446AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Logging", "..\TeamPhoenix.MusiCali.Logging\TeamPhoenix.MusiCali.Logging.csproj", "{ED5FA23B-2297-44F7-BBC3-22B5461FA385}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CF3CE78C-3664-4E1F-A848-AEEE279883B1} = {CF3CE78C-3664-4E1F-A848-AEEE279883B1}
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Services", "..\TeamPhoenix.MusiCali.Services\TeamPhoenix.MusiCali.Services.csproj", "{F8CA366B-56D9-403C-8677-2EB4ED81B08E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Security", "..\TeamPhoenix.MusiCali.Security\TeamPhoenix.MusiCali.Security.csproj", "{B64A2DE4-7821-4CCC-8BB3-E588A49AF321}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CF3CE78C-3664-4E1F-A848-AEEE279883B1} = {CF3CE78C-3664-4E1F-A848-AEEE279883B1}
+		{ED5FA23B-2297-44F7-BBC3-22B5461FA385} = {ED5FA23B-2297-44F7-BBC3-22B5461FA385}
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix - Backup.MusiCali.DataAccessLayer", "..\TeamPhoenix.MusiCali.DataAccessLayer\TeamPhoenix - Backup.MusiCali.DataAccessLayer.csproj", "{890DF4F4-29DF-4A1D-AEE9-060828519FA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Services", "..\TeamPhoenix.MusiCali.Services\TeamPhoenix.MusiCali.Services.csproj", "{616ADCF6-B589-4FAE-AD80-2D4AAB3B1568}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamPhoenix.MusiCali.Login", "..\TeamPhoenix.MusiCali.Login\TeamPhoenix.MusiCali.Login.csproj", "{35D9498F-0010-461A-BD8F-3C43DBA656FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,22 +37,26 @@ Global
 		{F2926B5B-CAE9-41CC-AE92-9AAE375F32D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2926B5B-CAE9-41CC-AE92-9AAE375F32D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2926B5B-CAE9-41CC-AE92-9AAE375F32D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{98DE83E0-15B4-4849-9E81-3C7520DD878D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98DE83E0-15B4-4849-9E81-3C7520DD878D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{98DE83E0-15B4-4849-9E81-3C7520DD878D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{98DE83E0-15B4-4849-9E81-3C7520DD878D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{967E40D2-1386-4A57-A571-0B60179446AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{967E40D2-1386-4A57-A571-0B60179446AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{967E40D2-1386-4A57-A571-0B60179446AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{967E40D2-1386-4A57-A571-0B60179446AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8CA366B-56D9-403C-8677-2EB4ED81B08E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8CA366B-56D9-403C-8677-2EB4ED81B08E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8CA366B-56D9-403C-8677-2EB4ED81B08E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8CA366B-56D9-403C-8677-2EB4ED81B08E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{890DF4F4-29DF-4A1D-AEE9-060828519FA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{890DF4F4-29DF-4A1D-AEE9-060828519FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{890DF4F4-29DF-4A1D-AEE9-060828519FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{890DF4F4-29DF-4A1D-AEE9-060828519FA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF3CE78C-3664-4E1F-A848-AEEE279883B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF3CE78C-3664-4E1F-A848-AEEE279883B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF3CE78C-3664-4E1F-A848-AEEE279883B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF3CE78C-3664-4E1F-A848-AEEE279883B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED5FA23B-2297-44F7-BBC3-22B5461FA385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED5FA23B-2297-44F7-BBC3-22B5461FA385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED5FA23B-2297-44F7-BBC3-22B5461FA385}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED5FA23B-2297-44F7-BBC3-22B5461FA385}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B64A2DE4-7821-4CCC-8BB3-E588A49AF321}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B64A2DE4-7821-4CCC-8BB3-E588A49AF321}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B64A2DE4-7821-4CCC-8BB3-E588A49AF321}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B64A2DE4-7821-4CCC-8BB3-E588A49AF321}.Release|Any CPU.Build.0 = Release|Any CPU
+		{616ADCF6-B589-4FAE-AD80-2D4AAB3B1568}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{616ADCF6-B589-4FAE-AD80-2D4AAB3B1568}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{616ADCF6-B589-4FAE-AD80-2D4AAB3B1568}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{616ADCF6-B589-4FAE-AD80-2D4AAB3B1568}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35D9498F-0010-461A-BD8F-3C43DBA656FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35D9498F-0010-461A-BD8F-3C43DBA656FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35D9498F-0010-461A-BD8F-3C43DBA656FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35D9498F-0010-461A-BD8F-3C43DBA656FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

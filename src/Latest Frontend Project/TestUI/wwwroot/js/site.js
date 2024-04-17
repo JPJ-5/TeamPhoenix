@@ -8,8 +8,10 @@
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
-    var baseUrl = 'http://localhost:8080';
-    
+    var baseUrl = 'https://themusicali.com:5000';
+    var idToken;
+    var accessToken;
+
 
 
     menuButton.addEventListener('click', function () {
@@ -110,6 +112,8 @@
                             //sessionStorage.setItem("jwt", data.token);
                             sessionStorage.setItem("idToken", data.IdToken);
                             sessionStorage.setItem("accessToken", data.AccessToken);
+                            idToken = data.idToken;
+                            accessToken = data.accessToken;
                             fetchUserProfile(username)
                         } else {
                             alert("Invalid OTP or error occurred.");
@@ -135,15 +139,16 @@
             });
     });
 
-    var idToken = sessionStorage.getItem("idToken");
-    var accessToken = sessionStorage.getItem("accessToken");
+
 
     // Need To Ask Parth
     function fetchUserProfile(username) {
         var username = document.getElementById('username').value;
         var userProfileUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
-
-
+        idToken = sessionStorage.getItem("idToken");
+        accessToken = sessionStorage.getItem("accessToken");
+        //console.log(idToken);
+        //console.log(accessToken);
         
         fetch(userProfileUrl, {
             method: 'GET',
@@ -172,8 +177,8 @@
         var username = document.getElementById('username').value;
         // Assuming the base URL and the necessary route to your controller
         var getUserRoleUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
-        var idToken = sessionStorage.getItem("idToken");
-        var accessToken = sessionStorage.getItem("accessToken");
+        idToken = sessionStorage.getItem("idToken");
+        accessToken = sessionStorage.getItem("accessToken");
         //console.log(idToken);
         //console.log(accessToken);
         fetch(getUserRoleUrl, {
@@ -288,6 +293,8 @@
         var username = sessionStorage.getItem('username');
         //var idToken = sessionStorage.getItem("idToken");
         //var accessToken = sessionStorage.getItem("accessToken");
+        idToken = sessionStorage.getItem("idToken");
+        accessToken = sessionStorage.getItem("accessToken");
 
 
         if (username && idToken && accessToken) {
@@ -333,7 +340,8 @@
         var firstName = document.getElementById('normal-user-first-name').value;
         var lastName = document.getElementById('normal-user-last-name').value;
         var username = document.getElementById('username').value;
-
+        idToken = sessionStorage.getItem("idToken");
+        accessToken = sessionStorage.getItem("accessToken");
 
         const userProfileUpdate = {
             Username: username,
@@ -398,6 +406,8 @@
     document.getElementById('admin-delete-user').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to delete:");
         var userName = document.getElementById('username').value;
+        idToken = sessionStorage.getItem("idToken");
+        accessToken = sessionStorage.getItem("accessToken");
 
         if (username) {
             // Check if the username to delete is the admin's own username
@@ -444,6 +454,8 @@
     document.getElementById('admin-user-creation').addEventListener('click', function () {
         var form = document.getElementById('admin-creation-form');
         var feedbackBox = document.getElementById('feedback-box');
+        idToken = sessionStorage.getItem("idToken");
+        accessToken = sessionStorage.getItem("accessToken");
 
         // Check if the form is already displayed
         if (form.style.display === 'block') {
@@ -453,6 +465,8 @@
             const uname = form.querySelector('#uname').value;
             const bmail = form.querySelector('#bmail').value;
 
+            idToken = sessionStorage.getItem("idToken");
+            accessToken = sessionStorage.getItem("accessToken");
             var adminUseCreate = `${baseUrl}/AccCreationAPI/api/AdminAccCreationAPI`;
 
             const data = { email, dob, uname, bmail };
@@ -495,6 +509,8 @@
     // Inside prepareAdminUI
     document.getElementById('admin-get-user').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to fetch:");
+        idToken = sessionStorage.getItem("idToken");
+        accessToken = sessionStorage.getItem("accessToken");
         if (username) {
             fetch(`${baseUrl}/ModifyUserProfile/AdminLookUp`, {
                 method: 'GET',
@@ -546,6 +562,8 @@
     document.getElementById('admin-update-claims').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to update claims for:");
         var userRole = prompt("Enter the new user role for the user:");
+        idToken = sessionStorage.getItem("idToken");
+        accessToken = sessionStorage.getItem("accessToken");
 
         if (username && userRole) {
             // Construct the payload according to the expected structure
@@ -616,8 +634,8 @@
     document.getElementById('logoutButton').addEventListener('click', function () {
         const startTime = Date.now();
         var userName = document.getElementById("username").value;
-        var idToken = sessionStorage.getItem("idToken");
-        var accessToken = sessionStorage.getItem("accessToken");
+        idToken = sessionStorage.getItem("idToken");
+        accessToken = sessionStorage.getItem("accessToken");
         //console.log(idToken);
         //console.log(accessToken);
 

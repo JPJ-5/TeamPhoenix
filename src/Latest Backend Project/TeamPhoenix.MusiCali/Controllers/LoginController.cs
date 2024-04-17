@@ -1,7 +1,8 @@
 ﻿using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.Security;
+using Microsoft.AspNetCore.Mvc;
+using TeamPhoenix.MusiCali.Login;
 
 namespace AccCreationAPI.Controllers
 {
@@ -21,26 +22,15 @@ namespace AccCreationAPI.Controllers
         [HttpPost("api/GetJwtAPI")]
         public IActionResult Login([FromBody] LoginModel login)
         {
-            Authentication newAuth = new Authentication(_configuration);
-            var checkExistence = newAuth.Authenticate(login.Username, login.Otp);
-
-            //if (tokens != null && tokens.ContainsKey("IdToken") && !string.IsNullOrEmpty(tokens["IdToken"])
-            //    && tokens.ContainsKey("AccessToken") && !string.IsNullOrEmpty(tokens["AccessToken"]))
-            //{
-            //    return Ok(tokens);
-            //}
-            if (checkExistence)
+            var tokens = UserLogin.AppLogin(login);
+            if (tokens.Success == true)
             {
-                var idToken = newAuth.CreateIDJwt(login);
-                var accessToken = newAuth.CreateAccessJwt(login);
-                Dictionary<string, string> tokens = new Dictionary<string, string>();
-                tokens["IdToken"] = idToken;
-                tokens["AccessToken"] = accessToken;
-                //Console.WriteLine(tokens);
                 return Ok(tokens);
+            } else
+            {
+                return BadRequest("Login Failed");
             }
 
-            return BadRequest("Login Failed");
         }
 
 
