@@ -808,11 +808,10 @@
                         
                     } else {
                         throw new Error('Failed to load gigs');
-                        loadnotif.innerHTML = "There was an error with the loading. Please try again.";
                     }
                 })
                 .then(gigData => {
-                    constructGigListHTML(gigData);
+                    constructGigList(gigData);
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -821,16 +820,31 @@
 
     });
 
-    function constructGigListHTML(gigData){
-        const boardtable = document.getElementById('BingoBoardPostsTable');
-        var BBTableHTML = "<table><tr><th>Post Title</th><th>Poster</th><th>Date</th><th>Location</th><th>Pay</th><th>Description</th></tr>";
-        console.log(gigData);
-        //var gigs = JSON.parse(gigData);
-        //var gigList = gigs.list;
-        //
+    function constructGigList(gigData){
+        const loadnotif = document.getElementById('BingoBoardLoadMsg')
+        loadnotif.innerHTML = "";
+        document.getElementById('BingoBoardPostsTable').style.display = 'block';
+        var bbtable = document.getElementById('BingoBoardPostsTable');
+        //var BBTableHTML = "";
+        //BBTableHTML+="";
+        //boardtable.innerHTML = BBTableHTML;
+        for(i in (gigData)){
+            console.log(gigData[i]);
+            var row = bbtable.insertRow();
+            var titleCell = row.insertCell();
+            var usernamecell = row.insertCell();
+            var dateCell = row.insertCell();
+            var locCell = row.insertCell();
+            var payCell = row.insertCell();
+            var descCell = row.insertCell();
 
-        BBTableHTML+="</table";
-        boardtable.innerHTML = BBTableHTML;
+            titleCell.innerHTML = gigData[i].gigName;
+            usernamecell.innerHTML = gigData[i].username;
+            dateCell.innerHTML = gigData[i].dateOfGig;
+            locCell.innerHTML = gigData[i].location;
+            payCell.innerHTML=gigData[i].pay;
+            descCell.innerHTML=gigData[i].description;
+        }
     }
 
     function LoadMoreBingoBoardPosts(){
