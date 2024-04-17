@@ -787,7 +787,7 @@
         var currentusername = sessionStorage.getItem('username');
         var idToken = sessionStorage.getItem('idToken');
         var accessToken = sessionStorage.getItem('accessToken');
-        var numGigs = 20;
+        var numGigs = 10;
 
         
         //append additional post data to table html here
@@ -825,9 +825,7 @@
         loadnotif.innerHTML = "";
         document.getElementById('BingoBoardPostsTable').style.display = 'block';
         var bbtable = document.getElementById('BingoBoardPostsTable');
-        //var BBTableHTML = "";
-        //BBTableHTML+="";
-        //boardtable.innerHTML = BBTableHTML;
+        createBingoBoardHeader();
         for(i in (gigData)){
             console.log(gigData[i]);
             var row = bbtable.insertRow();
@@ -847,7 +845,33 @@
         }
     }
 
-    function LoadMoreBingoBoardPosts(){
+    function createBingoBoardHeader(){
+        var bbtable = document.getElementById('BingoBoardPostsTable');
+        var bbheader = bbtable.createTHead();
+        var row = bbheader.insertRow();
 
+        var title = row.insertCell();
+        var poster = row.insertCell();
+        var date = row.insertCell();
+        var location = row.insertCell();
+        var pay = row.insertCell();
+        var desc = row.insertCell();
+
+        title.innerHTML = "Post Title";
+        poster.innerHTML = "Poster";
+        date.innerHTML = "Date";
+        location.innerHTML = "Location";
+        pay.innerHTML = "Pay";
+        desc.innerHTML = "Description";
+    }
+
+    function LoadMoreBingoBoardPosts(){
+        clearBingoBoard();
+        createBingoBoardHeader();
+    }
+
+    function clearBingoBoard(){
+        var bbtable = document.getElementById('BingoBoardPostsTable');
+        bbtable.remove();
     }
 });

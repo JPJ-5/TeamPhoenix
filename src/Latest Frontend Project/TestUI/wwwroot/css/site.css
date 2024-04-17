@@ -7,6 +7,21 @@ body, html {
     background-position: center; /* Center the image */
 }
 
+table, th, td {
+    border: 1px solid #ddd;
+    width: 100%;
+    padding: 12px;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #089aa4;
+    color: white;
+    text-align: left;
+}
+tr:nth-child(even){background-color: #f2f2f2;}
+tr:hover {background-color: #ddd;}
+
 @media (max-width: 600px) {
     body, html {
         background-size: contain; /* Make sure the entire image is visible */
