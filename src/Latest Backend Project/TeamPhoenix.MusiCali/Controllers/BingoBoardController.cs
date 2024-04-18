@@ -11,7 +11,7 @@ namespace TeamPhoenix.MusiCali.Controllers
         [HttpPost("api/BingoBoardLoadGigs")]
         public ActionResult ViewMultipleGigs([FromBody] BingoBoardRequest BBReq)
         {
-            List<GigSummary>? gigSummaries = BB.ViewMultGigSummary(BBReq.NumberOfGigs, BBReq.Username);
+            GigSet? gigSummaries = BB.ViewMultGigSummary(BBReq.NumberOfGigs, BBReq.Username);
             if (gigSummaries == null)
             {
                 return NotFound("Error retrieving gigs");

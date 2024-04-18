@@ -5,7 +5,7 @@ namespace TeamPhoenix.MusiCali.Services
 {
     public class BingoBoard
     {
-        public static List<GigSummary>? ViewMultGigSummary(int numberOfGigs, string username)
+        public static GigSet? ViewMultGigSummary(int numberOfGigs, string username)
         {
             try
             {
@@ -16,8 +16,6 @@ namespace TeamPhoenix.MusiCali.Services
                 Console.WriteLine($"Error retrieving gig information: {ex.Message}");
                 throw;
             }
-
-            return null;
         }
     }
 }

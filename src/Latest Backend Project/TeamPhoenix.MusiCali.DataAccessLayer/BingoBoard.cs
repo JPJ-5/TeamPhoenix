@@ -7,14 +7,14 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class BingoBoard
     {
-        public static List<GigSummary>? ViewGigSummary(int numberOfGigs, string currentUsername)
+        public static GigSet ViewGigSummary(int numberOfGigs, string currentUsername)
         {
             string level;
             string category;
             string context;
             string userHash;
 
-            List<GigSummary> gigs = new List<GigSummary>();
+            GigSet gigs = new();
 
             string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
             string viewGigSummarySql = "SELECT PosterUsername, GigName, GigDateTime, Location, Pay, Description FROM Gig WHERE GigVisibility = TRUE ORDER BY GigID LIMIT @GigLoadLimit";
@@ -39,10 +39,10 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 reader["Pay"].ToString() ?? string.Empty,
                                 reader["Description"].ToString() ?? string.Empty
                                 );
-                            gigs.Add(newGig);
+                            gigs.GigSummaries.Add(newGig);
                             //reader.NextResult();
                         }
-                        if (gigs.Count == 0)
+                        if (gigs.GigSummaries.Count == 0)
                         {
                             userHash = rU.GetUserHash(currentUsername);
                             level = "Info";
@@ -51,7 +51,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             //_loggerCreation.CreateLog(userHash, level, category, context);
                             return null;
                         }
-                        if (gigs.Count == numberOfGigs)
+                        if (gigs.GigSummaries.Count == numberOfGigs)
                         {
                             userHash = rU.GetUserHash(currentUsername);
                             level = "Info";
@@ -64,7 +64,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             userHash = rU.GetUserHash(currentUsername);
                             level = "Info";
                             category = "View";
-                            context = $"{gigs.Count} gigs successfully retrieved from database, but {numberOfGigs} were requested";
+                            context = $"{gigs.GigSummaries.Count} gigs successfully retrieved from database, but {numberOfGigs} were requested";
                             //_loggerCreation.CreateLog(userHash, level, category, context);
                         }
                         return gigs;
