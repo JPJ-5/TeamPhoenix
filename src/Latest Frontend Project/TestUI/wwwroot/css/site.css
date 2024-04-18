@@ -7,9 +7,9 @@ body, html {
     background-position: center; /* Center the image */
 }
 
+table.fixed { table-layout:fixed; width:1500px; }
 table, th, td {
     border: 1px solid #ddd;
-    width: 100%;
     padding: 12px;
     /*border-collapse: collapse;*/
 }
@@ -21,6 +21,25 @@ th {
 }
 tr:nth-child(even){background-color: #f2f2f2;}
 tr:hover {background-color: #ddd;}
+
+.button{
+    background-color: #089aa4; /* Green */
+    border: none;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    border-radius: 20px;
+}
+.button:hover{
+    background-color: #0a3f6e;
+    color: white;
+}
 
 @media (max-width: 600px) {
     body, html {

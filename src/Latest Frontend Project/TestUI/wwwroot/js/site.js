@@ -771,12 +771,13 @@
                 console.log('Feature usage logged successfully');
             })
             .catch(error => {
-                console.error('Error logging tempo usage:', error.message);
+                console.error('Error logging {feature} usage:', error.message);
             });
     }
 
     //Bingo Board Features:
     document.getElementById('enter-BingoBoardView').addEventListener('click', function (){
+        clearBingoBoard();
         document.querySelector('.main').style.display = 'none'; // Hide main content
         document.getElementById('BingoBoardView').style.display = 'block'; // Show bingo board
         //logFeatureUsage(username, "Bingo Board");
@@ -810,8 +811,8 @@
                         throw new Error('Failed to load gigs');
                     }
                 })
-                .then(gigData => {
-                    constructGigList(gigData);
+                .then(gigSet => {
+                    constructGigList(gigSet);
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -820,12 +821,12 @@
 
     });
 
-    function constructGigList(gigData){
+    function constructGigList(gigSet){
         const loadnotif = document.getElementById('BingoBoardLoadMsg')
         loadnotif.innerHTML = "";
         document.getElementById('BingoBoardPostsTable').style.display = 'block';
         var bbtable = document.getElementById('BingoBoardPostsTable');
-        //createBingoBoardHeader();
+        const gigData = gigSet.gigSummaries;//.values();
         for(i in (gigData)){
             console.log(gigData[i]);
             var row = bbtable.insertRow();
@@ -835,6 +836,7 @@
             var locCell = row.insertCell();
             var payCell = row.insertCell();
             var descCell = row.insertCell();
+            var interestButton = row.insertCell();
 
             titleCell.innerHTML = gigData[i].gigName;
             usernamecell.innerHTML = gigData[i].username;
@@ -842,27 +844,8 @@
             locCell.innerHTML = gigData[i].location;
             payCell.innerHTML=gigData[i].pay;
             descCell.innerHTML=gigData[i].description;
+            interestButton.innerHTML="<input type='button' class='button' id='interestButton' value='Apply'/>";
         }
-    }
-
-    function createBingoBoardHeader(){
-        var bbtable = document.getElementById('BingoBoardPostsTable');
-        var bbheader = bbtable.createTHead();
-        var row = bbheader.insertRow();
-
-        var title = row.insertCell();
-        var poster = row.insertCell();
-        var date = row.insertCell();
-        var location = row.insertCell();
-        var pay = row.insertCell();
-        var desc = row.insertCell();
-
-        title.innerHTML = "Post Title";
-        poster.innerHTML = "Poster";
-        date.innerHTML = "Date";
-        location.innerHTML = "Location";
-        pay.innerHTML = "Pay";
-        desc.innerHTML = "Description";
     }
 
     function LoadMoreBingoBoardPosts(){
@@ -881,5 +864,9 @@
     })
     document.getElementById('loadBingoBoard').addEventListener('click', function(){
         LoadMoreBingoBoardPosts();
+    })
+    document.getElementById('interestButton').addEventListener('click', function(){
+        var bbtable = document.getElementById('BingoBoardPostsTable');
+
     })
 });
