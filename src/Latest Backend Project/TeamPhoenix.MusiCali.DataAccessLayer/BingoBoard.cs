@@ -19,7 +19,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             GigSet gigs = new();
 
             string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
-            string viewGigSummarySql = "SELECT PosterUsername, GigName, GigDateTime, Location, Pay, Description FROM Gig WHERE GigVisibility = TRUE ORDER BY GigDateTime LIMIT @GigLoadLimit";
+            string viewGigSummarySql = "SELECT PosterUsername, GigName, GigDateTime, Location, Pay, Description, GigID FROM Gig WHERE GigVisibility = TRUE ORDER BY GigDateTime LIMIT @GigLoadLimit";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -39,7 +39,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 Convert.ToDateTime(reader["GigDateTime"]),
                                 reader["Location"].ToString() ?? string.Empty,
                                 reader["Pay"].ToString() ?? string.Empty,
-                                reader["Description"].ToString() ?? string.Empty
+                                reader["Description"].ToString() ?? string.Empty,
+                                Convert.ToInt32(reader["GigID"])
                                 );
                             gigs.GigSummaries.Add(newGig);
                             //reader.NextResult();

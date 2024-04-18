@@ -827,6 +827,7 @@
         document.getElementById('BingoBoardPostsTable').style.display = 'block';
         var bbtable = document.getElementById('BingoBoardPostsTable');
         const gigData = gigSet.gigSummaries;//.values();
+        sessionStorage.setItem('gigData', gigData);
         for(i in (gigData)){
             console.log(gigData[i]);
             var row = bbtable.insertRow();

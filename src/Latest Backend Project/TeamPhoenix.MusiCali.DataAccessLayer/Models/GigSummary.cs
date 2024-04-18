@@ -8,8 +8,9 @@
         public string Location { get; set; } = string.Empty;
         public string Pay { get; set; } = string.Empty ;
         public string Description {  get; set; } = string.Empty ;
+        public int gigID { get; set; }
 
-        public GigSummary(string username, string gigname, DateTime gigDate, string gigLocation, string gigPay, string gigDesc)
+        public GigSummary(string username, string gigname, DateTime gigDate, string gigLocation, string gigPay, string gigDesc, int gigID)
         {
             Username = username;
             GigName = gigname;
@@ -17,7 +18,7 @@
             Location = gigLocation;
             Pay = gigPay;
             Description = gigDesc;
-
+            this.gigID = gigID;
         }
     }
 }
