@@ -75,7 +75,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public static int? ReturnNumOfGigs()
+        public static int ReturnNumOfGigs()
         {
             string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
             string gigTotalSql = "SELECT COUNT(GigId) AS NumberOfGigs FROM Gig WHERE GigVisibility = TRUE;";
@@ -95,8 +95,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     }
                 }
             }
-
-            return null;
+            return 0;
         }
     }
 }

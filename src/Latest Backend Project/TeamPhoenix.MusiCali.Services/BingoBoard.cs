@@ -17,5 +17,18 @@ namespace TeamPhoenix.MusiCali.Services
                 throw;
             }
         }
+
+        public static int ReturnGigNum()
+        {
+            try
+            {
+                return _dao.ReturnNumOfGigs();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine();
+                throw;
+            }
+        }
     }
 }

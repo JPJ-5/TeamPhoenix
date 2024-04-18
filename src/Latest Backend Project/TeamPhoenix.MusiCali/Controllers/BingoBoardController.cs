@@ -18,5 +18,13 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
             return Ok(gigSummaries);
         }
+
+        [HttpGet("api/BingoBoardRetrieveGigTableSize")]
+        public ActionResult RetrieveGigTableSize()
+        {
+            int gigTableSize = BB.ReturnGigNum();
+            if(gigTableSize <= 0) { return NotFound("Error retrieving Gig Table size"); }
+            return Ok();
+        }
     }
 }
