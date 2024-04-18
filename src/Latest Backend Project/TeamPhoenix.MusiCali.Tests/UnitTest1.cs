@@ -11,12 +11,12 @@ namespace TeamPhoenix.MusiCali.Tests
         {
             GigCreationModel gig = new GigCreationModel();
             string username = "bingoboardtests";
-            string gigName = "second Gig";
-            DateTime dateOfGig = new DateTime(2024, 4, 21, 11, 0, 0);
+            string gigName = ":)";
+            DateTime dateOfGig = new DateTime(2024, 4, 19, 18, 0, 7);
             bool visibility = true;
-            string description = "second gig test";
-            string location = "2121 fish street";
-            string pay = "$2 dolars";
+            string description = ":)";
+            string location = "(:";
+            string pay = ":)";
 
             //bool gigmake = Acc.CreateGig(username, gigName, dateOfGig, visibility, description, location, pay);
             //Assert.IsTrue(gigmake);

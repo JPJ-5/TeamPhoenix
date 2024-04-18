@@ -825,7 +825,7 @@
         loadnotif.innerHTML = "";
         document.getElementById('BingoBoardPostsTable').style.display = 'block';
         var bbtable = document.getElementById('BingoBoardPostsTable');
-        createBingoBoardHeader();
+        //createBingoBoardHeader();
         for(i in (gigData)){
             console.log(gigData[i]);
             var row = bbtable.insertRow();
@@ -867,11 +867,19 @@
 
     function LoadMoreBingoBoardPosts(){
         clearBingoBoard();
-        createBingoBoardHeader();
+        //createBingoBoardHeader();
     }
 
     function clearBingoBoard(){
         var bbtable = document.getElementById('BingoBoardPostsTable');
-        bbtable.remove();
+        for(let i = (bbtable.rows.length - 1); i >= 1; i--){
+            bbtable.deleteRow(i);
+        }
     }
+    document.getElementById('clearBingoBoard').addEventListener('click', function(){
+        clearBingoBoard();
+    })
+    document.getElementById('loadBingoBoard').addEventListener('click', function(){
+        LoadMoreBingoBoardPosts();
+    })
 });
