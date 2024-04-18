@@ -9,7 +9,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class BingoBoard
     {
-        public static GigSet? ViewGigSummary(int numberOfGigs, string currentUsername)
+        public static GigSet? ViewGigSummary(int numberOfGigs, string currentUsername, int offset)
         {
             string level;
             string category;
@@ -19,7 +19,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             GigSet gigs = new();
 
             string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
-            string viewGigSummarySql = "SELECT PosterUsername, GigName, GigDateTime, Location, Pay, Description, GigID FROM Gig WHERE GigVisibility = TRUE ORDER BY GigDateTime LIMIT @GigLoadLimit";
+            string viewGigSummarySql = "SELECT PosterUsername, GigName, GigDateTime, Location, Pay, Description, GigID FROM Gig WHERE GigVisibility = TRUE ORDER BY GigDateTime LIMIT @GigLoadLimit OFFSET @pageOffset";
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -27,6 +27,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 using (var command = new MySqlCommand(viewGigSummarySql, connection))
                 {
                     command.Parameters.AddWithValue("@GigLoadLimit", numberOfGigs);
+                    command.Parameters.AddWithValue("@pageOffset", offset);
 
                     using (var reader = command.ExecuteReader())
                     {

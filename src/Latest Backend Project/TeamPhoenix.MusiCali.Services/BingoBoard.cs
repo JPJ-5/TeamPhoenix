@@ -5,11 +5,11 @@ namespace TeamPhoenix.MusiCali.Services
 {
     public class BingoBoard
     {
-        public static GigSet? ViewMultGigSummary(int numberOfGigs, string username)
+        public static GigSet? ViewMultGigSummary(int numberOfGigs, string username, int offset = 0)
         {
             try
             {
-                return _dao.ViewGigSummary(numberOfGigs, username);
+                return _dao.ViewGigSummary(numberOfGigs, username, offset);
             }
             catch (Exception ex)
             {

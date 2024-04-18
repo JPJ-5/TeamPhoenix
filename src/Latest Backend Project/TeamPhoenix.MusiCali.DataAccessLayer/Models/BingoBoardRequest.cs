@@ -2,8 +2,9 @@
 {
     public class BingoBoardRequest
     {
-        public int NumberOfGigs { get; set; } = 20;
+        public int NumberOfGigs { get; set; } = 10;
         public string Username { get; set; } = "";
+        public int Offset { get; set; } = 0;
 
     }
 }
