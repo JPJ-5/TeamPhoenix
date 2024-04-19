@@ -740,6 +740,7 @@
     document.getElementById('enter-scaleDisplay').addEventListener('click', function () {
         document.querySelector('.main').style.display = 'none'; // Hide main content
         document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
+        document.getElementById('BingoBoardView').style.display = 'none';
         document.getElementById('ScaleDisplayView').style.display = 'block'; // Show tempo tool content
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "Scale Display");

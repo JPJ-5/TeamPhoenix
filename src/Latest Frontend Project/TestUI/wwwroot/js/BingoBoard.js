@@ -7,6 +7,10 @@ document.getElementById('enter-BingoBoardView').addEventListener('click', functi
     }
     sessionStorage.setItem('pageNum', 1)
     pageNum = sessionStorage.getItem('pageNum');
+    document.querySelector('.main').style.display = 'none'; // Hide main content
+    document.getElementById('ScaleDisplayView').style.display = 'none';
+    document.getElementById('tempoToolView').style.display = 'none';
+    document.getElementById('BingoBoardView').style.display = 'block'; // Show bingo board
     buildBingoBoard(pageNum);
 });
 
@@ -38,10 +42,6 @@ function buildBingoBoard(pageNum){
     nextButton.style.display = 'none';
     bingoBoardSize();
     //var tableSize = bingoBoardSize();
-
-    document.querySelector('.main').style.display = 'none'; // Hide main content
-    document.getElementById('BingoBoardView').style.display = 'block'; // Show bingo board
-    //logFeatureUsage(username, "Bingo Board");
 
     const loadnotif = document.getElementById('BingoBoardLoadMsg');
     loadnotif.innerHTML = "Loading Posts...";
