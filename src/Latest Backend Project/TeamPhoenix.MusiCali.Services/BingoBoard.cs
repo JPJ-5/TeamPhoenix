@@ -17,8 +17,9 @@ namespace TeamPhoenix.MusiCali.Services
             try
             {
                 GigSet? gigs = _dao.ViewGigSummary(numberOfGigs, username, offset);
+                int gigSummarySize = gigs!.GigSummaries!.Count;
 
-                if (gigs!.GigSummaries!.Count == 0)
+                if (gigSummarySize == 0)
                 {
                     userHash = rU.GetUserHash(username);
                     level = "Info";
@@ -27,7 +28,8 @@ namespace TeamPhoenix.MusiCali.Services
                     _loggerCreation.CreateLog(userHash, level, category, context);
                     return null;
                 }
-                if (gigs.GigSummaries.Count == numberOfGigs)
+
+                    if (gigs.GigSummaries.Count == numberOfGigs)
                 {
                     userHash = rU.GetUserHash(username);
                     level = "Info";

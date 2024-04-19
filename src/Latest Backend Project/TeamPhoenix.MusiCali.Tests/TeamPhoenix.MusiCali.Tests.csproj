@@ -17,6 +17,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TeamPhoenix.MusiCali.DataAccessLayer\TeamPhoenix.MusiCali.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\TeamPhoenix.MusiCali.Logging\TeamPhoenix.MusiCali.Logging.csproj" />
+    <ProjectReference Include="..\TeamPhoenix.MusiCali.Login\TeamPhoenix.MusiCali.Login.csproj" />
+    <ProjectReference Include="..\TeamPhoenix.MusiCali.Security\TeamPhoenix.MusiCali.Security.csproj" />
+    <ProjectReference Include="..\TeamPhoenix.MusiCali.Services\TeamPhoenix.MusiCali.Services.csproj" />
+    <ProjectReference Include="..\TeamPhoenix.MusiCali\TeamPhoenix.MusiCali.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 

@@ -87,8 +87,9 @@ function constructGigList(gigSet){
     document.getElementById('BingoBoardPostsTable').style.display = 'block';
     var bbtable = document.getElementById('BingoBoardPostsTable');
     const gigData = gigSet.gigSummaries;//.values();
+    
     for(i in (gigData)){
-
+        console.log(gigData[i]);
         var row = bbtable.insertRow();
         var titleCell = row.insertCell();
         var usernamecell = row.insertCell();
@@ -156,6 +157,7 @@ function clearBingoBoard(){
 
 function isCurrentUserInterested(username, id){
     BingoBoardUrl = baseUrl+'/BingoBoard/api/BingoBoardInterestRequest';
+
 }
 
 function applyInterest (id)

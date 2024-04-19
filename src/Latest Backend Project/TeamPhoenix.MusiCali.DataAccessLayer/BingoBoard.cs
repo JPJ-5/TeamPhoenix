@@ -37,7 +37,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 reader["Location"].ToString() ?? string.Empty,
                                 reader["Pay"].ToString() ?? string.Empty,
                                 reader["Description"].ToString() ?? string.Empty,
-                                Convert.ToInt32(reader["GigID"])
+                                Convert.ToInt32(reader["GigID"]),
+                                IsUserInterested(currentUsername, Convert.ToInt32(reader["GigID"]))
                                 );
                             gigs.GigSummaries!.Add(newGig);
                             //reader.NextResult();
@@ -94,6 +95,16 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
+        public static bool IsUserInterested(string username, int gigId)
+        {
+            List<string>?  interestedUsers = UserInterestList(username, gigId);
+            if (interestedUsers != null && interestedUsers.Count > 0)
+            {
+                return interestedUsers.Contains(username);
+            }
+            return false;
+        }
+
         public static bool IndicateInterest(string username, int gigID)
         {
             string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
@@ -116,7 +127,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 // Update the InterestedUsers column in the database
                 using (var updateCommand = new MySqlCommand(updateSql, connection))
                 {
-                    //updateCommand.Parameters.AddWithValue("@interestedUsers", updatedInterestedUsersJson);
+                    updateCommand.Parameters.AddWithValue("@interestedUsers", updatedInterestedUsersJson);
                     updateCommand.Parameters.AddWithValue("@gigID", gigID);
                     int rowsAffected = updateCommand.ExecuteNonQuery();
                     if (rowsAffected == 1)
