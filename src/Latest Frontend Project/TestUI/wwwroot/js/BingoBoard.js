@@ -1,21 +1,33 @@
-var loadCount;
-var page = 1;
+var loadCount = 10;
+var baseUrl = 'http://localhost:8080';
 
 //Bingo Board Features:
 document.getElementById('enter-BingoBoardView').addEventListener('click', function (){
     clearBingoBoard();
-    sessionStorage.setItem('bbPage', 1);
+    buildBingoBoard(1);
+});
+
+document.getElementById('clearBingoBoard').addEventListener('click', function(){
+    clearBingoBoard();
+})
+
+document.getElementById('loadBingoBoard').addEventListener('click', function(){
+    LoadMoreBingoBoardPosts();
+})
+
+function buildBingoBoard(pageNum){
+    sessionStorage.setItem('bbPage', pageNum);
     document.querySelector('.main').style.display = 'none'; // Hide main content
     document.getElementById('BingoBoardView').style.display = 'block'; // Show bingo board
     //logFeatureUsage(username, "Bingo Board");
 
     const loadnotif = document.getElementById('BingoBoardLoadMsg')
-    loadnotif.innerHTML = "Loading Posts... Should take no longer than 3 seconds";
+    loadnotif.innerHTML = "Loading Posts...";
 
     var currentusername = sessionStorage.getItem('username');
     var idToken = sessionStorage.getItem('idToken');
     var accessToken = sessionStorage.getItem('accessToken');
-    var offset = loadCount * page;
+    var offset = loadCount * (pageNum - 1);
 
     
     //append additional post data to table html here
@@ -27,7 +39,7 @@ document.getElementById('enter-BingoBoardView').addEventListener('click', functi
                 'Authentication': idToken,
                 'Authorization': accessToken
             },
-            body: JSON.stringify({numberofgigs: loadCount, username: currentusername})
+            body: JSON.stringify({numberofgigs: loadCount, username: currentusername, offset: offset})
         })
             .then(response => {
                 if (response.ok) {
@@ -45,8 +57,7 @@ document.getElementById('enter-BingoBoardView').addEventListener('click', functi
                 console.error('Error:', error);
                 loadnotif.innerHTML = "There was an error with the table. Please try again.";
             });
-
-});
+}
 
 function constructGigList(gigSet){
     const loadnotif = document.getElementById('BingoBoardLoadMsg')
@@ -73,13 +84,13 @@ function constructGigList(gigSet){
         locCell.innerHTML = gigData[i].location;
         payCell.innerHTML=gigData[i].pay;
         descCell.innerHTML=gigData[i].description;
-        interestButton.innerHTML="<input type='button' class='button' on value='Apply'/>";
+        interestButton.innerHTML="<input type='button' class='button' onclick='applyInterest(this);' value='Apply'/>";
     }
 }
 
 function loadBingoBoardPosts(){
     clearBingoBoard();
-    //createBingoBoardHeader();
+    buildBingoBoard(2);
 }
 
 function clearBingoBoard(){
@@ -88,10 +99,10 @@ function clearBingoBoard(){
         bbtable.deleteRow(i);
     }
 }
-document.getElementById('clearBingoBoard').addEventListener('click', function(){
-    clearBingoBoard();
-})
 
-document.getElementById('loadBingoBoard').addEventListener('click', function(){
-    LoadMoreBingoBoardPosts();
-})
+function applyInterest (row)
+{
+    var i=row.parentNode.parentNode.rowIndex;
+    var bbtable = document.getElementById('BingoBoardPostsTable');
+    console.log(bbtable.rows[i]);
+}
