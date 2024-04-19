@@ -2,7 +2,6 @@
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 using static Mysqlx.Notice.Warning.Types;
-using rU = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
@@ -10,11 +9,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
     {
         public static GigSet? ViewGigSummary(int numberOfGigs, string currentUsername, int offset)
         {
-            string level;
-            string category;
-            string context;
-            string userHash;
-
             GigSet gigs = new();
 
             string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
@@ -45,31 +39,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             gigs.GigSummaries!.Add(newGig);
                             //reader.NextResult();
                         }
-                        if (gigs.GigSummaries!.Count == 0)
-                        {
-                            userHash = rU.GetUserHash(currentUsername);
-                            level = "Info";
-                            category = "View";
-                            context = "Failed to retrieve gigs";
-                            //_loggerCreation.CreateLog(userHash, level, category, context);
-                            return null;
-                        }
-                        if (gigs.GigSummaries.Count == numberOfGigs)
-                        {
-                            userHash = rU.GetUserHash(currentUsername);
-                            level = "Info";
-                            category = "View";
-                            context = $"{numberOfGigs} gigs successfully retrieved from database";
-                            //_loggerCreation.CreateLog(userHash, level, category, context);
-                        }
-                        else
-                        {
-                            userHash = rU.GetUserHash(currentUsername);
-                            level = "Info";
-                            category = "View";
-                            context = $"{gigs.GigSummaries.Count} gigs successfully retrieved from database, but {numberOfGigs} were requested";
-                            //_loggerCreation.CreateLog(userHash, level, category, context);
-                        }
                         return gigs;
                     }
                 }
@@ -99,9 +68,44 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             return 0;
         }
 
-        public static void IndicateInterest(string username, int gigID)
+        public static bool IsUserInterested(string username, int gigID)
         {
+            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+            string usernameInterestCheckSql = "SELECT COUNT(username) AS NumberOfGigs FROM Gig WHERE GigVisibility = TRUE;";
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new MySqlCommand(usernameInterestCheckSql, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        //should return int number of visible gigs in database
+                        if (reader.Read())
+                        {
+                            //
+                        }
+                    }
+                }
+            }
+            return false;
+        }
 
+        public static bool IndicateInterest(string username, int gigID)
+        {
+            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+            string usernameInterestAddSql = "UPDATE Gig SET InterestedUsers='{username}' WHERE GigID='{gigID}';";
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new MySqlCommand(usernameInterestAddSql, connection))
+                {
+                    command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@gigID", gigID);
+                    var result = command.ExecuteNonQuery();
+                    if(result == 1) { return true; }
+                }
+            }
+            return false;
         }
     }
 }

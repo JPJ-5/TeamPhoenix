@@ -3,36 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3E3CF50E-1F8C-4832-911B-2FB389353B28}|TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{3E3CF50E-1F8C-4832-911B-2FB389353B28}|TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj|solutionrelative:teamphoenix.musicali\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3E3CF50E-1F8C-4832-911B-2FB389353B28}|TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E3CF50E-1F8C-4832-911B-2FB389353B28}|TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj|solutionrelative:teamphoenix.musicali\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FD931B91-0C01-42E1-B99C-CF8716DECBCA}|TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.dataaccesslayer\\bingoboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FD931B91-0C01-42E1-B99C-CF8716DECBCA}|TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|solutionrelative:teamphoenix.musicali.dataaccesslayer\\bingoboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FD931B91-0C01-42E1-B99C-CF8716DECBCA}|TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.dataaccesslayer\\modifyuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD931B91-0C01-42E1-B99C-CF8716DECBCA}|TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|solutionrelative:teamphoenix.musicali.dataaccesslayer\\modifyuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{741D3333-04D4-4831-94AC-99C177B9D41A}|TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.services\\bingoboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{741D3333-04D4-4831-94AC-99C177B9D41A}|TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj|solutionrelative:teamphoenix.musicali.services\\bingoboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AFC7FF3E-3E16-44A2-A86C-E713056C8E6D}|TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.logging\\logger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AFC7FF3E-3E16-44A2-A86C-E713056C8E6D}|TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj|solutionrelative:teamphoenix.musicali.logging\\logger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FD931B91-0C01-42E1-B99C-CF8716DECBCA}|TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.dataaccesslayer\\authentication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD931B91-0C01-42E1-B99C-CF8716DECBCA}|TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|solutionrelative:teamphoenix.musicali.dataaccesslayer\\authentication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{741D3333-04D4-4831-94AC-99C177B9D41A}|TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.services\\customcors.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{741D3333-04D4-4831-94AC-99C177B9D41A}|TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj|solutionrelative:teamphoenix.musicali.services\\customcors.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CAF4440E-051D-447F-9D65-1D392BC564A6}|TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.security\\customeauthenticationmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CAF4440E-051D-447F-9D65-1D392BC564A6}|TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj|solutionrelative:teamphoenix.musicali.security\\customeauthenticationmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3E3CF50E-1F8C-4832-911B-2FB389353B28}|TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali\\controllers\\bingoboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E3CF50E-1F8C-4832-911B-2FB389353B28}|TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj|solutionrelative:teamphoenix.musicali\\controllers\\bingoboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,109 +26,59 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ModifyUser.cs",
+              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\ModifyUser.cs",
+              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali.DataAccessLayer\\ModifyUser.cs",
+              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\ModifyUser.cs",
+              "RelativeToolTip": "TeamPhoenix.MusiCali.DataAccessLayer\\ModifyUser.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAswBMAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-19T07:30:45.249Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\appsettings.json",
-              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali\\appsettings.json",
-              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\appsettings.json",
-              "RelativeToolTip": "TeamPhoenix.MusiCali\\appsettings.json",
-              "ViewState": "AQIAABMAAAAAAAAAAAAIwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-04-19T06:55:55.584Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "BingoBoard.cs",
-              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
-              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
-              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
-              "RelativeToolTip": "TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAA8AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T06:53:58.813Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Authentication.cs",
-              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\Authentication.cs",
-              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali.DataAccessLayer\\Authentication.cs",
-              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\Authentication.cs",
-              "RelativeToolTip": "TeamPhoenix.MusiCali.DataAccessLayer\\Authentication.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T06:52:53.442Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Logger.cs",
-              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\Logger.cs",
-              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali.Logging\\Logger.cs",
-              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\Logger.cs",
-              "RelativeToolTip": "TeamPhoenix.MusiCali.Logging\\Logger.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T06:50:59.7Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "BingoBoard.cs",
               "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoard.cs",
               "RelativeDocumentMoniker": "TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoard.cs",
               "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoard.cs",
               "RelativeToolTip": "TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoard.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAcwAoAAAAiAAAA",
+              "ViewState": "AQIAAE8AAAAAAAAAAAAAAGIAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-19T06:50:40.334Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\Program.cs",
-              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali\\Program.cs",
-              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\Program.cs",
-              "RelativeToolTip": "TeamPhoenix.MusiCali\\Program.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAIAwwBYAAAA9AAAA",
+              "DocumentIndex": 3,
+              "Title": "BingoBoardController.cs",
+              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\Controllers\\BingoBoardController.cs",
+              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali\\Controllers\\BingoBoardController.cs",
+              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\Controllers\\BingoBoardController.cs",
+              "RelativeToolTip": "TeamPhoenix.MusiCali\\Controllers\\BingoBoardController.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAA5wAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T06:49:37.707Z",
+              "WhenOpened": "2024-04-19T07:14:52.238Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CustomCors.cs",
-              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\CustomCors.cs",
-              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali.Services\\CustomCors.cs",
-              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\CustomCors.cs",
-              "RelativeToolTip": "TeamPhoenix.MusiCali.Services\\CustomCors.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAtAAAA",
+              "DocumentIndex": 2,
+              "Title": "BingoBoard.cs",
+              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
+              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
+              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
+              "RelativeToolTip": "TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAUwBQAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T06:48:58.267Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "CustomeAuthenticationMiddleware.cs",
-              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\CustomeAuthenticationMiddleware.cs",
-              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali.Security\\CustomeAuthenticationMiddleware.cs",
-              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\CustomeAuthenticationMiddleware.cs",
-              "RelativeToolTip": "TeamPhoenix.MusiCali.Security\\CustomeAuthenticationMiddleware.cs",
-              "ViewState": "AQIAACQAAAAAAAAAAAAIwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T06:48:21.045Z"
+              "WhenOpened": "2024-04-19T06:53:58.813Z",
+              "EditorCaption": ""
             }
           ]
         }
