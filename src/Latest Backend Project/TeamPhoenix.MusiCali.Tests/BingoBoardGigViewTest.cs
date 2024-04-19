@@ -10,7 +10,7 @@ namespace TeamPhoenix.MusiCali.Tests
         [TestMethod]
         public void GigLoadTest()
         {
-            List<GigSummary>? gigs = BB.ViewGigSummary(20, "bingoboardtests");
+            GigSet? gigs = BB.ViewGigSummary(20, "bingoboardtests", 0);
             //Console.WriteLine(gigs[0].Username);
             Assert.IsNotNull(gigs);
         }
