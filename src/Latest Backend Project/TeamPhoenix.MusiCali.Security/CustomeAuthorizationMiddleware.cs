@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text.Json;
+using Newtonsoft.Json.Linq;
+using Microsoft.IdentityModel.Tokens;
 
 public class AuthorizationMiddleware
 {
@@ -19,25 +21,10 @@ public class AuthorizationMiddleware
     public async Task Invoke(HttpContext context)
     {
         // This is the Access Token
-        var accessToken = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+        var accessToken = context.Request.Headers["Authorization"].FirstOrDefault();
 
-        if (accessToken == null)
-        {
-            var path = context.Request.Path;
 
-            // Check if the path matches your criteria
-            if (_configuration.GetSection("AllowedEndpoints:Anonymous").Get<List<string>>().Contains(path))
-            {
-                await _next(context);
-                return;
-            }
-            else
-            {
-                context.Response.StatusCode = 403; // Forbidden
-                return;
-            }
-        }
-        if (accessToken != null && HasRequiredPermissions(accessToken, context))
+        if ((!accessToken.IsNullOrEmpty()) && checkSignature(accessToken!) && HasRequiredPermissions(accessToken!, context))
         {
             await _next(context);
             return;
@@ -49,17 +36,55 @@ public class AuthorizationMiddleware
         }
     }
 
+    // Checking the token signature should be a function on its own
+
+    private List<string> getJWTParts(string idToken)
+    {
+        var parts = idToken.Split('.');
+        List<string> jwtParts = new List<string>();
+        if (parts.Length != 3)
+            return new List<string>();
+        for (int i = 0; i < parts.Length; i++)
+        {
+            jwtParts.Insert(i, parts[i]);
+        }
+        return jwtParts;
+    }
+    private bool checkSignature(string accessToken)
+    {
+        List<string> jwtParts = getJWTParts(accessToken);
+        if (jwtParts == new List<string>())
+        {
+            return false;
+        }
+        else
+        {
+            var header = jwtParts[0];
+            var payload = jwtParts[1];
+            var signature = jwtParts[2];
+
+            var computedSignature = SignatureComputeHmacSha256(header, payload);
+            //Console.WriteLine(computedSignature);
+            if (signature.Equals(computedSignature, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+    }
     private bool HasRequiredPermissions(string accessToken, HttpContext context)
     {
-        var parts = accessToken.Split('.');
-        if (parts.Length != 3)
-            return false;
+        List<string> jwtParts = getJWTParts(accessToken);
+        var header = jwtParts[0];
+        var payload = jwtParts[1];
+        var signature = jwtParts[2];
+        var computedSignature = SignatureComputeHmacSha256(header, payload);
 
-        var header = parts[0];
-        var payload = parts[1];
-        var signature = parts[2];
-        var computedSignature = SignatureComputeHmacSha256(header,payload);
-        
         var path = context.Request.Path;
 
 
@@ -74,16 +99,14 @@ public class AuthorizationMiddleware
         //Console.WriteLine(scope);
 
 
-        if (signature.Equals(computedSignature, StringComparison.OrdinalIgnoreCase)
-            && _configuration.GetSection("Jwt:Audience").Value!.Equals(audience)
+        if (_configuration.GetSection("Jwt:Audience").Value!.Equals(audience)
             && scope == "NormalUser"
             && _configuration.GetSection("AllowedEndpoints:Normal").Get<List<string>>().Contains(path)
            )
         {
             return true;
         }
-        if (signature.Equals(computedSignature, StringComparison.OrdinalIgnoreCase)
-            && _configuration.GetSection("Jwt:Audience").Value!.Equals(audience)
+        if (_configuration.GetSection("Jwt:Audience").Value!.Equals(audience)
             && scope == "AdminUser"
             && (_configuration.GetSection("AllowedEndpoints:Admin").Get<List<string>>().Contains(path))
            )

@@ -771,7 +771,7 @@
                 console.log('Feature usage logged successfully');
             })
             .catch(error => {
-                console.error('Error logging tempo usage:', error.message);
+                console.error('Error logging {feature} usage:', error.message);
             });
     }
 });

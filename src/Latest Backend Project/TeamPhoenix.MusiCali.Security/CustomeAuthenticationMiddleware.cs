@@ -4,6 +4,9 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text.Json;
+using System.Runtime.CompilerServices;
+using Google.Protobuf.WellKnownTypes;
+using Microsoft.IdentityModel.Tokens;
 
 public class AuthenticationMiddleware
 {
@@ -19,35 +22,15 @@ public class AuthenticationMiddleware
 
     public async Task Invoke(HttpContext context)
     {
-        var idToken = context.Request.Headers["Authentication"].FirstOrDefault()?.Split(" ").Last();
+        var idToken = context.Request.Headers["Authentication"].FirstOrDefault();
 
-
-        if (idToken == null)
-        {
-            var path = context.Request.Path;
-            //Console.WriteLine(path);
-
-            // Check if the path matches your criteria
-            if(_configuration.GetSection("AllowedEndpoints:Anonymous").Get<List<string>>().Contains(path))
-            {
-                await _next(context);
-                return;
-            }
-            else
-            {
-
-                // Call the next middleware in the pipeline
-                context.Response.StatusCode = 401; // Unauthenticated
-                return;
-            }
-        }
-
-        if (ValidateToken(idToken))
+        if ((!idToken.IsNullOrEmpty()) && checkSignature(idToken!) && ValidateToken(idToken!))
         {
             await _next(context);
             return;
         }
-        else{
+        else
+        {
             Console.WriteLine("Here");
             context.Response.StatusCode = 401; // Unauthenticated
             return;
@@ -55,21 +38,57 @@ public class AuthenticationMiddleware
 
     }
 
+    private bool checkSignature(string idToken)
+    {
+        List<string> jwtParts = getJWTParts(idToken);
+        if (jwtParts == new List<string>())
+        {
+            return false;
+        }
+        else
+        {
+            var header = jwtParts[0];
+            var payload = jwtParts[1];
+            var signature = jwtParts[2];
+
+            var computedSignature = SignatureComputeHmacSha256(header, payload);
+            //Console.WriteLine(computedSignature);
+            if (signature.Equals(computedSignature, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+    }
+
+
+    private List<string> getJWTParts(string idToken)
+    {
+        var parts = idToken.Split('.');
+        List<string> jwtParts = new List<string>();
+        if (parts.Length != 3)
+            return new List<string>();
+        for (int i = 0; i < parts.Length; i++)
+        {
+            jwtParts.Insert(i, parts[i]);
+        }
+        return jwtParts;
+    }
     private bool ValidateToken(string idToken)
     {
         try
         {
             //Console.WriteLine(idToken);
-            var parts = idToken.Split('.');
-            if (parts.Length != 3)
-                return false;
 
-            var header = parts[0];
-            var payload = parts[1];
-            var signature = parts[2];
-
-            var computedSignature = SignatureComputeHmacSha256(header, payload);
-            //Console.WriteLine(computedSignature);
+            List<string> jwtParts = getJWTParts(idToken);
+            var header = jwtParts[0];
+            var payload = jwtParts[1];
+            var signature = jwtParts[2];
 
             var decodedPayload = Base64UrlDecode(payload);
             //Console.WriteLine(payloadJson);
@@ -80,13 +99,7 @@ public class AuthenticationMiddleware
 
             string audience = root.GetProperty("aud").GetString()!;
             //Console.WriteLine(audience);
-
-            Console.WriteLine(signature);
-            Console.WriteLine(computedSignature);
-            
-
-            if (signature.Equals(computedSignature, StringComparison.OrdinalIgnoreCase) 
-                && _configuration.GetSection("Jwt:Audience").Value!.Equals(audience))
+            if (_configuration.GetSection("Jwt:Audience").Value!.Equals(audience))
             {
                 return true;
             }
@@ -94,9 +107,6 @@ public class AuthenticationMiddleware
             {
                 return false;
             }
-
-
-            
         }
         catch
         {

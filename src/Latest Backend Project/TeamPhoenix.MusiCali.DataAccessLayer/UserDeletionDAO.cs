@@ -4,7 +4,7 @@ using System;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
-    public class UserDeletion
+    public class UserDeletionDAO
     {
         // Hardcoded connection string
         private static string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
