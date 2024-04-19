@@ -17,11 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TeamPhoenix.MusiCali.DataAccessLayer\TeamPhoenix.MusiCali.DataAccessLayer.csproj" />
-    <ProjectReference Include="..\TeamPhoenix.MusiCali\TeamPhoenix.MusiCali.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 

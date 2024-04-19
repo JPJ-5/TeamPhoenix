@@ -158,13 +158,48 @@ function applyInterest (id)
 {
     var buttonID = 'bingoButton'+id
     var bingoButton = document.getElementById(buttonID);
-    if(id>40){
+    bingoButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #dddddd7e; font-size: 14px;' value='  ...  '/>"
+
+    var currentusername = sessionStorage.getItem('username');
+    BingoBoardUrl = baseUrl+'/BingoBoard/api/BingoBoardRegisterUserInterest';
+        fetch(BingoBoardUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authentication': idToken,
+                'Authorization': accessToken
+            },
+            body: JSON.stringify({username: currentusername, gigID: id})
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                    
+                } else {
+                    throw new Error('Failed to access gig interest list');
+                }
+            })
+            .then(interestMessage => {
+                updateInterestButtons(interestMessage, id)
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                bingoButton.innerHTML="<input type='button' class='button' onclick='applyInterest("+id+");' value='Apply'/>";
+            });
+}
+
+function updateInterestButtons(intMsg, id)
+{
+    var message = intMsg.returnMsg;
+    var intTableUpdate = intMsg.returnSucc;
+    var buttonID = 'bingoButton'+id
+    var bingoButton = document.getElementById(buttonID);
+    if(intTableUpdate){
     bingoButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #3ba863; font-size: 14px;' value='   ✔   '/>"
     }
     else{
     bingoButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #dc4545; font-size: 14px;' value='   ✘   '/>"
     }
-    
 }
 
 function configurePagination(){
