@@ -1,0 +1,164 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj",
+        "projectName": "TeamPhoenix.MusiCali.DataAccessLayer",
+        "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj",
+        "packagesPath": "C:\\Users\\djmcf\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\djmcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.3.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj",
+        "projectName": "TeamPhoenix.MusiCali.Logging",
+        "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj",
+        "packagesPath": "C:\\Users\\djmcf\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\djmcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{EC9553D2-0285-45D5-8FFE-E3F00BE3CFC2}|..\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali\\controllers\\bingoboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB63FE4C-CA37-405B-A347-B789402A1DA5}|..\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.dataaccesslayer\\bingoboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{737006E8-1DD6-4125-9B48-A35ED172A9F7}|TeamPhoenix.MusiCali.Services.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.services\\bingoboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{737006E8-1DD6-4125-9B48-A35ED172A9F7}|TeamPhoenix.MusiCali.Services.csproj|solutionrelative:bingoboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB63FE4C-CA37-405B-A347-B789402A1DA5}|..\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.dataaccesslayer\\models\\gigsummary.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB63FE4C-CA37-405B-A347-B789402A1DA5}|..\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.dataaccesslayer\\models\\gigsummarylist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB63FE4C-CA37-405B-A347-B789402A1DA5}|..\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.dataaccesslayer\\models\\bingoboardrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC9553D2-0285-45D5-8FFE-E3F00BE3CFC2}|..\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BingoBoardRequest.cs",
+              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\Models\\BingoBoardRequest.cs",
+              "RelativeDocumentMoniker": "..\\TeamPhoenix.MusiCali.DataAccessLayer\\Models\\BingoBoardRequest.cs",
+              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\Models\\BingoBoardRequest.cs",
+              "RelativeToolTip": "..\\TeamPhoenix.MusiCali.DataAccessLayer\\Models\\BingoBoardRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T22:38:41.066Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\appsettings.json",
+              "RelativeDocumentMoniker": "..\\TeamPhoenix.MusiCali\\appsettings.json",
+              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\appsettings.json",
+              "RelativeToolTip": "..\\TeamPhoenix.MusiCali\\appsettings.json",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAwwDAAAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-04-18T09:41:08.772Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BingoBoardController.cs",
+              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\Controllers\\BingoBoardController.cs",
+              "RelativeDocumentMoniker": "..\\TeamPhoenix.MusiCali\\Controllers\\BingoBoardController.cs",
+              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\Controllers\\BingoBoardController.cs",
+              "RelativeToolTip": "..\\TeamPhoenix.MusiCali\\Controllers\\BingoBoardController.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAgwBoAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T07:04:47.031Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BingoBoard.cs",
+              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
+              "RelativeDocumentMoniker": "BingoBoard.cs",
+              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
+              "RelativeToolTip": "BingoBoard.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABwAAABDAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T07:04:06.814Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BingoBoard.cs",
+              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoard.cs",
+              "RelativeDocumentMoniker": "..\\TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoard.cs",
+              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoard.cs",
+              "RelativeToolTip": "..\\TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoard.cs",
+              "ViewState": "AQIAAEQAAAAAAAAAAAAowBMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T01:16:59.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GigSummaryList.cs",
+              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\Models\\GigSummaryList.cs",
+              "RelativeDocumentMoniker": "..\\TeamPhoenix.MusiCali.DataAccessLayer\\Models\\GigSummaryList.cs",
+              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\Models\\GigSummaryList.cs",
+              "RelativeToolTip": "..\\TeamPhoenix.MusiCali.DataAccessLayer\\Models\\GigSummaryList.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T06:55:05.747Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GigSummary.cs",
+              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\Models\\GigSummary.cs",
+              "RelativeDocumentMoniker": "..\\TeamPhoenix.MusiCali.DataAccessLayer\\Models\\GigSummary.cs",
+              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\Models\\GigSummary.cs",
+              "RelativeToolTip": "..\\TeamPhoenix.MusiCali.DataAccessLayer\\Models\\GigSummary.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T06:55:07.163Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
