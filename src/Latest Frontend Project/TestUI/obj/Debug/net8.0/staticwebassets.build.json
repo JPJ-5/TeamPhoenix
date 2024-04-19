@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "q3poSQl3zRYJ4aDICEwulONysAIWaeRfOyAvqfmGt3s=",
+  "Hash": "0f5UgBIqamBERqmtjCwXBc00ZUE6bGznqiR4RXZqt3A=",
   "Source": "TestUI",
   "BasePath": "_content/TestUI",
   "Mode": "Default",
@@ -112,25 +112,6 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\css\\tempoToolStyles.css",
-      "SourceId": "TestUI",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\",
-      "BasePath": "_content/TestUI",
-      "RelativePath": "css/tempoToolStyles.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\tempoToolStyles.css"
-    },
-    {
       "Identity": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\favicon.ico",
       "SourceId": "TestUI",
       "SourceType": "Discovered",
@@ -169,12 +150,12 @@
       "OriginalItemSpec": "wwwroot\\index.html"
     },
     {
-      "Identity": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\js\\ScaleDisplay.js",
+      "Identity": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\js\\BingoBoard.js",
       "SourceId": "TestUI",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\",
       "BasePath": "_content/TestUI",
-      "RelativePath": "js/ScaleDisplay.js",
+      "RelativePath": "js/BingoBoard.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -185,7 +166,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\ScaleDisplay.js"
+      "OriginalItemSpec": "wwwroot\\js\\BingoBoard.js"
     },
     {
       "Identity": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\js\\site.js",
@@ -205,25 +186,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
-    },
-    {
-      "Identity": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\js\\tempoTool.js",
-      "SourceId": "TestUI",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\",
-      "BasePath": "_content/TestUI",
-      "RelativePath": "js/tempoTool.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\tempoTool.js"
     },
     {
       "Identity": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",

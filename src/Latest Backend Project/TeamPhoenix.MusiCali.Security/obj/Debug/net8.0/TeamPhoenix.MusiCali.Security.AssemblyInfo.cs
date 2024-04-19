@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TeamPhoenix.MusiCali.Security")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f79de060e3467dab293add41aa27bebdc64eaab")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+704489f0aa6934905d23ffc3eebb6d08312c4ec6")]
 [assembly: System.Reflection.AssemblyProductAttribute("TeamPhoenix.MusiCali.Security")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TeamPhoenix.MusiCali.Security")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -5,6 +5,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest frontend project\\testui\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|solutionrelative:testui\\wwwroot\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest frontend project\\testui\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{68ADE306-CFAA-4040-9545-36656825C8F3}|TestUI\\TestUI.csproj|solutionrelative:testui\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -24,9 +28,22 @@
               "RelativeDocumentMoniker": "TestUI\\wwwroot\\index.html",
               "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\index.html",
               "RelativeToolTip": "TestUI\\wwwroot\\index.html",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAADcBAAAAAAAAAAAqwEoBAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
               "WhenOpened": "2024-04-18T00:34:42.955Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "site.js",
+              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\js\\site.js",
+              "RelativeDocumentMoniker": "TestUI\\wwwroot\\js\\site.js",
+              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\js\\site.js",
+              "RelativeToolTip": "TestUI\\wwwroot\\js\\site.js",
+              "ViewState": "AQIAAOsCAAAAAAAAAAAAAAcDAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-19T06:58:28.101Z",
               "EditorCaption": ""
             }
           ]

@@ -1,5 +1,6 @@
 ﻿using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using _dao = TeamPhoenix.MusiCali.DataAccessLayer.BingoBoard;
+using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
 
 namespace TeamPhoenix.MusiCali.Services
 {

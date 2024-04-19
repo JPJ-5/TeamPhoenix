@@ -3,7 +3,6 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 using static Mysqlx.Notice.Warning.Types;
 using rU = TeamPhoenix.MusiCali.DataAccessLayer.RecoverUser;
-//using _loggerCreation = TeamPhoenix.MusiCali.Logging.Logger;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
@@ -43,10 +42,10 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 reader["Description"].ToString() ?? string.Empty,
                                 Convert.ToInt32(reader["GigID"])
                                 );
-                            gigs.GigSummaries.Add(newGig);
+                            gigs.GigSummaries!.Add(newGig);
                             //reader.NextResult();
                         }
-                        if (gigs.GigSummaries.Count == 0)
+                        if (gigs.GigSummaries!.Count == 0)
                         {
                             userHash = rU.GetUserHash(currentUsername);
                             level = "Info";

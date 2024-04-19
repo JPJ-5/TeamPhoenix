@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "TeamPhoenix.MusiCali.Logging/1.0.0": {
         "dependencies": {
+          "Microsoft.Extensions.Configuration": "8.0.0",
           "TeamPhoenix.MusiCali.DataAccessLayer": "1.0.0"
         },
         "runtime": {

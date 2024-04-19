@@ -736,8 +736,6 @@
                 // Handle error (e.g., show error message)
             });
     });
-<<<<<<< HEAD
-=======
 
     document.getElementById('enter-scaleDisplay').addEventListener('click', function () {
         document.querySelector('.main').style.display = 'none'; // Hide main content
@@ -776,5 +774,4 @@
                 console.error('Error logging {feature} usage:', error.message);
             });
     }
->>>>>>> diegobingoboard
 });

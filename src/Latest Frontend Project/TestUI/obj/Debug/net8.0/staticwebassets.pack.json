@@ -17,10 +17,6 @@
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\css\\tempoToolStyles.css",
-      "PackagePath": "staticwebassets\\css\\tempoToolStyles.css"
-    },
-    {
       "Id": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
@@ -29,16 +25,12 @@
       "PackagePath": "staticwebassets\\index.html"
     },
     {
-      "Id": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\js\\ScaleDisplay.js",
-      "PackagePath": "staticwebassets\\js\\ScaleDisplay.js"
+      "Id": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\js\\BingoBoard.js",
+      "PackagePath": "staticwebassets\\js\\BingoBoard.js"
     },
     {
       "Id": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
-    },
-    {
-      "Id": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\js\\tempoTool.js",
-      "PackagePath": "staticwebassets\\js\\tempoTool.js"
     },
     {
       "Id": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Frontend Project\\TestUI\\wwwroot\\lib\\bootstrap\\LICENSE",
