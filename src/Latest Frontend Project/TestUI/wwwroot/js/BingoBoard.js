@@ -1,8 +1,11 @@
-var loadCount = 10;
 var baseUrl = 'http://localhost:8080';
 
 //Bingo Board Features:
 document.getElementById('enter-BingoBoardView').addEventListener('click', function (){
+    if(sessionStorage.getItem('loadCount') == null){
+        sessionStorage.setItem('loadCount', 10)
+    }
+    bingoBoardSize();
     clearBingoBoard();
     buildBingoBoard(1);
 });
@@ -15,19 +18,52 @@ document.getElementById('loadBingoBoard').addEventListener('click', function(){
     loadBingoBoardPosts();
 })
 
+function bingoBoardSize(){
+    const loadnotif = document.getElementById('BingoBoardLoadMsg');
+    var idToken = sessionStorage.getItem('idToken');
+    var accessToken = sessionStorage.getItem('accessToken');
+
+    BingoBoardUrl = baseUrl+'/BingoBoard/api/BingoBoardRetrieveGigTableSize';
+        fetch(BingoBoardUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authentication': idToken,
+                'Authorization': accessToken
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                    
+                } else {
+                    throw new Error('Failed to retrieve gig table size');
+                }
+            })
+            .then(bbSizeInt => {
+                //console.log(bbSizeInt);
+                sessionStorage.setItem('tableSize', bbSizeInt);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadnotif.innerHTML = "There was an error with the table. Please try again.";
+            });
+}
+
 function buildBingoBoard(pageNum){
     sessionStorage.setItem('bbPage', pageNum);
     document.querySelector('.main').style.display = 'none'; // Hide main content
     document.getElementById('BingoBoardView').style.display = 'block'; // Show bingo board
     //logFeatureUsage(username, "Bingo Board");
 
-    const loadnotif = document.getElementById('BingoBoardLoadMsg')
+    const loadnotif = document.getElementById('BingoBoardLoadMsg');
     loadnotif.innerHTML = "Loading Posts...";
 
+    var pageSize = sessionStorage.getItem('loadCount');
     var currentusername = sessionStorage.getItem('username');
     var idToken = sessionStorage.getItem('idToken');
     var accessToken = sessionStorage.getItem('accessToken');
-    var offset = loadCount * (pageNum - 1);
+    var offset = pageSize * (pageNum - 1);
 
     
     //append additional post data to table html here
@@ -39,7 +75,7 @@ function buildBingoBoard(pageNum){
                 'Authentication': idToken,
                 'Authorization': accessToken
             },
-            body: JSON.stringify({numberofgigs: loadCount, username: currentusername, offset: offset})
+            body: JSON.stringify({numberofgigs: pageSize, username: currentusername, offset: offset})
         })
             .then(response => {
                 if (response.ok) {
@@ -89,9 +125,9 @@ function constructGigList(gigSet){
     }
 }
 
-function loadBingoBoardPosts(){
+function loadBingoBoardPosts(page){
     clearBingoBoard();
-    buildBingoBoard(2);
+    buildBingoBoard(page);
 }
 
 function clearBingoBoard(){

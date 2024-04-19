@@ -26,7 +26,7 @@ namespace TeamPhoenix.MusiCali.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine();
+                Console.WriteLine($"Error retrieving gig table size: {ex.Message}");
                 throw;
             }
         }

@@ -99,5 +99,10 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             return 0;
         }
+
+        public static void IndicateInterest(string username, int gigID)
+        {
+
+        }
     }
 }

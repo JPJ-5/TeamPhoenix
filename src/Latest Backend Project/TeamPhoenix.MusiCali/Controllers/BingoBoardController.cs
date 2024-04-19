@@ -24,7 +24,7 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             int gigTableSize = BB.ReturnGigNum();
             if(gigTableSize <= 0) { return NotFound("Error retrieving Gig Table size"); }
-            return Ok();
+            return Ok(gigTableSize);
         }
     }
 }
