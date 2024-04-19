@@ -89,7 +89,7 @@ function constructGigList(gigSet){
     const gigData = gigSet.gigSummaries;//.values();
     
     for(i in (gigData)){
-        console.log(gigData[i]);
+        //console.log(gigData[i]);
         var row = bbtable.insertRow();
         var titleCell = row.insertCell();
         var usernamecell = row.insertCell();
@@ -107,7 +107,14 @@ function constructGigList(gigSet){
         descCell.innerHTML=gigData[i].description;
         var buttonID = "bingoButton"+gigData[i].gigID;
         interestButton.id = buttonID;
-        interestButton.innerHTML="<input type='button' class='button' onclick='applyInterest("+gigData[i].gigID+");' value='Apply'/>";
+        if (gigData[i].isAlreadyInterested)
+        {
+            interestButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #3ba863; font-size: 14px;' value='   ✔   '/>"
+        }
+        else
+        {
+            interestButton.innerHTML="<input type='button' class='button' onclick='applyInterest("+gigData[i].gigID+");' value='Apply'/>";
+        }
     }
 }
 
@@ -163,8 +170,10 @@ function isCurrentUserInterested(username, id){
 function applyInterest (id)
 {
     var buttonID = 'bingoButton'+id
+    var idToken = sessionStorage.getItem('idToken');
+    var accessToken = sessionStorage.getItem('accessToken');
     var bingoButton = document.getElementById(buttonID);
-    bingoButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #dddddd7e; font-size: 14px;' value='  ...  '/>"
+    bingoButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #dddddd7e; font-size: 16px;' value='  ...  '/>"
 
     var currentusername = sessionStorage.getItem('username');
     BingoBoardUrl = baseUrl+'/BingoBoard/api/BingoBoardRegisterUserInterest';
@@ -182,6 +191,7 @@ function applyInterest (id)
                     return response.json();
                     
                 } else {
+                    bingoButton.innerHTML="<input type='button' class='button' onclick='applyInterest("+id+");' value='Apply'/>"
                     throw new Error('Failed to access gig interest list');
                 }
             })
@@ -198,9 +208,10 @@ function updateInterestButtons(intMsg, id)
 {
     var message = intMsg.returnMsg;
     var intTableUpdate = intMsg.returnSucc;
+    console.log(message, intTableUpdate);
     var buttonID = 'bingoButton'+id
     var bingoButton = document.getElementById(buttonID);
-    if(intTableUpdate){
+    if(message == "User successfully interested"){
     bingoButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #3ba863; font-size: 14px;' value='   ✔   '/>"
     }
     else{

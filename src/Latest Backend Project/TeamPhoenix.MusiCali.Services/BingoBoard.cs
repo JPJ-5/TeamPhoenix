@@ -120,7 +120,7 @@ namespace TeamPhoenix.MusiCali.Services
                 bool putUserInGig = _dao.IndicateInterest( username, gigID );
                 if(putUserInGig)
                 {
-                    BingoBoardInterestMessage bbIntMsg = new("User successfully interested", putUserInGig);
+                    BingoBoardInterestMessage bbIntMsg = new("User successfully interested", true);
                     level = "Info";
                     category = "View";
                     context = "User successfully added to interest list";
@@ -128,7 +128,7 @@ namespace TeamPhoenix.MusiCali.Services
                     return bbIntMsg;
                 }
 
-                BingoBoardInterestMessage bbIntMsgErr = new("Database Error", putUserInGig);
+                BingoBoardInterestMessage bbIntMsgErr = new("Database Error", false);
                 level = "Info";
                 category = "View";
                 context = "Unknown database error";
