@@ -3,55 +3,45 @@ var baseUrl = 'http://localhost:8080';
 //Bingo Board Features:
 document.getElementById('enter-BingoBoardView').addEventListener('click', function (){
     if(sessionStorage.getItem('loadCount') == null){
-        sessionStorage.setItem('loadCount', 10)
+        sessionStorage.setItem('loadCount', 7);
     }
-    bingoBoardSize();
-    clearBingoBoard();
-    buildBingoBoard(1);
+    sessionStorage.setItem('pageNum', 1)
+    pageNum = sessionStorage.getItem('pageNum');
+    buildBingoBoard(pageNum);
 });
 
-document.getElementById('clearBingoBoard').addEventListener('click', function(){
-    clearBingoBoard();
+document.getElementById('bbGoPrev').addEventListener('click', function(){
+    var pageNum = sessionStorage.getItem('pageNum');
+    pageNum--;
+    console.log('loading page ', pageNum);
+    sessionStorage.setItem('pageNum', pageNum);
+    buildBingoBoard(pageNum);
 })
 
-document.getElementById('loadBingoBoard').addEventListener('click', function(){
-    loadBingoBoardPosts();
+document.getElementById('bbGoNext').addEventListener('click', function(){
+    var pageNum = sessionStorage.getItem('pageNum');
+    pageNum++;
+    console.log('loading page ', pageNum);
+    sessionStorage.setItem('pageNum', pageNum);
+    buildBingoBoard(pageNum);
 })
 
-function bingoBoardSize(){
-    const loadnotif = document.getElementById('BingoBoardLoadMsg');
-    var idToken = sessionStorage.getItem('idToken');
-    var accessToken = sessionStorage.getItem('accessToken');
-
-    BingoBoardUrl = baseUrl+'/BingoBoard/api/BingoBoardRetrieveGigTableSize';
-        fetch(BingoBoardUrl, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authentication': idToken,
-                'Authorization': accessToken
-            }
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                    
-                } else {
-                    throw new Error('Failed to retrieve gig table size');
-                }
-            })
-            .then(bbSizeInt => {
-                //console.log(bbSizeInt);
-                sessionStorage.setItem('tableSize', bbSizeInt);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                loadnotif.innerHTML = "There was an error with the table. Please try again.";
-            });
-}
+document.getElementById('bbPageSize').addEventListener('change', function(){
+    var pageSize = document.getElementById('bbPageSize');
+    sessionStorage.setItem('loadCount', pageSize.value);
+    buildBingoBoard(1)
+})
 
 function buildBingoBoard(pageNum){
-    sessionStorage.setItem('bbPage', pageNum);
+    clearBingoBoard();
+    console.log("loading ", pageNum)
+    const prevButton = document.getElementById('bbGoPrev');
+    const nextButton = document.getElementById('bbGoNext');
+    prevButton.style.display = 'none';
+    nextButton.style.display = 'none';
+    bingoBoardSize();
+    //var tableSize = bingoBoardSize();
+    //console.log(tableSize);
     document.querySelector('.main').style.display = 'none'; // Hide main content
     document.getElementById('BingoBoardView').style.display = 'block'; // Show bingo board
     //logFeatureUsage(username, "Bingo Board");
@@ -64,7 +54,7 @@ function buildBingoBoard(pageNum){
     var idToken = sessionStorage.getItem('idToken');
     var accessToken = sessionStorage.getItem('accessToken');
     var offset = pageSize * (pageNum - 1);
-
+    //configurePagination(pageSize, pageNum);
     
     //append additional post data to table html here
     BingoBoardUrl = baseUrl+'/BingoBoard/api/BingoBoardLoadGigs';
@@ -125,6 +115,39 @@ function constructGigList(gigSet){
     }
 }
 
+function bingoBoardSize(){
+    const loadnotif = document.getElementById('BingoBoardLoadMsg');
+    var idToken = sessionStorage.getItem('idToken');
+    var accessToken = sessionStorage.getItem('accessToken');
+
+    BingoBoardUrl = baseUrl+'/BingoBoard/api/BingoBoardRetrieveGigTableSize';
+        fetch(BingoBoardUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authentication': idToken,
+                'Authorization': accessToken
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                    
+                } else {
+                    throw new Error('Failed to retrieve gig table size');
+                }
+            })
+            .then(bbSizeInt => {
+                //console.log(bbSizeInt);
+                sessionStorage.setItem('tableSize', bbSizeInt);
+                configurePagination()
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadnotif.innerHTML = "There was an error with the table. Please try again.";
+            });
+}
+
 function loadBingoBoardPosts(page){
     clearBingoBoard();
     buildBingoBoard(page);
@@ -149,4 +172,32 @@ function applyInterest (id)
     }
     console.log(id);
     
+}
+
+function configurePagination(){
+    var tableSize = sessionStorage.getItem('tableSize');
+    const minPage = 1
+    const pageNumCurrent = sessionStorage.getItem('pageNum');
+    const pageSize = sessionStorage.getItem('loadCount');
+    var maxPage = Math.ceil(tableSize / pageSize)
+    const prevButton = document.getElementById('bbGoPrev');
+    const nextButton = document.getElementById('bbGoNext');
+    //console.log(minPage, pageNumCurrent, maxPage);
+
+    if(maxPage == minPage){
+        prevButton.style.display = 'none';
+        nextButton.style.display = 'none';
+    }
+    else if(pageNumCurrent <=1){
+        prevButton.style.display = 'none';
+        nextButton.style.display = 'block';
+    }
+    else if(maxPage > pageNumCurrent && pageNumCurrent > minPage){
+        prevButton.style.display = 'block';
+        nextButton.style.display = 'block';
+    }
+    else if(pageNumCurrent == maxPage){
+        prevButton.style.display = 'block';
+        nextButton.style.display = 'none';
+    }
 }

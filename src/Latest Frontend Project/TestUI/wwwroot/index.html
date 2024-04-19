@@ -322,12 +322,21 @@
             </tr>
         </table>
         <br>
+        <div class="pagination">
+            <button id="bbGoPrev" class="pagination button" style="display: none; float: left; margin-left: 33%;">Previous Page</button>
+            <button id="bbGoNext" class="pagination button" style="display: none; float: right; margin-right: 33%;">Next Page</button>
+        </div>
         <br>
-        <button id="loadBingoBoard" class="button">Load More</button>
-        <button id="clearBingoBoard">Clear Table</button>
         <br>
-        <!-- put page numbers/buttons here -->
-        <!-- put  -->
+        <label for bbPageSize>Posts Per Page:</label>
+        <select name="bbSize" id="bbPageSize">
+            <option value=7>7</option>
+            <option value=19>19</option>
+            <option value=31>31</option>
+        </select>
+        <br>
+        <br>
+        
     </div>
 
     <script src="js/site.js"></script>

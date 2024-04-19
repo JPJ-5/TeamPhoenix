@@ -42,6 +42,12 @@ tr:hover {background-color: #ddd;}
     color: white;
 }
 
+.pagination{
+    width: 150px;
+    display: inline;
+}
+
+
 @media (max-width: 600px) {
     body, html {
         background-size: contain; /* Make sure the entire image is visible */
