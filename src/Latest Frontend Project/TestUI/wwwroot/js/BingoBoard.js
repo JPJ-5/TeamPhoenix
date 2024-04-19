@@ -13,7 +13,6 @@ document.getElementById('enter-BingoBoardView').addEventListener('click', functi
 document.getElementById('bbGoPrev').addEventListener('click', function(){
     var pageNum = sessionStorage.getItem('pageNum');
     pageNum--;
-    console.log('loading page ', pageNum);
     sessionStorage.setItem('pageNum', pageNum);
     buildBingoBoard(pageNum);
 })
@@ -21,7 +20,6 @@ document.getElementById('bbGoPrev').addEventListener('click', function(){
 document.getElementById('bbGoNext').addEventListener('click', function(){
     var pageNum = sessionStorage.getItem('pageNum');
     pageNum++;
-    console.log('loading page ', pageNum);
     sessionStorage.setItem('pageNum', pageNum);
     buildBingoBoard(pageNum);
 })
@@ -34,14 +32,13 @@ document.getElementById('bbPageSize').addEventListener('change', function(){
 
 function buildBingoBoard(pageNum){
     clearBingoBoard();
-    console.log("loading ", pageNum)
     const prevButton = document.getElementById('bbGoPrev');
     const nextButton = document.getElementById('bbGoNext');
     prevButton.style.display = 'none';
     nextButton.style.display = 'none';
     bingoBoardSize();
     //var tableSize = bingoBoardSize();
-    //console.log(tableSize);
+
     document.querySelector('.main').style.display = 'none'; // Hide main content
     document.getElementById('BingoBoardView').style.display = 'block'; // Show bingo board
     //logFeatureUsage(username, "Bingo Board");
@@ -69,7 +66,6 @@ function buildBingoBoard(pageNum){
         })
             .then(response => {
                 if (response.ok) {
-                    //console.log(response.json());
                     return response.json();
                     
                 } else {
@@ -91,9 +87,8 @@ function constructGigList(gigSet){
     document.getElementById('BingoBoardPostsTable').style.display = 'block';
     var bbtable = document.getElementById('BingoBoardPostsTable');
     const gigData = gigSet.gigSummaries;//.values();
-    console.log(gigData);
     for(i in (gigData)){
-        //console.log(gigData[i]);
+
         var row = bbtable.insertRow();
         var titleCell = row.insertCell();
         var usernamecell = row.insertCell();
@@ -138,7 +133,6 @@ function bingoBoardSize(){
                 }
             })
             .then(bbSizeInt => {
-                //console.log(bbSizeInt);
                 sessionStorage.setItem('tableSize', bbSizeInt);
                 configurePagination()
             })
@@ -170,7 +164,6 @@ function applyInterest (id)
     else{
     bingoButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #dc4545; font-size: 14px;' value='   ✘   '/>"
     }
-    console.log(id);
     
 }
 
@@ -182,7 +175,6 @@ function configurePagination(){
     var maxPage = Math.ceil(tableSize / pageSize)
     const prevButton = document.getElementById('bbGoPrev');
     const nextButton = document.getElementById('bbGoNext');
-    //console.log(minPage, pageNumCurrent, maxPage);
 
     if(maxPage == minPage){
         prevButton.style.display = 'none';

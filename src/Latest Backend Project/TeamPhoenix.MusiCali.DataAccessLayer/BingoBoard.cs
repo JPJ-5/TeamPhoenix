@@ -1,4 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
+using System.Linq;
+using Newtonsoft.Json;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 using static Mysqlx.Notice.Warning.Types;
@@ -10,11 +12,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
     {
         public static GigSet? ViewGigSummary(int numberOfGigs, string currentUsername, int offset)
         {
-            string level;
-            string category;
-            string context;
-            string userHash;
-
             GigSet gigs = new();
 
             string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
@@ -45,31 +42,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                             gigs.GigSummaries!.Add(newGig);
                             //reader.NextResult();
                         }
-                        if (gigs.GigSummaries!.Count == 0)
-                        {
-                            userHash = rU.GetUserHash(currentUsername);
-                            level = "Info";
-                            category = "View";
-                            context = "Failed to retrieve gigs";
-                            //_loggerCreation.CreateLog(userHash, level, category, context);
-                            return null;
-                        }
-                        if (gigs.GigSummaries.Count == numberOfGigs)
-                        {
-                            userHash = rU.GetUserHash(currentUsername);
-                            level = "Info";
-                            category = "View";
-                            context = $"{numberOfGigs} gigs successfully retrieved from database";
-                            //_loggerCreation.CreateLog(userHash, level, category, context);
-                        }
-                        else
-                        {
-                            userHash = rU.GetUserHash(currentUsername);
-                            level = "Info";
-                            category = "View";
-                            context = $"{gigs.GigSummaries.Count} gigs successfully retrieved from database, but {numberOfGigs} were requested";
-                            //_loggerCreation.CreateLog(userHash, level, category, context);
-                        }
                         return gigs;
                     }
                 }
@@ -99,9 +71,63 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             return 0;
         }
 
-        public static void IndicateInterest(string username, int gigID)
+        public static List<string>? UserInterestList(string username, int gigID)
         {
+            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+            string selectSql = "SELECT InterestedUsers FROM Gig WHERE GigID = @gigID;";
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                // Retrieve the current list of interested users
+                using (var selectCommand = new MySqlCommand(selectSql, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@gigID", gigID);
+                    string interestedUsersJson = (string)selectCommand.ExecuteScalar();
 
+                    // Parse the JSON string to a list of usernames
+                    List<string>? interestedUsers = JsonConvert.DeserializeObject<List<string>>(interestedUsersJson);
+
+                    //ensure list is both not null and has values before returning
+                    return interestedUsers;
+
+                }
+            }
+        }
+
+        public static bool IndicateInterest(string username, int gigID)
+        {
+            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+
+            List<string>?  interestedUsers = UserInterestList(username, gigID);
+            
+            // Add the new username to the list
+            if(interestedUsers == null) { return false; }
+            interestedUsers.Add(username);
+
+            // Convert the updated list back to JSON format
+            string updatedInterestedUsersJson = JsonConvert.SerializeObject(interestedUsers);
+
+
+            string updateSql = "UPDATE Gig SET InterestedUsers = @interestedUsers WHERE GigID = @gigID;";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                // Update the InterestedUsers column in the database
+                using (var updateCommand = new MySqlCommand(updateSql, connection))
+                {
+                    //updateCommand.Parameters.AddWithValue("@interestedUsers", updatedInterestedUsersJson);
+                    updateCommand.Parameters.AddWithValue("@gigID", gigID);
+                    int rowsAffected = updateCommand.ExecuteNonQuery();
+                    if (rowsAffected == 1)
+                    {
+                        return true;
+                    }
+                }
+
+            }
+
+            return false;
         }
     }
 }

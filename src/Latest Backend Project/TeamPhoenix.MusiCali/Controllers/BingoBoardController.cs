@@ -26,5 +26,19 @@ namespace TeamPhoenix.MusiCali.Controllers
             if(gigTableSize <= 0) { return NotFound("Error retrieving Gig Table size"); }
             return Ok(gigTableSize);
         }
+
+        [HttpPost("api/BingoBoardInterestRequest")]
+        public ActionResult IsUserInterested([FromBody] BingoBoardInterestRequest BBIntReq)
+        {
+            bool userInterest = BB.IsUserInterested(BBIntReq.username, BBIntReq.gigID);
+            return Ok(userInterest);
+        }
+
+        [HttpPost("api/BingoBoardRegisterUserInterest")]
+        public ActionResult RegisterUserInterest([FromBody] BingoBoardInterestRequest BBIntReq)
+        {
+            BingoBoardInterestMessage intMessage = BB.addUserInterest(BBIntReq.username, BBIntReq.gigID);
+            return Ok(intMessage);
+        }
     }
 }
