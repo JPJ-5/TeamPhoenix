@@ -103,29 +103,44 @@ namespace TeamPhoenix.MusiCali.Services
             string level;
             string category;
             string context;
-            string userHash;
+            string userHash = rU.GetUserHash(username);
             try
             {
                 bool isUserInterested = IsUserInterested( username, gigID);
                 if(isUserInterested)
                 {
+                    level = "Info";
+                    category = "View";
+                    context = "User attempted to add to interest list while already present";
+                    _loggerCreation.CreateLog(userHash, level, category, context);
                     return new BingoBoardInterestMessage("User already interested", false);
                 }
                 bool putUserInGig = _dao.IndicateInterest( username, gigID );
                 if(putUserInGig)
                 {
                     BingoBoardInterestMessage bbIntMsg = new("User successfully interested", putUserInGig);
+                    level = "Info";
+                    category = "View";
+                    context = "User successfully added to interest list";
+                    _loggerCreation.CreateLog(userHash, level, category, context);
                     return bbIntMsg;
                 }
 
                 BingoBoardInterestMessage bbIntMsgErr = new("Database Error", putUserInGig);
+                level = "Info";
+                category = "View";
+                context = "Unknown database error";
+                _loggerCreation.CreateLog(userHash, level, category, context);
                 return bbIntMsgErr;
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error registering user to interest table: {ex.Message}");
-
+                level = "Info";
+                category = "View";
+                context = "Unknown database error while registering to user interest table";
+                _loggerCreation.CreateLog(userHash, level, category, context);
                 throw;
             }
         }

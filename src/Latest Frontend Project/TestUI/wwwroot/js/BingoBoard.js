@@ -154,6 +154,10 @@ function clearBingoBoard(){
     }
 }
 
+function isCurrentUserInterested(username, id){
+    BingoBoardUrl = baseUrl+'/BingoBoard/api/BingoBoardInterestRequest';
+}
+
 function applyInterest (id)
 {
     var buttonID = 'bingoButton'+id
