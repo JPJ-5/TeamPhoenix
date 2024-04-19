@@ -83,7 +83,9 @@ function constructGigList(gigSet){
         locCell.innerHTML = gigData[i].location;
         payCell.innerHTML=gigData[i].pay;
         descCell.innerHTML=gigData[i].description;
-        interestButton.innerHTML="<input type='button' class='button' onclick='applyInterest("+ gigData[i].gigID +");' value='Apply'/>";
+        var buttonID = "bingoButton"+gigData[i].gigID;
+        interestButton.id = buttonID;
+        interestButton.innerHTML="<input type='button' class='button' onclick='applyInterest("+gigData[i].gigID+");' value='Apply'/>";
     }
 }
 
@@ -101,5 +103,14 @@ function clearBingoBoard(){
 
 function applyInterest (id)
 {
+    var buttonID = 'bingoButton'+id
+    var bingoButton = document.getElementById(buttonID);
+    if(id>40){
+    bingoButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #3ba863; font-size: 14px;' value='   ✔   '/>"
+    }
+    else{
+    bingoButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #dc4545; font-size: 14px;' value='   ✘   '/>"
+    }
     console.log(id);
+    
 }
