@@ -12,7 +12,7 @@ document.getElementById('clearBingoBoard').addEventListener('click', function(){
 })
 
 document.getElementById('loadBingoBoard').addEventListener('click', function(){
-    LoadMoreBingoBoardPosts();
+    loadBingoBoardPosts();
 })
 
 function buildBingoBoard(pageNum){
@@ -65,7 +65,6 @@ function constructGigList(gigSet){
     document.getElementById('BingoBoardPostsTable').style.display = 'block';
     var bbtable = document.getElementById('BingoBoardPostsTable');
     const gigData = gigSet.gigSummaries;//.values();
-    sessionStorage.setItem('gigData', gigData);
     console.log(gigData);
     for(i in (gigData)){
         //console.log(gigData[i]);
@@ -84,7 +83,7 @@ function constructGigList(gigSet){
         locCell.innerHTML = gigData[i].location;
         payCell.innerHTML=gigData[i].pay;
         descCell.innerHTML=gigData[i].description;
-        interestButton.innerHTML="<input type='button' class='button' onclick='applyInterest(this);' value='Apply'/>";
+        interestButton.innerHTML="<input type='button' class='button' onclick='applyInterest("+ gigData[i].gigID +");' value='Apply'/>";
     }
 }
 
@@ -100,9 +99,7 @@ function clearBingoBoard(){
     }
 }
 
-function applyInterest (row)
+function applyInterest (id)
 {
-    var i=row.parentNode.parentNode.rowIndex;
-    var bbtable = document.getElementById('BingoBoardPostsTable');
-    console.log(bbtable.rows[i]);
+    console.log(id);
 }
