@@ -37,7 +37,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             return users;
         }
-//Create fuction to retrieve email from ArtistProfile using Username
+        //Create fuction to retrieve email from ArtistProfile using Username
         public static string GetEmailByUsername(string username)
         {
             string email = null;
@@ -64,33 +64,47 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             return email;
         }
 
-        //Create fucntion to save new collab to database
-        public static void InsertCollab(string senderUsername, string receiverUsername, string senderEmail, string receiverEmail)
+        //Create function to save new collab to database
+        public static Result InsertCollab(string senderUsername, string receiverUsername, string senderEmail, string receiverEmail)
         {
+            Result result = new Result();
+            
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
-            {
-                connection.Open();
-
-                string sql = "INSERT INTO Collab (SenderUsername, RecieverUsername, Accepted, SenderEmail, RecieverEmail) " +
-                             "VALUES (@senderUsername, @receiverUsername, false, @senderEmail, @receiverEmail)";
-
-                using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@senderUsername", senderUsername);
-                    command.Parameters.AddWithValue("@receiverUsername", receiverUsername);
-                    command.Parameters.AddWithValue("@senderEmail", senderEmail);
-                    command.Parameters.AddWithValue("@receiverEmail", receiverEmail);
+                try{
+                    connection.Open();
 
-                    int rowsAffected = command.ExecuteNonQuery();
-                    if (rowsAffected == 0)
+                    string sql = "INSERT INTO Collab (SenderUsername, RecieverUsername, Accepted, SenderEmail, RecieverEmail) " +
+                                "VALUES (@senderUsername, @receiverUsername, false, @senderEmail, @receiverEmail)";
+
+                    using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
-                        throw new Exception("Failed to insert collab record.");
+                        command.Parameters.AddWithValue("@senderUsername", senderUsername);
+                        command.Parameters.AddWithValue("@receiverUsername", receiverUsername);
+                        command.Parameters.AddWithValue("@senderEmail", senderEmail);
+                        command.Parameters.AddWithValue("@receiverEmail", receiverEmail);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected == 0)
+                        {
+                            result.Success = false;
+                            result.ErrorMessage = "Failed to insert collab record";
+                            //throw new Exception("Failed to insert collab record");
+                            return result;
+                        }
                     }
                 }
+                 
+                catch (Exception ex)
+                {
+                    // You can add more specific exception handling if needed
+                    throw new Exception($"Error updating UserProfile: {ex.Message}");
+                }
             }
+            return result.Success = true;
         }
 
-        //Create second function to find collab based on sender and reciever and accept = true now
+        //Create second function to find collab based on sender and receiver users where accept = true now
         public static Result AcceptCollabByUsername(string senderUsername, string receiverUsername)
         {
             Result result = new Result();
@@ -115,12 +129,22 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     else
                     {
                         result.Success = true;
-                        //result.Message = "Collab accepted successfully.";
+                        result.Message = "Collab accepted successfully.";
                     }
                 }
             }
             return result;
         }
+
+
+
+
+
+
+
+
+
+
         //creates function to get all collab tables from the currently logged- in user
 
         public static List<string> GetSentCollabsByUsername(string username)
