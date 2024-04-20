@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.Loggin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamPhoenix.MusiCali.DataAccessLayer", "TeamPhoenix.MusiCali.DataAccessLayer\TeamPhoenix.MusiCali.DataAccessLayer.csproj", "{FD931B91-0C01-42E1-B99C-CF8716DECBCA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamPhoenix.MusiCali.Tests", "TeamPhoenix.MusiCali.Tests\TeamPhoenix.MusiCali.Tests.csproj", "{F2867C00-3966-451D-A805-0F043D11A7E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{FD931B91-0C01-42E1-B99C-CF8716DECBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD931B91-0C01-42E1-B99C-CF8716DECBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD931B91-0C01-42E1-B99C-CF8716DECBCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2867C00-3966-451D-A805-0F043D11A7E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2867C00-3966-451D-A805-0F043D11A7E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2867C00-3966-451D-A805-0F043D11A7E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2867C00-3966-451D-A805-0F043D11A7E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

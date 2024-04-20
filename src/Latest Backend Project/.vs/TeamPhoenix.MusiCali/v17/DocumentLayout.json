@@ -1,88 +1,12 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{FD931B91-0C01-42E1-B99C-CF8716DECBCA}|TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.dataaccesslayer\\bingoboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD931B91-0C01-42E1-B99C-CF8716DECBCA}|TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|solutionrelative:teamphoenix.musicali.dataaccesslayer\\bingoboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FD931B91-0C01-42E1-B99C-CF8716DECBCA}|TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.dataaccesslayer\\modifyuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FD931B91-0C01-42E1-B99C-CF8716DECBCA}|TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|solutionrelative:teamphoenix.musicali.dataaccesslayer\\modifyuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{741D3333-04D4-4831-94AC-99C177B9D41A}|TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.services\\bingoboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{741D3333-04D4-4831-94AC-99C177B9D41A}|TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj|solutionrelative:teamphoenix.musicali.services\\bingoboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3E3CF50E-1F8C-4832-911B-2FB389353B28}|TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj|c:\\users\\djmcf\\documents\\github\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali\\controllers\\bingoboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3E3CF50E-1F8C-4832-911B-2FB389353B28}|TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj|solutionrelative:teamphoenix.musicali\\controllers\\bingoboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "WorkspaceRootPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 1,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ModifyUser.cs",
-              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\ModifyUser.cs",
-              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali.DataAccessLayer\\ModifyUser.cs",
-              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\ModifyUser.cs",
-              "RelativeToolTip": "TeamPhoenix.MusiCali.DataAccessLayer\\ModifyUser.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAswBMAAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T07:30:45.249Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "BingoBoard.cs",
-              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoard.cs",
-              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoard.cs",
-              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoard.cs",
-              "RelativeToolTip": "TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoard.cs",
-              "ViewState": "AQIAAE8AAAAAAAAAAAAAAGIAAAAiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T06:50:40.334Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "BingoBoardController.cs",
-              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\Controllers\\BingoBoardController.cs",
-              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali\\Controllers\\BingoBoardController.cs",
-              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\Controllers\\BingoBoardController.cs",
-              "RelativeToolTip": "TeamPhoenix.MusiCali\\Controllers\\BingoBoardController.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAA5wAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T07:14:52.238Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BingoBoard.cs",
-              "DocumentMoniker": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
-              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
-              "ToolTip": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
-              "RelativeToolTip": "TeamPhoenix.MusiCali.Services\\BingoBoard.cs",
-              "ViewState": "AQIAAAIAAAAAAAAAAAAUwBQAAAAzAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-19T06:53:58.813Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

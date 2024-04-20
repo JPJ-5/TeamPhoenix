@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj": {}
+    "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj": {}
   },
   "projects": {
-    "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
+    "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj",
+        "projectUniqueName": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj",
         "projectName": "TeamPhoenix.MusiCali.DataAccessLayer",
-        "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj",
-        "packagesPath": "C:\\Users\\djmcf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\obj\\",
+        "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj",
+        "packagesPath": "C:\\Users\\vankh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\djmcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vankh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -86,21 +91,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {
+    "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj",
+        "projectUniqueName": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj",
         "projectName": "TeamPhoenix.MusiCali.Logging",
-        "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj",
-        "packagesPath": "C:\\Users\\djmcf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\obj\\",
+        "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj",
+        "packagesPath": "C:\\Users\\vankh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\djmcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vankh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -108,14 +117,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
               }
             }
           }
@@ -156,21 +166,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\TeamPhoenix.MusiCali.Login.csproj": {
+    "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\TeamPhoenix.MusiCali.Login.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\TeamPhoenix.MusiCali.Login.csproj",
+        "projectUniqueName": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\TeamPhoenix.MusiCali.Login.csproj",
         "projectName": "TeamPhoenix.MusiCali.Login",
-        "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\TeamPhoenix.MusiCali.Login.csproj",
-        "packagesPath": "C:\\Users\\djmcf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\obj\\",
+        "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\TeamPhoenix.MusiCali.Login.csproj",
+        "packagesPath": "C:\\Users\\vankh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\djmcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vankh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -178,20 +192,21 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
               },
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj"
               },
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj"
               }
             }
           }
@@ -236,21 +251,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj": {
+    "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj",
+        "projectUniqueName": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj",
         "projectName": "TeamPhoenix.MusiCali.Security",
-        "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj",
-        "packagesPath": "C:\\Users\\djmcf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\obj\\",
+        "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj",
+        "packagesPath": "C:\\Users\\vankh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\djmcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vankh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -258,17 +277,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
               },
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj"
               }
             }
           }
@@ -317,21 +337,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj": {
+    "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj",
+        "projectUniqueName": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj",
         "projectName": "TeamPhoenix.MusiCali.Services",
-        "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj",
-        "packagesPath": "C:\\Users\\djmcf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\obj\\",
+        "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj",
+        "packagesPath": "C:\\Users\\vankh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\djmcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vankh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -339,20 +363,21 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
               },
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj"
               },
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj"
               }
             }
           }
@@ -405,21 +430,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj": {
+    "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj",
+        "projectUniqueName": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj",
         "projectName": "TeamPhoenix.MusiCali",
-        "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj",
-        "packagesPath": "C:\\Users\\djmcf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\",
+        "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj",
+        "packagesPath": "C:\\Users\\vankh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\djmcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vankh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -427,26 +456,27 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
               },
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj"
               },
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\TeamPhoenix.MusiCali.Login.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\TeamPhoenix.MusiCali.Login.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\TeamPhoenix.MusiCali.Login.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\TeamPhoenix.MusiCali.Login.csproj"
               },
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj"
               },
-              "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj": {
-                "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj"
+              "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj": {
+                "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj"
               }
             }
           }
@@ -498,7 +528,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

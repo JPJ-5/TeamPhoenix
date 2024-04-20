@@ -9,8 +9,9 @@
         public string Pay { get; set; } = string.Empty ;
         public string Description {  get; set; } = string.Empty ;
         public int gigID { get; set; }
+        public bool isAlreadyInterested { get; set; } = false;
 
-        public GigSummary(string username, string gigname, DateTime gigDate, string gigLocation, string gigPay, string gigDesc, int gigID)
+        public GigSummary(string username, string gigname, DateTime gigDate, string gigLocation, string gigPay, string gigDesc, int gigID, bool interest)
         {
             Username = username;
             GigName = gigname;
@@ -19,6 +20,7 @@
             Pay = gigPay;
             Description = gigDesc;
             this.gigID = gigID;
+            isAlreadyInterested = interest;
         }
     }
 }

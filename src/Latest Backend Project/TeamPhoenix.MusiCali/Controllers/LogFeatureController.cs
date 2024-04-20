@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Logger = TeamPhoenix.MusiCali.Logging.Logger;
+using TeamPhoenix.MusiCali.Logging;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
@@ -9,13 +8,20 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class LogFeatureController : ControllerBase
     {
+        private readonly IConfiguration configuration;
+        private LoggerService loggerService;
+        public LogFeatureController(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            loggerService = new LoggerService(configuration);
+        }   
 
         [HttpPost("api/LogFeatureAPI")]
         public IActionResult LogFeature([FromBody] LogFeature request)
         {
             // Perform any validation checks here
 
-            Result success = Logger.LogFeature(request.UserName, request.Feature);
+            Result success = loggerService.LogFeature(request.UserName, request.Feature);
             if (!success.HasError)
             {
                 return Ok(new { success });

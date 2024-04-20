@@ -1113,7 +1113,7 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-      "Microsoft.IdentityModel.Abstractions/7.4.1": {
+      "Microsoft.IdentityModel.Abstractions/7.5.1": {
         "type": "package",
         "compile": {
           "lib/net8.0/Microsoft.IdentityModel.Abstractions.dll": {
@@ -1126,10 +1126,10 @@
           }
         }
       },
-      "Microsoft.IdentityModel.JsonWebTokens/7.4.1": {
+      "Microsoft.IdentityModel.JsonWebTokens/7.5.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.IdentityModel.Tokens": "7.4.1"
+          "Microsoft.IdentityModel.Tokens": "7.5.1"
         },
         "compile": {
           "lib/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll": {
@@ -1142,10 +1142,10 @@
           }
         }
       },
-      "Microsoft.IdentityModel.Logging/7.4.1": {
+      "Microsoft.IdentityModel.Logging/7.5.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.IdentityModel.Abstractions": "7.4.1"
+          "Microsoft.IdentityModel.Abstractions": "7.5.1"
         },
         "compile": {
           "lib/net8.0/Microsoft.IdentityModel.Logging.dll": {
@@ -1158,10 +1158,10 @@
           }
         }
       },
-      "Microsoft.IdentityModel.Tokens/7.4.1": {
+      "Microsoft.IdentityModel.Tokens/7.5.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.IdentityModel.Logging": "7.4.1"
+          "Microsoft.IdentityModel.Logging": "7.5.1"
         },
         "compile": {
           "lib/net8.0/Microsoft.IdentityModel.Tokens.dll": {
@@ -1867,11 +1867,11 @@
           }
         }
       },
-      "System.IdentityModel.Tokens.Jwt/7.4.1": {
+      "System.IdentityModel.Tokens.Jwt/7.5.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.IdentityModel.JsonWebTokens": "7.4.1",
-          "Microsoft.IdentityModel.Tokens": "7.4.1"
+          "Microsoft.IdentityModel.JsonWebTokens": "7.5.1",
+          "Microsoft.IdentityModel.Tokens": "7.5.1"
         },
         "compile": {
           "lib/net8.0/System.IdentityModel.Tokens.Jwt.dll": {
@@ -2246,9 +2246,12 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "Microsoft.Extensions.Configuration": "8.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
           "Swashbuckle.AspNetCore": "6.5.0",
           "TeamPhoenix.MusiCali.DataAccessLayer": "1.0.0",
           "TeamPhoenix.MusiCali.Logging": "1.0.0",
+          "TeamPhoenix.MusiCali.Login": "1.0.0",
           "TeamPhoenix.MusiCali.Security": "1.0.0",
           "TeamPhoenix.MusiCali.Services": "1.0.0"
         },
@@ -2284,6 +2287,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "Microsoft.Extensions.Configuration": "8.0.0",
           "TeamPhoenix.MusiCali.DataAccessLayer": "1.0.0"
         },
         "compile": {
@@ -2293,12 +2297,30 @@
           "bin/placeholder/TeamPhoenix.MusiCali.Logging.dll": {}
         }
       },
+      "TeamPhoenix.MusiCali.Login/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "8.0.3",
+          "Microsoft.Extensions.Configuration": "8.0.0",
+          "TeamPhoenix.MusiCali.DataAccessLayer": "1.0.0",
+          "TeamPhoenix.MusiCali.Logging": "1.0.0",
+          "TeamPhoenix.MusiCali.Security": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/TeamPhoenix.MusiCali.Login.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TeamPhoenix.MusiCali.Login.dll": {}
+        }
+      },
       "TeamPhoenix.MusiCali.Security/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "Microsoft.AspNetCore": "2.2.0",
           "Microsoft.Extensions.Configuration": "8.0.0",
-          "System.IdentityModel.Tokens.Jwt": "7.4.1",
+          "System.IdentityModel.Tokens.Jwt": "7.5.1",
           "TeamPhoenix.MusiCali.DataAccessLayer": "1.0.0",
           "TeamPhoenix.MusiCali.Logging": "1.0.0"
         },
@@ -3746,10 +3768,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.IdentityModel.Abstractions/7.4.1": {
-      "sha512": "GiQzMSzHQWPhnjpn/xy6SGcjtN8ZJbhB9ZEg3RglJ64QwH+VGp7xEpIN674UgjSDF+jJSrAY4/7/2S6F7Nh0hw==",
+    "Microsoft.IdentityModel.Abstractions/7.5.1": {
+      "sha512": "PT16ZFbPIiMsYv07oy3zOjqUOJ7xutGBkJTOX0+IbNyU6+O6X7aIxjq9EaSSRLWbekRgamgtmfg8Xjw6A6Ua9g==",
       "type": "package",
-      "path": "microsoft.identitymodel.abstractions/7.4.1",
+      "path": "microsoft.identitymodel.abstractions/7.5.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3765,14 +3787,14 @@
         "lib/net8.0/Microsoft.IdentityModel.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.Abstractions.xml",
-        "microsoft.identitymodel.abstractions.7.4.1.nupkg.sha512",
+        "microsoft.identitymodel.abstractions.7.5.1.nupkg.sha512",
         "microsoft.identitymodel.abstractions.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.JsonWebTokens/7.4.1": {
-      "sha512": "RnrQO8IniImY6qrC9qYDc7UBcbPF7+Dp14ee9TqKnlB2/oyIKq8Q3tJ/65zgYvfV4p6iMYLpi+W8C/36J58cIg==",
+    "Microsoft.IdentityModel.JsonWebTokens/7.5.1": {
+      "sha512": "93CGSa8RPdZU8zfvA3nf9NGKUqEnQrE12VzYlMqKh72ddhzusosqLNEUgH/YhFWBLRFOnY1RCgHMV7pR+sAx2w==",
       "type": "package",
-      "path": "microsoft.identitymodel.jsonwebtokens/7.4.1",
+      "path": "microsoft.identitymodel.jsonwebtokens/7.5.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3788,14 +3810,14 @@
         "lib/net8.0/Microsoft.IdentityModel.JsonWebTokens.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.JsonWebTokens.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.JsonWebTokens.xml",
-        "microsoft.identitymodel.jsonwebtokens.7.4.1.nupkg.sha512",
+        "microsoft.identitymodel.jsonwebtokens.7.5.1.nupkg.sha512",
         "microsoft.identitymodel.jsonwebtokens.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.Logging/7.4.1": {
-      "sha512": "QsNBNAdoTP+JxBqqMw3isVeV86z2b+ka94Pue3eRRz8O15mfHhcSnb10IM+aqavAaxCO+EwNu5F/yyRlQ0usWg==",
+    "Microsoft.IdentityModel.Logging/7.5.1": {
+      "sha512": "PnpAQX20BAiDIPYmWUyQSlEaWD8BLXzHpiDGTCT568Cs0ReOeyzNe401LzCeiv6ilug/KefVeV1CeqtCHTo8dw==",
       "type": "package",
-      "path": "microsoft.identitymodel.logging/7.4.1",
+      "path": "microsoft.identitymodel.logging/7.5.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3811,14 +3833,14 @@
         "lib/net8.0/Microsoft.IdentityModel.Logging.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.Logging.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.Logging.xml",
-        "microsoft.identitymodel.logging.7.4.1.nupkg.sha512",
+        "microsoft.identitymodel.logging.7.5.1.nupkg.sha512",
         "microsoft.identitymodel.logging.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.Tokens/7.4.1": {
-      "sha512": "akl3hQWdj87XkSRahwhrmx9ZfchF97RZoKr9v9fwjrpQz3t0x8lnsjcOfButSS6cvyY/EX0HJuXb5hgkqFjP/g==",
+    "Microsoft.IdentityModel.Tokens/7.5.1": {
+      "sha512": "Q3DKpyFViP84IUlTFKH/zIkswIrmSh2Vd/eFDo4wlOHy4DYxoweZEEw4kDEiKt9VCX6o7SddK3HK2xDYyFpexA==",
       "type": "package",
-      "path": "microsoft.identitymodel.tokens/7.4.1",
+      "path": "microsoft.identitymodel.tokens/7.5.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3834,7 +3856,7 @@
         "lib/net8.0/Microsoft.IdentityModel.Tokens.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.xml",
-        "microsoft.identitymodel.tokens.7.4.1.nupkg.sha512",
+        "microsoft.identitymodel.tokens.7.5.1.nupkg.sha512",
         "microsoft.identitymodel.tokens.nuspec"
       ]
     },
@@ -4822,10 +4844,10 @@
         "version.txt"
       ]
     },
-    "System.IdentityModel.Tokens.Jwt/7.4.1": {
-      "sha512": "V8T6qCdNI5OEUafOhyOnyuwHlTs56hPE6nQLNDXDNI7MIQO8MGRQVuWOruzEscURXpGbNuRz+m8qFrT8SDeEQA==",
+    "System.IdentityModel.Tokens.Jwt/7.5.1": {
+      "sha512": "UUw+E0R73lZLlXgneYIJQxNs1kfbcxjVzw64JQyiwjqCd4HMpAbjn+xRo86QZT84uHq8/MkqvfH82tgjgPzpuw==",
       "type": "package",
-      "path": "system.identitymodel.tokens.jwt/7.4.1",
+      "path": "system.identitymodel.tokens.jwt/7.5.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4841,7 +4863,7 @@
         "lib/net8.0/System.IdentityModel.Tokens.Jwt.xml",
         "lib/netstandard2.0/System.IdentityModel.Tokens.Jwt.dll",
         "lib/netstandard2.0/System.IdentityModel.Tokens.Jwt.xml",
-        "system.identitymodel.tokens.jwt.7.4.1.nupkg.sha512",
+        "system.identitymodel.tokens.jwt.7.5.1.nupkg.sha512",
         "system.identitymodel.tokens.jwt.nuspec"
       ]
     },
@@ -5939,6 +5961,11 @@
       "path": "../TeamPhoenix.MusiCali.Logging/TeamPhoenix.MusiCali.Logging.csproj",
       "msbuildProject": "../TeamPhoenix.MusiCali.Logging/TeamPhoenix.MusiCali.Logging.csproj"
     },
+    "TeamPhoenix.MusiCali.Login/1.0.0": {
+      "type": "project",
+      "path": "../TeamPhoenix.MusiCali.Login/TeamPhoenix.MusiCali.Login.csproj",
+      "msbuildProject": "../TeamPhoenix.MusiCali.Login/TeamPhoenix.MusiCali.Login.csproj"
+    },
     "TeamPhoenix.MusiCali.Security/1.0.0": {
       "type": "project",
       "path": "../TeamPhoenix.MusiCali.Security/TeamPhoenix.MusiCali.Security.csproj",
@@ -5957,23 +5984,32 @@
       "Microsoft.NET.Test.Sdk >= 17.8.0",
       "TeamPhoenix.MusiCali >= 1.0.0",
       "TeamPhoenix.MusiCali.DataAccessLayer >= 1.0.0",
+      "TeamPhoenix.MusiCali.Logging >= 1.0.0",
+      "TeamPhoenix.MusiCali.Login >= 1.0.0",
+      "TeamPhoenix.MusiCali.Security >= 1.0.0",
+      "TeamPhoenix.MusiCali.Services >= 1.0.0",
       "coverlet.collector >= 6.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\djmcf\\.nuget\\packages\\": {}
+    "C:\\Users\\vankh\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Tests\\TeamPhoenix.MusiCali.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Tests\\TeamPhoenix.MusiCali.Tests.csproj",
       "projectName": "TeamPhoenix.MusiCali.Tests",
-      "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Tests\\TeamPhoenix.MusiCali.Tests.csproj",
-      "packagesPath": "C:\\Users\\djmcf\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Tests\\obj\\",
+      "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Tests\\TeamPhoenix.MusiCali.Tests.csproj",
+      "packagesPath": "C:\\Users\\vankh\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Tests\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\djmcf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\vankh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5981,17 +6017,30 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
-              "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
+            "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj": {
+              "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj"
             },
-            "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj": {
-              "projectPath": "C:\\Users\\djmcf\\Documents\\GitHub\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj"
+            "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj": {
+              "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Logging\\TeamPhoenix.MusiCali.Logging.csproj"
+            },
+            "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\TeamPhoenix.MusiCali.Login.csproj": {
+              "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Login\\TeamPhoenix.MusiCali.Login.csproj"
+            },
+            "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj": {
+              "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Security\\TeamPhoenix.MusiCali.Security.csproj"
+            },
+            "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj": {
+              "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.Services\\TeamPhoenix.MusiCali.Services.csproj"
+            },
+            "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj": {
+              "projectPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\TeamPhoenix.MusiCali.csproj"
             }
           }
         }
@@ -6044,7 +6093,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

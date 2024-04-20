@@ -1,6 +1,5 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Reflection.PortableExecutable;
+﻿using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using TeamPhoenix.MusiCali.DataAccessLayer.Contract;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
@@ -9,14 +8,14 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
     public class SqlDAO : ISqlDAO
     {
         private readonly string connectionString;
-        public SqlDAO() //done for testing and default connectionString
+        private readonly IConfiguration configuration;
+
+        public SqlDAO(IConfiguration configuration)
         {
-            connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+            this.configuration = configuration;
+            this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
         }
-        public SqlDAO(string username, string password)
-        {
-            connectionString = string.Format(@"Server=3.142.241.151;Database=MusiCali;User ID={0};Password={1};", username, password);
-        }
+        
         public Result ExecuteSql(string sql)
         {
             Result result = new Result(); // null result when returns means that there was not even an attempt to connect to the database.

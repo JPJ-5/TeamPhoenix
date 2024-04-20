@@ -4,9 +4,9 @@ namespace TeamPhoenix.MusiCali.Security
 {
     public class Hasher
     {
-        private static readonly char[] ValidCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
-        private static string SystemPepper = "Vongisamazing";
-        public static string GenerateSalt()
+        private readonly char[] ValidCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+        private string SystemPepper = "Vongisamazing";
+        public string GenerateSalt()
         {
             byte[] saltBytes = new byte[32];
             //using (var rng = new RNGCryptoServiceProvider())
@@ -21,7 +21,7 @@ namespace TeamPhoenix.MusiCali.Security
         }
 
         // Hash the password using the provided salt and pepper
-        public static string HashPassword(string password, string userSalt)
+        public string HashPassword(string password, string userSalt)
         {
             // Combine user salt, password, and system-wide pepper
             string saltedPassword = userSalt + password + SystemPepper;
@@ -35,13 +35,13 @@ namespace TeamPhoenix.MusiCali.Security
         }
 
         // Verify if the entered password matches the stored hash
-        public static bool VerifyPassword(string enteredPassword, string storedHash, string salt)
+        public bool VerifyPassword(string enteredPassword, string storedHash, string salt)
         {
             string enteredHash = HashPassword(enteredPassword, salt);
             return storedHash == enteredHash;
         }
 
-        public static string GenerateOTP()
+        public string GenerateOTP()
         {
             // Create a random number generator
             //using (var rng = new RNGCryptoServiceProvider())

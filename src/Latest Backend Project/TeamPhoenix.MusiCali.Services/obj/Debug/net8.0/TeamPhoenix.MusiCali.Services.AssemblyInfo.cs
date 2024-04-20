@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TeamPhoenix.MusiCali.Services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+704489f0aa6934905d23ffc3eebb6d08312c4ec6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+90c55d819b126d8b7b838f2349e6277a88231e95")]
 [assembly: System.Reflection.AssemblyProductAttribute("TeamPhoenix.MusiCali.Services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TeamPhoenix.MusiCali.Services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
