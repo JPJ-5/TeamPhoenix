@@ -36,8 +36,6 @@ document.getElementById('create-collabRequest').addEventListener('click', functi
             feedbackBox.textContent = 'Error creating gig. Please try again.';
             feedbackBox.style.color = 'red';
         });
-    
-        // Form is currently not displayed, so display it
-        form.style.display = 'block';
+
     }
 });

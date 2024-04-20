@@ -46,7 +46,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
 
-                string sql = "SELECT Email FROM Users WHERE Username = @username";
+                string sql = "SELECT Email FROM UserAccount WHERE Username = @username";
 
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
