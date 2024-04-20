@@ -1,6 +1,6 @@
 namespace TeamPhoenix.MusiCali.DataAccessLayer.Models{
 
-    public class CollabCreation{
+    public class CollabUsers{
 
         public string senderUsername{ get; set; }
 

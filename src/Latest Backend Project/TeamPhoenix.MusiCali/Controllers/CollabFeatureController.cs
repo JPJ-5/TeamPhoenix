@@ -12,7 +12,7 @@ namespace TeamPhoenix.MusiCali.Controllers
     {
 
         [HttpPost("api/SendRequestAPI")]
-        public Result SendCollabRequest([FromBody] CollabCreation collab)
+        public Result SendCollabRequest([FromBody] CollabUsers collab)
         {
 
             try{   
@@ -60,6 +60,25 @@ namespace TeamPhoenix.MusiCali.Controllers
             catch(Exception ex){
 
                 throw new Exception("Failed to load collab view: " + ex.Message);
+
+            }
+        }
+
+        [HttpPost("api/AcceptRequestAPI")]
+        public Result Accept(CollabUsers collab)
+        {
+
+            try
+            {
+                Result result = CollabFeature.AcceptCollab(collab.receiverUsername, collab.senderUsername);
+
+                return result;
+            }
+
+            catch (Exception ex)
+            {
+
+                throw new Exception("Failed accept collab; " + ex.Message);
 
             }
         }
