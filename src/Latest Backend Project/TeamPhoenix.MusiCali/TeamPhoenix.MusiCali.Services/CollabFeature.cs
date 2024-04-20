@@ -3,6 +3,8 @@ using System;
 //using System.Threading.Tasks;
 //using MySqlX.XDevAPI.Common;
 using MySql.Data.MySqlClient;
+using System.Net.Mail;
+using System.Net;
 using TeamPhoenix.MusiCali.DataAccessLayer; // Import the namespace where CollabFeatureDAL is defined
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
@@ -30,7 +32,7 @@ namespace TeamPhoenix.MusiCali.Services
                     return result;
                 }
 
-                var receiverEmail = CollabFeatureDAL.GetEmailByUsername(receiverUsername);
+                //var receiverEmail = CollabFeatureDAL.GetEmailByUsername(receiverUsername);
                 var isEmailSent = SendCollabEmail(receiverEmail, senderUsername);
 
                 if (isEmailSent == false){
@@ -102,7 +104,7 @@ namespace TeamPhoenix.MusiCali.Services
         
 
         //function for alerting user that their request was sent
-        public static bool SendCollabEmail(string email, receiverEmail, senderUsername)
+        public static bool SendCollabEmail(string email, string senderUsername)
         {
             try
             {

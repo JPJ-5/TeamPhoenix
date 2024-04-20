@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using TeamPhoenix.MusiCali.Logging.Logger;
+//using TeamPhoenix.MusiCali.Logging.Logger;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Services;
@@ -12,17 +12,25 @@ namespace TeamPhoenix.MusiCali.Controllers
     {
 
         [HttpPost("api/SendRequestAPI")]
-        public Result SendCollabRequest([FromBody] senderUsername, receiverUsername)
+        public Result SendCollabRequest([FromBody] CollabCreation collab)
         {
 
             try{   
 
-                Result new = new Result();
+                Result result = new Result();
 
-                result = CollabFeature.CreateCollabRequest(senderUsername, receiverUsername);
+                result = CollabFeature.CreateCollabRequest(collab.senderUsername, collab.receiverUsername);
 
-                if(result == true){
+                if(result.Success){
 
+                    return result;
+                }
+
+                else{
+
+                    result.Success = false;
+                    result.ErrorMessage = "Failed to create request";
+                    
                     return result;
                 }
             }
@@ -41,7 +49,12 @@ namespace TeamPhoenix.MusiCali.Controllers
             var receivedRequests = CollabFeatureDAL.GetReceivedCollabsByUsername(username);
             var acceptedRequests = CollabFeatureDAL.GetAcceptedCollabsByUsername(username);
 
-            return new CollabData { sentRequests, receivedRequests, acceptedRequests};
+            CollabData collabs = new CollabData();
+            collabs.sentCollabs = sentRequests;
+            collabs.receivedCollabs = receivedRequests;
+            collabs.acceptedCollabs = acceptedRequests;
+
+            return collabs;
             }
 
             catch(Exception ex){

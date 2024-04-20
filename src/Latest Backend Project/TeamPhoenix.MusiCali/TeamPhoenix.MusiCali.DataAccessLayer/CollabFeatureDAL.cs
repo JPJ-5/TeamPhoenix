@@ -101,7 +101,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     throw new Exception($"Error updating UserProfile: {ex.Message}");
                 }
             }
-            return result.Success = true;
+
+            result.Success = true;
+            return result;
         }
 
         //Create second function to find collab based on sender and receiver users where accept = true now
@@ -129,7 +131,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     else
                     {
                         result.Success = true;
-                        result.Message = "Collab accepted successfully.";
+                        result.ErrorMessage = "Collab accepted successfully.";
                     }
                 }
             }
