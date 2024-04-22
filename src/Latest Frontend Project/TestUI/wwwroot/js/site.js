@@ -775,4 +775,10 @@
                 console.error('Error logging {feature} usage:', error.message);
             });
     }
+
+    // Inventory Stock
+    document.getElementById('Inventory Stock View').addEventListener('click', function () {
+        window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
+    });
+
 });
