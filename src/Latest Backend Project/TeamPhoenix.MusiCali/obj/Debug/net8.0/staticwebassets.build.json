@@ -1,0 +1,50 @@
+{
+  "Version": 1,
+  "Hash": "kg6nTMo/GeIpMZ/X58Wgg5zjmtShXu9vSLCkGeCfyPo=",
+  "Source": "TeamPhoenix.MusiCali",
+  "BasePath": "_content/TeamPhoenix.MusiCali",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\bundle\\TeamPhoenix.MusiCali.styles.css",
+      "SourceId": "TeamPhoenix.MusiCali",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "BasePath": "_content/TeamPhoenix.MusiCali",
+      "RelativePath": "TeamPhoenix.MusiCali.styles.css",
+      "AssetKind": "All",
+      "AssetMode": "CurrentProject",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ApplicationBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\bundle\\TeamPhoenix.MusiCali.styles.css"
+    },
+    {
+      "Identity": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TeamPhoenix.MusiCali.bundle.scp.css",
+      "SourceId": "TeamPhoenix.MusiCali",
+      "SourceType": "Computed",
+      "ContentRoot": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "BasePath": "_content/TeamPhoenix.MusiCali",
+      "RelativePath": "TeamPhoenix.MusiCali.bundle.scp.css",
+      "AssetKind": "All",
+      "AssetMode": "Reference",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ProjectBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\TeamPhoenix.MusiCali.bundle.scp.css"
+    }
+  ]
+}
