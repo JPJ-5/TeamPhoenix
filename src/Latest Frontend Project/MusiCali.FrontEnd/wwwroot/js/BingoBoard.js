@@ -17,7 +17,6 @@ document.getElementById('enter-BingoBoardView').addEventListener('click', functi
 document.getElementById('bbGoPrev').addEventListener('click', function(){
     var pageNum = sessionStorage.getItem('pageNum');
     pageNum--;
-    console.log('loading page ', pageNum);
     sessionStorage.setItem('pageNum', pageNum);
     buildBingoBoard(pageNum);
 })
@@ -25,7 +24,6 @@ document.getElementById('bbGoPrev').addEventListener('click', function(){
 document.getElementById('bbGoNext').addEventListener('click', function(){
     var pageNum = sessionStorage.getItem('pageNum');
     pageNum++;
-    console.log('loading page ', pageNum);
     sessionStorage.setItem('pageNum', pageNum);
     buildBingoBoard(pageNum);
 })
@@ -38,17 +36,12 @@ document.getElementById('bbPageSize').addEventListener('change', function(){
 
 function buildBingoBoard(pageNum){
     clearBingoBoard();
-    console.log("loading ", pageNum)
     const prevButton = document.getElementById('bbGoPrev');
     const nextButton = document.getElementById('bbGoNext');
     prevButton.style.display = 'none';
     nextButton.style.display = 'none';
     bingoBoardSize();
     //var tableSize = bingoBoardSize();
-    //console.log(tableSize);
-    document.querySelector('.main').style.display = 'none'; // Hide main content
-    document.getElementById('BingoBoardView').style.display = 'block'; // Show bingo board
-    //logFeatureUsage(username, "Bingo Board");
 
     const loadnotif = document.getElementById('BingoBoardLoadMsg');
     loadnotif.innerHTML = "Loading Posts...";
@@ -73,7 +66,6 @@ function buildBingoBoard(pageNum){
         })
             .then(response => {
                 if (response.ok) {
-                    //console.log(response.json());
                     return response.json();
                     
                 } else {
@@ -95,7 +87,7 @@ function constructGigList(gigSet){
     document.getElementById('BingoBoardPostsTable').style.display = 'block';
     var bbtable = document.getElementById('BingoBoardPostsTable');
     const gigData = gigSet.gigSummaries;//.values();
-    console.log(gigData);
+    
     for(i in (gigData)){
         //console.log(gigData[i]);
         var row = bbtable.insertRow();
@@ -149,7 +141,6 @@ function bingoBoardSize(){
                 }
             })
             .then(bbSizeInt => {
-                //console.log(bbSizeInt);
                 sessionStorage.setItem('tableSize', bbSizeInt);
                 configurePagination()
             })
@@ -182,14 +173,50 @@ function applyInterest (id)
     var idToken = sessionStorage.getItem('idToken');
     var accessToken = sessionStorage.getItem('accessToken');
     var bingoButton = document.getElementById(buttonID);
-    if(id>40){
+    bingoButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #dddddd7e; font-size: 16px;' value='  ...  '/>"
+
+    var currentusername = sessionStorage.getItem('username');
+    BingoBoardUrl = baseUrl+'/BingoBoard/api/BingoBoardRegisterUserInterest';
+        fetch(BingoBoardUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authentication': idToken,
+                'Authorization': accessToken
+            },
+            body: JSON.stringify({username: currentusername, gigID: id})
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                    
+                } else {
+                    bingoButton.innerHTML="<input type='button' class='button' onclick='applyInterest("+id+");' value='Apply'/>"
+                    throw new Error('Failed to access gig interest list');
+                }
+            })
+            .then(interestMessage => {
+                updateInterestButtons(interestMessage, id)
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                bingoButton.innerHTML="<input type='button' class='button' onclick='applyInterest("+id+");' value='Apply'/>";
+            });
+}
+
+function updateInterestButtons(intMsg, id)
+{
+    var message = intMsg.returnMsg;
+    var intTableUpdate = intMsg.returnSucc;
+    console.log(message, intTableUpdate);
+    var buttonID = 'bingoButton'+id
+    var bingoButton = document.getElementById(buttonID);
+    if(message == "User successfully interested"){
     bingoButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #3ba863; font-size: 14px;' value='   ✔   '/>"
     }
     else{
     bingoButton.innerHTML = "<input type='button' class='button' id='"+buttonID+"' style = 'background-color: #dc4545; font-size: 14px;' value='   ✘   '/>"
     }
-    console.log(id);
-    
 }
 
 function configurePagination(){
@@ -200,7 +227,6 @@ function configurePagination(){
     var maxPage = Math.ceil(tableSize / pageSize)
     const prevButton = document.getElementById('bbGoPrev');
     const nextButton = document.getElementById('bbGoNext');
-    //console.log(minPage, pageNumCurrent, maxPage);
 
     if(maxPage == minPage){
         prevButton.style.display = 'none';

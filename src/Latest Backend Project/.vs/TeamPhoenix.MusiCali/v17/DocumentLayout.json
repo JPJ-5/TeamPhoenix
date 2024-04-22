@@ -1,12 +1,37 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\vankh\\Downloads\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\",
-  "Documents": [],
+  "WorkspaceRootPath": "E:\\491WIP\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{FD931B91-0C01-42E1-B99C-CF8716DECBCA}|TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|e:\\491wip\\stuff5\\teamphoenix\\src\\latest backend project\\teamphoenix.musicali.dataaccesslayer\\bingoboarddao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FD931B91-0C01-42E1-B99C-CF8716DECBCA}|TeamPhoenix.MusiCali.DataAccessLayer\\TeamPhoenix.MusiCali.DataAccessLayer.csproj|solutionrelative:teamphoenix.musicali.dataaccesslayer\\bingoboarddao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BingoBoardDAO.cs",
+              "DocumentMoniker": "E:\\491WIP\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoardDAO.cs",
+              "RelativeDocumentMoniker": "TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoardDAO.cs",
+              "ToolTip": "E:\\491WIP\\Stuff5\\TeamPhoenix\\src\\Latest Backend Project\\TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoardDAO.cs",
+              "RelativeToolTip": "TeamPhoenix.MusiCali.DataAccessLayer\\BingoBoardDAO.cs",
+              "ViewState": "AQIAAEkAAAAAAAAAAAAMwFYAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-22T07:51:16.652Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

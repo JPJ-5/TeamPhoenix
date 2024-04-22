@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using TeamPhoenix.MusiCali.Security;
 using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.Login;
-using Newtonsoft.Json.Linq;
 
 namespace AccCreationAPI.Controllers
 {
