@@ -1,11 +1,7 @@
-//using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.Services;
-using Authentication = TeamPhoenix.MusiCali.Security.Authentication;
+using AuthenticationSecurity = TeamPhoenix.MusiCali.Security.AuthenticationSecurity;
 using TeamPhoenix.MusiCali.Security.Contracts;
-using Microsoft.Extensions.Configuration;
 
 namespace AccCreationAPI
 {
@@ -29,14 +25,14 @@ namespace AccCreationAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddScoped<LogoutRepository>();
+            builder.Services.AddScoped<LogOutDAO>();
             builder.Services.AddScoped<LogoutService>();
-            builder.Services.AddScoped<IAuthentication, Authentication>();
+            builder.Services.AddScoped<IAuthentication, AuthenticationSecurity>();
 
-            builder.Services.AddScoped<MariaDB>();          // Register MariaDB Class with Dependency Injection 
+            builder.Services.AddScoped<MariaDBDAO>();          // Register MariaDB Class with Dependency Injection 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            //// Configure the HTTP request pipeline.
             //if (app.Environment.IsDevelopment())
             //{
             //    app.UseSwagger();

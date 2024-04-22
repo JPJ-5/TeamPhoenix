@@ -1,20 +1,23 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 
 namespace TeamPhoenix.MusiCali.Services
 {
     public class LogoutService
     {
-        private readonly LogoutRepository _logoutRepository;
+        private LogOutDAO logOutDAO;
+        private readonly IConfiguration configuration;
 
-        public LogoutService(LogoutRepository logoutRepository)
+        public LogoutService(IConfiguration configuration)
         {
-            _logoutRepository = logoutRepository;
+            this.configuration = configuration;
+            logOutDAO = new LogOutDAO(configuration);
         }
 
         public async Task<bool> LogoutUserAsync(string userHash)
         {
-            return await _logoutRepository.LogUserLogoutAsync(userHash);
+            return await logOutDAO.LogUserLogoutAsync(userHash);
         }
     }
 }
