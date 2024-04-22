@@ -746,6 +746,17 @@
         logFeatureUsage(username, "Scale Display");
     });
 
+    //enter collab feature view
+    document.getElementById('create-collabRequest').addEventListener('click', function () {
+        document.querySelector('.main').style.display = 'none'; // Hide main content
+        document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
+        document.getElementById('ScaleDisplayView').style.display = 'none'; // hide scale display view
+        document.getElementById('CollabFeatureView').style.display = 'block'; //show collab feature
+        var username = document.getElementById("username").value;
+        logFeatureUsage(username, "Collab Feature");
+
+    });
+
     function logFeatureUsage(username, feature) {
         const requestData = {
             UserName: username,

@@ -1,7 +1,6 @@
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
-using MySql.Data.MySqlClient;
-using TeamPhoenix.MusiCali.Services;
+//using TeamPhoenix.MusiCali.Services;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
