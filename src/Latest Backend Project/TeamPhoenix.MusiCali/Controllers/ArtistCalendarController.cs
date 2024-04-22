@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using static TeamPhoenix.MusiCali.Services.ArtistCalendarService; //fix this in the future to be implemented as a project reference instead.
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Services;
@@ -10,7 +9,13 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class ArtistCalendarController : ControllerBase
     {
-        public ArtistCalendarService artistCalendarService = new ArtistCalendarService();
+        private readonly IConfiguration configuration;
+        public ArtistCalendarService artistCalendarService;
+        public ArtistCalendarController(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            this.artistCalendarService = new ArtistCalendarService(this.configuration);
+        }
         [HttpPost("api/ArtistCalendarGigCreationAPI")]
         public IActionResult CreateGig([FromBody] GigCreationModel gigData)
         {

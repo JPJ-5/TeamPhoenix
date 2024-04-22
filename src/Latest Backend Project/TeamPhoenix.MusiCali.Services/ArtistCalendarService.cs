@@ -1,12 +1,20 @@
 ﻿using System.Text.RegularExpressions;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using TeamPhoenix.MusiCali.DataAccessLayer; //change to project reference later
+using TeamPhoenix.MusiCali.DataAccessLayer;
+using Microsoft.Extensions.Configuration; //change to project reference later
 
 namespace TeamPhoenix.MusiCali.Services
 {
     public class ArtistCalendarService
     {
-        private readonly ArtistCalendarDAL artistCalendarDAL = new ArtistCalendarDAL();
+        private readonly IConfiguration configuration;
+        private readonly ArtistCalendarDAL artistCalendarDAL;
+
+        public ArtistCalendarService(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            this.artistCalendarDAL = new ArtistCalendarDAL(this.configuration);
+        }
         public Result CreateGigService(string posterUsername, string gigName, DateTime dateTimeStart, bool visibility, string location, string description, string pay)
         {
             Result gigCreatedResult = new Result("", false); //result should default to false.

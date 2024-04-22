@@ -5,8 +5,14 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
 {
     public class SqlArtistCalendar
     {
-        private readonly string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;"; //fix to use configuration file in the future.
-        
+        private readonly string connectionString; //fix to use configuration file in the future.
+        private readonly IConfiguration configuration;
+
+        public SqlArtistCalendar(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
+        }
         public bool executeSQL(string Sql, List<string> ParametersCategory, List<object>ParametersValue) //change return to a result-style object.
         {
             MySqlTransaction transaction; // starts as an empty transaction just in case it errors before connection. This makes it so the rollback function will also not error.
@@ -149,6 +155,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
             }
             return readGigSqlResult;
         }
+
         public bool IsGigDateExist(string table, string username, DateTime gigDateTime) //tracks if the user has a gig during that timeframe already.
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))

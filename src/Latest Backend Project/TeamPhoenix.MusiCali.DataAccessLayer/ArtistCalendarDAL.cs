@@ -1,10 +1,18 @@
-﻿using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+﻿using Microsoft.Extensions.Configuration;
+using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class ArtistCalendarDAL
     {
-        private readonly SqlArtistCalendar artistCalendarAccess = new SqlArtistCalendar();
+        private readonly IConfiguration configuration;
+        private readonly SqlArtistCalendar artistCalendarAccess;
+
+        public ArtistCalendarDAL(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            this.artistCalendarAccess = new SqlArtistCalendar(this.configuration);
+        }
 
         public bool IsGigDateExist(string username, DateTime dateOfGig)
         {
