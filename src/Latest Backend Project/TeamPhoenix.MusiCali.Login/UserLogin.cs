@@ -6,16 +6,9 @@ namespace TeamPhoenix.MusiCali.Login
 {
     public class UserLogin
     {
-        //private static IConfiguration? _configuration;
-
-        //public UserLogin(IConfiguration configuration)
-        //{
-        //    _configuration = configuration;
-        //}
-
         public static LoginTokens AppLogin(LoginModel login, IConfiguration? _configuration)
         {
-            Authentication newAuth = new Authentication(_configuration!);
+            AuthenticationSecurity newAuth = new AuthenticationSecurity(_configuration!);
             var checkExistence = newAuth.Authenticate(login.Username, login.Otp);
 
 

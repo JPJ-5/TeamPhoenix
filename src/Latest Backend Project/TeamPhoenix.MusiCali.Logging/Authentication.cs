@@ -2,7 +2,7 @@
 {
     public class Authentication
     {
-        public static bool logFailure(string userHash)
+        public bool logFailure(string userHash)
         {
             return false;
         }

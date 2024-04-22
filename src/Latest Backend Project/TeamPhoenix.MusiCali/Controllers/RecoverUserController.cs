@@ -1,12 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using rU = TeamPhoenix.MusiCali.Services.RecoverUser;
-using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using Mysqlx;
-using Microsoft.IdentityModel.Tokens;
-using MySqlX.XDevAPI.Common;
-
-
+﻿using Microsoft.AspNetCore.Mvc;
+using TeamPhoenix.MusiCali.Services;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
@@ -14,11 +7,19 @@ namespace TeamPhoenix.MusiCali.Controllers
     [ApiController]
     public class RecoverUserController : ControllerBase
     {
+        private readonly RecoverUserService recoverUserService;
+        private readonly IConfiguration configuration;
+
+        public RecoverUserController(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            recoverUserService = new RecoverUserService(configuration);
+        }
+
         [HttpPost("/api/RecoverUser")]
         public IActionResult RecoverUser([FromHeader] string userName)
         {
-           
-            if (rU.SendRecoveryEmail(userName))
+            if (recoverUserService.SendRecoveryEmail(userName))
             {
                 var result = new Dictionary<bool, string>
                 {
@@ -34,9 +35,9 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
         [HttpPost("/api/DisableUser")]
-        public IActionResult disableUser(string userName)
+        public IActionResult DisableUser(string userName)
         {
-            if (rU.DisableUser(userName))
+            if (recoverUserService.DisableUser(userName))
             {
                 var result = new Dictionary<bool, string>
                 {
@@ -52,9 +53,9 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
         [HttpPost("/api/EnableUser")]
-        public IActionResult enableUser(string userName)
+        public IActionResult EnableUser(string userName)
         {
-            if (rU.EnableUser(userName))
+            if (recoverUserService.EnableUser(userName))
             {
                 var result = new Dictionary<bool, string>
                 {

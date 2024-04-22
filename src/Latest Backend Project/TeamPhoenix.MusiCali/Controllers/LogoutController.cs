@@ -1,20 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.Services;
-using authN = TeamPhoenix.MusiCali.Security.Authentication;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Text;
+using TeamPhoenix.MusiCali.Security;
 
 [ApiController]
 [Route("[controller]")]
 public class LogoutController : ControllerBase
 {
-    private readonly LogoutService _logoutService;
+    private readonly LogoutService logoutService;
+    private readonly IConfiguration configuration;
+    private AuthenticationSecurity authenticationSecurity;
 
-    public LogoutController(LogoutService logoutService)
+    public LogoutController(IConfiguration configuration)
     {
-        _logoutService = logoutService;
+        this.configuration = configuration;
+        logoutService = new LogoutService(this.configuration);
+        authenticationSecurity = new AuthenticationSecurity(this.configuration);
     }
 
     public class LogoutRequest
@@ -31,10 +31,10 @@ public class LogoutController : ControllerBase
         //Console.WriteLine(accessToken);
 
        
-        var role = authN.getScopeFromToken(accessToken!);
+        var role = authenticationSecurity.getScopeFromToken(accessToken!);
 
 
-        if ((role != string.Empty) && authN.CheckIdRoleExisting(request.UserName, role))
+        if ((role != string.Empty) && authenticationSecurity.CheckIdRoleExisting(request.UserName, role))
         {
             
             if (request == null || string.IsNullOrEmpty(request.UserName))
@@ -42,7 +42,7 @@ public class LogoutController : ControllerBase
                 return BadRequest(new { message = "User hash is required" });
             }
 
-            var result = await _logoutService.LogoutUserAsync(request.UserName);
+            var result = await logoutService.LogoutUserAsync(request.UserName);
             if (result)
             {
                 return Ok(new { message = "Logout successful and logged" });
