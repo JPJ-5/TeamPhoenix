@@ -1,0 +1,235 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    /*background: url('cat.jpg') repeat-y center center fixed;*/
+    background-size: cover; /* Cover the entire page */
+    background-position: center; /* Center the image */
+}
+
+table.fixed { table-layout:fixed; width:1500px; }
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    /*border-collapse: collapse;*/
+}
+
+th {
+    background-color: #089aa4;
+    color: white;
+    text-align: left;
+}
+tr:nth-child(even){background-color: #f2f2f2;}
+tr:hover {background-color: #ddd;}
+
+.button{
+    background-color: #089aa4;
+    border: none;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    border-radius: 20px;
+    
+}
+.button:hover{
+    background-color: #0a3f6e;
+    color: white;
+}
+
+.pagination{
+    width: 150px;
+    display: inline;
+}
+
+
+@media (max-width: 600px) {
+    body, html {
+        background-size: contain; /* Make sure the entire image is visible */
+        background-position: top center; /* Adjust position if needed */
+    }
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex; /* Use flexbox for positioning */
+    justify-content: space-between; /* Space out the navbar items */
+}
+
+    .navbar a, .navbar .hamburger {
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px;
+        text-decoration: none;
+        border: 2px solid transparent;
+        border-radius: 4px;
+        transition: all 0.3s;
+    }
+
+    .navbar .hamburger {
+        cursor: pointer;
+        padding: 14px 16px;
+    }
+
+        .navbar a:hover, .navbar .hamburger:hover {
+            border-color: #ddd;
+        }
+
+.bar {
+    width: 35px;
+    height: 5px;
+    background-color: #f2f2f2;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.neon-text {
+    color: #7e1fff;
+    text-shadow: 0 0 1px #ff2da1, 0 0 2px #ff7f2d, 0 0 4px #fcff2f, 0 0 8px #ff2d2d;
+    font-size: 2em;
+    text-align: center;
+}
+
+.dropdown {
+    display: none;
+    position: fixed;
+    left: 50%; /* Position the left edge of the dropdown at the center of the screen */
+    top: 58px; /* Below the hamburger menu */
+    width: 50%; /* Set the width of the dropdown to be 50% of the screen width */
+    transform: translateX(-50%); /* Shift the dropdown back to the left by half its width */
+    background-color: #333;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+    .dropdown form {
+        display: none;
+        padding: 12px;
+    }
+
+    .dropdown input[type="email"], .dropdown input[type="text"] {
+        width: calc(100% - 24px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .dropdown button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 5px; /* Add space between buttons */
+        background-color: #1e9bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .dropdown button:hover {
+            background-color: #0a3f6e;
+        }
+
+/* User profile section styling */
+.user-profile {
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    display: none; /* Initially hidden */
+}
+
+    .user-profile p {
+        padding-left: 10px; /* Padding for each paragraph */
+    }
+
+    .user-profile img {
+        width: 300px;
+        height: 300px;
+        border-radius: 0%; /* Circular profile picture */
+        margin-top: 10px;
+    }
+
+.edit-field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Adjust as needed */
+}
+
+.scrollable-content {
+    max-height: 40vh; /* 70% of the viewport height */
+    overflow-y: auto; /* Enables vertical scrolling */
+}
+
+.main {
+    margin-top: 50px;
+    padding: 16px;
+    height: 1500px;
+}
+
+@media screen and (max-width: 600px) {
+    .navbar a, .navbar .hamburger {
+        float: none;
+        width: auto;
+        padding: 10px 20px;
+    }
+
+    .dropdown {
+        width: 80%; /* Set the width to 80% of the screen width for mobile */
+    }
+}
+
+.sort-items-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff; /* White background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center; /* Center align the content */
+}
+
+.input-field {
+    margin: 10px;
+    padding: 8px;
+    width: 200px; /* Match input size with the style */
+    border: 2px solid #ddd;
+    border-radius: 4px;
+}
+
+#results {
+    margin-top: 20px;
+    padding: 10px;
+    background: #f9f9f9; /* Light grey background for results */
+    border: 1px solid #ddd; /* Consistent with other elements */
+    max-height: 300px; /* Fixed height with scrolling */
+    overflow-y: auto;
+}
+
+.button {
+    background-color: #089aa4; /* Specific color */
+    border: none;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 0px;
+    cursor: pointer;
+    transition-duration: 0.3s;
+    border-radius: 20px;
+}
+
+.button:hover {
+    background-color: #0a3f6e; /* Darker shade for hover effect */
+}
