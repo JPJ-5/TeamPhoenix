@@ -39,16 +39,18 @@ namespace AccCreationAPI
 
             builder.Services.AddTransient<DataAccessLayer>(); // Assuming a parameterless constructor or adjust accordingly
             builder.Services.AddTransient<ItemService>();
+            builder.Services.AddScoped<InventoryStockDAO>();
+            builder.Services.AddTransient<InventoryStockService>();
 
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            //if (app.Environment.IsDevelopment())
-            //{
-            //    app.UseSwagger();
-            //    app.UseSwaggerUI();
-           //}
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             app.UseHttpsRedirection();
 
