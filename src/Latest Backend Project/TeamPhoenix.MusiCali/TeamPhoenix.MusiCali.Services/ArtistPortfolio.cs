@@ -11,12 +11,12 @@ namespace TeamPhoenix.MusiCali.Services
 {
     public class ArtistPortfolio
     {
-        public static async Task<Result> UploadFile(string username, int slot, IFormFile file, string genre, string desc)
+        public static async Task<Result> UploadFile(string username, int slot, IFormFile file, string genre, string desc, IConfiguration config)
         {
-            var privateKeyFilePath = "C:/Users/Joshu/Downloads/juliek.pem";
-            var sshUsername = "ec2-user";
-            var sshHostname = "3.142.241.151";
-            var remoteFilePath = "/home/ubuntu/MusiCali/";
+            string privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY"); // access backend vm enviromental variable
+            var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
+            var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
+            var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;
             var fileName = file.FileName;
             var localFilePath = Path.Combine(Path.GetTempPath(), fileName); // Save file to a temporary location
 
@@ -69,16 +69,17 @@ namespace TeamPhoenix.MusiCali.Services
             }
         }
 
-        public static Result DeleteFile(string username, int slot)
+        public static Result DeleteFile(string username, int slot, IConfiguration config)
         {
             try
             {
                 // Get the file path from the database
                 string filePath = ArtistPortfolioDao.GetFilePath(username, slot);
 
-                var privateKeyFilePath = "C:/Users/Joshu/Downloads/juliek.pem";
-                var sshUsername = "ec2-user";
-                var sshHostname = "3.142.241.151";
+                string privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY"); // access backend vm enviromental variable
+                var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
+                var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
+                var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;
 
                 var privateKeyFile = new PrivateKeyFile(privateKeyFilePath);
                 var privateKeyAuthMethod = new PrivateKeyAuthenticationMethod(sshUsername, privateKeyFile);
@@ -119,16 +120,16 @@ namespace TeamPhoenix.MusiCali.Services
             }
         }
 
-        public static List<string> DownloadFilesLocally(List<string> filePaths)
+        public static List<string> DownloadFilesLocally(List<string> filePaths, IConfiguration config)
         {
             var localFilePaths = new List<string>();
 
             try
             {
-                var privateKeyFilePath = "C:/Users/Joshu/Downloads/juliek.pem";
-                var sshUsername = "ec2-user";
-                var sshHostname = "3.142.241.151";
-                var remoteFilePath = "/home/ubuntu/MusiCali/";
+                string privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY"); // access backend vm enviromental variable
+                var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
+                var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
+                var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;
 
                 var privateKeyFile = new PrivateKeyFile(privateKeyFilePath);
                 var privateKeyAuthMethod = new PrivateKeyAuthenticationMethod(sshUsername, privateKeyFile);
@@ -212,4 +213,3 @@ namespace TeamPhoenix.MusiCali.Services
 
     }
 }
- 

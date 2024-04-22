@@ -13,6 +13,12 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class ArtistPortfolioController : ControllerBase
     {
+        private readonly IConfiguration config;
+
+        public ArtistPortfolioController(IConfiguration config){
+            this.config = config;
+        }
+        
         [HttpPost("api/loadApi")]
         public IActionResult LoadArtistProfile([FromBody] string username)
         {
@@ -20,7 +26,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             {
                 var file = ArtistPortfolioDao.GetPortfolio(username);
                 var fileInfo = file[0];
-                var localFiles = ArtistPortfolio.DownloadFilesLocally(fileInfo);
+                var localFiles = ArtistPortfolio.DownloadFilesLocally(fileInfo, config);
                 var genreList = file[1];
                 var descList = file[2];
                 var artistInfo =file[3];
@@ -101,7 +107,7 @@ namespace TeamPhoenix.MusiCali.Controllers
                 var genre = model.Genre ?? "N/A";
                 var desc = model.Desc ?? "N/A";
                 // Save the file and other information to the database
-                var result = await ArtistPortfolio.UploadFile(model.Username, model.Slot, model.File, model.Genre, model.Desc);
+                var result = await ArtistPortfolio.UploadFile(model.Username, model.Slot, model.File, model.Genre, model.Desc, config);
                 if (result.Success)
                 {
                     return Ok("File uploaded successfully.");
@@ -173,7 +179,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             int fileSlot = req.SlotNumber;
             try
             {
-                var result = ArtistPortfolio.DeleteFile(user, fileSlot);
+                var result = ArtistPortfolio.DeleteFile(user, fileSlot, config);
                 return Ok(result);
             }
             catch (Exception ex)

@@ -11,6 +11,13 @@ namespace TeamPhoenix.MusiCali.Tests
     [TestClass]
     public class ArtistPortfolioTest
     {
+        private readonly IConfiguration config;
+
+        public ArtistPortfolioTest(IConfiguration config)
+        {
+            this.config = config;
+        }
+
         [TestMethod]
         public async Task UploadFile_ShouldReturnSuccess_WhenFileIsValid()
         {
@@ -23,7 +30,7 @@ namespace TeamPhoenix.MusiCali.Tests
             var formFile = new FormFile(new MemoryStream(fileBytes), 2, fileBytes.Length, null, "tick.wav");
 
             // Act
-            var result = await ArtistPortfolio.UploadFile(username, 2, formFile, "wav", "tick sound but in wav");
+            var result = await ArtistPortfolio.UploadFile(username, 2, formFile, "wav", "tick sound but in wav", config);
 
             // Assert
             Assert.IsTrue(result.Success);
@@ -53,7 +60,7 @@ namespace TeamPhoenix.MusiCali.Tests
             var username = "kihambo.wav";
 
             int slot = 1;
-            var result = ArtistPortfolio.DeleteFile(username, slot);
+            var result = ArtistPortfolio.DeleteFile(username, slot, config);
 
             // Assert
             Assert.IsTrue(result.Success);
