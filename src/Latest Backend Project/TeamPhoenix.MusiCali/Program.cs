@@ -30,14 +30,25 @@ namespace AccCreationAPI
             builder.Services.AddScoped<IAuthentication, AuthenticationSecurity>();
 
             builder.Services.AddScoped<MariaDBDAO>();          // Register MariaDB Class with Dependency Injection 
+
+            // Add configuration
+            var configurationBuilder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            IConfiguration configuration = configurationBuilder.Build();
+
+            builder.Services.AddTransient<DataAccessLayer>(); // Assuming a parameterless constructor or adjust accordingly
+            builder.Services.AddTransient<ItemService>();
+
+
             var app = builder.Build();
 
-            //// Configure the HTTP request pipeline.
+            // Configure the HTTP request pipeline.
             //if (app.Environment.IsDevelopment())
             //{
             //    app.UseSwagger();
             //    app.UseSwaggerUI();
-            //}
+           //}
 
             app.UseHttpsRedirection();
 
