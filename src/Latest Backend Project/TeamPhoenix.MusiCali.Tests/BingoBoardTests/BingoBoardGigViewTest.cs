@@ -1,4 +1,6 @@
-﻿using BB = TeamPhoenix.MusiCali.DataAccessLayer.BingoBoard;
+﻿using Microsoft.Extensions.Configuration;
+using System.Configuration;
+using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 
@@ -7,10 +9,21 @@ namespace TeamPhoenix.MusiCali.Tests.BingoBoardTests
     [TestClass]
     public class BingoBoardGigViewTest
     {
+        private readonly IConfiguration configuration;
+
+        public BingoBoardGigViewTest()
+        {
+            // Build configuration
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            configuration = builder.Build();
+        }
         [TestMethod]
         public void GigLoadTest()
         {
-            GigSet? gigs = BB.ViewGigSummary(20, "bingoboardtests", 0);
+            BingoBoardDAO bingoBoardDAO = new BingoBoardDAO(configuration);
+            GigSet? gigs = bingoBoardDAO.ViewGigSummary(20, "bingoboardtests", 0);
             //Console.WriteLine(gigs[0].Username);
             Assert.IsNotNull(gigs);
         }
@@ -18,7 +31,8 @@ namespace TeamPhoenix.MusiCali.Tests.BingoBoardTests
         [TestMethod]
         public void GigNumTest()
         {
-            int numOfGigs = BB.ReturnNumOfGigs();
+            BingoBoardDAO bingoBoardDAO = new BingoBoardDAO(configuration);
+            int numOfGigs = bingoBoardDAO.ReturnNumOfGigs();
             Assert.IsNotNull(numOfGigs);
         }
     }

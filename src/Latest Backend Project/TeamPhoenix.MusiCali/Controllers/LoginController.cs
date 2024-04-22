@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using TeamPhoenix.MusiCali.Security;
 using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.Login;
-using Newtonsoft.Json.Linq;
 
 namespace AccCreationAPI.Controllers
 {
@@ -43,7 +42,7 @@ namespace AccCreationAPI.Controllers
         [HttpPost("api/CheckUsernameAPI")]
         public IActionResult CheckUsernameExist([FromBody] LoginModel login)
         {
-            Authentication newAuth = new Authentication(_configuration);
+            AuthenticationSecurity newAuth = new AuthenticationSecurity(_configuration);
             string username = login.Username;
             if (newAuth.AuthenticateUsername(username))
             {

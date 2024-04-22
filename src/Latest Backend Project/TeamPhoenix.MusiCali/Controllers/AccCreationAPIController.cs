@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Asn1.Ocsp;
-using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
+﻿using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Services;
-using uC = TeamPhoenix.MusiCali.Services.UserCreation;
-using authN = TeamPhoenix.MusiCali.Security.Authentication;
+using TeamPhoenix.MusiCali.Security;
 
 
 namespace AccCreationAPI.Controllers
@@ -15,10 +10,19 @@ namespace AccCreationAPI.Controllers
     [Route("[controller]")]
     public class AccCreationAPIController : ControllerBase
     {
+        private readonly IConfiguration configuration;
+        private AuthenticationSecurity authenticationSecurity;
+
+        public AccCreationAPIController(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            authenticationSecurity = new AuthenticationSecurity(configuration);
+        }
 
         [HttpPost("api/NormalAccCreationAPI")]
         public IActionResult RegisterNormalUser([FromBody] AccCreationModel registration)
         {
+            UserCreationService uC = new UserCreationService(configuration);
             if (uC.RegisterNormalUser(registration.Email, registration.Dob, registration.Uname, registration.Bmail))
             {
                 return Ok(true); // Changed from JsonResult to IActionResult with Ok result
@@ -29,17 +33,18 @@ namespace AccCreationAPI.Controllers
         [HttpPost("api/AdminAccCreationAPI")]
         public IActionResult RegisterAdminUser([FromBody] AccCreationModel model)
         {
+            UserCreationService uC = new UserCreationService(configuration);
             var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             //Console.WriteLine(accessToken);
 
 
-            var role = authN.getScopeFromToken(accessToken!);
+            var role = authenticationSecurity.getScopeFromToken(accessToken!);
 
-            var user = authN.getUserFromToken(accessToken!);
+            var user = authenticationSecurity.getUserFromToken(accessToken!);
 
 
-            if ((role != string.Empty) && authN.CheckIdRoleExisting(user, role))
+            if ((role != string.Empty) && authenticationSecurity.CheckIdRoleExisting(user, role))
             {
 
                 if (model == null)
