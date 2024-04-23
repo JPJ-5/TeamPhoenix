@@ -747,7 +747,7 @@
     });
 
     //enter collab feature view
-    document.getElementById('create-collabRequest').addEventListener('click', function () {
+    document.getElementById('enter-collabFeature').addEventListener('click', function () {
         document.querySelector('.main').style.display = 'none'; // Hide main content
         document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
         document.getElementById('ScaleDisplayView').style.display = 'none'; // hide scale display view

@@ -126,7 +126,7 @@
                     <button id="enter-scaleDisplay" class="enter-scaleDisplay">Scale Display</button>
 
                     <!--Test Collab Creation-->
-                    <button id = "create-collabRequest" class = "create-collabRequest">Collab Feature [Test]</button>
+                    <button id = "enter-collabFeature" class = "enter-CollabFeature">Collab Feature [Test]</button>
                     
                     <!-- Bingo Board button here -->
                     <button id="enter-BingoBoardView" class="enter-BingoBoardView">Bingo Board</button>
@@ -311,10 +311,17 @@
 
     <!-- Page for collab feature feature -->
     <div id="CollabFeatureView" style="display: none;">
-        <h1>Collab Feature</h1>
-        <p id = "create-collabRequest"></p>
-        <select id = "create-collabRequest" size = "13">
+        <h1 class="neon-text">Collab Feature</h1>
+        <p id = "enter-collabFeature"></p>
+        <select id = "create-collabRequest" size = "20">
             <option value = "Send a Request">Send A Request</option>
+        </select>
+        <select id = "accept-collabRequest" size = 20>
+            <option value = "Accept a Request">Accept A Request</option>
+        </select>
+        <select id= "view-requests">
+            <option value = "View Sent Requests">View Sent</option>
+            <option valie = "View Accepted Requests">View Accepted</option>
         </select>
 
     </div>
@@ -326,7 +333,7 @@
         <!--script type="text/javascript" src="js/BingoBoard.js"></script-->
         <table id = "BingoBoardPostsTable" style="display: none;" class="fixed">
             <tr>
-                <th >Post Title</th>
+                <th>Post Title</th>
                 <th>Poster</th>
                 <th>Date</th>
                 <th>Location</th>
@@ -357,5 +364,6 @@
     <script src="js/ScaleDisplay.js"></script>
     <script src="js/tempoTool.js"></script>
     <script src="js/BingoBoard.js"></script>
+    <script src="js/CollabFeature.js"></script>
 </body>
 </html>
