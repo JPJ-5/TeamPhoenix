@@ -11,33 +11,36 @@
     margin: auto;
     padding: 20px;
     background-color: white;
-    box-shadow: 0 0 20px rgba(0,0,0,0.2);
-    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 10px;
 }
 
 h1 {
     color: #0056b3;
     text-align: center;
     margin-bottom: 20px;
+    font-size: 24px; /* Larger and more prominent */
 }
 
-.form-container {
+.form-container, .search-container {
     display: flex;
     gap: 10px;
     justify-content: center;
     margin-bottom: 20px;
 }
 
-input[type="number"], button {
-    padding: 10px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
+input[type="number"], input[type="text"], select, button {
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
     font-size: 16px;
-    transition: border-color 0.3s;
+    transition: all 0.3s ease-in-out;
+    width: auto; /* Auto width based on content */
 }
 
-    input[type="number"]:focus, button:focus {
-        border-color: #0056b3;
+    input[type="number"]:focus, input[type="text"]:focus, select:focus, button:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 8px rgba(0,123,255,0.2);
         outline: none;
     }
 
@@ -55,9 +58,10 @@ button {
 .results {
     margin-top: 20px;
     padding: 10px;
-    background: #f9f9f9;
+    background: #ffffff;
     border: 1px solid #ddd;
     border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .loading {
@@ -65,4 +69,29 @@ button {
     text-align: center;
     color: #007bff;
     margin-top: 20px;
+}
+
+.search-container {
+    text-align: center;
+    margin: 20px;
+}
+
+input[type="text"] {
+    width: 60%; /* Responsive width */
+    max-width: 400px; /* Maximum width */
+}
+
+@media (max-width: 600px) {
+    .form-container, .search-container {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    input[type="number"], input[type="text"], select, button {
+        width: 100%; /* Full width on small screens */
+    }
+
+    .container {
+        padding: 10px;
+    }
 }

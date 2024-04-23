@@ -9,6 +9,10 @@
 <body>
     <div class="container">
         <h1>Craft Item Price Range Sorter</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Enter item name">
+            <button onclick="searchItems()" class="button">Search</button>
+        </div>
         <div class="form-container">
             <select id="predefinedRanges" onchange="setPredefinedRanges()">
                 <option value="">Select a Price Range</option>

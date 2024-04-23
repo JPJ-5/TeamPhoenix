@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 [ApiController]
 [Route("[controller]")]
@@ -16,16 +17,32 @@ public class ItemController : ControllerBase
     {
         if (topPrice < bottomPrice)
         {
-            return BadRequest("Top price cannot be less than bottom price.");
+            return BadRequest(new ApiResponse<object>("Top price cannot be less than bottom price."));
         }
 
         var items = await _itemService.SortItemsByPriceRange(topPrice, bottomPrice);
         if (items == null || items.Count == 0)
         {
-            // Instead of returning NotFound, return Ok with an empty list
-            return Ok(new List<Item>()); // Make sure your model or service handles this appropriately
+            return Ok(new ApiResponse<HashSet<Item>>(new HashSet<Item>(), "No items found within the specified price range."));
         }
 
-        return Ok(items);
+        return Ok(new ApiResponse<HashSet<Item>>(items));
+    }
+
+    [HttpGet("api/search")]
+    public async Task<IActionResult> SearchItems(string query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return BadRequest(new ApiResponse<object>("Query cannot be empty."));
+        }
+
+        var items = await _itemService.SearchItemsByName(query);
+        if (items.Count == 0)
+        {
+            return Ok(new ApiResponse<HashSet<Item>>(new HashSet<Item>(), "No items found matching your search."));
+        }
+
+        return Ok(new ApiResponse<HashSet<Item>>(items));
     }
 }

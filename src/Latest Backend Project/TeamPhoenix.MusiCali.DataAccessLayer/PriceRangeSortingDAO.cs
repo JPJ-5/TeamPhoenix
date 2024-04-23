@@ -1,7 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Data;
+using Mysqlx.Crud;
+using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 
 public class DataAccessLayer
 {
@@ -32,6 +33,36 @@ public class DataAccessLayer
                         {
                             Name = reader.GetString(0),
                             Price = reader.GetDecimal(1)
+                        });
+                    }
+                }
+            }
+        }
+        return items;
+    }
+
+
+    public async Task<HashSet<Item>> FetchItemsByName(string query)
+    {
+        var items = new HashSet<Item>();
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+            var sql = @"SELECT Name, Price FROM CraftItemTest
+                    WHERE LOWER(Name) LIKE CONCAT(@query, '%')
+                    ORDER BY Name ASC";
+            using (MySqlCommand command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@query", query.ToLower());  // Ensure the query is treated in lower case
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        items.Add(new Item
+                        {
+                            Name = reader.GetString("Name"),
+                            Price = reader.GetDecimal("Price")
                         });
                     }
                 }

@@ -11,4 +11,9 @@
     {
         return await _dataAccessLayer.FetchItems(topPrice, bottomPrice);
     }
+
+    public async Task<HashSet<Item>> SearchItemsByName(string query)
+    {
+        return await _dataAccessLayer.FetchItemsByName(query);
+    }
 }
