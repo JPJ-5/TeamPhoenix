@@ -39,7 +39,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         //Create fuction to retrieve email from ArtistProfile using Username
         public static string GetEmailByUsername(string username)
         {
-            string email = null;
+            string ? email = null;
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {

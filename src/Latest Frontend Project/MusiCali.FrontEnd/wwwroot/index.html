@@ -312,19 +312,23 @@
     <!-- Page for collab feature feature -->
     <div id="CollabFeatureView" style="display: none;">
         <h1 class="neon-text">Collab Feature</h1>
-        <p id = "enter-collabFeature"></p>
-        <select id = "create-collabRequest" size = "20">
-            <option value = "Send a Request">Send A Request</option>
+        <p id="enter-collabFeature"></p>
+        <select id="create-collabRequest" size="20">
+            <option value="Send a Request">Send A Request</option>
         </select>
-        <select id = "accept-collabRequest" size = 20>
-            <option value = "Accept a Request">Accept A Request</option>
+        <select id="accept-collabRequest" size="20">
+            <option value="Accept a Request">Accept A Request</option>
         </select>
-        <select id= "view-requests">
-            <option value = "View Sent Requests">View Sent</option>
-            <option valie = "View Accepted Requests">View Accepted</option>
+        <select id="view-requests">
+            <option value="View Sent Requests">View Sent</option>
+            <option value="View Accepted Requests">View Accepted</option>
         </select>
-
+        <br>
+        <button onclick="displayCollabs()">See Collabs</button>
+        <br>
+        <div id="collab-request-list" style="margin-top: 20px;"></div>
     </div>
+    
 
      <!-- Page for bingo board feature-->
      <div id="BingoBoardView" style="display: none;">

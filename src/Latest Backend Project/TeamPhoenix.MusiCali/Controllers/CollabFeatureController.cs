@@ -41,7 +41,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
-        [HttpPost("api/LoadViewAPI")]
+        [HttpGet("api/LoadViewAPI")]
         public CollabData LoadView (string username){
 
             try{
@@ -80,6 +80,24 @@ namespace TeamPhoenix.MusiCali.Controllers
 
                 throw new Exception("Failed accept collab; " + ex.Message);
 
+            }
+        }
+
+        [HttpPost("api/LoadCollabsAPI")]
+
+        public CollabData LoadCollabsInView(CollabUsers collab){
+
+            try
+            {
+
+                CollabData result = CollabFeature.LoadCollabFeature(collab.senderUsername);
+
+                return result;
+            }
+
+            catch(Exception ex){
+
+                throw new Exception("Could not load the collabs" + ex.Message);
             }
         }
     }

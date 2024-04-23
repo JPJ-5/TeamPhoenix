@@ -1,5 +1,4 @@
 document.getElementById('enter-collabFeature').addEventListener('click', function () {
-    // get the username which is needed for gig creation.
 
 
     //---------For testing purposes, will take hardcode away after-----------
@@ -17,7 +16,7 @@ document.getElementById('enter-collabFeature').addEventListener('click', functio
     }
 
     fetch('http://localhost:8080/CollabFeature/api/LoadViewAPI', {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -45,7 +44,7 @@ document.getElementById('enter-collabFeature').addEventListener('click', functio
 
 
 document.getElementById('create-collabRequest').addEventListener('click', function () {//listens for whenever an element with this id so whenever it's been clicked it'll run this function
-    // get the username which is needed for gig creation.
+
 
     //---------For testing purposes, will take hardcode away after-----------
     var feedbackBox = document.getElementById('enter-collabFeature');
@@ -90,7 +89,7 @@ document.getElementById('create-collabRequest').addEventListener('click', functi
 });
 
 document.getElementById('accept-collabRequest').addEventListener('click', function () {//listens for whenever an element with this id so whenever it's been clicked it'll run this function
-    // get the username which is needed for gig creation.
+
 
     //---------For testing purposes, will take hardcode away after-----------
     var feedbackBox = document.getElementById('enter-collabFeature');
@@ -133,3 +132,62 @@ document.getElementById('accept-collabRequest').addEventListener('click', functi
         });
     }
 });
+
+document.getElementById('view-requests').addEventListener('click', function () {
+    var feedbackBox = document.getElementById('collab-request-list');
+
+    fetch('http://localhost:8080/CollabFeature/api/LoadCollabsAPI')
+        .then(response => response.json())
+        .then(result => {
+            feedbackBox.innerHTML = ''; // Clear previous content
+            if (result && result.length > 0) {
+                result.forEach(collab => {
+                    var collabElement = document.createElement('div');
+                    collabElement.textContent = `Sender: ${collab.senderUsername}, Receiver: ${collab.receiverUsername}`;
+                    feedbackBox.appendChild(collabElement);
+                });
+            } else {
+                feedbackBox.textContent = 'No collab requests found.';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            feedbackBox.textContent = 'Error loading collab requests. Please try again.';
+        });
+});
+
+function displayCollabs() {
+    var feedbackBox = document.getElementById('collab-request-list');
+
+    fetch('http://localhost:8080/CollabFeature/api/LoadCollabsAPI')
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(result) {
+            feedbackBox.innerHTML = ''; // Clear previous content
+            if (result && result.length > 0) {
+                result.forEach(function(collab) {
+                    var collabElement = document.createElement('div');
+                    collabElement.textContent = 'Sender: ' + collab.senderUsername + ', Receiver: ' + collab.receiverUsername;
+                    feedbackBox.appendChild(collabElement);
+                });
+            } else {
+                feedbackBox.textContent = 'No collab requests found.';
+            }
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+            feedbackBox.textContent = 'Error loading collab requests. Please try again.';
+        });
+}
+
+
+
+
+
+
+
+

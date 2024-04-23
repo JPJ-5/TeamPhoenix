@@ -742,6 +742,7 @@
         document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
         document.getElementById('BingoBoardView').style.display = 'none';
         document.getElementById('ScaleDisplayView').style.display = 'block'; // Show tempo tool content
+        document.getElementById('CollabFeatureView').style.display = 'none';
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "Scale Display");
     });
@@ -754,7 +755,6 @@
         document.getElementById('CollabFeatureView').style.display = 'block'; //show collab feature
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "Collab Feature");
-
     });
 
     function logFeatureUsage(username, feature) {
