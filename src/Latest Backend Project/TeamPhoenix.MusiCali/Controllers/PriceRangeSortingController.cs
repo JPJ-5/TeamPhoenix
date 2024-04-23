@@ -11,7 +11,7 @@ public class ItemController : ControllerBase
         _itemService = itemService;
     }
 
-    [HttpGet("sort")]
+    [HttpGet("api/sort")]
     public async Task<IActionResult> SortItems(decimal topPrice = 1000000M, decimal bottomPrice = 0M)
     {
         if (topPrice < bottomPrice)
