@@ -28,6 +28,10 @@ namespace TeamPhoenix.MusiCali.Services
             hasher = new Hasher();
         }
 
+        public UserCreationService()
+        {
+        }
+
         private bool RegisterUser(string email, DateTime dateOfBirth, string username, string backupEmail, string role)
         {
             Console.WriteLine(backupEmail);

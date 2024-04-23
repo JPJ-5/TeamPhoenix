@@ -1,7 +1,7 @@
 ﻿using TeamPhoenix.MusiCali.DataAccessLayer;
 using Microsoft.Extensions.Configuration;
 
-namespace TeamPhoenix.MusiCali.BusinessLogicLayer
+namespace TeamPhoenix.MusiCali.Services
 {
     public class UserDeletionService
     {
@@ -13,6 +13,10 @@ namespace TeamPhoenix.MusiCali.BusinessLogicLayer
         {
             this.configuration = configuration;
             userDeletionDao = new UserDeletionDAO(this.configuration);
+        }
+
+        public UserDeletionService()
+        {
         }
 
         /// <summary>

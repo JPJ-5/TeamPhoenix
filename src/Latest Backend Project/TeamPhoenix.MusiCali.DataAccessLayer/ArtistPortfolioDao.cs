@@ -122,7 +122,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                         {
                             if (reader.Read())
                             {
-                                filePath = reader[$"File{slot}Path"].ToString();
+                                filePath = reader[$"File{slot}Path"]!.ToString();
+
                             }
                         }
                     }

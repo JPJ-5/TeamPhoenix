@@ -21,6 +21,11 @@ namespace TeamPhoenix.MusiCali.Services
             this.configuration = configuration;
             modifyUserDao = new ModifyUserDAO(configuration);
         }
+
+        public ModifyUserService()
+        {
+        }
+
         public bool modifyProfile(UserProfile userP)
         {
 

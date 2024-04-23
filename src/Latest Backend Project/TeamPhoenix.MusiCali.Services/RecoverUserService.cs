@@ -24,6 +24,11 @@ public class RecoverUserService
         authenticationDAO = new AuthenticationDAO(configuration);
         hasher = new Hasher();
     }
+
+    public RecoverUserService()
+    {
+    }
+
     public bool SendRecoveryEmail(string username)
     {
         try

@@ -7,14 +7,19 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class AuthenticationDAO
     {
-        private readonly string connectionString;
-        private readonly IConfiguration configuration;
+        private readonly string? connectionString;
+        private readonly IConfiguration? configuration;
 
         public AuthenticationDAO(IConfiguration configuration)
         {
             this.configuration = configuration;
             this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
         }
+
+        public AuthenticationDAO()
+        {
+        }
+
         public Result? logAuthFailure(string error)
         {
             return null;

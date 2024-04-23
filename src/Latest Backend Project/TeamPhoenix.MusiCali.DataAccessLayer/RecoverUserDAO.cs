@@ -16,6 +16,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
             authenticationDAO = new AuthenticationDAO(this.configuration);
         }
+
+        public RecoverUserDAO()
+        {
+        }
+
         public UserRecovery GetUserRecovery(string username)
         {
 

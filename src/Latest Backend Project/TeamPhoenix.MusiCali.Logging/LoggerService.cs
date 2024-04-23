@@ -11,6 +11,11 @@ namespace TeamPhoenix.MusiCali.Logging
         private readonly IConfiguration configuration;
         private MariaDBDAO mariaDBDAO;
         private RecoverUserDAO recoverUserDAO;
+
+        public LoggerService()
+        {
+        }
+
         public LoggerService(IConfiguration configuration)
         {
             this.configuration = configuration;

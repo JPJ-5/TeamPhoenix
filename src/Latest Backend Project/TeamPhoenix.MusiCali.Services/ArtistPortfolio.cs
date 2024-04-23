@@ -13,7 +13,6 @@ namespace TeamPhoenix.MusiCali.Services
     {
         public static async Task<Result> UploadFile(string username, int slot, IFormFile file, string genre, string desc, IConfiguration config)
         {
-            string privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY"); // access backend vm enviromental variable
             var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
             var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
             var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;
@@ -22,6 +21,11 @@ namespace TeamPhoenix.MusiCali.Services
 
             try
             {
+                string privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY");
+                if (privateKeyFilePath == null)
+                {
+                    throw new InvalidOperationException("JULIE_KEY environmental variable is not set.");
+                } // access backend vm enviromental variable
                 // Save the uploaded file to the temporary location
                 using (var stream = new FileStream(localFilePath, FileMode.Create))
                 {
@@ -126,7 +130,11 @@ namespace TeamPhoenix.MusiCali.Services
 
             try
             {
-                string privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY"); // access backend vm enviromental variable
+                string privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY");
+                if (privateKeyFilePath == null)
+                {
+                    throw new InvalidOperationException("JULIE_KEY environmental variable is not set.");
+                }// access backend vm enviromental variable
                 var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
                 var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
                 var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;

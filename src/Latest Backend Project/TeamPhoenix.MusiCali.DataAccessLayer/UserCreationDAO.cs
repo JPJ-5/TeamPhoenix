@@ -15,6 +15,10 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
         }
 
+        public UserCreationDAO()
+        {
+        }
+
         public bool IsEmailRegistered(string email)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))

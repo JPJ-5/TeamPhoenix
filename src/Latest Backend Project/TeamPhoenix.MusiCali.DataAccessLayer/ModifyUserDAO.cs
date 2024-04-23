@@ -15,6 +15,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             this.configuration = configuration;
             this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
         }
+
+        public ModifyUserDAO()
+        {
+        }
+
         public void UpdateProfile(UserProfile userProfile)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
