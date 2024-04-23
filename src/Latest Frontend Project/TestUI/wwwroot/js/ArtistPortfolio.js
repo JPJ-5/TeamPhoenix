@@ -16,6 +16,8 @@ function loadProfileData(username) {
     fetch('http://localhost:8080/ArtistPortfolio/api/loadApi', {
         method: 'POST',
         headers: {
+            'Authentication': idToken,
+            'Authorization': accessToken,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(username)
@@ -281,6 +283,10 @@ function deleteFile(slot){
     deleteForm.append('SlotNumber', slot);
     fetch('http://localhost:8080/ArtistPortfolio/api/deleteApi', {
         method: 'POST',
+        headers: {
+            'Authentication': idToken,
+            'Authorization': accessToken
+        },
         body: deleteForm // Remove 'Content-Type' header and send FormData directly
     })
     .then(response => {
@@ -308,6 +314,8 @@ function deleteInfo(section) {
     fetch('http://localhost:8080/ArtistPortfolio/api/delInfoApi', {
         method: 'POST',
         headers: {
+            'Authentication': idToken,
+            'Authorization': accessToken,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(deleteSection) 
@@ -355,6 +363,10 @@ function triggerFileInput(slot) {
         // Send POST request to upload API endpoint
         fetch('http://localhost:8080/ArtistPortfolio/api/uploadApi', {
             method: 'POST',
+            headers: {
+                'Authentication': idToken,
+                'Authorization': accessToken
+            },
             body: formData 
         })
         .then(response => {
@@ -386,6 +398,8 @@ function triggerInfoInput(section) {
     fetch('http://localhost:8080/ArtistPortfolio/api/updateInfoApi', {
         method: 'POST',
         headers: {
+            'Authentication': idToken,
+            'Authorization': accessToken,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(sectionUpdate) 

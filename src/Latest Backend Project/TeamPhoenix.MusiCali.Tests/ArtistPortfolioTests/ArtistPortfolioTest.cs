@@ -6,6 +6,8 @@ using TeamPhoenix.MusiCali.Services;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
+using Microsoft.Extensions.Configuration;
+
 namespace TeamPhoenix.MusiCali.Tests
 {
     [TestClass]
