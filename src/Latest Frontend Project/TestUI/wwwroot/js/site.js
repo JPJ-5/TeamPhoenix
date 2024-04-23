@@ -783,6 +783,6 @@
 
     //Artist Portfolio
     document.getElementById('Artist Portfolio View').addEventListener('click', function () {
-        window.location.href = 'ArtistPortfolio.html'; // Redirects the user to PriceRangeSorting.html
+        window.location.href = 'ArtistPortfolioView.html'; // Redirects the user to PriceRangeSorting.html
     });
 });

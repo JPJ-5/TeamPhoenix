@@ -1,6 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('enter-artistPortfolio').addEventListener('click', function () {
+    document.getElementById('Artist Portfolio View').addEventListener('click', function () {
         var activeUsername = sessionStorage.getItem('username');
         // Reset page to default to remove media when Upload/Deletes occur
         resetArtistPortfolioView();
