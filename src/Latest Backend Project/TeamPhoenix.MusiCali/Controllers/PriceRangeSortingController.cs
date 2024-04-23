@@ -22,7 +22,8 @@ public class ItemController : ControllerBase
         var items = await _itemService.SortItemsByPriceRange(topPrice, bottomPrice);
         if (items == null || items.Count == 0)
         {
-            return NotFound("No items found within the specified price range.");
+            // Instead of returning NotFound, return Ok with an empty list
+            return Ok(new List<Item>()); // Make sure your model or service handles this appropriately
         }
 
         return Ok(items);

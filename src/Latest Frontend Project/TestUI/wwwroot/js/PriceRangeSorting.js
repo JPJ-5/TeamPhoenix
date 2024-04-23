@@ -19,7 +19,13 @@ function fetchItems() {
             }
             return response.json();
         })
-        .then(data => displayResults(data))
+        .then(data => {
+            if (data.length === 0) {
+                results.innerHTML = '<p>No items found within the specified price range.</p>';
+            } else {
+                displayResults(data);
+            }
+        })
         .catch(error => {
             console.error('Error fetching data:', error);
             results.innerHTML = `<p>Error: ${error.message}</p>`;
