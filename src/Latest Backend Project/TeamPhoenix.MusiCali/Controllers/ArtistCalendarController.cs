@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using artCal = TeamPhoenix.MusiCali.Services.ArtistCalendar; //artist calendar services
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-//using Microsoft.Testing.Platform.Extensions.Messages;
 using TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using TeamPhoenix.MusiCali.Services;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
@@ -10,58 +9,67 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class ArtistCalendarController : ControllerBase
     {
-
-        [HttpPost("api/ArtistCalendarGigCreationAPI")]
-        public JsonResult CreateGig([FromBody] GigCreationModel gigData)
+        private readonly IConfiguration configuration;
+        public ArtistCalendarService artistCalendarService;
+        public ArtistCalendarController(IConfiguration configuration)
         {
-            if (artCal.createGig(gigData.Username, gigData.GigName, gigData.DateOfGig, gigData.Visibility, gigData.Location, gigData.Description, gigData.Pay))
+            this.configuration = configuration;
+            this.artistCalendarService = new ArtistCalendarService(this.configuration);
+        }
+        [HttpPost("api/ArtistCalendarGigCreationAPI")]
+        public IActionResult CreateGig([FromBody] GigCreationModel gigData)
+        {
+            Result gigResult = artistCalendarService.CreateGigService(gigData.Username, gigData.GigName, gigData.DateOfGig, gigData.Visibility, gigData.Location, gigData.Description, gigData.Pay);
+            if (gigResult.Success)
             {
-                return new JsonResult(true);
+                return Ok(gigResult); //change this result probably
             }
-            return new JsonResult(false);
+            return BadRequest(gigResult.ErrorMessage);
         }
 
         [HttpPost("api/ArtistCalendarGigUpdateAPI")]
-        public JsonResult UpdateGig([FromBody] GigUpdateModel gigUpdateData)
+        public IActionResult UpdateGig([FromBody] GigUpdateModel gigUpdateData)
         {
-            if (artCal.updateGig(gigUpdateData.DateOfGigOriginal, gigUpdateData.Username, gigUpdateData.GigName, gigUpdateData.DateOfGig, gigUpdateData.Visibility, gigUpdateData.Location, gigUpdateData.Description, gigUpdateData.Pay))
+            Result gigResult = artistCalendarService.UpdateGigService(gigUpdateData.DateOfGigOriginal, gigUpdateData.Username, gigUpdateData.GigName, gigUpdateData.DateOfGig, gigUpdateData.Visibility, gigUpdateData.Location, gigUpdateData.Description, gigUpdateData.Pay);
+            if (gigResult.Success)
             {
-                return new JsonResult(true);
+                return Ok(gigResult); //change this result probably
             }
-            return new JsonResult(false);
+            return BadRequest(gigResult.ErrorMessage);
         }
         [HttpDelete("api/ArtistCalendarGigDeletionAPI")]
         public IActionResult DeleteGig([FromBody] GigFindModel gigDataToDelete)
         {
-            if (artCal.deleteGig(gigDataToDelete.Username, gigDataToDelete.DateOfGig))
+            Result gigResult = artistCalendarService.DeleteGigService(gigDataToDelete.Username, gigDataToDelete.DateOfGig);
+            if (gigResult.Success)
             {
-                return Ok(true);
+                return Ok();
             }
             else
             {
-                return BadRequest("Failed to delete user gig.");
+                return BadRequest(gigResult.ErrorMessage);
             }
         }
         [HttpGet("api/ArtistCalendarGigViewAPI")]
-        public ActionResult ViewGig([FromQuery] string username, [FromQuery] string usernameOwner, [FromQuery] DateTime dateOfGig)
+        public IActionResult ViewGig([FromQuery] string username, [FromQuery] string usernameOwner, [FromQuery] DateTime dateOfGig)
         {
-            var gigToView = artCal.viewGig(username, usernameOwner, dateOfGig);
+            var gigToView = artistCalendarService.ViewGigService(username, usernameOwner, dateOfGig);
             if (gigToView == null)
             {
                 return NotFound("User gig not found.");
             }
-            Console.WriteLine(gigToView.Location);
             return Ok(gigToView);
         }
 
         [HttpPost("api/ArtistCalendarGigVisibilityAPI")]
-        public JsonResult UpdateGigVisibility(GigVisibilityModel gigVisibilityData)
+        public IActionResult UpdateGigVisibility(GigVisibilityModel gigVisibilityData)
         {
-            if (artCal.updateGigVisibility(gigVisibilityData.Username, gigVisibilityData.GigVisibility))
+            Result gigResult = artistCalendarService.UpdateGigVisibilityService(gigVisibilityData.Username, gigVisibilityData.GigVisibility);
+            if (gigResult.Success)
             {
-                return new JsonResult(true);
+                return Ok(gigResult); //change this value.
             }
-            return new JsonResult(false);
+            return BadRequest(gigResult.ErrorMessage);
         }
     }
 }

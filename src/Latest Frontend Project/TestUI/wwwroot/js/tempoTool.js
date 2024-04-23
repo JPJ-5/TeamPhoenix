@@ -1,10 +1,10 @@
-var tempoSlider = document.getElementById('tempoSlider');
+﻿var tempoSlider = document.getElementById('tempoSlider');
 var startStopButton = document.getElementById('startStopButton');
 var mainCircle = document.getElementById('mainCircle');
 var innerCircle = document.getElementById('innerCircle');
 var speedDisplay = document.getElementById('speedDisplay');
 
-var tickSound = new Audio('js/tick2.mp3');
+/*var tickSound = new Audio('js/tick2.mp3');*/
 var playing = false;
 var intervalID;
 var growCircle = true; // Flag to control whether to grow or shrink the inner circle

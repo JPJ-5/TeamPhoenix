@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
+﻿using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using uC = TeamPhoenix.MusiCali.Services.UserCreation;
+using TeamPhoenix.MusiCali.Services;
+using TeamPhoenix.MusiCali.Security;
 
 
 namespace AccCreationAPI.Controllers
@@ -12,39 +10,61 @@ namespace AccCreationAPI.Controllers
     [Route("[controller]")]
     public class AccCreationAPIController : ControllerBase
     {
+        private readonly IConfiguration configuration;
+        private AuthenticationSecurity authenticationSecurity;
+
+        public AccCreationAPIController(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            authenticationSecurity = new AuthenticationSecurity(configuration);
+        }
 
         [HttpPost("api/NormalAccCreationAPI")]
-        public JsonResult RegisterNormalUser(string email, DateTime dob, string uname, string bmail)
+        public IActionResult RegisterNormalUser([FromBody] AccCreationModel registration)
         {
-            if (uC.RegisterNormalUser(email, dob, uname, bmail))
+            UserCreationService uC = new UserCreationService(configuration);
+            if (uC.RegisterNormalUser(registration.Email, registration.Dob, registration.Uname, registration.Bmail))
             {
-                return new JsonResult(true);
+                return Ok(true); // Changed from JsonResult to IActionResult with Ok result
             }
-            return new JsonResult(false);
-
+            return BadRequest(false); // Changed from JsonResult to IActionResult with Ok result
         }
 
-        public class AdminUserModel
+        [HttpPost("api/AdminAccCreationAPI")]
+        public IActionResult RegisterAdminUser([FromBody] AccCreationModel model)
         {
-            public string Email { get; set; } = string.Empty;
-            public DateTime Dob { get; set; }
-            public string Uname { get; set; } = string.Empty;
-            public string Bmail { get; set; } = string.Empty;
-        }
+            UserCreationService uC = new UserCreationService(configuration);
+            var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-        [HttpPost("api/AdminlAccCreationAPI")]
-        public JsonResult RegisterAdminUser([FromBody] AdminUserModel model)
-        {
-            if (model == null)
+            //Console.WriteLine(accessToken);
+
+
+            var role = authenticationSecurity.getScopeFromToken(accessToken!);
+
+            var user = authenticationSecurity.getUserFromToken(accessToken!);
+
+
+            if ((role != string.Empty) && authenticationSecurity.CheckIdRoleExisting(user, role))
             {
-                return new JsonResult("Invalid data") { StatusCode = 400 }; // Bad Request
+
+                if (model == null)
+                {
+                    return BadRequest("Invalid data"); // Changed from JsonResult to IActionResult with BadRequest result
+                }
+
+                if (uC.RegisterAdminUser(model.Email, model.Dob, model.Uname, model.Bmail))
+                {
+                    return Ok(true); // Changed from JsonResult to IActionResult with Ok result
+                }
+                return BadRequest(false); // Changed from JsonResult to IActionResult with Ok result
+
+            }
+            else
+            {
+                return BadRequest("Unauthenticated!");
             }
 
-            if (uC.RegisterAdminUser(model.Email, model.Dob, model.Uname, model.Bmail))
-            {
-                return new JsonResult(true);
-            }
-            return new JsonResult(false);
+            
         }
 
     }

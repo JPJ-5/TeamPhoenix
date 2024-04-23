@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Musicali</title>
     <link href="css/site.css" rel="stylesheet" />
-    <link href="css/tempoToolStyles.css" rel="stylesheet" />
-    <link href="css/ArtistPortfolioStyles.css" rel="stylesheet" />
 </head>
 <body>
-
     <div class="navbar">
         <a href="#other" class="left">Other Functions</a>
 
@@ -62,6 +59,9 @@
                     <button type="submit" id="submit-recovery-otp">Submit</button>
                 </form>
 
+                <!-- Place this inside your existing HTML where you want the button to appear -->
+                <button id="enter-priceRangeSorting" class="button">Price Range Sorting</button>
+
                 <!-- User Profile Section, initially hidden -->
                 <div id="user-profile" class="user-profile scrollable-content" style="display: none;">
                     <p><strong>First Name:</strong> <span id="user-first-name"></span></p>
@@ -72,6 +72,7 @@
                     <p><strong>User Status:</strong> <span id="user-status"></span></p>
                     <p><strong>Description:</strong> <span id="user-description"></span></p>
                     <img id="user-profile-pic" src="" alt="Profile Pic" style="width: 200px; height: 200px;" />
+
 
                     <button id="modify-profile" class="modify-profile">Modify Profile</button>
                     <!-- Modify Profile Section (Hidden Initially) -->
@@ -90,7 +91,7 @@
                         </div>
 
                         <!-- Admin Management Section -->
-                        <div id="admin-management-section">
+                        <div id="admin-management-section" style="display: none;">
                             <h3>Admin Management Tools</h3>
                             <button id="admin-get-user">Get User</button>
                             <button id="admin-delete-user">Delete User</button>
@@ -123,13 +124,16 @@
                     <!-- Tempo Tool Button Here -->
                     <button id="enter-tempoTool" class="enter-tempoTool">Tempo Tool</button>
 
-                    <!-- Tempo Tool Coding Starts Here -->
-                    <button id="enter-artistPortfolio" class="enter-artistPortfolio">Artist Portfolio</button>
                     <!-- Scale Display Button Here -->
                     <button id="enter-scaleDisplay" class="enter-scaleDisplay">Scale Display</button>
 
+                    <!-- Bingo Board button here -->
+                    <button id="enter-BingoBoardView" class="enter-BingoBoardView">Bingo Board</button>
+
                     <!-- Artist Profile Calendar Coding Starts Here -->
                     <button id="enter-calendar" class="enter-calendar">Artist Profile Calendar</button>
+                    <!-- Place this inside your existing HTML where you want the button to appear -->
+                    <button id="Inventory Stock View" class="button">Inventory Stock View</button>
                     <!-- Artist Profile Calendar Section (Hidden Initally) -->
                     <div id="artist-calendar-section" style="display: none;">
 
@@ -247,6 +251,7 @@
                         </form>
                         <div id="create-gig-feedback" style="display: none;"></div>
                     </div>
+
                     <!-- Logout Button -->
                     <button id="logoutButton" class="logout-btn">Logout</button>
                 </div>
@@ -303,6 +308,7 @@
         <button onclick="printSelectedScale()">Print Scale</button>
         <br>
     </div>
+    <div id="display"></div>
 
     <div id="artistPortfolioView" style="display: none;">
         <div class="APcontainer"></div>
@@ -353,11 +359,44 @@
                 </div>
             </div>
         </div>
+    <!-- Page for bingo board feature-->
+    <div id="BingoBoardView" style="display: none;">
+        <h1>Bingo Board</h1>
+        <p id="BingoBoardLoadMsg"></p>
+        <!--script type="text/javascript" src="js/BingoBoard.js"></script-->
+        <table id="BingoBoardPostsTable" style="display: none;" class="fixed">
+            <tr>
+                <th>Post Title</th>
+                <th>Poster</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Pay</th>
+                <th>Description</th>
+                <!--th></th-->
+            </tr>
+        </table>
+        <br>
+        <div class="pagination">
+            <button id="bbGoPrev" class="pagination button" style="display: none; float: left; margin-left: 33%;">Previous Page</button>
+            <button id="bbGoNext" class="pagination button" style="display: none; float: right; margin-right: 33%;">Next Page</button>
+        </div>
+        <br>
+        <br>
+        <label id="bbPageSize">Posts Per Page:</label>
+        <select name="bbPageSize" id="bbPageSize">
+            <option value=7>7</option>
+            <option value=19>19</option>
+            <option value=31>31</option>
+        </select>
+        <br>
+        <br>
+
     </div>
 
     <script src="js/site.js"></script>
-    <script src="js/tempoTool.js"></script>
     <script src="js/ScaleDisplay.js"></script>
-    <script src="js/ArtistPortfolio.js"></script>
+    <script src="js/tempoTool.js"></script>
+    <script src="js/BingoBoard.js"></script>
+    <script src="js/artistProfileCalendar.js"></script>
 </body>
 </html>

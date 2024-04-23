@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.Services;
-using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using modifyUserService = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
-using DataAccessUserDeletion = TeamPhoenix.MusiCali.DataAccessLayer.UserDeletion; // Alias for clarity
-using mU = TeamPhoenix.MusiCali.DataAccessLayer.ModifyUser;
+using TeamPhoenix.MusiCali.Security;
+using TeamPhoenix.MusiCali.DataAccessLayer;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
@@ -11,67 +9,89 @@ namespace TeamPhoenix.MusiCali.Controllers
     [Route("[controller]")]
     public class ModifyUserProfileController : ControllerBase
     {
-        [HttpGet("{username}")]
-        public ActionResult<UserProfile> GetProfile(string username)
+        private AuthenticationSecurity authentication;
+        private ModifyUserService modifyUserService;
+        private UserDeletionDAO userDeletionService;
+        private ModifyUserDAO modifyUserDAO;
+        private readonly IConfiguration configuration;
+        public ModifyUserProfileController(IConfiguration configuration)
         {
-            var modifyUserService = new modifyUserService(); // Create an instance of ModifyUser
-            var userProfile = modifyUserService.GetProfile(username); // Now you can call the instance method
-            if (userProfile == null)
+            this.configuration = configuration;
+            authentication = new AuthenticationSecurity(configuration);
+            modifyUserService = new ModifyUserService(configuration);
+            modifyUserDAO = new ModifyUserDAO(configuration);
+            userDeletionService = new UserDeletionDAO(configuration);
+        }
+
+        [HttpGet("AdminLookUp")]
+        public IActionResult GetProfile([FromHeader] string username)
+        {
+            var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            var role = authentication.getScopeFromToken(accessToken!);
+            var user = authentication.getUserFromToken(accessToken!);
+
+            if (!string.IsNullOrEmpty(role) && authentication.CheckIdRoleExisting(user, role))
             {
-                return NotFound("User profile not found.");
+                var userProfile = modifyUserDAO.GetProfile(username);
+                if (userProfile == null)
+                {
+                    return NotFound("User profile not found.");
+                }
+                return Ok(userProfile);
             }
-            return Ok(userProfile);
-        }
-
-        public class UpdateClaimsRequest
-        {
-            public string Username { get; set; } = string.Empty;
-            public UserClaims Claims { get; set; } = new UserClaims();
-        }
-
-        public class UserClaims
-        {
-            public string UserRole { get; set; } = string.Empty;
+            else
+            {
+                return BadRequest("Unauthenticated!");
+            }
         }
 
         [HttpPost("updateClaims")]
         public IActionResult UpdateClaims([FromBody] UpdateClaimsRequest request)
         {
-            // Assuming mU is an alias for your ModifyUser class
-            var modifyUserService = new mU(); // Create an instance of ModifyUser
-            bool success = modifyUserService.UpdateClaims(request.Username, new Dictionary<string, string> { { "UserRole", request.Claims.UserRole } });
+            var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            var role = authentication.getScopeFromToken(accessToken!);
+            var user = authentication.getUserFromToken(accessToken!);
 
-            if (success)
+            if (!string.IsNullOrEmpty(role) && authentication.CheckIdRoleExisting(user, role))
             {
-                return Ok(new { success = true, message = "Claims updated successfully, user promoted to admin." });
+                bool success = modifyUserDAO.UpdateClaims(request.Username, new Dictionary<string, string> { { "UserRole", request.Claims.UserRole } });
+                if (success)
+                {
+                    return Ok(new { success = true, message = "Claims updated successfully, user promoted to admin." });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Failed to update claims." });
+                }
             }
             else
             {
-                return BadRequest(new { success = false, message = "Failed to update claims." });
+                return BadRequest("Unauthenticated!");
             }
         }
 
-
-
-        [HttpDelete("{username}")]
-        public IActionResult DeleteUser(string username)
+        [HttpDelete("DeleteProfile")]
+        public IActionResult DeleteUser([FromHeader] string username)
         {
-            // Call the DeleteProfile method from UserDeletion class
-            if (DataAccessUserDeletion.DeleteProfile(username))
+            var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            var role = authentication.getScopeFromToken(accessToken!);
+            var user = authentication.getUserFromToken(accessToken!);
+
+            if (!string.IsNullOrEmpty(role) && authentication.CheckIdRoleExisting(user, role))
             {
-                return Ok("User profile deleted successfully.");
+                if (userDeletionService.DeleteProfile(username))
+                {
+                    return Ok("User profile deleted successfully.");
+                }
+                else
+                {
+                    return BadRequest("Failed to delete user profile.");
+                }
             }
             else
             {
-                return BadRequest("Failed to delete user profile.");
+                return BadRequest("Unauthenticated!");
             }
-        }
-
-        public class UserProfileUpdateModel
-        {
-            public string Username { get; set; } = string.Empty;
-            public string FirstName { get; set; } = string.Empty;
-            public string LastName { get; set; } = string.Empty;
         }
 
         [HttpPost("ModifyProfile")]
@@ -79,18 +99,25 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             try
             {
-                DataAccessLayer.ModifyUser modifyUser = new DataAccessLayer.ModifyUser();
+                var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                var role = authentication.getScopeFromToken(accessToken!);
 
-                // Call ModifyProfile method to update the user profile using the model properties
-                bool success = modifyUser.ModifyProfile(model.Username, model.FirstName, model.LastName);
-
-                if (success)
+                if (!string.IsNullOrEmpty(role) && authentication.CheckIdRoleExisting(model.Username, role))
                 {
-                    return Ok("User profile updated successfully.");
+                    bool success = modifyUserDAO.ModifyProfile(model.Username, model.FirstName, model.LastName);
+
+                    if (success)
+                    {
+                        return Ok("User profile updated successfully.");
+                    }
+                    else
+                    {
+                        return StatusCode(500, "Failed to update user profile.");
+                    }
                 }
                 else
                 {
-                    return StatusCode(500, "Failed to update user profile.");
+                    return BadRequest("Unauthenticated!");
                 }
             }
             catch (Exception ex)
@@ -99,31 +126,38 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
         }
 
-        [HttpGet("GetUserInformation/{username}")]
-        public ActionResult GetUserInformation(string username)
+        [HttpGet("GetUserInformation")]
+        public IActionResult GetUserInformation([FromHeader] string username)
         {
             try
             {
-                var modifyUserService = new mU(); // Assuming ModifyUser is in the TeamPhoenix.MusiCali.DataAccessLayer namespace
-                var userInformation = modifyUserService.GetUserInformation(username);
+                var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                var role = authentication.getScopeFromToken(accessToken!);
 
-                if (userInformation != null)
+                if (!string.IsNullOrEmpty(role) && authentication.CheckIdRoleExisting(username, role))
                 {
-                    return Ok(userInformation);
+                    var userInformation = modifyUserDAO.GetUserInformation(username);
+
+                    if (userInformation != null)
+                    {
+                        return Ok(userInformation);
+                    }
+                    else
+                    {
+                        return NotFound("User information not found.");
+                    }
                 }
                 else
                 {
-                    return NotFound("User information not found.");
+                    return BadRequest("Unauthenticated!");
                 }
             }
             catch (KeyNotFoundException knf)
             {
-                // If username not found
                 return NotFound(knf.Message);
             }
             catch (Exception ex)
             {
-                // For other exceptions, consider logging the exception details
                 return StatusCode(500, $"An error occurred while retrieving the user information: {ex.Message}");
             }
         }
