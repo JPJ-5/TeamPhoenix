@@ -781,4 +781,9 @@
         window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
     });
 
+    //Artist Portfolio
+    document.getElementById('Artist Portfolio View').addEventListener('click', function () {
+        window.location.href = 'ArtistPortfolio.html'; // Redirects the user to PriceRangeSorting.html
+    });
+
 });

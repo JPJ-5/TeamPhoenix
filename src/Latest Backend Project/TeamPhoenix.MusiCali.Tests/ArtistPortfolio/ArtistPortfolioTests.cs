@@ -5,15 +5,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TeamPhoenix.MusiCali.Services;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 
 namespace TeamPhoenix.MusiCali.Tests
 {
     [TestClass]
-    public class ArtistPortfolioTest
+    public class ArtistPortfolioTests
     {
         private readonly IConfiguration config;
 
-        public ArtistPortfolioTest(IConfiguration config)
+        public ArtistPortfolioTests(IConfiguration config)
         {
             this.config = config;
         }

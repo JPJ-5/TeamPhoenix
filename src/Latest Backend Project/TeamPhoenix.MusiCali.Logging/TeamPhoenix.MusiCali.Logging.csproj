@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Renci.SshNet.Async" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup>

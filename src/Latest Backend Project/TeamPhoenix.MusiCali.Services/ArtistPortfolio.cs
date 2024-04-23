@@ -5,12 +5,19 @@ using Microsoft.AspNetCore.Http;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using Renci.SshNet;
-using Azure.Identity;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 
 namespace TeamPhoenix.MusiCali.Services
 {
     public class ArtistPortfolio
     {
+        private readonly IConfiguration config;
+
+        public ArtistPortfolio(IConfiguration config)
+        {
+            this.config = config;
+        }
         public static async Task<Result> UploadFile(string username, int slot, IFormFile file, string genre, string desc, IConfiguration config)
         {
             string privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY"); // access backend vm enviromental variable
