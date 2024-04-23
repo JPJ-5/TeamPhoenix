@@ -124,6 +124,9 @@
                     <!-- Tempo Tool Button Here -->
                     <button id="enter-tempoTool" class="enter-tempoTool">Tempo Tool</button>
 
+                    <!-- Arist Portfolio Starts Here -->
+                    <button id="enter-artistPortfolio" class="enter-artistPortfolio">Artist Portfolio</button>
+
                     <!-- Scale Display Button Here -->
                     <button id="enter-scaleDisplay" class="enter-scaleDisplay">Scale Display</button>
 
@@ -340,6 +343,57 @@
         <br>
         <br>
 
+    </div>
+
+    <div id="artistPortfolioView" style="display: none;">
+        <div class="APcontainer"></div>
+        <div id="profile-info" style="float: right;">
+            <div class="info-slot" id="info-upload"></div>
+        </div>
+    </div>
+
+    <!-- Profile Pic -->
+    <div id="Profile-pic" , style="float: left;">
+        <div class="pic-slot" id="file-upload-0"></div>
+        <input type="file" id="media-slot-0-content" style="display: none;">
+    </div>
+    </div>
+
+    <!-- Media Slots -->
+    <div class="media-slots" style="float: right;">
+        <!-- Loop through media slots -->
+        <div class="media-slot" id="slot-1">
+            <!-- Render media slot content conditionally -->
+            <p><strong>Media Slot 1:</strong></p>
+            <input type="file" id="media-slot-1-content" style="display: none;">
+            <!-- Play button will be added dynamically -->
+        </div>
+        <!-- Repeat for other media slots -->
+        <div class="media-slot" id="slot-2">
+            <p><strong>Media Slot 2:</strong></p>
+            <input type="file" id="media-slot-2-content" style="display: none;">
+            <!-- Play button will be added dynamically -->
+        </div>
+        <!-- Repeat for other media slots -->
+        <div class="media-slot" id="slot-3">
+            <p><strong>Media Slot 3:</strong></p>
+            <input type="file" id="media-slot-3-content" style="display: none;">
+            <!-- Play button will be added dynamically -->
+        </div>
+        <!-- Repeat for other media slots -->
+        <div class="media-slot" id="slot-4">
+            <p><strong>Media Slot 4:</strong></p>
+            <input type="file" id="media-slot-4-content" style="display: none;">
+            <!-- Play button will be added dynamically -->
+        </div>
+        <!-- Repeat for other media slots -->
+        <div class="media-slot" id="slot-5">
+            <p><strong>Media Slot 5:</strong></p>
+            <input type="file" id="media-slot-5-content" style="display: none;">
+            <!-- Play button will be added dynamically -->
+        </div>
+    </div>
+    </div>
     </div>
 
     <script src="js/site.js"></script>
