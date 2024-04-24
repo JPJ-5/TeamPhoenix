@@ -1,17 +1,18 @@
 
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('Artist Portfolio View').addEventListener('click', function () {
-        var activeUsername = sessionStorage.getItem('username');
-        // Reset page to default to remove media when Upload/Deletes occur
-        resetArtistPortfolioView();
-        loadProfileData(activeUsername);
-    });
+
+    var activeUsername = sessionStorage.getItem('username');
+    // Reset page to default to remove media when Upload/Deletes occur
+    resetArtistPortfolioView();
+    loadProfileData(activeUsername);
 });
 
 
 //Calls LoadApi from Controller to load all ArtistProfile data
 function loadProfileData(username) {
     var feedbackBox = document.getElementById('portfolio-feedback');
+    idToken = sessionStorage.getItem("idToken");
+    accessToken = sessionStorage.getItem("accessToken");
     
     fetch('http://localhost:8080/ArtistPortfolio/api/loadApi', {
         method: 'POST',
@@ -277,6 +278,8 @@ function displayArtistProfile(portfolioInfo) {
 //function to call api to delete file along with genre and description
 function deleteFile(slot){
     var activeUsername = sessionStorage.getItem('username');
+    idToken = sessionStorage.getItem("idToken");
+    accessToken = sessionStorage.getItem("accessToken");
     // Send POST request to delete API endpoint
     deleteForm = new FormData();
     deleteForm.append('Username', activeUsername);
@@ -309,6 +312,8 @@ function deleteFile(slot){
 function deleteInfo(section) {
     var activeUsername = sessionStorage.getItem('username');
     const deleteSection = [activeUsername, `${section}`];
+    idToken = sessionStorage.getItem("idToken");
+    accessToken = sessionStorage.getItem("accessToken");
 
     // Send POST request to delete info API endpoint
     fetch('http://localhost:8080/ArtistPortfolio/api/delInfoApi', {
@@ -340,6 +345,8 @@ function deleteInfo(section) {
 function triggerFileInput(slot) {
     //checking for inputted media in the input box created for it
     const input = document.getElementById(`media-slot-${slot}-content`);
+    idToken = sessionStorage.getItem("idToken");
+    accessToken = sessionStorage.getItem("accessToken");
     input.addEventListener('change', function() {
         const file = input.files[0];
 
@@ -393,6 +400,8 @@ function triggerInfoInput(section) {
     const inputValue = input.value;
     var activeUsername = sessionStorage.getItem('username');
     const sectionUpdate = [activeUsername, `${section}`, inputValue];
+    idToken = sessionStorage.getItem("idToken");
+    accessToken = sessionStorage.getItem("accessToken");
 
     // Send POST request to upload API endpoint
     fetch('http://localhost:8080/ArtistPortfolio/api/updateInfoApi', {
