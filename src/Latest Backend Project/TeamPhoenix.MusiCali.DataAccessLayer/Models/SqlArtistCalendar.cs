@@ -13,7 +13,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
             this.configuration = configuration;
             this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
         }
-        public bool executeSQL(string Sql, List<string> ParametersCategory, List<object>ParametersValue) //change return to a result-style object.
+        public bool executeSQL(string Sql, List<string> ParametersCategory, List<object> ParametersValue) //change return to a result-style object.
         {
             MySqlTransaction transaction; // starts as an empty transaction just in case it errors before connection. This makes it so the rollback function will also not error.
             try
@@ -52,52 +52,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
             catch (Exception ex)
             {
                 //transaction?.Rollback(); // will not rollback if transcaction is null.
-                return false;
-            }
-            return false;
-        }
-
-        public bool readSQL(string Sql, List<string> ParametersCategory, List<object> ParametersValue)
-        {
-            try
-            {
-                Dictionary<string, object> parameters = new Dictionary<string, object>();
-                for (int parameterCount = 0; parameterCount < ParametersCategory.Count; parameterCount++)
-                {
-                    parameters.Add(ParametersCategory[parameterCount], ParametersValue[parameterCount]);
-                }
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-
-                    MySqlCommand command = new MySqlCommand(Sql, connection); // used to create the command
-
-                    using (command)
-                    {
-                        using (MySqlDataReader sqlReader = command.ExecuteReader())
-                        {
-                            List<List<object>> allReadRows = new List<List<object>>(); //variable representing all of the rows being read with a SELECT Command.
-                            while (sqlReader.Read())
-                            {
-                                List<object> rowRead = new List<object>();
-
-                                for (int i = 0; i < sqlReader.FieldCount; i++) // This for loop will read every value given with a SELECT Command.
-                                {
-                                    rowRead.Add(sqlReader[i]); // Adds the value of an individual column on a certain row.
-                                }
-                                allReadRows.Add(rowRead);
-                            }
-
-                            if (allReadRows.Count > 0)
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
                 return false;
             }
             return false;
