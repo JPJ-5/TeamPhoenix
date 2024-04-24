@@ -50,22 +50,16 @@ input[type="number"], input[type="text"], select, button {
         box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
     }
 
-/* General button styling */
 button {
-    background-color: #007bff; /* Primary button color */
+    background-color: #007bff;
     color: white;
     cursor: pointer;
     border: none;
-    padding: 8px 12px; /* Reduced padding for a smaller button */
-    margin-top: 10px;
-    border-radius: 6px;
-    transition: all 0.3s;
-    font-size: 0.9rem; /* Smaller font size */
+    display: block;
 }
 
-    /* Styling for hover state */
     button:hover {
-        background-color: #0056b3; /* Darken the button color on hover */
+        background-color: #0056b3;
     }
 
 .main-content {
@@ -150,41 +144,30 @@ button {
     align-items: stretch;
 }
 
-/* Pagination controls specific styling */
-.pagination-controls button, .pagination-controls span {
-    padding: 6px 10px; /* Even smaller padding for pagination buttons */
-    margin: 0 5px;
-    background-color: #007bff; /* Primary button color */
-    border: none;
-    border-radius: 3px;
-    display: inline-block;
-    font-size: 0.85rem; /* Slightly smaller font size for pagination controls */
-}
-
-.pagination-controls span {
-    background-color: white;
-    border: 1px solid #ccc; /* Adds a subtle border */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    cursor: default;
-    font-weight: bold;
-}
-
-.pagination-controls button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background-color: #007bff; /* Primary button color */
-}
-
-.pagination-controls button:hover:not(:disabled) {
-    background-color: #0056b3; /* Darker shade for hover effect */
-}
-
 .pagination-controls {
     display: flex;
     justify-content: center;
     padding: 10px 0;
-    align-items: center; /* Centers items vertically */
 }
+
+    .pagination-controls button {
+        padding: 8px 16px;
+        margin: 0 5px;
+        background-color: #ffe0a1;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .pagination-controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-controls button:hover:not(:disabled) {
+            background-color: #ffcf7f;
+        }
+
 
 @media (max-width: 800px) {
     .sidebar, .main-content {

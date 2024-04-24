@@ -1,33 +1,25 @@
-let currentPage = 1;
-let pageSize = document.getElementById('pageSize').value;
-
 function fetchItems() {
     const bottomPrice = document.getElementById('bottomPrice').value;
     const topPrice = document.getElementById('topPrice').value;
-    const name = document.getElementById('searchInput').value;
     const loadingIndicator = document.getElementById('loading');
     const results = document.getElementById('results');
+
+    if (parseInt(topPrice) < parseInt(bottomPrice)) {
+        alert("Maximum price should be greater than minimum price.");
+        return;
+    }
 
     loadingIndicator.style.display = 'block';
     results.innerHTML = '';
 
-    let url = `http://localhost:8080/Item/api/pagedFilteredItems?pageNumber=${currentPage}&pageSize=${pageSize}`;
-    if (name) {
-        url += `&name=${encodeURIComponent(name)}`;
-    }
-    if (bottomPrice && topPrice) {
-        url += `&bottomPrice=${bottomPrice}&topPrice=${topPrice}`;
-    }
-
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            displayResults(data.items);
-            const totalPageCount = Math.ceil(data.totalCount / pageSize);
-            document.getElementById('pageInfo').textContent = `Page ${currentPage} / ${totalPageCount}`;
-            document.getElementById('prevPage').disabled = currentPage <= 1;
-            document.getElementById('nextPage').disabled = currentPage >= totalPageCount;
+    fetch(`http://localhost:8080/Item/api/sort?bottomPrice=${bottomPrice}&topPrice=${topPrice}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch items: ' + response.statusText);
+            }
+            return response.json();
         })
+        .then(data => displayResults(data.data))
         .catch(error => {
             console.error('Error fetching data:', error);
             results.innerHTML = `<p>Error: ${error.message}</p>`;
@@ -38,33 +30,88 @@ function fetchItems() {
 }
 
 function searchItems() {
-    const nameInput = document.getElementById('searchInput').value.trim();
-    const isValid = /^[a-zA-Z\s]+$/.test(nameInput); // Regex to allow only letters and spaces
-
-    if (!nameInput) {
+    const query = document.getElementById('searchInput').value;
+    if (!query) {
         alert("Please enter a search term.");
         return;
     }
-    if (!isValid) {
-        alert("Please enter a valid search term using only letters.");
-        return;
-    }
-    currentPage = 1; // Reset to first page for new search results
-    fetchItems(); // Perform the fetch with the query
+
+    fetch(`http://localhost:8080/Item/api/search?query=${encodeURIComponent(query)}`)
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 404) {
+                    throw new Error('No items found matching your search.');
+                }
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data =>  displayResults(data.data))
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            alert(error.message);
+        });
 }
 
+let currentPage = 1;
+let pageSize = document.getElementById('pageSize').value;
 
-function setPredefinedRanges() {
-    const range = document.getElementById('predefinedRanges').value;
-    if (range) {
-        const [min, max] = range.split('-');
-        document.getElementById('bottomPrice').value = min;
-        document.getElementById('topPrice').value = max;
-    } else {
-        document.getElementById('bottomPrice').value = '';
-        document.getElementById('topPrice').value = '';
+document.getElementById('pageSize').value = pageSize;
+
+function updatePageSize() {
+    pageSize = parseInt(document.getElementById('pageSize').value);
+    loadPageItems(currentPage); // Reload with the new page size
+}
+
+function loadPageItems(page, bottomPrice = null, topPrice = null) {
+    const pageInfo = document.getElementById('pageInfo');
+    const loadingIndicator = document.getElementById('loading');
+    const results = document.getElementById('results');
+    currentPage = page;
+
+    let url = `http://localhost:8080/Item/api/pagedItems?pageNumber=${currentPage}&pageSize=${pageSize}`;
+    if (bottomPrice && topPrice) {
+        url += `&bottomPrice=${bottomPrice}&topPrice=${topPrice}`;
     }
-    fetchItems(); // Apply new filters and reset pagination
+
+    loadingIndicator.style.display = 'block';
+    results.innerHTML = '';
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (!data || !data.items || data.items.length === 0) {
+                results.innerHTML = '<p>No items found.</p>';
+                pageInfo.textContent = `Page ${currentPage} of 0`;
+            } else {
+                displayResults(data.items);
+                const totalPageCount = Math.ceil(data.totalCount / pageSize);
+                pageInfo.textContent = `Page ${currentPage} of ${totalPageCount}`;
+                document.getElementById('prevPage').disabled = currentPage <= 1;
+                document.getElementById('nextPage').disabled = currentPage >= totalPageCount;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            results.innerHTML = `<p>Error: ${error.message}</p>`;
+        })
+        .finally(() => {
+            loadingIndicator.style.display = 'none';
+        });
+}
+
+// Use this function to initialize or update page data
+document.addEventListener('DOMContentLoaded', function () {
+    loadPageItems(1); // Load initial page
+});
+
+// Pagination controls
+function changePage(direction) {
+    if (direction === 'next') {
+        loadPageItems(currentPage + 1);
+    } else if (direction === 'prev') {
+        loadPageItems(currentPage - 1);
+    }
 }
 
 function displayResults(items) {
@@ -74,6 +121,7 @@ function displayResults(items) {
         results.innerHTML = '<p>No items found.</p>';
         return;
     }
+    const ul = document.createElement('div');
     items.forEach(item => {
         const card = document.createElement('div');
         card.className = 'item-card';
@@ -85,26 +133,25 @@ function displayResults(items) {
     });
 }
 
-function changePage(direction) {
-    const nextPage = direction === 'next' ? currentPage + 1 : currentPage - 1;
-    if (nextPage < 1) return; // Prevent going to non-existing negative page numbers
-
-    // Immediately disable both buttons to prevent multiple requests
-    document.getElementById('prevPage').disabled = true;
-    document.getElementById('nextPage').disabled = true;
-
-    currentPage = nextPage;
-    fetchItems(); // Fetch items for the new page
+// Add the loadPageItems call to setPredefinedRanges to handle price range selection with pagination
+function setPredefinedRanges() {
+    const range = document.getElementById('predefinedRanges').value;
+    if (range) {
+        const [min, max] = range.split('-');
+        document.getElementById('bottomPrice').value = min;
+        document.getElementById('topPrice').value = max;
+    } else {
+        document.getElementById('bottomPrice').value = '';
+        document.getElementById('topPrice').value = '';
+    }
+    fetchItems();
 }
 
-function updatePageSize() {
-    pageSize = parseInt(document.getElementById('pageSize').value);
-    currentPage = 1; // Reset to the first page
-    fetchItems(); // Reload with the new page size
-}
+// Event listeners to reset the dropdown when manual price input is modified
+document.getElementById('bottomPrice').addEventListener('input', function () {
+    document.getElementById('predefinedRanges').value = ""; // Reset dropdown when manual change is made
+});
 
-function initPage() {
-    fetchItems(); // Initial fetch for default or saved filter states
-}
-
-document.addEventListener('DOMContentLoaded', initPage); // Ensures the script runs after the document is fully loaded
+document.getElementById('topPrice').addEventListener('input', function () {
+    document.getElementById('predefinedRanges').value = ""; // Reset dropdown when manual change is made
+});

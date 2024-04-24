@@ -7,9 +7,26 @@
         _dataAccessLayer = dataAccessLayer;
     }
 
-    public async Task<HashSet<Item>> GetPagedFilteredItems(int pageNumber, int pageSize, string? name = null, decimal? bottomPrice = null, decimal? topPrice = null)
+    // Fetch sorted items by price range with pagination
+    public async Task<HashSet<Item>> SortItemsByPriceRange(decimal topPrice, decimal bottomPrice)
     {
-        return await _dataAccessLayer.FetchPagedItems(pageNumber, pageSize, name, bottomPrice, topPrice);
+        return await _dataAccessLayer.FetchItems(topPrice, bottomPrice);
+    }
+
+    // Fetch items by name or other search criteria with pagination
+    public async Task<HashSet<Item>> SearchItemsByName(string query)
+    {
+        return await _dataAccessLayer.FetchItemsByName(query);
+    }
+
+    public async Task<HashSet<Item>> GetAllItems()
+    {
+        return await _dataAccessLayer.GetAllItems();
+    }
+
+    public async Task<List<Item>> GetPagedItems(int pageNumber, int pageSize)
+    {
+        return await _dataAccessLayer.FetchPagedItems(pageNumber, pageSize);
     }
 
     public async Task<int> GetTotalItemCount()
