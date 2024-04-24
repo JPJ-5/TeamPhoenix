@@ -2,7 +2,6 @@ using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.Services;
 using AuthenticationSecurity = TeamPhoenix.MusiCali.Security.AuthenticationSecurity;
 using TeamPhoenix.MusiCali.Security.Contracts;
-using Amazon.S3;
 
 namespace AccCreationAPI
 {
@@ -24,9 +23,6 @@ namespace AccCreationAPI
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            
-
-            
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<LogOutDAO>();
@@ -40,9 +36,6 @@ namespace AccCreationAPI
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             IConfiguration configuration = configurationBuilder.Build();
-
-            builder.Services.AddAWSService<IAmazonS3>();
-            builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
 
             builder.Services.AddTransient<DataAccessLayer>(); // Assuming a parameterless constructor or adjust accordingly
             builder.Services.AddTransient<ItemService>();

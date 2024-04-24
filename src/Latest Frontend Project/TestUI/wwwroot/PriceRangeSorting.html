@@ -29,15 +29,15 @@
         </div>
     </div>
     <div class="main-content">
-        <h2 class="results-title">Available Craft Items</h2> <!-- Title for the product list -->
+        <h2 class="results-title">Available Craft Items</h2>
         <div id="results" class="results"></div>
         <div id="loading" class="loading">Loading...</div>
         <div class="pagination-controls">
             <button id="prevPage" onclick="changePage('prev')">Previous</button>
-            <span id="pageInfo">Page 1 of X</span>
+            <span id="pageInfo">Page 1 / X</span> <!-- Updated to show 'Page X / Total' -->
             <button id="nextPage" onclick="changePage('next')">Next</button>
             <select id="pageSize" onchange="updatePageSize()">
-                <option value="6"selected>6 per page</option>
+                <option value="5" selected>5 per page</option>
                 <option value="10">10 per page</option>
                 <option value="20">20 per page</option>
                 <option value="50">50 per page</option>
