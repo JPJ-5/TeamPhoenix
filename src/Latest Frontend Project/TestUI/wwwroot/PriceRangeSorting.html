@@ -7,27 +7,42 @@
     <link rel="stylesheet" href="css/PriceRangeSorting.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Craft Item Price Range Sorter</h1>
+    <div class="sidebar">
+        <h1>Craft Item Sorter</h1>
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Enter item name">
+            <input type="text" id="searchInput" placeholder="Enter Item Name">
             <button onclick="searchItems()" class="button">Search</button>
         </div>
-        <div class="form-container">
+        <div class="filter-container">
+            <h2>Filter by Price</h2>
             <select id="predefinedRanges" onchange="setPredefinedRanges()">
                 <option value="">Select a Price Range</option>
-                <option value="0-10">Up to $10</option>
+                <option value="0-10">$0 to $10</option>
                 <option value="50-100">$50 to $100</option>
                 <option value="200-400">$200 to $400</option>
                 <option value="500-800">$500 to $800</option>
                 <option value="900-2000">$900 to $2000</option>
             </select>
-            <input type="number" id="bottomPrice" placeholder="Minimum Price" min="0" max="999999">
-            <input type="number" id="topPrice" placeholder="Maximum Price" min="1" max="1000000">
+            <input type="number" id="bottomPrice" placeholder="Min Price" min="0" max="999999">
+            <input type="number" id="topPrice" placeholder="Max Price" min="1" max="1000000">
             <button onclick="fetchItems()">Sort Items</button>
         </div>
-        <div id="results"></div>
+    </div>
+    <div class="main-content">
+        <h2 class="results-title">Available Craft Items</h2> <!-- Title for the product list -->
+        <div id="results" class="results"></div>
         <div id="loading" class="loading">Loading...</div>
+        <div class="pagination-controls">
+            <button id="prevPage" onclick="changePage('prev')">Previous</button>
+            <span id="pageInfo">Page 1 of X</span>
+            <button id="nextPage" onclick="changePage('next')">Next</button>
+            <select id="pageSize" onchange="updatePageSize()">
+                <option value="6"selected>6 per page</option>
+                <option value="10">10 per page</option>
+                <option value="20">20 per page</option>
+                <option value="50">50 per page</option>
+            </select>
+        </div>
     </div>
     <script src="js/PriceRangeSorting.js"></script>
 </body>
