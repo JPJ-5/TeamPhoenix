@@ -6,8 +6,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\InventoryStockView.html" />
-  </ItemGroup>
-
 </Project>
