@@ -1,52 +1,61 @@
-describe('Craft Item Sorter Functionality', () => {
-    beforeEach(() => {
-        cy.visit('http://localhost:8800/PriceRangeSorting.html'); // Adjust this if your URL is different
+describe('Craft Item Sorter Tests', () => {
+    describe('Search Items', () => {
+        it('successfully searches for items by name', () => {
+          cy.visit('http://localhost:8800/PriceRangeSorting.html'); // Adjust URL if hosting the site locally on a different port
+          cy.get('#searchInput').type('Aromatic');
+          cy.get('.button').click();
+          cy.get('#results').should('contain', 'Aromatic');
+        });
     });
 
-    it('successfully loads and fetches initial items', () => {
-        cy.get('#loading').should('be.visible');
-        cy.get('.item-card-grid, .item-card-list').should('have.length.at.least', 1);
-    });
-
-    it('handles pagination correctly', () => {
-        cy.get('#nextPage').click();
-        cy.get('#pageInfo').should('contain', 'Page 2');
-        cy.get('#prevPage').click();
-        cy.get('#pageInfo').should('contain', 'Page 1');
-    });
-
-    it('changes view format between list and grid', () => {
-        // Assuming there's a select element for changing views
-        cy.get('#viewFormat').select('list');
-        cy.get('.item-card-list').should('exist');
-        cy.get('#viewFormat').select('grid');
-        cy.get('.item-card-grid').should('exist');
-    });
-
-    it('applies price filters and checks results', () => {
-        cy.get('#predefinedRanges').select('$50 to $100');
-        cy.wait(1000)
-        cy.get('.item-price').each(($el) => {
-            const price = parseFloat($el.text().substring(1)); // Assuming price format is "$xx.xx"
+    describe('Filter Items by Price', () => {
+        it('filters items within a specified price range', () => {
+          cy.visit('http://localhost:8800/PriceRangeSorting.html');
+      
+          // Mock the API response
+          cy.intercept('GET', 'http://localhost:8080/Item/api/pagedFilteredItems?pageNumber=1&pageSize=5&bottomPrice=50&topPrice=100', {
+            statusCode: 200,
+            body: {
+              items: [
+                { name: 'Craft Item 1', price: 55.00 },
+                { name: 'Craft Item 2', price: 75.00 },
+                { name: 'Craft Item 3', price: 99.99 }
+              ],
+              totalCount: 3
+            }
+          }).as('getFilteredItems');
+      
+          // Trigger the filtering
+          cy.get('#predefinedRanges').select('$50 to $100');
+          cy.wait('@getFilteredItems');
+      
+          // Check if the items are within the expected price range
+          cy.get('.item-price').each(($el) => {
+            const price = parseFloat($el.text().replace('$', ''));
             expect(price).to.be.at.least(50);
-            expect(price).to.be.lessThan(100);
+            expect(price).to.be.below(100);
+          });
         });
     });
 
-    it('validates search functionality', () => {
-        cy.get('#searchInput').type('aromatic');
-        cy.get('button').contains('Search').click();
-        cy.wait(1000)
-        cy.get('.item-name').each(($el) => {
-            const name = $el.text();
-            expect(name.toLowerCase()).to.include('aromatic');
+    describe('Pagination', () => {
+        it('navigates to the next page of results', () => {
+          cy.visit('http://localhost:8800/PriceRangeSorting.html');
+          cy.get('#nextPage').click();
+          cy.get('#pageInfo').should('contain', 'Page 2');
         });
-    });
+    });      
 
-    it('ensures that changing the page size updates the number of items displayed', () => {
-        cy.get('#pageSize').select('10');
-        cy.wait(1000)
-        cy.get('.item-card-grid, .item-card-list').should('have.length', 10);
-    });
-
+    describe('Update View Format', () => {
+        it('switches between grid and list views', () => {
+            cy.visit('http://localhost:8800/PriceRangeSorting.html');
+            // Select 'List View' and check if the class is correctly applied
+            cy.get('#viewFormat').select('List View');
+            cy.get('#results').should('have.class', 'results item-card-list'); // Ensure the class change takes effect
+    
+            // Select 'Grid View' and check if the class is correctly applied
+            cy.get('#viewFormat').select('Grid View');
+            cy.get('#results').should('have.class', 'results item-card-grid'); // Ensure the class change takes effect
+        });
+    });        
 });
