@@ -34,5 +34,34 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
         public string? File5Ext { get; set; }
         public string? File5Genre { get; set; }
         public string? File5Desc { get; set; }
+
+        public ArtistProfileViewModel()
+        {
+            Occupation = null;
+            Bio = null;
+            Location = null;
+            File0 = null;
+            File0Ext = null;
+            File1 = null;
+            File1Ext = null;
+            File1Genre = null;
+            File1Desc = null;
+            File2 = null;
+            File2Ext = null;
+            File2Genre = null;
+            File2Desc = null;
+            File3 = null;
+            File3Ext = null;
+            File3Genre = null;
+            File3Desc = null;
+            File4 = null;
+            File4Ext = null;
+            File4Genre = null;
+            File4Desc = null;
+            File5 = null;
+            File5Ext = null;
+            File5Genre = null;
+            File5Desc = null;
+        }
     }
 }

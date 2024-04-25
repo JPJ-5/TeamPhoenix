@@ -4,20 +4,27 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class ArtistPortfolioDao
     {
-        public static string _connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+        private readonly IConfiguration? configuration;
+        private readonly string? connectionString;
 
-        public static Result SaveFilePath(string username, int slot, string filePath, string genre, string desc)
+        public ArtistPortfolioDao(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
+        }
+
+        public Result SaveFilePath(string username, int slot, string filePath, string genre, string desc)
         {
             try
             {
-                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
@@ -60,11 +67,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         }
 
 
-        public static Result DeleteFilePath(string username, int slot)
+        public Result DeleteFilePath(string username, int slot)
         {
             try
             {
-                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
@@ -101,7 +108,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public static string GetFilePath(string username, int slot)
+        public string GetFilePath(string username, int slot)
         {
             try
             {
@@ -110,7 +117,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 // SQL query to retrieve the file path based on the username and slot number
                 string query = $"SELECT File{slot}Path FROM ArtistProfile WHERE Username = @Username";
 
-                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     using (MySqlCommand command = new MySqlCommand(query, connection))
                     {
@@ -137,7 +144,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public static List<List<string>> GetPortfolio(string username)
+        public List<List<string>> GetPortfolio(string username)
         {
             try
             {
@@ -151,7 +158,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 string loc = "";
                 string query = $"SELECT ArtistOccupation, ArtistBio, ArtistLocation FROM ArtistProfile WHERE Username = @Username";
 
-                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
@@ -245,11 +252,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public static Result updateInfo(string username, string section, string info)
+        public Result updateInfo(string username, string section, string info)
         {
             try
             {
-                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
                     string capSection = char.ToUpper(section[0]) + section.Substring(1);
@@ -273,11 +280,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public static Result DeleteSection(string username, string section)
+        public Result DeleteSection(string username, string section)
         {
             try
             {
-                using (MySqlConnection connection = new MySqlConnection(_connectionString))
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 

@@ -11,7 +11,96 @@ namespace TeamPhoenix.MusiCali.Services
 {
     public class ArtistPortfolio
     {
-        public static async Task<Result> UploadFile(string username, int slot, IFormFile file, string genre, string desc, IConfiguration config)
+        private readonly IConfiguration? config;
+        private readonly ArtistPortfolioDao? artistPortfolioDao;
+        
+        public ArtistPortfolio(IConfiguration configuration)
+        {
+            config = configuration;
+            artistPortfolioDao = new ArtistPortfolioDao(configuration);
+        }
+        public ArtistProfileViewModel LoadArtistProfile(string username)
+        {
+            try
+            {
+                var file = artistPortfolioDao.GetPortfolio(username);
+                var fileInfo = file[0];
+                var localFiles = DownloadFilesLocally(fileInfo);
+                var genreList = file[1];
+                var descList = file[2];
+                var artistInfo = file[3];
+                if (artistInfo == null || fileInfo == null)
+                {
+                    throw new Exception($"Unable to access profile data");
+                }
+
+                var responseData = new ArtistProfileViewModel
+                {
+                    Occupation = artistInfo[0],
+                    Bio = artistInfo[1],
+                    Location = artistInfo[2],
+                    File0 = GetFileBase64(localFiles[0]),
+                    File1 = GetFileBase64(localFiles[1]),
+                    File2 = GetFileBase64(localFiles[2]),
+                    File3 = GetFileBase64(localFiles[3]),
+                    File4 = GetFileBase64(localFiles[4]),
+                    File5 = GetFileBase64(localFiles[5]),
+                    File0Ext = Path.GetExtension(localFiles[0]),
+                    File1Ext = Path.GetExtension(localFiles[1]),
+                    File2Ext = Path.GetExtension(localFiles[2]),
+                    File3Ext = Path.GetExtension(localFiles[3]),
+                    File4Ext = Path.GetExtension(localFiles[4]),
+                    File5Ext = Path.GetExtension(localFiles[5]),
+                    File1Genre = genreList[0],
+                    File2Genre = genreList[1],
+                    File3Genre = genreList[2],
+                    File4Genre = genreList[3],
+                    File5Genre = genreList[4],
+                    File1Desc = descList[0],
+                    File2Desc = descList[1],
+                    File3Desc = descList[2],
+                    File4Desc = descList[3],
+                    File5Desc = descList[4],
+                };
+                foreach (string path in localFiles)
+                {
+                    if (System.IO.File.Exists(path) && path is not null)
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                }
+
+                return responseData;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"error in loading service for artist portfolio {ex.Message}");
+            }
+        }
+
+        private string GetFileBase64(string filePath)
+        {
+            try
+            {
+                if (System.IO.File.Exists(filePath))
+                {
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                    return Convert.ToBase64String(fileBytes);
+                }
+                else
+                {
+                    Console.WriteLine($"File '{filePath}' does not exist.");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading file '{filePath}': {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<Result> UploadFile(string username, int slot, IFormFile file, string genre, string desc)
         {
             var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
             var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
@@ -48,7 +137,7 @@ namespace TeamPhoenix.MusiCali.Services
                         scpClient.Upload(new FileInfo(localFilePath), remoteFilePath + fileName);
 
                         // Save the file path to the database
-                        ArtistPortfolioDao.SaveFilePath(username, slot, remoteFilePath + fileName, genre, desc);
+                        artistPortfolioDao.SaveFilePath(username, slot, remoteFilePath + fileName, genre, desc);
                     }
 
 
@@ -73,12 +162,12 @@ namespace TeamPhoenix.MusiCali.Services
             }
         }
 
-        public static Result DeleteFile(string username, int slot, IConfiguration config)
+        public Result DeleteFile(string username, int slot)
         {
             try
             {
                 // Get the file path from the database
-                string filePath = ArtistPortfolioDao.GetFilePath(username, slot);
+                string filePath = artistPortfolioDao.GetFilePath(username, slot);
 
                 string privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY"); // access backend vm enviromental variable
                 var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
@@ -110,7 +199,7 @@ namespace TeamPhoenix.MusiCali.Services
                     sshClient.Disconnect();
 
                     // Update the file path in the database to null
-                    ArtistPortfolioDao.DeleteFilePath(username, slot);
+                    artistPortfolioDao.DeleteFilePath(username, slot);
 
                 }
 
@@ -124,7 +213,7 @@ namespace TeamPhoenix.MusiCali.Services
             }
         }
 
-        public static List<string> DownloadFilesLocally(List<string> filePaths, IConfiguration config)
+        public List<string> DownloadFilesLocally(List<string> filePaths)
         {
             var localFilePaths = new List<string>();
 
@@ -134,7 +223,8 @@ namespace TeamPhoenix.MusiCali.Services
                 if (privateKeyFilePath == null)
                 {
                     throw new InvalidOperationException("JULIE_KEY environmental variable is not set.");
-                }// access backend vm enviromental variable
+                }
+
                 var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
                 var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
                 var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;
@@ -149,32 +239,40 @@ namespace TeamPhoenix.MusiCali.Services
 
                     using (var sftpClient = new SftpClient(connectionInfo))
                     {
-                        sftpClient.Connect();
-
-                        foreach (var filePath in filePaths)
+                        try
                         {
-                            if (filePath != string.Empty)
+                            sftpClient.Connect();
+
+                            foreach (var filePath in filePaths)
                             {
-                                // Extract file name from the file path
-                                var fileName = Path.GetFileName(filePath);
-
-                                // Generate a local file path to save the downloaded file
-                                var localFilePath = Path.Combine(Path.GetTempPath(), fileName);
-
-                                // Download the file from the remote server
-                                using (var fileStream = File.Create(localFilePath))
+                                if (!string.IsNullOrEmpty(filePath))
                                 {
-                                    sftpClient.DownloadFile(filePath, fileStream);
-                                }
+                                    // Extract file name from the file path
+                                    var fileName = Path.GetFileName(filePath);
 
-                                // Add the local file path to the list
-                                localFilePaths.Add(localFilePath);
+                                    // Generate a local file path to save the downloaded file
+                                    var localFilePath = Path.Combine(Path.GetTempPath(), fileName);
+
+                                    // Download the file from the remote server
+                                    using (var fileStream = File.Create(localFilePath))
+                                    {
+                                        sftpClient.DownloadFile(filePath, fileStream);
+                                    }
+
+                                    // Add the local file path to the list
+                                    localFilePaths.Add(localFilePath);
+                                }
+                                else
+                                {
+                                    // Add null to maintain slot order
+                                    localFilePaths.Add(string.Empty);
+                                }
                             }
-                            else
-                            {
-                                // Add null to maintain slot order
-                                localFilePaths.Add(string.Empty);
-                            }
+                        }
+                        finally
+                        {
+                            // Disconnect the SFTP client even if an exception occurs
+                            sftpClient.Disconnect();
                         }
                     }
 
@@ -183,14 +281,23 @@ namespace TeamPhoenix.MusiCali.Services
 
                 return localFilePaths;
             }
+            catch (Renci.SshNet.Common.SshConnectionException sshEx)
+            {
+                throw new Exception($"SSH connection error: {sshEx.Message}", sshEx);
+            }
+            catch (Renci.SshNet.Common.SshAuthenticationException authEx)
+            {
+                throw new Exception($"SSH authentication error: {authEx.Message}", authEx);
+            }
             catch (Exception ex)
             {
                 // Log the exception for troubleshooting
-                throw new Exception($"Error downloading files locally: {ex.Message}");
+                throw new Exception($"Error downloading files locally: {ex.Message}", ex);
             }
         }
 
-        public static void DeleteLocalFiles(List<string> filePaths)
+
+        public void DeleteLocalFiles(List<string> filePaths)
         {
             try
             {
