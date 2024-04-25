@@ -22,15 +22,15 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
 
-        [HttpPost("api/ItemCreation")]
-        public IActionResult CreateAnItem([FromBody] ItemCreationModel item)
-        {
-            ItemCreationService uC = new ItemCreationService(configuration);
-            if (uC.CreateAnItem(item.Email, item.Dob, item.Uname, item.Bmail))
-            {
-                return Ok(true); // Changed from JsonResult to IActionResult with Ok result
-            }
-            return BadRequest(false); // Changed from JsonResult to IActionResult with Ok result
-        }
+        //[HttpPost("api/ItemCreation")]
+        //public IActionResult CreateAnItem([FromBody] ItemCreationModel item)
+        //{
+        //    ItemCreationService uC = new ItemCreationService(configuration);
+        //    if (uC.CreateAnItem(item.Email, item.Dob, item.Uname, item.Bmail))
+        //    {
+        //        return Ok(true); // Changed from JsonResult to IActionResult with Ok result
+        //    }
+        //    return BadRequest(false); // Changed from JsonResult to IActionResult with Ok result
+        //}
     }
 }
