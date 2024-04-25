@@ -1,89 +1,52 @@
-describe('Initial Page Load', () => {
-  it('successfully loads and fetches initial items', () => {
-      cy.visit('http://localhost:8800/PriceRangeSorting.html') // Adjust this if your base URL differs
-      cy.get('#loading').should('be.visible');
-  });
-});
+describe('Craft Item Sorter Functionality', () => {
+    beforeEach(() => {
+        cy.visit('http://localhost:8800/PriceRangeSorting.html'); // Adjust this if your URL is different
+    });
 
-describe('Initial Page Load', () => {
     it('successfully loads and fetches initial items', () => {
-        cy.visit('http://localhost:8800/PriceRangeSorting.html') // Adjust this to your application's actual URL
         cy.get('#loading').should('be.visible');
-        cy.get('#results').should('not.contain', 'No items found.');
-        cy.get('.item-card').should('have.length.at.least', 1); // Assumes there are items to display
-    });
-});
-
-describe('Search Functionality', () => {
-    it('accepts input and fetches search results', () => {
-        cy.visit('http://localhost:8800/PriceRangeSorting.html')
-        cy.get('#searchInput').type('Aromatic Candle Set{enter}');
-        cy.get('#loading').should('be.visible');
+        cy.get('.item-card-grid, .item-card-list').should('have.length.at.least', 1);
     });
 
-    it('validates search input and shows alert on invalid input', () => {
-        cy.visit('http://localhost:8800/PriceRangeSorting.html')
-        cy.get('#searchInput').type('1234{enter}');
-        cy.on('window:alert', (str) => {
-            expect(str).to.equal(`Please enter a valid search term using only letters.`);
-        });
+    it('handles pagination correctly', () => {
+        cy.get('#nextPage').click();
+        cy.get('#pageInfo').should('contain', 'Page 2');
+        cy.get('#prevPage').click();
+        cy.get('#pageInfo').should('contain', 'Page 1');
     });
-});
 
-describe('Pagination Controls', () => {
-    it('navigates to the last page and checks if the next button is disabled', () => {
-        cy.visit('http://localhost:8800/PriceRangeSorting.html');
-        cy.intercept('GET', '**/pagedFilteredItems*').as('fetchItems');
-
-        // Function to recursively click 'Next' until it's disabled
-        function navigateToLastPage() {
-            cy.get('#nextPage').then($btn => {
-                if (!$btn.is(':disabled')) {
-                    cy.wrap($btn).click();
-                    // Wait for the AJAX call to complete after each click
-                    cy.wait('@fetchItems', { timeout: 3000 }); // Increased timeout for safety
-                    navigateToLastPage(); // Recursively click next until disabled
-                } else {
-                    // Once disabled, we perform the assertion to ensure it's actually disabled
-                    cy.wrap($btn).should('be.disabled');
-                }
-            });
-        }
-
-        // Start navigating through the pages
-        navigateToLastPage();
+    it('changes view format between list and grid', () => {
+        // Assuming there's a select element for changing views
+        cy.get('#viewFormat').select('list');
+        cy.get('.item-card-list').should('exist');
+        cy.get('#viewFormat').select('grid');
+        cy.get('.item-card-grid').should('exist');
     });
-});
 
-
-
-describe('Price Range Filter', () => {
-    it('filters items by price range after setting page size to 5', () => {
-        cy.visit('http://localhost:8800/PriceRangeSorting.html');
-
-        // Intercepting AJAX call
-        cy.intercept('GET', '/Item/api/pagedFilteredItems*').as('getFilteredItems');
-
-        cy.wait(2000); // Wait for 2000 milliseconds
-        
-        // Set the page size to 20
-        cy.get('#pageSize').select('5');
-
-        // Select price range $50 to $100
+    it('applies price filters and checks results', () => {
         cy.get('#predefinedRanges').select('$50 to $100');
-
-        // Wait for the AJAX request to complete
-        cy.wait('@getFilteredItems');
-
-        // Ensure the loading completes and the items are displayed
-        cy.get('.item-price', { timeout: 10000 }).should('be.visible').each(($price) => {
-            const priceText = $price.text().trim(); // Gets the text and trims any whitespace
-            const price = parseInt(priceText.substring(1)); // Removes the dollar sign and parses the number
-
-            // Asserting each item's price is within the specified range
+        cy.wait(1000)
+        cy.get('.item-price').each(($el) => {
+            const price = parseFloat($el.text().substring(1)); // Assuming price format is "$xx.xx"
             expect(price).to.be.at.least(50);
-            expect(price).to.be.lessThan(101); // Including $100
+            expect(price).to.be.lessThan(100);
         });
     });
-});
 
+    it('validates search functionality', () => {
+        cy.get('#searchInput').type('aromatic');
+        cy.get('button').contains('Search').click();
+        cy.wait(1000)
+        cy.get('.item-name').each(($el) => {
+            const name = $el.text();
+            expect(name.toLowerCase()).to.include('aromatic');
+        });
+    });
+
+    it('ensures that changing the page size updates the number of items displayed', () => {
+        cy.get('#pageSize').select('10');
+        cy.wait(1000)
+        cy.get('.item-card-grid, .item-card-list').should('have.length', 10);
+    });
+
+});

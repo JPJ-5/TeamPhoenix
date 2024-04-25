@@ -28,12 +28,6 @@
             <button onclick="fetchItems()">Sort Items</button>
         </div>
 
-        <!-- View format selector -->
-        <select id="viewFormat" onchange="updateViewFormat()">
-            <option value="grid" selected>Grid View</option>
-            <option value="list">List View</option>
-        </select>
-
         <h2>Page Size Update</h2>
         <select id="pageSize" onchange="updatePageSize()">
             <option value="5" selected>5 per page</option>
@@ -42,6 +36,12 @@
             <option value="50">50 per page</option>
         </select>
 
+        <!-- View format selector -->
+        <h2>View Format</h2>
+        <select id="viewFormat" onchange="updateViewFormat()">
+            <option value="grid" selected>Grid View</option>
+            <option value="list">List View</option>
+        </select>
     </div>
     <div class="main-content">
         <h2 class="results-title">Available Craft Items</h2>

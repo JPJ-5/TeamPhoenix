@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Text;
-using System.Reflection.PortableExecutable;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 public class DataAccessLayer
 {
@@ -26,7 +24,7 @@ public class DataAccessLayer
             if (!string.IsNullOrWhiteSpace(name) || bottomPrice.HasValue || topPrice.HasValue)
             {
                 baseQuery.Append(" WHERE ");
-                var conditions = new List<string>();
+                var conditions = new HashSet<string>();
 
                 if (!string.IsNullOrWhiteSpace(name))
                 {
@@ -67,7 +65,8 @@ public class DataAccessLayer
                         items.Add(new Item
                         {
                             Name = reader.GetString("Name"),
-                            Price = reader.GetDecimal("Price")
+                            Price = reader.GetDecimal("Price"),
+                            SKU = reader.GetString("SKU") // Ensure the SKU is also retrieved
                         });
                     }
                 }
