@@ -115,6 +115,19 @@ function changePage(direction) {
 }
 
 function updateViewFormat() {
+    const results = document.getElementById('results');
+    const viewFormat = document.getElementById('viewFormat').value;
+
+    // Remove existing view classes
+    results.classList.remove('item-card-list', 'item-card-grid');
+
+    // Add the new view class based on the selected format
+    if (viewFormat === 'list') {
+        results.classList.add('item-card-list');
+    } else {
+        results.classList.add('item-card-grid');
+    }
+
     fetchItems(); // Reload items to display with the new format
 }
 

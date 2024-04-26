@@ -2,9 +2,9 @@ describe('Craft Item Sorter Tests', () => {
     describe('Search Items', () => {
         it('successfully searches for items by name', () => {
           cy.visit('http://localhost:8800/PriceRangeSorting.html'); // Adjust URL if hosting the site locally on a different port
-          cy.get('#searchInput').type('Aromatic');
+          cy.get('#searchInput').type('Handmade');
           cy.get('.button').click();
-          cy.get('#results').should('contain', 'Aromatic');
+          cy.get('#results').should('contain', 'Handmade');
         });
     });
 
