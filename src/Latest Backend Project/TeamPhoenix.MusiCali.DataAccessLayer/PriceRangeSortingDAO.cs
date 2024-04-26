@@ -19,7 +19,7 @@ public class DataAccessLayer
         {
             await connection.OpenAsync();
             var offset = (pageNumber - 1) * pageSize;
-            var baseQuery = new StringBuilder("SELECT Name, Price, SKU FROM CraftItemTest");
+            var baseQuery = new StringBuilder("SELECT Name, Price, SKU FROM CraftItem");
 
             if (!string.IsNullOrWhiteSpace(name) || bottomPrice.HasValue || topPrice.HasValue)
             {
@@ -80,7 +80,7 @@ public class DataAccessLayer
         using (var connection = new MySqlConnection(connectionString))
         {
             await connection.OpenAsync();
-            var query = "SELECT COUNT(*) FROM CraftItemTest";
+            var query = "SELECT COUNT(*) FROM CraftItem";
             using (var command = new MySqlCommand(query, connection))
             {
                 return Convert.ToInt32(await command.ExecuteScalarAsync());
