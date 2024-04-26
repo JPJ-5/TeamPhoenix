@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Text;
-using System.Reflection.PortableExecutable;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 public class DataAccessLayer
 {
@@ -21,12 +19,12 @@ public class DataAccessLayer
         {
             await connection.OpenAsync();
             var offset = (pageNumber - 1) * pageSize;
-            var baseQuery = new StringBuilder("SELECT Name, Price, SKU FROM CraftItemTest");
+            var baseQuery = new StringBuilder("SELECT Name, Price, SKU FROM CraftItem");
 
             if (!string.IsNullOrWhiteSpace(name) || bottomPrice.HasValue || topPrice.HasValue)
             {
                 baseQuery.Append(" WHERE ");
-                var conditions = new List<string>();
+                var conditions = new HashSet<string>();
 
                 if (!string.IsNullOrWhiteSpace(name))
                 {
@@ -67,7 +65,8 @@ public class DataAccessLayer
                         items.Add(new Item
                         {
                             Name = reader.GetString("Name"),
-                            Price = reader.GetDecimal("Price")
+                            Price = reader.GetDecimal("Price"),
+                            SKU = reader.GetString("SKU") // Ensure the SKU is also retrieved
                         });
                     }
                 }
@@ -81,7 +80,7 @@ public class DataAccessLayer
         using (var connection = new MySqlConnection(connectionString))
         {
             await connection.OpenAsync();
-            var query = "SELECT COUNT(*) FROM CraftItemTest";
+            var query = "SELECT COUNT(*) FROM CraftItem";
             using (var command = new MySqlCommand(query, connection))
             {
                 return Convert.ToInt32(await command.ExecuteScalarAsync());

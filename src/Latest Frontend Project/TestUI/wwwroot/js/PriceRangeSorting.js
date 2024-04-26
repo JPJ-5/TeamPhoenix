@@ -53,7 +53,6 @@ function searchItems() {
     fetchItems(); // Perform the fetch with the query
 }
 
-
 function setPredefinedRanges() {
     const range = document.getElementById('predefinedRanges').value;
     if (range) {
@@ -69,18 +68,36 @@ function setPredefinedRanges() {
 
 function displayResults(items) {
     const results = document.getElementById('results');
+    const viewFormat = document.getElementById('viewFormat').value;
     results.innerHTML = '';
     if (items.length === 0) {
         results.innerHTML = '<p>No items found.</p>';
         return;
     }
+
     items.forEach(item => {
         const card = document.createElement('div');
-        card.className = 'item-card';
-        card.innerHTML = `
+        card.className = viewFormat === 'list' ? 'item-card-list' : 'item-card-grid';
+        const content = `
             <div class="item-name">${item.name}</div>
             <div class="item-price">$${item.price.toFixed(2)}</div>
         `;
+
+        if (viewFormat === 'list') {
+            // Add your list view HTML structure here
+            card.innerHTML = `
+                    <img src="images/wallpaperflare.com_wallpaper.jpg" style="width: 225px; height: 218px; object-fit: cover;" class="item-image" />
+                    ${content}
+            `;
+        } else {
+            // Your existing grid view HTML structure
+            const content = `
+            <img src="images/wallpaperflare.com_wallpaper.jpg" style="width: 225px; height: 218px; object-fit: cover;" class="item-image" />
+            <div class="item-name">${item.name}</div>
+            <div class="item-price">$${item.price.toFixed(2)}</div>`;
+            card.innerHTML = content;
+        }
+
         results.appendChild(card);
     });
 }
@@ -96,6 +113,11 @@ function changePage(direction) {
     currentPage = nextPage;
     fetchItems(); // Fetch items for the new page
 }
+
+function updateViewFormat() {
+    fetchItems(); // Reload items to display with the new format
+}
+
 
 function updatePageSize() {
     pageSize = parseInt(document.getElementById('pageSize').value);

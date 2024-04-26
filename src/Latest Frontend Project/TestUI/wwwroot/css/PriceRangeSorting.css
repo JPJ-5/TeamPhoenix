@@ -133,13 +133,17 @@ button {
 }
 
 .results {
+    display: flex;
     flex-grow: 1;
+    gap: 20px; /* Provides spacing between cards */
     background: #ffffff;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
     min-height: 300px; /* Ensure this is sufficient to show some items without scrolling */
+    max-height: 740px; /* Or however tall you want it to be */
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /* Ensure the main content container and sidebar are aligned properly */
@@ -149,6 +153,54 @@ button {
     flex-direction: column;
     align-items: stretch;
 }
+
+/* Grid view styles (existing styles) */
+.item-card-grid {
+    /* Your existing styles for grid view */
+}
+
+/* List view styles */
+.item-card-list {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Take full width */
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Separator for list items */
+    box-sizing: border-box; /* Make sure padding doesn't add to the width */
+}
+
+    .item-card-list .item-image {
+        width: 50px; /* Example size, adjust as needed */
+        margin-right: 10px;
+        /* Align image size in list view */
+    }
+
+    .item-card-list .item-name,
+    .item-card-list .item-price {
+        margin: 0;
+        /* Ensure there's no margin to keep items in a neat line */
+    }
+
+    /* You might want to adjust your item name and price styles for list view */
+    .item-card-list .item-name {
+        flex-grow: 1;
+        /* Allows the name to take up the remaining space */
+    }
+
+    .item-card-list .item-price {
+        /* Any specific styles for the price in list view */
+    }
+
+    .item-card img {
+        max-width: 225px;
+        max-height: 218px;
+        width: auto;
+        height: auto;
+        display: block; /* Removes bottom space/aligns properly in container */
+        margin: 0 auto; /* Centers image in the container */
+        object-fit: contain; /* Ensures the image's aspect ratio is maintained without cropping */
+    }
+
 
 /* Pagination controls specific styling */
 .pagination-controls button, .pagination-controls span {
