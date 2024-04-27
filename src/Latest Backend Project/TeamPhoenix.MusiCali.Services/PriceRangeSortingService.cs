@@ -23,6 +23,17 @@ public class ItemService
         try
         {
             var items = await _dataAccessLayer.FetchPagedItems(pageNumber, pageSize, name, bottomPrice, topPrice);
+            if (items == null || items.Count == 0)
+            {
+                _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "Data", "System fails to show the sorting result with valid available data.");
+                throw new Exception("No items found within the specified filters.");
+            }
+
+            if (items.Count > pageSize)
+            {
+                _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "View", "Wrong sorting format is shown to user.");
+                throw new Exception("Results are not shown in the correct format.");
+            }
             _loggerService.CreateLog(userHash, LogLevel.Information.ToString(), "Item Retrieval", $"Fetched {items.Count} items. " + logContext);
             return items;
         }
@@ -39,6 +50,11 @@ public class ItemService
         try
         {
             int itemCount = await _dataAccessLayer.CountItems();
+            if (itemCount < 0)
+            {
+                _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "View", "Invalid Page Count shown to user.");
+                throw new Exception("Invalid total item count received.");
+            }
             _loggerService.CreateLog(userHash, LogLevel.Information.ToString(), "Item Count", $"Total items count: {itemCount}");
             return itemCount;
         }
