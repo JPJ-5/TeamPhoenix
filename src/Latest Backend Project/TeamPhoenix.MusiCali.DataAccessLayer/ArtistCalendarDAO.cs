@@ -3,12 +3,12 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
-    public class ArtistCalendarDAL
+    public class ArtistCalendarDAO
     {
         private readonly IConfiguration configuration;
         private readonly SqlArtistCalendar artistCalendarAccess;
 
-        public ArtistCalendarDAL(IConfiguration configuration)
+        public ArtistCalendarDAO(IConfiguration configuration)
         {
             this.configuration = configuration;
             this.artistCalendarAccess = new SqlArtistCalendar(this.configuration);

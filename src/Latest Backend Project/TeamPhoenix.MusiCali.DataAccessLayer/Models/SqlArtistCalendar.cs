@@ -5,7 +5,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
 {
     public class SqlArtistCalendar
     {
-        private readonly string connectionString; //fix to use configuration file in the future.
+        private readonly string connectionString;
         private readonly IConfiguration configuration;
 
         public SqlArtistCalendar(IConfiguration configuration)

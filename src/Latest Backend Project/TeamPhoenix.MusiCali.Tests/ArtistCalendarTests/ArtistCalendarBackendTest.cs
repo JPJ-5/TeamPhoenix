@@ -1,16 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using System.Diagnostics; // for timing the length of Act
-using TeamPhoenix.MusiCali.DataAccessLayer;
-using artistService = TeamPhoenix.MusiCali.Services; // specifying the service layer as communcation between backend to backend can cause issues for controllers.
+﻿using System.Diagnostics; // for timing the length of Act.
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using aC = TeamPhoenix.MusiCali.Controllers.ArtistCalendarController;
-using TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Services;
 using Microsoft.Extensions.Configuration;
-using System.Configuration;
-using TeamPhoenix.MusiCali.Controllers;
 namespace TeamPhoenix.MusiCali.Tests
 {
     [TestClass]

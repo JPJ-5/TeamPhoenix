@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using artistCalendarLogging  = TeamPhoenix.MusiCali.Logging.Logger; // fix to static
+using TeamPhoenix.MusiCali.Logging;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using Microsoft.Extensions.Configuration; //change to project reference later
@@ -9,12 +9,13 @@ namespace TeamPhoenix.MusiCali.Services
     public class ArtistCalendarService
     {
         private readonly IConfiguration configuration;
-        private readonly ArtistCalendarDAL artistCalendarDAL;
-
+        private readonly ArtistCalendarDAO artistCalendarDAL;
+        private readonly LoggerService artistCalendarLogging;
         public ArtistCalendarService(IConfiguration configuration)
         {
             this.configuration = configuration;
-            this.artistCalendarDAL = new ArtistCalendarDAL(this.configuration);
+            this.artistCalendarDAL = new ArtistCalendarDAO(this.configuration);
+            this.artistCalendarLogging = new LoggerService(this.configuration);
         }
         public Result CreateGigService(string posterUsername, string gigName, DateTime dateTimeStart, bool visibility, string location, string description, string pay)
         {
