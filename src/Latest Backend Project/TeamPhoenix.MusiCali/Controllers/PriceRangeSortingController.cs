@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 [ApiController]
 [Route("[controller]")]
 public class ItemController : ControllerBase
 {
     private readonly ItemService _itemService;
+    private readonly IConfiguration configuration;
 
-    public ItemController(ItemService itemService)
+    public ItemController(ItemService itemService, IConfiguration configuration)
     {
         _itemService = itemService;
+        this.configuration = configuration;
     }
 
     [HttpGet("api/pagedFilteredItems")]
