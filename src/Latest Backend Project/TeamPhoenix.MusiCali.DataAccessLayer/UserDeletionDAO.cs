@@ -1,15 +1,21 @@
 ﻿using MySql.Data.MySqlClient;
-using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using System;
+using Microsoft.Extensions.Configuration;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class UserDeletionDAO
     {
         // Hardcoded connection string
-        private static string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+        private readonly string connectionString;
+        private readonly IConfiguration configuration;
 
-        public static bool DeleteProfile(string username)
+        public UserDeletionDAO(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
+        }
+
+        public bool DeleteProfile(string username)
         {
             string queryUserProfile = "DELETE FROM UserProfile WHERE Username = @Username";
             string queryUserAccount = "DELETE FROM UserAccount WHERE Username = @Username";
@@ -54,10 +60,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public static string GetUserHash(string username)
+        public string GetUserHash(string username)
         {
             // Implementation remains the same for GetUserHash
-            string connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
