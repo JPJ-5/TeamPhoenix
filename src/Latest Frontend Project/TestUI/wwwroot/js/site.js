@@ -21,6 +21,7 @@
     });
 
     showLoginFormButton.addEventListener('click', function () {
+        resetPageTimer(pageName);
         hideGroup('group2');
         hideGroup('group3');
         loginForm.style.display = 'block';
@@ -781,4 +782,5 @@
         window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
     });
 
+    startPageTimer();
 });
