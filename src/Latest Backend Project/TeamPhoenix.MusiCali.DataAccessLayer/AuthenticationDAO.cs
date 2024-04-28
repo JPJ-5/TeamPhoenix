@@ -139,29 +139,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public bool DeauthenticateUser(string username)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    string sql = "UPDATE UserAuthN SET IsAuth = 0 WHERE Username = @Username";
-                    using (MySqlCommand cmd = new MySqlCommand(sql, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@Username", username);
-                        int result = cmd.ExecuteNonQuery();
-                        return result > 0; // Returns true if any rows were updated
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Log or handle the error as needed
-                    throw new Exception($"Error deauthenticating user: {ex.Message}");
-                }
-            }
-        }
-
         private Dictionary<string, string> ParseClaimsFromJson(string claimsJson)
         {
             try

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.Services;
 using TeamPhoenix.MusiCali.Security;
-using TeamPhoenix.MusiCali.DataAccessLayer;
 
 [ApiController]
 [Route("[controller]")]
@@ -33,7 +32,7 @@ public class LogoutController : ControllerBase
 
         if ((role != string.Empty) && authenticationSecurity.CheckIdRoleExisting(request.UserName, role))
         {
-            
+
             if (request == null || string.IsNullOrEmpty(request.UserName))
             {
                 return BadRequest(new { message = "User hash is required" });
@@ -42,22 +41,13 @@ public class LogoutController : ControllerBase
             var result = await logoutService.LogoutUserAsync(request.UserName);
             if (result)
             {
-                // Call to deauthenticate the user
-                var deauthResult = new AuthenticationDAO(configuration).DeauthenticateUser(request.UserName);
-                if (deauthResult)
-                {
-                    return Ok(new { message = "Logout successful and user deauthenticated" });
-                }
-                else
-                {
-                    return BadRequest(new { message = "Failed to deauthenticate user" });
-                }
+                return Ok(new { message = "Logout successful and logged" });
             }
             else
             {
                 return BadRequest(new { message = "Logout failed" });
             }
-            
+
         }
         else
         {
