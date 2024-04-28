@@ -18,7 +18,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
 
-                string sql = "SELECT Username FROM ArtistProfile WHERE Username LIKE @userSearch AND ArtistCollabSearchVisibility = 1";
+                string sql = "SELECT Username FROM ArtistProfile";
 
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {

@@ -50,6 +50,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             var acceptedRequests = CollabFeatureDAL.GetAcceptedCollabsByUsername(username);
 
             CollabData collabs = new CollabData();
+
             collabs.sentCollabs = sentRequests;
             collabs.receivedCollabs = receivedRequests;
             collabs.acceptedCollabs = acceptedRequests;
@@ -78,12 +79,12 @@ namespace TeamPhoenix.MusiCali.Controllers
             catch (Exception ex)
             {
 
-                throw new Exception("Failed accept collab; " + ex.Message);
+                throw new Exception("Failed to accept collab; " + ex.Message);
 
             }
         }
 
-        [HttpPost("api/LoadCollabsAPI")]
+        [HttpGet("api/LoadCollabsAPI")]
 
         public CollabData LoadCollabsInView(CollabUsers collab){
 
@@ -98,6 +99,22 @@ namespace TeamPhoenix.MusiCali.Controllers
             catch(Exception ex){
 
                 throw new Exception("Could not load the collabs" + ex.Message);
+            }
+        }
+
+        [HttpGet("api/DisplayAvailableUsersAPI")]
+        public IActionResult ShowAvailUsers([FromHeader] string userName){
+
+            try{
+
+                List<string> availUsers = CollabFeatureDAL.SearchUsers(userName);
+
+                return Ok(availUsers);
+            }
+
+            catch(Exception ex){
+
+                throw new Exception("Could not load available users" + ex.Message);
             }
         }
     }
