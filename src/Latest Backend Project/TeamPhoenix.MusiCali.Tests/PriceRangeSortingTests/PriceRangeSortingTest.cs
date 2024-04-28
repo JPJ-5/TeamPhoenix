@@ -17,7 +17,7 @@ namespace MyApp.Tests
             configuration = builder.Build();
 
             dal = new DataAccessLayer(configuration);
-            service = new ItemService(dal);
+            service = new ItemService(dal, configuration);
         }
 
         [TestMethod]
