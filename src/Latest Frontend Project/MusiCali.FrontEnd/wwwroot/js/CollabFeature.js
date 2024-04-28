@@ -88,6 +88,14 @@ document.getElementById('create-collabRequest').addEventListener('click', functi
     }
 });
 
+document.getElementById('create-collabRequest').addEventListener('click', function () {//listens for whenever an element with this id so whenever it's been clicked it'll run this function
+    //function collabSentAlert() {
+        var popup = document.getElementById('myPopup');
+        popup.classList.toggle("show");
+        alert("Collab Request has been sent!");
+    
+});
+
 document.getElementById('accept-collabRequest').addEventListener('click', function () {//listens for whenever an element with this id so whenever it's been clicked it'll run this function
 
 
@@ -156,10 +164,40 @@ document.getElementById('view-requests').addEventListener('click', function () {
         });
 });
 
+function populateUserDropdown() {
+    fetch('http://localhost:8080/CollabFeature/api/DisplayAvailableUsers')
+        .then(response => response.json())
+        .then(users => {
+            const selectElement = document.getElementById('create-collabRequest');
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.username;
+                option.textContent = user.username;
+                selectElement.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching authenticated users:', error));
+}
+document.addEventListener('DOMContentLoaded', function () {
+    // Populate user dropdown when the page is loaded
+    populateUserDropdown();
+});
+
 function displayCollabs() {
     var feedbackBox = document.getElementById('collab-request-list');
 
-    fetch('http://localhost:8080/CollabFeature/api/LoadCollabsAPI')
+    var payload = {
+        senderUsername: sender,
+        receiverUsername: receiver
+    }
+
+    fetch('http://localhost:8080/CollabFeature/api/LoadCollabsAPI',{
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+})
         .then(function(response) {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -182,6 +220,18 @@ function displayCollabs() {
             console.error('Error:', error);
             feedbackBox.textContent = 'Error loading collab requests. Please try again.';
         });
+}
+
+function collabSentAlert() {
+    var popup = document.getElementById('myPopup');
+    popup.classList.toggle("show");
+    alert("Collab Request has been sent!");
+}
+
+function acceptRequest(){
+    var accept = document.getElementById('create-collabRequest');
+    accept.classList.toggle("show");
+    alert("You've accepted this collab!");
 }
 
 

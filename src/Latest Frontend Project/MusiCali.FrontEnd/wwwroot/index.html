@@ -312,13 +312,20 @@
     <!-- Page for collab feature feature -->
     <div id="CollabFeatureView" style="display: none;">
         <h1 class="neon-text">Collab Feature</h1>
+        <p class= "neon-text">Collab Feature</p>
         <p id="enter-collabFeature"></p>
-        <select id="create-collabRequest" size="20">
-            <option value="Send a Request">Send A Request</option>
-        </select>
-        <select id="accept-collabRequest" size="20">
-            <option value="Accept a Request">Accept A Request</option>
-        </select>
+        <div class="popup">
+            <span class="popuptext" id="myPopup"></span>
+            <div id="create-collabRequest">
+                <!--<option value="Send a Request">Send A Request</option>-->
+            <!-- Move onclick event to the outer button -->
+            <button onclick="collabSentAlert()">Send A Request</button>
+            </div>
+            <div id="accept-collabRequest">
+            <!-- Move onclick event to the outer button -->
+            </div>
+        </div>
+            <button onclick="acceptRequest()">Accept A Request</button>
         <select id="view-requests">
             <option value="View Sent Requests">View Sent</option>
             <option value="View Accepted Requests">View Accepted</option>
