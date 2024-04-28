@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.Services;
 using TeamPhoenix.MusiCali.Security;
+using TeamPhoenix.MusiCali.DataAccessLayer;
 
 [ApiController]
 [Route("[controller]")]
@@ -27,10 +28,6 @@ public class LogoutController : ControllerBase
     public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
     {
         var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-
-        //Console.WriteLine(accessToken);
-
-       
         var role = authenticationSecurity.getScopeFromToken(accessToken!);
 
 
@@ -45,7 +42,16 @@ public class LogoutController : ControllerBase
             var result = await logoutService.LogoutUserAsync(request.UserName);
             if (result)
             {
-                return Ok(new { message = "Logout successful and logged" });
+                // Call to deauthenticate the user
+                var deauthResult = new AuthenticationDAO(configuration).DeauthenticateUser(request.UserName);
+                if (deauthResult)
+                {
+                    return Ok(new { message = "Logout successful and user deauthenticated" });
+                }
+                else
+                {
+                    return BadRequest(new { message = "Failed to deauthenticate user" });
+                }
             }
             else
             {
@@ -58,7 +64,4 @@ public class LogoutController : ControllerBase
             return BadRequest("Unauthenticated!");
         }
     }
-
-
-    
 }
