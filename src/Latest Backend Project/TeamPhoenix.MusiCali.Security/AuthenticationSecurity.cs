@@ -106,6 +106,16 @@ namespace TeamPhoenix.MusiCali.Security
 
                         return true;
                     }
+                    if (userA.FailedAttempts <= 3)
+                    {
+                        RecordFailedAttempt(userA, userAcc);
+                        return false;
+                    }
+                    else
+                    {
+                        RecoverUserDAO recoverUserDAO = new RecoverUserDAO(configuration);
+                        recoverUserDAO.DisableUser(userA);
+                    }
                 }
                 else
                 {
@@ -139,6 +149,16 @@ namespace TeamPhoenix.MusiCali.Security
             }
             catch (Exception ex)
             {
+                if (userA.FailedAttempts <= 3)
+                {
+                    RecordFailedAttempt(userA, userAcc);
+                    return false;
+                }
+                else
+                {
+                    RecoverUserDAO recoverUserDAO = new RecoverUserDAO(configuration);
+                    recoverUserDAO.DisableUser(userA);
+                }
                 //throw new Exception($"Error authenticating {ex.Message}");
                 Console.WriteLine(ex.ToString());
                 return false;        
