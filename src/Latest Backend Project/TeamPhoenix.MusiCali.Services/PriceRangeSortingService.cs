@@ -26,7 +26,7 @@ public class ItemService
             if (items == null || items.Count == 0)
             {
                 _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "Data", "System fails to show the sorting result with valid available data.");
-                throw new Exception("No items found within the specified filters.");
+                return new HashSet<Item>(); // Return an empty HashSet instead of throwing an exception
             }
 
             if (items.Count > pageSize)
