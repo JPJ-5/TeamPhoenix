@@ -126,7 +126,7 @@
                     <button id="enter-scaleDisplay" class="enter-scaleDisplay">Scale Display</button>
 
                     <!--Test Collab Creation-->
-                    <button id = "enter-collabFeature" class = "enter-CollabFeature">Collab Feature [Test]</button>
+                    <button id = "enter-collabFeature" class = "enter-CollabFeature">Collab Feature</button>
                     
                     <!-- Bingo Board button here -->
                     <button id="enter-BingoBoardView" class="enter-BingoBoardView">Bingo Board</button>
@@ -316,16 +316,18 @@
         <p id="enter-collabFeature"></p>
         <div class="popup">
             <span class="popuptext" id="myPopup"></span>
-            <div id="create-collabRequest">
-                <!--<option value="Send a Request">Send A Request</option>-->
-            <!-- Move onclick event to the outer button -->
-            <button onclick="collabSentAlert()">Send A Request</button>
+            <div class="create-collabRequest">
+                <select id = "user-options" size = "7">
+                    <option>Select a user from this menu</option>
+                </select>
+                <option value="Send a Request"></option>
+                <button onclick="collabSentAlert()">Send A Request</button>
             </div>
-            <div id="accept-collabRequest">
+            <div class="accept-collabRequest">
             <!-- Move onclick event to the outer button -->
+            <button onclick="acceptRequest()">Accept A Request</button>
             </div>
         </div>
-            <button onclick="acceptRequest()">Accept A Request</button>
         <select id="view-requests">
             <option value="View Sent Requests">View Sent</option>
             <option value="View Accepted Requests">View Accepted</option>
@@ -333,7 +335,7 @@
         <br>
         <button onclick="displayCollabs()">See Collabs</button>
         <br>
-        <div id="collab-request-list" style="margin-top: 20px;"></div>
+        <div id="view-requests" style="margin-top: 20px;"></div>
     </div>
     
 
