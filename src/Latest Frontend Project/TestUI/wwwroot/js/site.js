@@ -325,10 +325,6 @@
         }
     });
 
-    document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
-        window.location.href = 'PriceRangeSorting.html'; // Redirects the user to PriceRangeSorting.html
-    });
-
     function logoutUser() {
         localStorage.clear()
         sessionStorage.clear()
@@ -777,6 +773,11 @@
     // Inventory Stock
     document.getElementById('Inventory Stock View').addEventListener('click', function () {
         window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
+    });
+
+    //Price Range Sorting
+    document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
+        window.location.href = 'PriceRangeSorting.html'; // Redirects the user to PriceRangeSorting.html
     });
 
 });
