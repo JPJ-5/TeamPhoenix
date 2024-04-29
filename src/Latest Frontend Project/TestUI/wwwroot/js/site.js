@@ -505,9 +505,6 @@
         }
     });
 
-
-
-
     // Inside prepareAdminUI
     document.getElementById('admin-get-user').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to fetch:");
