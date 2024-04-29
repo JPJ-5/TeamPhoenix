@@ -73,9 +73,10 @@
                     alert("OTP sent to your email.");
                     // Optionally, show OTP form
                     document.getElementById("otp-form").style.display = 'block';
+                    document.getElementById('account-recovery-section').style.display = 'none';
                 } else {
                     // Email does not exist
-                    alert("Email does not exist.");
+                    alert("Email does not exist or the account is disabled try account recovery.");
                 }
             })
             .catch((error) => {
@@ -326,10 +327,6 @@
 
     document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
         window.location.href = 'PriceRangeSorting.html'; // Redirects the user to PriceRangeSorting.html
-    });
-
-    document.getElementById('Inventory Stock View').addEventListener('click', function () {
-        window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
     });
 
     function logoutUser() {

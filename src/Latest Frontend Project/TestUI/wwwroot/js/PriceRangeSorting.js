@@ -131,7 +131,6 @@ function updateViewFormat() {
     fetchItems(); // Reload items to display with the new format
 }
 
-
 function updatePageSize() {
     pageSize = parseInt(document.getElementById('pageSize').value);
     currentPage = 1; // Reset to the first page
