@@ -329,10 +329,6 @@
         window.location.href = 'PriceRangeSorting.html'; // Redirects the user to PriceRangeSorting.html
     });
 
-    document.getElementById('Inventory Stock View').addEventListener('click', function () {
-        window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
-    });
-
     function logoutUser() {
         localStorage.clear()
         sessionStorage.clear()
