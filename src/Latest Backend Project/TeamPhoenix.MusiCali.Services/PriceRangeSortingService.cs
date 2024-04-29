@@ -32,7 +32,7 @@ public class ItemService
             if (items.Count > pageSize)
             {
                 _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "View", "Wrong sorting format is shown to user.");
-                throw new Exception("Results are not shown in the correct format.");
+                return new HashSet<Item>(); // Return an empty HashSet instead of throwing an exception
             }
             _loggerService.CreateLog(userHash, LogLevel.Information.ToString(), "Item Retrieval", $"Fetched {items.Count} items. " + logContext);
             return items;
