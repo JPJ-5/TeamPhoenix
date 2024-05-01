@@ -1,5 +1,5 @@
 function fetchInventoryStock() {
-    const username = document.getElementById('username').value;
+    const username = sessionStorage.getItem('username');
     const resultsDiv = document.getElementById('inventoryResults');
     const loadingIndicator = document.getElementById('loading');
     idToken = sessionStorage.getItem("idToken");
