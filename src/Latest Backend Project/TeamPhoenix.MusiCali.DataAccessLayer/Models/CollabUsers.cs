@@ -5,6 +5,5 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models{
         public string senderUsername{ get; set; }
         public string receiverUsername{ get; set; }
 
-        public string availUsers{get; set; }
     }
 }
