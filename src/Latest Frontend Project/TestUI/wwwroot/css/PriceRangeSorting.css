@@ -21,6 +21,7 @@
     #priceRangeSortingView .sidebar {
         display: inline-block; /* Changed from flex */
         width: 300px;
+        margin-top: 20px;
         margin-right: 20px;
         padding: 20px;
         background-color: white;
@@ -87,6 +88,7 @@
         flex-grow: 1;
         width: calc(100% - 360px); /* Adjust based on sidebar */
         padding: 20px; /* add padding inside main content if needed */
+        min-block-size: 785px;
     }
 
     #priceRangeSortingView .results {
