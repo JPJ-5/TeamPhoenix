@@ -402,9 +402,3 @@ src/config.local.xml
 src/config.prod.txt
 src/config.qa.txt
 src/config.staging.txt
-src/.DS_Store
-src/Latest Frontend Project/.DS_Store
-.DS_Store
-.DS_Store
-.DS_Store
-src/Latest Frontend Project/cypress/screenshots/PriceRangeSortingFrontendTesting.cy.js/Craft Item Sorter Tests -- Filter Items by Price -- filters items within a specified price range (failed).png

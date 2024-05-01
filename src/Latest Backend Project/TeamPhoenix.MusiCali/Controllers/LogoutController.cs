@@ -27,12 +27,16 @@ public class LogoutController : ControllerBase
     public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
     {
         var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
+        //Console.WriteLine(accessToken);
+
+       
         var role = authenticationSecurity.getScopeFromToken(accessToken!);
 
 
         if ((role != string.Empty) && authenticationSecurity.CheckIdRoleExisting(request.UserName, role))
         {
-
+            
             if (request == null || string.IsNullOrEmpty(request.UserName))
             {
                 return BadRequest(new { message = "User hash is required" });
@@ -47,11 +51,14 @@ public class LogoutController : ControllerBase
             {
                 return BadRequest(new { message = "Logout failed" });
             }
-
+            
         }
         else
         {
             return BadRequest("Unauthenticated!");
         }
     }
+
+
+    
 }
