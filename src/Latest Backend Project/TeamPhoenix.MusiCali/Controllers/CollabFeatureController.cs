@@ -12,7 +12,7 @@ namespace TeamPhoenix.MusiCali.Controllers
     {
 
         [HttpPost("api/SendRequestAPI")]
-        public Result SendCollabRequest([FromBody] CollabUsers collab)
+        public IActionResult SendCollabRequest([FromBody] CollabUsers collab)
         {
 
             try{   
@@ -23,7 +23,7 @@ namespace TeamPhoenix.MusiCali.Controllers
 
                 if(result.Success){
 
-                    return result;
+                    return Ok(result);
                 }
 
                 else{
@@ -31,7 +31,7 @@ namespace TeamPhoenix.MusiCali.Controllers
                     result.Success = false;
                     result.ErrorMessage = "Failed to create request";
                     
-                    return result;
+                    return Ok(result);
                 }
             }
 
