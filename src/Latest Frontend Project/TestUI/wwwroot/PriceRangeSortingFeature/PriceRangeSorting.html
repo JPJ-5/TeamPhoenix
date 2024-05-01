@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Craft Item Sorter</title>
-    <link rel="stylesheet" href="css/PriceRangeSorting.css">
 </head>
 <body>
     <div class="sidebar">
         <h1>Craft Item Sorter</h1>
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Enter Item Name">
-            <button onclick="searchItems()" class="button">Search</button>
+            <button onclick="searchItems()" class="searchbutton">Search</button>
         </div>
         <div class="filter-container">
             <h2>Filter by Price</h2>
@@ -30,7 +29,7 @@
 
         <h2>Page Size Update</h2>
         <select id="pageSize" onchange="updatePageSize()">
-            <option value="5" selected>5 per page</option>
+            <option value="7" selected>7 per page</option>
             <option value="10">10 per page</option>
             <option value="20">20 per page</option>
             <option value="50">50 per page</option>
@@ -53,6 +52,5 @@
             <button id="nextPage" onclick="changePage('next')">Next</button>
         </div>
     </div>
-    <script src="js/PriceRangeSorting.js"></script>
 </body>
 </html>

@@ -777,7 +777,47 @@
 
     //Price Range Sorting
     document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
-        window.location.href = 'PriceRangeSorting.html'; // Redirects the user to PriceRangeSorting.html
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #user-profile').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // Show the Price Range Sorting view
+        const container = document.getElementById('priceRangeSortingView');
+        container.style.display = 'block';
+
+        // Dynamically load and apply CSS specific to Price Range Sorting
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'PriceRangeSortingFeature/PriceRangeSorting.css'; // Ensure this path is correct
+        document.head.appendChild(cssLink);
+
+        // Fetch the HTML content and then load JS
+        fetch('PriceRangeSortingFeature/PriceRangeSorting.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load HTML content.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Initialize JavaScript functionalities after HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = '/PriceRangeSortingFeature/PriceRangeSorting.js'; // Ensure this path is correct
+                jsScript.onload = function () {
+                    initPage();  // Assuming initPage() sets everything up
+                    // JavaScript file loaded and executed
+                };
+                jsScript.onerror = function () {
+                    // Failed to load JavaScript file
+                };
+                document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+            })
+            .catch(error => {
+                // Failed to load HTML content
+            });
     });
 
 });
