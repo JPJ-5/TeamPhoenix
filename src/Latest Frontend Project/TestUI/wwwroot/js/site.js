@@ -73,9 +73,10 @@
                     alert("OTP sent to your email.");
                     // Optionally, show OTP form
                     document.getElementById("otp-form").style.display = 'block';
+                    document.getElementById('account-recovery-section').style.display = 'none';
                 } else {
                     // Email does not exist
-                    alert("Email does not exist.");
+                    alert("Email does not exist or the account is disabled try account recovery.");
                 }
             })
             .catch((error) => {
@@ -324,10 +325,6 @@
         }
     });
 
-    document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
-        window.location.href = 'PriceRangeSorting.html'; // Redirects the user to PriceRangeSorting.html
-    });
-
     function logoutUser() {
         localStorage.clear()
         sessionStorage.clear()
@@ -503,9 +500,6 @@
             form.style.display = 'block';
         }
     });
-
-
-
 
     // Inside prepareAdminUI
     document.getElementById('admin-get-user').addEventListener('click', function () {
@@ -777,54 +771,53 @@
     }
 
     // Inventory Stock
-    //document.getElementById('InventoryStock').addEventListener('click', function () {
-    //    window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
-    //});
-    document.getElementById('FinancialProgressReport').addEventListener('click', function () {
-        window.location.href = 'FinancialProgressReportView.html'; // Redirects the user to PriceRangeSorting.html
+    document.getElementById('Inventory Stock View').addEventListener('click', function () {
+        window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
     });
 
-    //document.getElementById('FinancialProgressReport').addEventListener('click', function () {
-    //    // Hide other parts of the page
-    //    document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #user-profile, #priceRangeSortingView').forEach(el => {
-    //        el.style.display = 'none';
-    //    });
+    //Price Range Sorting
+    document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #user-profile').forEach(el => {
+            el.style.display = 'none';
+        });
 
-    //    // Show the Price Range Sorting view
-    //    const container = document.getElementById('FinancialProgressReportView');
-    //    container.style.display = 'block';
+        // Show the Price Range Sorting view
+        const container = document.getElementById('priceRangeSortingView');
+        container.style.display = 'block';
 
-    //    // Dynamically load and apply CSS specific to Price Range Sorting
-    //    const cssLink = document.createElement('link');
-    //    cssLink.rel = 'stylesheet';
-    //    cssLink.href = 'FinancialProgressReportFeature/FinancialProgressReportView.css'; // Ensure this path is correct
-    //    document.head.appendChild(cssLink);
+        // Dynamically load and apply CSS specific to Price Range Sorting
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'PriceRangeSortingFeature/PriceRangeSorting.css'; // Ensure this path is correct
+        document.head.appendChild(cssLink);
 
-    //    // Fetch the HTML content and then load JS
-    //    fetch('FinancialProgressReportFeature/FinancialProgressReportView.html')
-    //        .then(response => {
-    //            if (!response.ok) {
-    //                throw new Error('Failed to load HTML content.');
-    //            }
-    //            return response.text();
-    //        })
-    //        .then(html => {
-    //            container.innerHTML = html;
+        // Fetch the HTML content and then load JS
+        fetch('PriceRangeSortingFeature/PriceRangeSorting.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load HTML content.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
 
-    //            // Initialize JavaScript functionalities after HTML is loaded
-    //            const jsScript = document.createElement('script');
-    //            jsScript.src = '/FinancialProgressReportFeature/FinancialProgressReport.js'; // Ensure this path is correct
-    //            jsScript.onload = function () {
-    //                initDynamicContent();  // Assuming initPage() sets everything up
-    //                // JavaScript file loaded and executed
-    //            };
-    //            jsScript.onerror = function () {
-    //                // Failed to load JavaScript file
-    //            };
-    //            document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
-    //        })
-    //        .catch(error => {
-    //            // Failed to load HTML content
-    //        });
-    //});
+                // Initialize JavaScript functionalities after HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = '/PriceRangeSortingFeature/PriceRangeSorting.js'; // Ensure this path is correct
+                jsScript.onload = function () {
+                    initPage();  // Assuming initPage() sets everything up
+                    // JavaScript file loaded and executed
+                };
+                jsScript.onerror = function () {
+                    // Failed to load JavaScript file
+                };
+                document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+            })
+            .catch(error => {
+                // Failed to load HTML content
+            });
+    });
+
 });

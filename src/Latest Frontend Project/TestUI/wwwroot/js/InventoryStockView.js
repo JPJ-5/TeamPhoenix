@@ -12,7 +12,7 @@ function fetchInventoryStock() {
     loadingIndicator.style.display = 'block';
     resultsDiv.innerHTML = '';
 
-    fetch(`http://localhost:8080/api/inventorystock`,{
+    fetch(`http://localhost:8080/api/inventorystock`, {
         method: 'GET',
         headers: {
             'Authentication': idToken,
