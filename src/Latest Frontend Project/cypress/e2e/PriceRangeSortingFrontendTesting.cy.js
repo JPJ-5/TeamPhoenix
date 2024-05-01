@@ -30,7 +30,7 @@ describe('Craft Item Sorter Tests', () => {
       cy.get('#enter-priceRangeSorting').click(); // Click the Price Range Sorting button
 
       // Mock the API response
-      cy.intercept('GET', 'http://localhost:8080/Item/api/pagedFilteredItems?pageNumber=1&pageSize=5&bottomPrice=50&topPrice=100', {
+      cy.intercept('GET', 'http://localhost:8080/Item/api/pagedFilteredItems?pageNumber=1&pageSize=7&bottomPrice=50&topPrice=100', {
         statusCode: 200,
         body: {
           items: [
