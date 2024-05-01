@@ -777,7 +777,17 @@
 
     //Price Range Sorting
     document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
-        window.location.href = 'PriceRangeSorting.html'; // Redirects the user to PriceRangeSorting.html
-    });
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #user-profile').forEach(el => el.style.display = 'none');
 
+        // Show the Price Range Sorting view
+        const container = document.getElementById('priceRangeSortingView');
+        container.style.display = 'block';
+
+        // Dynamically load and apply CSS specific to Price Range Sorting
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'css/PriceRangeSorting.css'; // Ensure this path is correct
+        document.head.appendChild(cssLink);
+    });
 });

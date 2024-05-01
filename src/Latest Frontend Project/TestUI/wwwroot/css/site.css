@@ -48,7 +48,7 @@ tr:hover {background-color: #ddd;}
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     body, html {
         background-size: contain; /* Make sure the entire image is visible */
         background-position: top center; /* Adjust position if needed */
@@ -174,7 +174,7 @@ tr:hover {background-color: #ddd;}
 .main {
     margin-top: 50px;
     padding: 16px;
-    height: 1500px;
+    height: 1000px;
 }
 
 @media screen and (max-width: 600px) {

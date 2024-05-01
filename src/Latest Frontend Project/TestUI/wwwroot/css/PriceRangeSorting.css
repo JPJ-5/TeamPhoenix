@@ -1,8 +1,8 @@
-﻿* {
+﻿#priceRangeSortingView * {
     box-sizing: border-box;
 }
 
-body {
+#priceRangeSortingView body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;
     margin: 0;
@@ -12,186 +12,198 @@ body {
     height: 100vh; /* Added to fill the entire height of the viewport */
 }
 
-.sidebar {
-    width: 300px;
-    margin-right: 20px;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    align-self: center;
+#priceRangeSortingView {
+    display: flex;
+    flex-direction: row; /* Ensure a row-based layout */
+    align-items: flex-start; /* Align items at the start of the vertical axis */
+    padding-top: 100px;
+    padding-left: 20px;
+    width: 100%; /* Ensure full width */
+    margin: 0 auto; /* Center the container horizontally */
 }
 
-h1 {
-    color: #0056b3;
-    margin-bottom: 7px;
-}
-
-h2 {
-    color: #0056b3;
-    margin-bottom: 0px;
-}
-
-.search-container, .filter-container {
-    margin-bottom: 15px;
-}
-
-input[type="number"], input[type="text"], select, button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    border: 2px solid #ccc;
-    border-radius: 6px;
-    transition: all 0.3s;
-}
-
-    input[type="number"]:focus, input[type="text"]:focus, select:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    #priceRangeSortingView .sidebar {
+        width: 300px; /* Fixed width for sidebar */
+        margin-right: 20px;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
     }
 
-/* General button styling */
-button {
-    background-color: #007bff; /* Primary button color */
-    color: white;
-    cursor: pointer;
-    border: none;
-    padding: 8px 12px; /* Reduced padding for a smaller button */
-    margin-top: 10px;
-    border-radius: 6px;
-    transition: all 0.3s;
-    font-size: 0.9rem; /* Smaller font size */
-}
-
-    /* Styling for hover state */
-    button:hover {
-        background-color: #0056b3; /* Darken the button color on hover */
+    #priceRangeSortingView h1 {
+        color: #0056b3;
+        margin-bottom: 7px;
     }
 
-.main-content {
-    flex-grow: 1;
-    width: calc(100% - 340px); /* Adjust based on sidebar */
-}
+    #priceRangeSortingView h2 {
+        color: #0056b3;
+        margin-bottom: 0px;
+    }
 
-.results {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    background: #ffffff;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    overflow-y: auto;
-}
+    #priceRangeSortingView .search-container,
+    #priceRangeSortingView .filter-container {
+        margin-bottom: 15px;
+    }
 
-.item-card {
-    width: calc(50% - 10px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 5px;
-    padding: 10px;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-    .item-card img {
+    #priceRangeSortingView input[type="number"],
+    #priceRangeSortingView input[type="text"],
+    #priceRangeSortingView select,
+    #priceRangeSortingView button {
         width: 100%;
-        height: auto;
-        border-radius: 4px;
+        padding: 12px;
+        margin-top: 10px;
+        border: 2px solid #ccc;
+        border-radius: 6px;
+        transition: all 0.3s;
     }
 
-.item-name {
-    font-weight: bold;
-    color: #333;
-    margin: 10px 0;
-}
+        #priceRangeSortingView input[type="number"]:focus,
+        #priceRangeSortingView input[type="text"]:focus,
+        #priceRangeSortingView select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+        }
 
-.item-price {
-    color: #007bff;
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-}
-
-.loading {
-    display: none;
-    text-align: center;
-    color: #007bff;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.results-title {
-    font-size: 1.5em;
-    color: #333;
-    margin-bottom: 10px;
-    text-align: left;
-    padding: 0 20px; /* Adds padding to align with the items in the list */
-    align-self: center
-}
-
-.results {
-    display: flex;
-    flex-grow: 1;
-    gap: 20px; /* Provides spacing between cards */
-    background: #ffffff;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    min-height: 300px; /* Ensure this is sufficient to show some items without scrolling */
-    max-height: 740px; /* Or however tall you want it to be */
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-/* Ensure the main content container and sidebar are aligned properly */
-.main-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
-
-/* Grid view styles (existing styles) */
-.item-card-grid {
-    /* Your existing styles for grid view */
-}
-
-/* List view styles */
-.item-card-list {
-    display: flex;
-    align-items: center;
-    width: 100%; /* Take full width */
-    padding: 10px;
-    border-bottom: 1px solid #ddd; /* Separator for list items */
-    box-sizing: border-box; /* Make sure padding doesn't add to the width */
-}
-
-    .item-card-list .item-image {
-        width: 50px; /* Example size, adjust as needed */
-        margin-right: 10px;
-        /* Align image size in list view */
+    /* General button styling */
+    #priceRangeSortingView button {
+        background-color: #007bff; /* Primary button color */
+        color: white;
+        cursor: pointer;
+        border: none;
+        padding: 8px 12px; /* Reduced padding for a smaller button */
+        margin-top: 10px;
+        border-radius: 6px;
+        transition: all 0.3s;
+        font-size: 0.9rem; /* Smaller font size */
     }
 
-    .item-card-list .item-name,
-    .item-card-list .item-price {
-        margin: 0;
-        /* Ensure there's no margin to keep items in a neat line */
-    }
+        /* Styling for hover state */
+        #priceRangeSortingView button:hover {
+            background-color: #0056b3; /* Darken the button color on hover */
+        }
 
-    /* You might want to adjust your item name and price styles for list view */
-    .item-card-list .item-name {
+    #priceRangeSortingView .main-content {
         flex-grow: 1;
-        /* Allows the name to take up the remaining space */
+        width: calc(71.1% - 340px); /* Adjust based on sidebar */
+        padding: 20px; /* add padding inside main content if needed */
+        display: flex;
+        flex-direction: column;
     }
 
-    .item-card-list .item-price {
-        /* Any specific styles for the price in list view */
+    #priceRangeSortingView .results {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        background: #ffffff;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow-y: auto;
     }
 
-    .item-card img {
+    #priceRangeSortingView .item-card {
+        width: calc(50% - 10px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-radius: 5px;
+        padding: 10px;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+        #priceRangeSortingView .item-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+    #priceRangeSortingView .item-name {
+        font-weight: bold;
+        color: #333;
+        margin: 10px 0;
+    }
+
+    #priceRangeSortingView .item-price {
+        color: #007bff;
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+    }
+
+    /* Remove any absolute positioning within the main-content or provide a relative positioning context if needed */
+    #priceRangeSortingView .loading {
+        display: none;
+        text-align: center;
+        color: #007bff;
+        /* adjust the positioning contextually or remove if causing layout issues */
+    }
+
+    #priceRangeSortingView .results-title {
+        font-size: 1.5em;
+        color: #333;
+        margin-bottom: 10px;
+        text-align: left;
+        padding: 0 20px; /* Adds padding to align with the items in the list */
+        align-self: center
+    }
+
+    #priceRangeSortingView .results {
+        display: flex;
+        flex-grow: 1;
+        gap: 20px; /* Provides spacing between cards */
+        background: #ffffff;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        min-height: 300px; /* Ensure this is sufficient to show some items without scrolling */
+        max-height: 740px; /* Or however tall you want it to be */
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    #priceRangeSortingView .main-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #priceRangeSortingView .item-card-grid {
+        /* Your existing styles for grid view */
+    }
+
+    #priceRangeSortingView .item-card-list {
+        display: flex;
+        align-items: center;
+        width: 100%; /* Take full width */
+        padding: 10px;
+        border-bottom: 1px solid #ddd; /* Separator for list items */
+        box-sizing: border-box; /* Make sure padding doesn't add to the width */
+    }
+
+        #priceRangeSortingView .item-card-list .item-image {
+            width: 50px; /* Example size, adjust as needed */
+            margin-right: 10px;
+            /* Align image size in list view */
+        }
+
+        #priceRangeSortingView .item-card-list .item-name,
+        #priceRangeSortingView .item-card-list .item-price {
+            margin: 0;
+            /* Ensure there's no margin to keep items in a neat line */
+        }
+
+        #priceRangeSortingView .item-card-list .item-name {
+            flex-grow: 1;
+            /* Allows the name to take up the remaining space */
+        }
+
+        #priceRangeSortingView .item-card-list .item-price {
+            /* Any specific styles for the price in list view */
+        }
+
+    #priceRangeSortingView .item-card img {
         max-width: 225px;
         max-height: 218px;
         width: auto;
@@ -201,53 +213,58 @@ button {
         object-fit: contain; /* Ensures the image's aspect ratio is maintained without cropping */
     }
 
+    #priceRangeSortingView .pagination-controls button,
+    #priceRangeSortingView .pagination-controls span {
+        padding: 6px 10px; /* Even smaller padding for pagination buttons */
+        margin: 0 5px;
+        background-color: #007bff; /* Primary button color */
+        border: none;
+        border-radius: 3px;
+        display: inline-block;
+        font-size: 0.85rem; /* Slightly smaller font size for pagination controls */
+    }
 
-/* Pagination controls specific styling */
-.pagination-controls button, .pagination-controls span {
-    padding: 6px 10px; /* Even smaller padding for pagination buttons */
-    margin: 0 5px;
-    background-color: #007bff; /* Primary button color */
-    border: none;
-    border-radius: 3px;
-    display: inline-block;
-    font-size: 0.85rem; /* Slightly smaller font size for pagination controls */
-}
+    #priceRangeSortingView .pagination-controls span {
+        background-color: white;
+        border: 1px solid #ccc; /* Adds a subtle border */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        cursor: default;
+        font-weight: bold;
+    }
 
-.pagination-controls span {
-    background-color: white;
-    border: 1px solid #ccc; /* Adds a subtle border */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    cursor: default;
-    font-weight: bold;
-}
+    #priceRangeSortingView .pagination-controls button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-color: #007bff; /* Primary button color */
+    }
 
-.pagination-controls button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background-color: #007bff; /* Primary button color */
-}
+    #priceRangeSortingView .pagination-controls button:hover:not(:disabled) {
+        background-color: #0056b3; /* Darker shade for hover effect */
+    }
 
-.pagination-controls button:hover:not(:disabled) {
-    background-color: #0056b3; /* Darker shade for hover effect */
-}
-
-.pagination-controls {
-    display: flex;
-    justify-content: center;
-    padding: 10px 0;
-    align-items: center; /* Centers items vertically */
-}
+    #priceRangeSortingView .pagination-controls {
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        align-items: center; /* Centers items vertically */
+    }
 
 @media (max-width: 800px) {
-    .sidebar, .main-content {
+    body, html {
+        background-size: contain; /* Make sure the entire image is visible */
+        background-position: top center; /* Adjust position if needed */
+    }
+
+    #priceRangeSortingView .sidebar,
+    #priceRangeSortingView .main-content {
         width: 100%;
     }
 
-    .results {
+    #priceRangeSortingView .results {
         flex-direction: column;
     }
 
-    .item-card {
+    #priceRangeSortingView .item-card {
         width: 100%;
     }
 }
