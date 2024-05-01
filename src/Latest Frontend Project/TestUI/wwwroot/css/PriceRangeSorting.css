@@ -86,7 +86,7 @@
     #priceRangeSortingView .main-content {
 
         flex-grow: 1;
-        width: calc(100% - 360px); /* Adjust based on sidebar */
+        width: calc(100% - 535px); /* Adjust based on sidebar */
         padding: 20px; /* add padding inside main content if needed */
         min-block-size: 785px;
     }
