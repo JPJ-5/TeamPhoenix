@@ -314,28 +314,38 @@
         <h1 class="neon-text">Collab Feature</h1>
         <p class= "neon-text">Collab Feature</p>
         <p id="enter-collabFeature"></p>
-        <div class="popup">
-            <span class="popuptext" id="myPopup"></span>
-            <div class="create-collabRequest">
-                <select id = "user-options" size = "7">
-                    <option>Select a user from this menu</option>
-                </select>
-                <option value="Send a Request"></option>
-                <button onclick="collabSentAlert()">Send A Request</button>
-            </div>
-            <div class="accept-collabRequest">
-            <!-- Move onclick event to the outer button -->
-            <button onclick="acceptRequest()">Accept A Request</button>
+        <div class="create-collabRequest">
+            <!--<span class="popuptext" id="myPopup"></span>-->
+            <label for="receiver">Receiver Username:</label>
+            <input type="text" id="receiver" placeholder="Enter receiver username">
+            <div class="popuptext" id="myPopup">
+                <button id="create-collabRequest">Send A Request</button>
             </div>
         </div>
+        <div class="accept-collabRequest">
+            <!-- Move onclick event to the outer button -->
+            <button id="accept-collabRequest">Accept A Request</button>
+        </div>
+        <div id="view-requests" style="margin-top: 20px;">
         <select id="view-requests">
             <option value="View Sent Requests">View Sent</option>
             <option value="View Accepted Requests">View Accepted</option>
         </select>
         <br>
-        <button onclick="displayCollabs()">See Collabs</button>
+        <button id="view-requests">See Collabs</button>
         <br>
-        <div id="view-requests" style="margin-top: 20px;"></div>
+        </div>
+        <div id="view-collabs" style="float: right;">
+            <div class="info-slot" id="sent-requests">
+
+            </div>
+            <div class="info-slot" id="received-requests">
+
+            </div>
+            <div class="info-slot" id="accepted-requests">
+
+            </div>
+        </div> 
     </div>
     
 
