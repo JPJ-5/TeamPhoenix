@@ -21,7 +21,7 @@ namespace AccCreationAPI
             _configuration = builder.Configuration ?? throw new InvalidOperationException("Configuration cannot be null");
 
             // Add services to the container.
-
+            builder.Services.AddHttpClient(); // Adds HttpClient services for API ro call API
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             
@@ -34,6 +34,9 @@ namespace AccCreationAPI
             builder.Services.AddScoped<IAuthentication, AuthenticationSecurity>();
 
             builder.Services.AddScoped<MariaDBDAO>();          // Register MariaDB Class with Dependency Injection 
+
+            
+
 
             // Add configuration
             var configurationBuilder = new ConfigurationBuilder()
