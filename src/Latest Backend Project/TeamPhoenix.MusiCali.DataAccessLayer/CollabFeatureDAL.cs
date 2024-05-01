@@ -170,13 +170,25 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
-
-                string query = "SELECT * FROM Collab WHERE ReceiverUsername = @username";
-                receivedCollabs = RetrieveCollabs(connection, query, username);
+                
+                string sql = "SELECT SenderUsername FROM Collab WHERE Accepted = FALSE, ";
+                
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string senderUsername = reader.GetString("SenderUsername");
+                            receivedCollabs.Add(senderUsername);
+                        }
+                    }
+                }
             }
 
             return receivedCollabs;
         }
+
 
         //for getting accepted collabs from logged- in user
         public static List<List<string>> GetAcceptedCollabsByUsername(string username)
