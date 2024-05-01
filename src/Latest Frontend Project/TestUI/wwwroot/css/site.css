@@ -174,7 +174,7 @@ tr:hover {background-color: #ddd;}
 .main {
     margin-top: 50px;
     padding: 16px;
-    height: 1000px;
+    height: 800px;
 }
 
 @media screen and (max-width: 600px) {

@@ -7,28 +7,26 @@
     background-color: #f4f4f9;
     margin: 0;
     padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    height: 100vh; /* Added to fill the entire height of the viewport */
+    height: 100vh; /* To fill the entire height of the viewport */
 }
 
 #priceRangeSortingView {
-    display: flex;
-    flex-direction: row; /* Ensure a row-based layout */
-    align-items: flex-start; /* Align items at the start of the vertical axis */
     padding-top: 100px;
     padding-left: 20px;
-    width: 100%; /* Ensure full width */
-    margin: 0 auto; /* Center the container horizontally */
+    width: 100%;
+    margin: 0 auto;
+    max-height: 800px;
 }
 
     #priceRangeSortingView .sidebar {
-        width: 300px; /* Fixed width for sidebar */
+        display: inline-block; /* Changed from flex */
+        width: 300px;
         margin-right: 20px;
         padding: 20px;
         background-color: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
+        vertical-align: text-top; /* Aligns the top edges of sidebar and main content */
     }
 
     #priceRangeSortingView h1 {
@@ -83,16 +81,15 @@
             background-color: #0056b3; /* Darken the button color on hover */
         }
 
+    /* size */
     #priceRangeSortingView .main-content {
+
         flex-grow: 1;
-        width: calc(71.1% - 340px); /* Adjust based on sidebar */
+        width: calc(100% - 360px); /* Adjust based on sidebar */
         padding: 20px; /* add padding inside main content if needed */
-        display: flex;
-        flex-direction: column;
     }
 
     #priceRangeSortingView .results {
-        display: flex;
         flex-wrap: wrap;
         gap: 20px;
         background: #ffffff;
@@ -149,7 +146,7 @@
     }
 
     #priceRangeSortingView .results {
-        display: flex;
+        display: inline-flex;
         flex-grow: 1;
         gap: 20px; /* Provides spacing between cards */
         background: #ffffff;
@@ -161,12 +158,13 @@
         overflow-y: auto;
         overflow-x: hidden;
     }
-
+    /* how it displays */
     #priceRangeSortingView .main-content {
         flex-grow: 1;
-        display: flex;
+        display: inline-flex;
         flex-direction: column;
         align-items: stretch;
+        max-height: 785px;
     }
 
     #priceRangeSortingView .item-card-grid {
@@ -250,14 +248,10 @@
     }
 
 @media (max-width: 800px) {
-    body, html {
-        background-size: contain; /* Make sure the entire image is visible */
-        background-position: top center; /* Adjust position if needed */
-    }
-
     #priceRangeSortingView .sidebar,
     #priceRangeSortingView .main-content {
         width: 100%;
+        display: block; /* Reverts to block for smaller screens */
     }
 
     #priceRangeSortingView .results {
