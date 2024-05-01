@@ -1,134 +1,94 @@
+document.addEventListener('DOMContentLoaded', function () {
+ 
 
-document.getElementById('enter-collabFeature').addEventListener('click', function () {
+    // Add event listener to "Send A Request" button
+    document.getElementById('create-collabRequest').addEventListener('click', function () {
+        sendCollabRequest();
+        collabSentAlert();
+    });
 
-    populateUserDropdown();
-    
-    //---------For testing purposes, will take hardcode away after-----------
-    var feedbackBox = document.getElementById('enter-collabFeature');
-    var sender = "kihambo.wav";
-    var receiver = "juliereyes";
-    //---------For testing purposes, will take hardcode away after-----------
-    // Check if the form is already displayed
-    {
-    // Form is displayed, try to submit form data
+    // Add event listener to "Accept A Request" button
+    document.getElementById('accept-collabRequest').addEventListener('click', function () {
+        acceptCollabRequest();
+    });
 
-    var payload = {
-        senderUsername: sender,
-        receiverUsername: receiver
-    }
+    // Add event listener to "View Collab Requests" button
+    document.getElementById('view-requests').addEventListener('click', function () {
+        displayCollabs();
+    });ç
 
-    fetch('http://localhost:8080/CollabFeature/api/LoadViewAPI', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        //body: JSON.stringify(payload),
-    })
-        .then(response => response.json())
-        .then(result => {
-            feedbackBox.style.display = 'block';
-            if (console.log(result)) {
-                feedbackBox.textContent = 'View loaded successfully';
-                feedbackBox.style.color = 'green';
-                form.reset();}
-            // } else {
-            //     feedbackBox.textContent = 'Failed to load view';
-            //     feedbackBox.style.color = 'red';
-            // }
+    // Function to send collab request
+    function sendCollabRequest(collabUser) {
+        idToken = sessionStorage.getItem("idToken");
+        accessToken = sessionStorage.getItem("accessToken");
+
+        var sender = document.getElementById("username").value;
+        var receiver = document.getElementById("receiver").value;
+        var feedbackBox = document.getElementById('enter-collabFeature');
+
+        const payload = {
+            //CollabUser: collabUser,
+            senderUsername: sender,
+            receiverUsername: receiver
+        };
+        console.log(payload)
+        fetch('http://localhost:8080/CollabFeature/api/SendRequestAPI', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authentication': idToken,
+                'Authorization': accessToken
+            },
+            body: JSON.stringify(payload)
         })
-        .catch(error => {
-            console.error('Error:', error);
-            feedbackBox.textContent = 'Error loading view. Please try again.';
-            feedbackBox.style.color = 'red';
-        });
-    }
-});
-
-document.getElementById('create-collabRequest').addEventListener('click', function () {//listens for whenever an element with this id so whenever it's been clicked it'll run this function
-
-
-    //---------For testing purposes, will take hardcode away after-----------
-    var feedbackBox = document.getElementById('enter-collabFeature');
-    var sender = "kihambo.wav";
-    var receiver = "juliereyes";
-
-    //---------For testing purposes, will take hardcode away after-----------
-    // Check if the form is already displayed
-    {
-    // Form is displayed, try to submit form data
-
-    var payload = {
-        senderUsername: sender,
-        receiverUsername: receiver
-    }
-
-    fetch('http://localhost:8080/CollabFeature/api/SendRequestAPI', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-    })
-        .then(response => response.json())
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return response.json().then(json => { throw new Error(json.message); });
+            }
+        })
         .then(result => {
             feedbackBox.style.display = 'block';
-            if (console.log(result)) {
+            if (result.success) {
                 feedbackBox.textContent = 'Collab request sent successfully';
                 feedbackBox.style.color = 'green';
-                form.reset();
             } else {
                 feedbackBox.textContent = 'Failed to send collab';
                 feedbackBox.style.color = 'red';
             }
         })
+        .then(data => {
+            console.log('Collaboration Request has been sent');
+        })
         .catch(error => {
             console.error('Error:', error);
+            const feedbackBox = document.getElementById('enter-collabFeature');
             feedbackBox.textContent = 'Error sending collab. Please try again.';
             feedbackBox.style.color = 'red';
         });
     }
-});
 
-// document.getElementById('create-collabRequest').addEventListener('click', function () {//listens for whenever an element with this id so whenever it's been clicked it'll run this function
-//     //function collabSentAlert() {
-//         var popup = document.getElementById('myPopup');
-//         popup.classList.toggle("show");
-//         alert("Collab Request has been sent!");
-    
-// });
-
-document.getElementById('accept-collabRequest').addEventListener('click', function () {//listens for whenever an element with this id so whenever it's been clicked it'll run this function
-
-
-    //---------For testing purposes, will take hardcode away after-----------
-    var feedbackBox = document.getElementById('enter-collabFeature');
-    var sender = "kihambo.wav";
-    var receiver = "juliereyes";
-
-    //---------For testing purposes, will take hardcode away after-----------
-    // Check if the form is already displayed
-    {
-    // Form is displayed, try to submit form data
-
-    var payload = {
-        senderUsername: sender,
-        receiverUsername: receiver
-    }
-
-    fetch('http://localhost:8080/CollabFeature/api/AcceptRequestAPI', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-    })
+    // Function to accept collab request
+    function acceptCollabRequest() {
+        const payload = {
+            senderUsername: username,
+            receiverUsername: 'juliereyes' // Assuming receiver is fixed
+        };
+        fetch('http://localhost:8080/CollabFeature/api/AcceptRequestAPI', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        }) 
         .then(response => response.json())
         .then(result => {
+            const feedbackBox = document.getElementById('enter-collabFeature');
             feedbackBox.style.display = 'block';
-            if (console.log(result)) {
+            if (result.success) {
                 feedbackBox.textContent = 'Collab request accepted successfully';
                 feedbackBox.style.color = 'green';
-                form.reset();
             } else {
                 feedbackBox.textContent = 'Failed to accept collab';
                 feedbackBox.style.color = 'red';
@@ -136,116 +96,63 @@ document.getElementById('accept-collabRequest').addEventListener('click', functi
         })
         .catch(error => {
             console.error('Error:', error);
+            const feedbackBox = document.getElementById('enter-collabFeature');
             feedbackBox.textContent = 'Error accepting collab. Please try again.';
             feedbackBox.style.color = 'red';
         });
     }
-});
 
-document.getElementById('view-requests').addEventListener('click', function () {
-    var feedbackBox = document.getElementById('collab-request-list');
+    // Function to display collab requests
+    function displayCollabs() {
 
-    fetch('http://localhost:8080/CollabFeature/api/LoadCollabsAPI')
-        .then(response => response.json())
-        .then(result => {
-            feedbackBox.innerHTML = ''; // Clear previous content
-            if (result && result.length > 0) {
-                result.forEach(collab => {
-                    var collabElement = document.createElement('div');
-                    collabElement.textContent = `Sender: ${collab.senderUsername}, Receiver: ${collab.receiverUsername}`;
-                    feedbackBox.appendChild(collabElement);
-                });
+        var sender = document.getElementById("username").value;
+
+        idToken = sessionStorage.getItem("idToken");
+        accessToken = sessionStorage.getItem("accessToken");
+
+        const payload = {
+            userName: sender
+        };
+        const feedbackBox = document.getElementById('view-requests');
+        fetch(('http://localhost:8080/CollabFeature/api/LoadCollabsAPI'), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authentication': idToken,
+                'Authorization':accessToken
+            },
+            body: JSON.stringify(payload),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+                
             } else {
-                feedbackBox.textContent = 'No collab requests found.';
+                throw new Error('Failed to load collabs');
             }
+        })
+        .then(collabData => {
+            displayCollabData(collabData)
         })
         .catch(error => {
             console.error('Error:', error);
             feedbackBox.textContent = 'Error loading collab requests. Please try again.';
         });
-});
-
-function populateUserDropdown() {
-    fetch('http://localhost:8080/CollabFeature/api/DisplayAvailableUsersAPI')
-        // method: 'GET',
-        // headers: {
-        //     'Content-Type': 'application/json',
-        // }
-        .then(response => response.json())
-        .then(users => {
-            const selectElement = document.getElementById('user-option');
-            users.forEach(user => {
-                const option = document.createElement('user-options');
-                option.value = user.username;
-                option.textContent = user.username;
-                selectElement.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error fetching authenticated users:', error));
-}
-document.getElementById("user-options").addEventListener('DOMContentLoaded', function () {
-    // Populate user dropdown when the page is loaded
-    populateUserDropdown();
-});
-
-function displayCollabs() {
-    var feedbackBox = document.getElementById('collab-request-list');
-
-    var payload = {
-        senderUsername: sender,
-        receiverUsername: receiver
     }
+});
 
-    fetch('http://localhost:8080/CollabFeature/api/LoadCollabsAPI',{
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-})
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(function(result) {
-            feedbackBox.innerHTML = ''; // Clear previous content
-            if (result && result.length > 0) {
-                result.forEach(function(collab) {
-                    var collabElement = document.createElement('div');
-                    collabElement.textContent = 'Sender: ' + collab.senderUsername + ', Receiver: ' + collab.receiverUsername;
-                    feedbackBox.appendChild(collabElement);
-                });
-            } else {
-                feedbackBox.textContent = 'No collab requests found.';
-            }
-        })
-        .catch(function(error) {
-            console.error('Error:', error);
-            feedbackBox.textContent = 'Error loading collab requests. Please try again.';
-        });
+function displayCollabData(data){
+
+    var sentUsernames = data.sentCollabs //list of sent collabs
+    var receivedUsernames = data.receivedUsernames //list of received collabs
+    var acceptedUsernames = data.acceptedUsernames //lsit of accepted collabs
+
 }
 
 function collabSentAlert() {
-    var sender = "kihambo.wav";
-    var receiver = "juliereyes";
-
-    var popup = document.getElementById('create-collabRequest');
-    //popup.classList.toggle("show");
-    alert("Collab Request has been sent to " + receiver + " !");
+    var popup = document.getElementById('myPopup');
+    popup.classList.toggle("show");
+    alert("Collab Request has been sent!");
 }
 
-function acceptRequest(){
-    var accept = document.getElementById('create-collabRequest');
-    //accept.classList.toggle("show");
-    alert("You've accepted this collab!");
-}
-
-
-
-
-
-
-
-
+document.querySelector("myPopup").addEventListener("click", collabSentAlert);
