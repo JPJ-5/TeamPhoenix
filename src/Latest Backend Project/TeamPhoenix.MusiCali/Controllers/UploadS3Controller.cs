@@ -193,8 +193,8 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
         //this api will return image file names and video file names
-        [HttpGet("GetFileNameInBucket/{sku}")]
-        public async Task<IActionResult> GetFileNameAsync(string sku)
+        [HttpGet("GetFileNameInBucket")]
+        public async Task<IActionResult> GetFileNameAsync([FromHeader]string sku)
         {
             if (string.IsNullOrEmpty(sku))
             {
@@ -269,8 +269,8 @@ namespace TeamPhoenix.MusiCali.Controllers
         
  
         // this api will get a preview presignedURL of a file in a sku folder
-        [HttpGet("PreviewAFile/{sku}/{filename}")]
-        public async Task<IActionResult> GetFileByKeyAsync(string sku, string filename)
+        [HttpGet("PreviewAFile")]
+        public async Task<IActionResult> GetFileByKeyAsync([FromHeader] string sku, [FromHeader] string filename)
         {
             // Construct the S3 key using the SKU and filename
             string key = $"{sku}/{filename}";
