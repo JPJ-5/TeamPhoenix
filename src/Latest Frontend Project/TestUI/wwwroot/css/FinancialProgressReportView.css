@@ -1,4 +1,4 @@
-﻿body {
+﻿/*body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;
     margin: 0;
@@ -57,9 +57,9 @@ button:hover {
 .loading {
     display: none;
     color: #007bff;
-}
+}*/
 
-/*#FinancialProgressReportView body {
+body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;
     margin: 0;
@@ -67,7 +67,7 @@ button:hover {
     color: #333;
 }
 
-#FinancialProgressReportView .container {
+.container {
     max-width: 600px;
     margin: auto;
     padding: 20px;
@@ -76,19 +76,19 @@ button:hover {
     border-radius: 10px;
 }
 
-#FinancialProgressReportView h1 {
+h1 {
     color: #0056b3;
     text-align: center;
 }
 
-#FinancialProgressReportView .form-container {
+.form-container {
     display: flex;
     gap: 10px;
     justify-content: center;
     margin-bottom: 20px;
 }
 
-#FinancialProgressReportView button {
+button {
     padding: 10px;
     border: 2px solid #ddd;
     border-radius: 5px;
@@ -98,25 +98,24 @@ button:hover {
     cursor: pointer;
 }
 
-    #FinancialProgressReportView button:hover {
+button:hover {
         background-color: #0056b3;
     }
 
-#FinancialProgressReportView .results, #FinancialProgressReportView .loading {
+.results, .loading {
     text-align: center;
     margin-top: 20px;
 }
 
-#FinancialProgressReportView .results {
+.results {
     padding: 10px;
     background: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 5px;
-    display: none;
+    display: block;
 }
 
-#FinancialProgressReportView .loading {
+.loading {
     display: none;
     color: #007bff;
 }
-*/

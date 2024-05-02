@@ -83,10 +83,12 @@ function fetchFPR(frequency) {
             return response.json();
         })
         .then(data => {
+            console.log(username);
+            console.log(data);
             if (data.length === 0) {
                 resultsDiv.innerHTML = '<p>No Financial Report Available</p>';
             } else {
-                if (frequency == "Yearly") {
+                if (frequency === "Yearly") {
                     resultsDiv.innerHTML = `<p>${username} Yearly Financial Progress</p>`;
                     drawYearlyChart(data);
                 }
