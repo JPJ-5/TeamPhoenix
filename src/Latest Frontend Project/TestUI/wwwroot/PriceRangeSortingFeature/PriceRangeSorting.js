@@ -11,6 +11,19 @@ function fetchItems() {
     loadingIndicator.style.display = 'block';
     results.innerHTML = '';
 
+    // Input validation for prices
+    if (bottomPrice && isNaN(parseFloat(bottomPrice)) || topPrice && isNaN(parseFloat(topPrice))) {
+        results.innerHTML = '<p>Please enter a valid number for price values.</p>';
+        loadingIndicator.style.display = 'none';
+        return;
+    }
+    
+    if ((bottomPrice && bottomPrice < 0) || (topPrice && topPrice < 0)) {
+        results.innerHTML = '<p>Please enter a positive value for prices.</p>';
+        loadingIndicator.style.display = 'none';
+        return;
+    }
+
     let url = `http://localhost:8080/Item/api/pagedFilteredItems?pageNumber=${currentPage}&pageSize=${pageSize}`;
     if (name) {
         url += `&name=${encodeURIComponent(name)}`;
