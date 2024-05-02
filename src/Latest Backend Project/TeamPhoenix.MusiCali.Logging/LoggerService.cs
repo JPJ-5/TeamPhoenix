@@ -8,9 +8,9 @@ namespace TeamPhoenix.MusiCali.Logging
 
     public class LoggerService
     {
-        private readonly IConfiguration configuration;
-        private MariaDBDAO mariaDBDAO;
-        private RecoverUserDAO recoverUserDAO;
+        private readonly IConfiguration? configuration;
+        private readonly MariaDBDAO mariaDBDAO;
+        private readonly RecoverUserDAO recoverUserDAO;
 
         public LoggerService()
         {

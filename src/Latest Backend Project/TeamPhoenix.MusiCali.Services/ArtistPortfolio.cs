@@ -6,13 +6,14 @@ using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using Renci.SshNet;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 namespace TeamPhoenix.MusiCali.Services
 {
     public class ArtistPortfolio
     {
-        private readonly IConfiguration? config;
-        private readonly ArtistPortfolioDao? artistPortfolioDao;
+        private readonly IConfiguration config;
+        private readonly ArtistPortfolioDao artistPortfolioDao;
         
         public ArtistPortfolio(IConfiguration configuration)
         {
@@ -45,6 +46,11 @@ namespace TeamPhoenix.MusiCali.Services
                     File3 = GetFileBase64(localFiles[3]),
                     File4 = GetFileBase64(localFiles[4]),
                     File5 = GetFileBase64(localFiles[5]),
+                    File1Name = Path.GetFileName(localFiles[1]),
+                    File2Name = Path.GetFileName(localFiles[2]),
+                    File3Name = Path.GetFileName(localFiles[3]),
+                    File4Name = Path.GetFileName(localFiles[4]),
+                    File5Name = Path.GetFileName(localFiles[5]),
                     File0Ext = Path.GetExtension(localFiles[0]),
                     File1Ext = Path.GetExtension(localFiles[1]),
                     File2Ext = Path.GetExtension(localFiles[2]),
@@ -90,13 +96,13 @@ namespace TeamPhoenix.MusiCali.Services
                 else
                 {
                     Console.WriteLine($"File '{filePath}' does not exist.");
-                    return null;
+                    return "";
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error reading file '{filePath}': {ex.Message}");
-                return null;
+                return "";
             }
         }
 
@@ -106,11 +112,18 @@ namespace TeamPhoenix.MusiCali.Services
             var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
             var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;
             var fileName = file.FileName;
-            var localFilePath = Path.Combine(Path.GetTempPath(), fileName); // Save file to a temporary location
+            string saveFolder = @"C:\Users\Joshu\OneDrive\Documents\ClamCheck";
+
+            // Construct the path for saving the scanned file
+            string saveFilePath = Path.Combine(saveFolder, fileName);
+
+            // Replace the line with the specified file path
+            var localFilePath = saveFilePath;
+
 
             try
             {
-                string privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY");
+                string? privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY");
                 if (privateKeyFilePath == null)
                 {
                     throw new InvalidOperationException("JULIE_KEY environmental variable is not set.");
@@ -162,14 +175,14 @@ namespace TeamPhoenix.MusiCali.Services
             }
         }
 
-        public Result DeleteFile(string username, int slot)
+        public Result DeleteFile(string username, int? slot)
         {
             try
             {
                 // Get the file path from the database
                 string filePath = artistPortfolioDao.GetFilePath(username, slot);
 
-                string privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY"); // access backend vm enviromental variable
+                string? privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY"); // access backend vm enviromental variable
                 var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
                 var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
                 var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;
@@ -219,7 +232,7 @@ namespace TeamPhoenix.MusiCali.Services
 
             try
             {
-                string privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY");
+                string? privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY");
                 if (privateKeyFilePath == null)
                 {
                     throw new InvalidOperationException("JULIE_KEY environmental variable is not set.");

@@ -67,7 +67,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         }
 
 
-        public Result DeleteFilePath(string username, int slot)
+        public Result DeleteFilePath(string username, int? slot)
         {
             try
             {
@@ -108,11 +108,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public string GetFilePath(string username, int slot)
+        public string GetFilePath(string username, int? slot)
         {
             try
             {
-                string filePath = "";
+                string? filePath = "";
 
                 // SQL query to retrieve the file path based on the username and slot number
                 string query = $"SELECT File{slot}Path FROM ArtistProfile WHERE Username = @Username";
@@ -136,7 +136,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     }
                 }
 
-                return filePath;
+                return filePath!;
             }
             catch (Exception ex)
             {

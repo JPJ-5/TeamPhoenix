@@ -24,12 +24,12 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
 
-        [HttpPost("api/loadApi")]
-        public IActionResult LoadProfile([FromBody] string username)
+        [HttpGet("api/loadApi")]
+        public IActionResult LoadProfile([FromHeader] string Username)
         {
             try
             {
-                ArtistProfileViewModel artistProfileViewModel = artistPortfolio.LoadArtistProfile(username);
+                ArtistProfileViewModel artistProfileViewModel = artistPortfolio.LoadArtistProfile(Username);
                 return Ok(artistProfileViewModel);
             }
             catch (Exception ex)
@@ -54,7 +54,7 @@ namespace TeamPhoenix.MusiCali.Controllers
                 }
                 else
                 {
-                    return BadRequest("Failed to upload file.");
+                    return BadRequest($"Failed to upload file: {result.ErrorMessage}");
                 }
             }
             catch (Exception ex)
@@ -79,7 +79,7 @@ namespace TeamPhoenix.MusiCali.Controllers
                 }
                 else
                 {
-                    return BadRequest("Failed to upload info.");
+                    return BadRequest($"Failed to upload info: {result.ErrorMessage}");
                 }
             }
             catch (Exception ex)
@@ -103,7 +103,7 @@ namespace TeamPhoenix.MusiCali.Controllers
                 }
                 else
                 {
-                    return BadRequest("Failed to delete section info.");
+                    return BadRequest($"Failed to delete section info: {result.ErrorMessage}");
                 }
             }
             catch (Exception ex)
@@ -115,8 +115,8 @@ namespace TeamPhoenix.MusiCali.Controllers
         [HttpPost("api/deleteApi")]
         public IActionResult DeleteFile([FromForm] DeleteFileRequest req)
         {
-            string user = req.Username;
-            int fileSlot = req.SlotNumber;
+            string? user = req.Username;
+            int? fileSlot = req.SlotNumber;
             try
             {
                 var result = artistPortfolio.DeleteFile(user, fileSlot);

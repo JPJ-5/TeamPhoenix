@@ -7,6 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
     loadProfileData(activeUsername);
 });
 
+function reload() {
+    var activeUsername = sessionStorage.getItem('username');
+    // Reset page to default to remove media when Upload/Deletes occur
+    resetArtistPortfolioView();
+    loadProfileData(activeUsername);
+}
+
 
 //Calls LoadApi from Controller to load all ArtistProfile data
 function loadProfileData(username) {
@@ -15,13 +22,13 @@ function loadProfileData(username) {
     accessToken = sessionStorage.getItem("accessToken");
     
     fetch('http://localhost:8080/ArtistPortfolio/api/loadApi', {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Authentication': idToken,
             'Authorization': accessToken,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Username': username
         },
-        body: JSON.stringify(username)
     })
         .then(response => {
             if (response.ok) {
@@ -31,6 +38,7 @@ function loadProfileData(username) {
             }
         })
         .then(profileData => {
+            console.log(profileData);
             displayArtistProfile(profileData);
         })
         .catch(error => {
@@ -53,10 +61,6 @@ function displayArtistProfile(portfolioInfo) {
     const infoSlot = document.getElementById(`info-upload`);
     var activeUsername = sessionStorage.getItem('username');
 
-    //Creating the Username Display
-    const infoParagraph = document.createElement('p');
-    infoParagraph.innerHTML = `<strong>${activeUsername}`;
-    infoSlot.appendChild(infoParagraph);
 
     //Display for other occupation with selection boxes
     if (portfolioInfo[`occupation`]){
@@ -88,6 +92,7 @@ function displayArtistProfile(portfolioInfo) {
         dropdown.id = `occupation-input`;
         options.forEach(optionText => {
             const option = document.createElement('option');
+            option.textContent = optionText;
             dropdown.appendChild(option);
         });
         infoParagraph.appendChild(dropdown);
@@ -139,24 +144,16 @@ function displayArtistProfile(portfolioInfo) {
             infoSlot.appendChild(deleteButton);
         }
     }
-
-    // Track the number of elements that need to be loaded
-    let elementsToLoad = 0;
     
     //Creating display for the profile picture
     if (portfolioInfo[`file0`]) {
         const mediaSlot = document.getElementById(`file-upload-0`);
-        elementsToLoad++;
 
         //creating image using extension from backend to create right type
         const image = document.createElement('img');
         var ext = portfolioInfo[`file${0}Ext`];
         const filePath = 'data:image/' + ext + ';base64,' + portfolioInfo[`file0`];
         image.src = filePath;
-        image.onload = () => {
-            elementsToLoad--;
-            checkAllLoaded();
-        };
         mediaSlot.appendChild(image);
 
         const deleteButton = document.createElement('button');
@@ -182,13 +179,9 @@ function displayArtistProfile(portfolioInfo) {
 
         if (fileContent == null) {
             //If null then we load upload button and input for info and media and set genre and desc to display lack of media
-            const genreParagraph = document.createElement('p');
-            genreParagraph.innerHTML = `<strong>Genre: </strong>No file yet`;
-            mediaSlot.appendChild(genreParagraph);
-
-            const descParagraph = document.createElement('p');
-            descParagraph.innerHTML = `<strong>Desc: </strong>No file yet`;
-            mediaSlot.appendChild(descParagraph);
+            const NoFileParagraph = document.createElement('p');
+            NoFileParagraph.innerHTML = `<strong>No File Yet </strong>`;
+            mediaSlot.appendChild(NoFileParagraph);
             
             const uploadButton = document.createElement('button');
             uploadButton.textContent = 'Upload Media';
@@ -211,8 +204,13 @@ function displayArtistProfile(portfolioInfo) {
             mediaSlot.appendChild(uploadButton);
         } else {
             //Create display for Genre and Desc paragraphs when not null
+            const name = portfolioInfo[`file${i}Name`] || 'N/A';
             const genre = portfolioInfo[`file${i}Genre`] || 'N/A';
             const desc = portfolioInfo[`file${i}Desc`] || 'N/A';
+
+            const nameParagraph = document.createElement('p');
+            nameParagraph.innerHTML = `<strong>Name: </strong>${name}`;
+            mediaSlot.appendChild(nameParagraph);
         
             const genreParagraph = document.createElement('p');
             genreParagraph.innerHTML = `<strong>Genre: </strong>${genre}`;
@@ -230,16 +228,10 @@ function displayArtistProfile(portfolioInfo) {
         
             //check for correct extension and for which exact type to contruct media
             if (supportedAudioFormats.includes(extension) || supportedVideoFormats.includes(extension)) {
-                elementsToLoad++;
                 const media = extension === '.mp3' ? document.createElement('audio') : document.createElement('video');
                 media.src = 'data:audio/' + extension.substring(1) + ';base64,' + fileContent;
                 media.controls = true;
                 media.style.display = 'block';
-                //calling checkAllLoaded to make sure everything is ready before showing
-                media.onloadeddata = () => {
-                    elementsToLoad--;
-                    checkAllLoaded();
-                };
 
                 //Delete button if user desires to remove this media
                 mediaSlot.appendChild(media);
@@ -263,22 +255,12 @@ function displayArtistProfile(portfolioInfo) {
         }      
     }
 
-    //check no more elements loading before displaying
-    const checkAllLoaded = () => {
-        if (elementsToLoad === 0) {
-            // Once all elements are loaded, display the profile view
-            document.querySelector('.main').style.display = 'none'; // Hide main contents
-            document.getElementById('tempoToolView').style.display = 'none'; // Show tempo tool content
-            document.getElementById('ScaleDisplayView').style.display = 'none'; // Show scale display content
-            document.getElementById('artistPortfolioView').style.display = 'block'; // Display artist portfolio
-        }
-    };
 }
 
 //function to call api to delete file along with genre and description
 function deleteFile(slot){
     var activeUsername = sessionStorage.getItem('username');
-    idToken = sessionStorage.getItem("idToken");
+    idToken = sessionStorage.getItem("idToken"); 
     accessToken = sessionStorage.getItem("accessToken");
     // Send POST request to delete API endpoint
     deleteForm = new FormData();
@@ -301,7 +283,7 @@ function deleteFile(slot){
     })
     .then(responseText => {
         console.log(responseText); // Log success message
-        document.getElementById('enter-artistPortfolio').click(); //reload page once data is changed in ayway
+        reload(); //reloads page when info is changed //reload page once data is changed in ayway
     })
     .catch(error => {
         console.error('Error:', error); // Log error message
@@ -334,7 +316,7 @@ function deleteInfo(section) {
     })
     .then(responseText => {
         console.log(responseText); // Log success message
-        document.getElementById('enter-artistPortfolio').click(); // reloads page when info is change
+        reload(); //reloads page when info is changed // reloads page when info is change
     })
     .catch(error => {
         console.error('Error:', error); // Log error message
@@ -349,6 +331,13 @@ function triggerFileInput(slot) {
     accessToken = sessionStorage.getItem("accessToken");
     input.addEventListener('change', function() {
         const file = input.files[0];
+
+        // Validate the file before uploading
+        const validation = validateFile(file);
+        if (!validation.valid) {
+            console.error(validation.message);
+            return;
+        }
 
         // Create FormData object to send file and any genre or desc if used
         const formData = new FormData();
@@ -385,7 +374,7 @@ function triggerFileInput(slot) {
         })
         .then(responseText => {
             console.log(responseText); // Log success message
-            document.getElementById('enter-artistPortfolio').click(); //reloads page when info is changed
+            reload(); //reloads page when info is changed
         })
         .catch(error => {
             console.error('Error:', error); // Log error message
@@ -422,7 +411,7 @@ function triggerInfoInput(section) {
     })
     .then(responseText => {
         console.log(responseText); // Log success message
-        document.getElementById('enter-artistPortfolio').click(); //creloading page when data is changed
+        reload(); //reloads page when info is changed //creloading page when data is changed
     })
     .catch(error => {
         console.error('Error:', error); // Log error message
@@ -444,6 +433,25 @@ function resetArtistPortfolioView() {
     const info = document.getElementById('info-upload');
     info.innerHTML = '';
 }
+
+function validateFile(file) {
+    const ALLOWED_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'gif', 'mp3', 'mp4', 'wav']);
+    const MAX_FILE_SIZE_MB = 10; // Maximum file size in MB
+    const fileNameParts = file.name.split('.');
+    const fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
+
+    if (!ALLOWED_EXTENSIONS.has(fileExtension)) {
+        return { valid: false, message: 'Invalid file extension' };
+    }
+
+    if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+        return { valid: false, message: 'File size exceeds the limit' };
+    }
+
+    return { valid: true };
+}
+
+
 
 //to be implemented later for users searcing you
 //copy of normal display with all input and delete objects taken away
@@ -485,19 +493,12 @@ function displayOtherArtiste(portfolioInfo) {
         }
     }
 
-    // Track the number of elements that need to be loaded
-    let elementsToLoad = 0;
 
     if (portfolioInfo[`file0`]) {
-        elementsToLoad++;
         const image = document.createElement('img');
         var ext = portfolioInfo[`file${0}Ext`];
         const filePath = 'data:image/' + ext + ';base64,' + portfolioInfo[`file0`];
         image.src = filePath;
-        image.onload = () => {
-            elementsToLoad--;
-            checkAllLoaded();
-        };
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete Profile Pic';
         deleteButton.addEventListener('click', function() {
@@ -543,21 +544,15 @@ function displayOtherArtiste(portfolioInfo) {
         
             //Get extension from backend data to create correct media type for base64 strings
             const extension = portfolioInfo[`file${i}Ext`];
-            console.log('Extension:', extension);
             const supportedAudioFormats = ['.mp3', '.wav'];
             const supportedVideoFormats = ['.mp4'];
         
             //Dependedt on the extension type it will construct media object to play
             if (supportedAudioFormats.includes(extension) || supportedVideoFormats.includes(extension)) {
-                elementsToLoad++;
                 const media = extension === '.mp3' ? document.createElement('audio') : document.createElement('video');
                 media.src = 'data:audio/' + extension.substring(1) + ';base64,' + fileContent;
                 media.controls = true;
                 media.style.display = 'block';
-                media.onloadeddata = () => {
-                    elementsToLoad--;
-                    checkAllLoaded();
-                };
 
                 //Delete button if user desires to remove this media
                 mediaSlot.appendChild(media);
@@ -575,13 +570,4 @@ function displayOtherArtiste(portfolioInfo) {
         }      
     }
 
-    const checkAllLoaded = () => {
-        if (elementsToLoad === 0) {
-            // Once all elements are loaded, display the profile view
-            document.querySelector('.main').style.display = 'none'; // Hide main contents
-            document.getElementById('tempoToolView').style.display = 'none'; // Show tempo tool content
-            document.getElementById('ScaleDisplayView').style.display = 'none'; // Show scale display content
-            document.getElementById('artistPortfolioView').style.display = 'block'; // Display artist portfolio
-        }
-    };
 }

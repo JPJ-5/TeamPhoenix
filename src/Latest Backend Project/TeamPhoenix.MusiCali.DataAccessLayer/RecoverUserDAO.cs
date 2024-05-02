@@ -7,9 +7,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class RecoverUserDAO
     {
-        private readonly string connectionString;
-        private readonly IConfiguration configuration;
-        private AuthenticationDAO authenticationDAO;
+        private readonly string? connectionString;
+        private readonly IConfiguration? configuration;
+        private AuthenticationDAO? authenticationDAO;
         public RecoverUserDAO(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -233,7 +233,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     // You can add more specific exception handling if needed
                     throw new Exception($"Error updating UserProfile: {ex.Message}");
                 }
-                UserAuthN theUser = authenticationDAO.findUsernameInfo(userR.Username).userA!;
+                UserAuthN? theUser = authenticationDAO.findUsernameInfo(userR.Username).userA!;
 
                 if (!EnableUser(theUser))
                 {

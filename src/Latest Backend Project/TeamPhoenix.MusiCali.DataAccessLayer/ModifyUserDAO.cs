@@ -7,8 +7,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class ModifyUserDAO
     {
-        private readonly string connectionString;
-        private readonly IConfiguration configuration;
+        private readonly string? connectionString;
+        private readonly IConfiguration? configuration;
 
         public ModifyUserDAO(IConfiguration configuration)
         {

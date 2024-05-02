@@ -10,7 +10,7 @@ namespace TeamPhoenix.MusiCali.Services;
 public class RecoverUserService
 {
     private RecoverUserDAO daoRecov;
-    private readonly IConfiguration configuration;
+    private readonly IConfiguration? configuration;
     private LoggerService loggerService;
     private AuthenticationSecurity security;
     private AuthenticationDAO authenticationDAO;

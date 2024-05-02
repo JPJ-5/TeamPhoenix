@@ -6,13 +6,15 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class MariaDBDAO
     {
-        private readonly string connectionString;
-        private readonly IConfiguration configuration;
+        private readonly string? connectionString;
+        private readonly IConfiguration? configuration;
         public MariaDBDAO(IConfiguration configuration)
         {
             this.configuration = configuration;
             this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
         }
+
+        public MariaDBDAO() { }
 
 
         public bool connect()

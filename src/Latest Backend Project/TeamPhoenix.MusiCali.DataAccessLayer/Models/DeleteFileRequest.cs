@@ -7,8 +7,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
 {
     public class DeleteFileRequest
     {
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
-        public int SlotNumber { get; set; }
+        public int? SlotNumber { get; set; }
     }
 }
