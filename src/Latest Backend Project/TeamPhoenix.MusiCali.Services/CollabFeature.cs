@@ -55,7 +55,7 @@ namespace TeamPhoenix.MusiCali.Services
             try
             {
                 // Search for the collab record based on sender and receiver usernames using CollabFeatureDAL
-                Result collab = CollabFeatureDAL.AcceptCollabByUsername(senderUsername, receiverUsername);
+                Result collab = CollabFeatureDAL.AcceptCollabByUsername(receiverUsername, senderUsername);
 
 
                 if (collab.Success == true)
@@ -65,7 +65,7 @@ namespace TeamPhoenix.MusiCali.Services
                     // receiverEmail = GetEmailByUsername(collab);
                     // Update the 'Accepted' field to true using CollabFeatureDAL
                     //collab.Success = true;
-                    collab = CollabFeatureDAL.AcceptCollabByUsername(senderUsername, receiverUsername);
+                    collab = CollabFeatureDAL.AcceptCollabByUsername(receiverUsername, senderUsername);
 
                     return collab;
                 }
