@@ -18,7 +18,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
 
-                string sql = "SELECT Username FROM ArtistProfile";
+                string sql = "SELECT Username FROM UserAccount";
 
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
@@ -156,7 +156,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
 
-                string query = "SELECT * FROM Collab WHERE SenderUsername = @username";
+                string query = "SELECT * FROM Collab WHERE SenderUsername = @username, Accepted = FALSE";
+
                 sentCollabs = RetrieveCollabs(connection, query, username);
             }
 
@@ -171,7 +172,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
                 
-                string sql = "SELECT SenderUsername FROM Collab WHERE Accepted = FALSE, ";
+                string sql = "SELECT * FROM Collab WHERE ReceiverUsername = @username, Accepted = FALSE,";
                 
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
@@ -191,19 +192,29 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
 
         //for getting accepted collabs from logged- in user
-        public static List<List<string>> GetAcceptedCollabsByUsername(string username)
+        public static List<string> GetAcceptedCollabsByUsername(string username)
         {
-            List<List<string>> acceptedCollabs = new List<List<string>>();
+            List<string> sentCollabs = new List<string>();
+            List<string> receivedCollabs = new List<string>();
+
+            List<string> accepted = new List<string>();
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
 
-                string query = "SELECT * FROM Collab WHERE (SenderUsername = @username OR ReceiverUsername = @username) AND Accepted = true";
-                acceptedCollabs = RetrieveAcceptedCollabs(connection, query, username);
+                string sentQuery = "SELECT * SenderUsername WHERE SenderUsername != @username, Accepted = true";
+                string receivedQuery = "SELECT * ReceiverUsername WHERE ReceiverUsername != @username, Accepted = true";
+
+                sentCollabs = RetrieveCollabs(connection,sentQuery, username);
+                receivedCollabs = RetrieveCollabs(connection, receivedQuery, username);
+
+                accepted.AddRange(sentCollabs);
+                accepted.AddRange(receivedCollabs);
+
             }
 
-            return acceptedCollabs;
+            return accepted;
         }
 
         private static List<string> RetrieveCollabs(MySqlConnection connection, string query, string username)
@@ -225,29 +236,31 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             return collabs;
         }
 
-        //helper function
-        private static List<List<string>> RetrieveAcceptedCollabs(MySqlConnection connection, string query, string username)
-        {
-            List<List<string>> acceptedCollabs = new List<List<string>>();
+        // private static List<string> RetrieveAcceptedCollabs(MySqlConnection connection, string query, string username)
+        // {
+        //     List<string> acceptedCollabs = new List<string>();
+        //     List<string> sentCollabs = new List<string>();
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@username", username);
+        //     using (MySqlCommand command = new MySqlCommand(query, connection))
+        //     {
+        //         command.Parameters.AddWithValue("@username", username);
 
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        List<string> collabData = new List<string>();
-                        // Assuming the collab data is stored in the first and second columns
-                        collabData.Add(reader.GetString(0));
-                        collabData.Add(reader.GetString(1));
-                        acceptedCollabs.Add(collabData);
-                    }
-                }
-            }
+        //         using (MySqlDataReader reader = command.ExecuteReader())
+        //         {
+        //             while (reader.Read())
+        //             {
+        //                 List<string> collabData = new List<string>();
+                        
+        //                 // Assuming the collab data is stored in the first and second columns
+        //                 collabData.Add(reader.GetString(0));
+        //                 collabData.Add(reader.GetString(1));
+        //                 acceptedCollabs.Add(collabData);
+        //                 sentCollabs.Add(collabData);
+        //             }
+        //         }
+        //     }
 
-            return acceptedCollabs;
-        }
+        //     return acceptedCollabs;
+        // }
     }
 }
