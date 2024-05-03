@@ -66,14 +66,25 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
         [HttpPost("api/AcceptRequestAPI")]
-        public Result Accept(CollabUsers collab)
+        public IActionResult Accept(CollabUsers collab)
         {
 
             try
             {
                 Result result = CollabFeature.AcceptCollab(collab.receiverUsername, collab.senderUsername);
 
-                return result;
+                if(result.Success){
+
+                    return Ok(result);
+                }
+
+                else{
+
+                    result.Success = false;
+                    result.ErrorMessage = "Failed to accept request";
+                    
+                    return Ok(result);
+                }
             }
 
             catch (Exception ex)
@@ -85,15 +96,14 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
         [HttpGet("api/LoadCollabsAPI")]
-
-        public CollabData LoadCollabsInView(CollabUsers collab){
+        public IActionResult LoadCollabsInView([FromHeader] string userName){
 
             try
             {
 
-                CollabData result = CollabFeature.LoadCollabFeature(collab.senderUsername);
+                CollabData result = CollabFeature.LoadCollabFeature(userName);
 
-                return result;
+                return Ok(result);
             }
 
             catch(Exception ex){
