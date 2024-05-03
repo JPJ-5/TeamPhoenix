@@ -53,31 +53,31 @@ describe('Craft Item Sorter Tests', () => {
         expect(price).to.be.below(100);
       });
     });
-});
-
-describe('Pagination', () => {
-  it('navigates to the next page of results', () => {
-    cy.visit('http://localhost:8800/');
-    cy.get('#menu-btn').click();
-    cy.get('#enter-priceRangeSorting').click();
-    cy.get('#nextPage').click();
-    cy.get('#pageInfo').should('contain', 'Page 2');
   });
-});
 
-describe('Update View Format', () => {
-  it('switches between grid and list views', () => {
+  describe('Pagination', () => {
+    it('navigates to the next page of results', () => {
       cy.visit('http://localhost:8800/');
       cy.get('#menu-btn').click();
       cy.get('#enter-priceRangeSorting').click();
-
-      // Select 'List View' and check if the class is correctly applied
-      cy.get('#viewFormat').select('List View');
-      cy.get('#results').should('have.class', 'results item-card-list'); // Ensure the class change takes effect
-
-      // Select 'Grid View' and check if the class is correctly applied
-      cy.get('#viewFormat').select('Grid View');
-      cy.get('#results').should('have.class', 'results item-card-grid'); // Ensure the class change takes effect
+      cy.get('#nextPage').click();
+      cy.get('#pageInfo').should('contain', 'Page 2');
+    });
   });
-});
+
+  describe('Update View Format', () => {
+    it('switches between grid and list views', () => {
+        cy.visit('http://localhost:8800/');
+        cy.get('#menu-btn').click();
+        cy.get('#enter-priceRangeSorting').click();
+
+        // Select 'List View' and check if the class is correctly applied
+        cy.get('#viewFormat').select('List View');
+        cy.get('#results').should('have.class', 'results item-card-list'); // Ensure the class change takes effect
+
+        // Select 'Grid View' and check if the class is correctly applied
+        cy.get('#viewFormat').select('Grid View');
+        cy.get('#results').should('have.class', 'results item-card-grid'); // Ensure the class change takes effect
+    });
+  });
 });
