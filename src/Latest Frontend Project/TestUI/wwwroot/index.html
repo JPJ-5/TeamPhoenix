@@ -19,45 +19,7 @@
                 <div class="bar"></div>
             </div>
             <div class="dropdown" id="myDropdown">
-                <!-- Group 1: Login-related elements -->
-                <button id="show-login">Login Now</button>
-                <form id="login-form" class="group1">
-                    <!--<input type="email" placeholder="Enter your Email" id="email">-->
-                    <input type="text" placeholder="Enter your User Name" id="username">
-                    <button type="button" id="email-otp">Send OTP via Email</button>
-                </form>
-
-                <!-- OTP verification form -->
-                <form id="otp-form" class="group1">
-                    <input type="text" placeholder="Enter OTP from your email" id="enter-otp">
-                    <button type="submit" id="submit-otp">Submit</button>
-                </form>
-
-                <!-- Group 2: Registration-related elements -->
-                <button id="show-register">Register</button>
-                <form id="register-email-form" class="group2">
-                    <input type="email" placeholder="Enter Email" id="register-email">
-                    <button type="button" id="show-details-form">Submit</button>
-                </form>
-                <form id="register-details-form" class="group2">
-                    <input type="text" placeholder="User Name" id="user-name">
-                    <input type="email" placeholder="Recovery Email" id="backup-email">
-                    <input type="date" id="dob">
-                    <button type="submit" id="finalize-registration">Submit</button>
-                </form>
-                <!-- Group 3: Account-recover-related elements -->
-                <button id="account-recovery-button">Account Recovery</button>
-
-                <!-- Account Recovery Section -->
-                <form id="account-recovery-section" class="group3" style="display: none;">
-                    <input type="text" id="User Name" placeholder="Enter Username for Recovery">
-                    <button id="submit-recovery-username">Submit</button>
-                </form>
-
-                <form id="otp-recovery-section" class="group3">
-                    <input type="text" placeholder="Re-enter OTP" id="re-enter-otp">
-                    <button type="submit" id="submit-recovery-otp">Submit</button>
-                </form>
+                
 
                 <!-- Place this inside your existing HTML where you want the button to appear -->
                 <button id="enter-priceRangeSorting" class="button">Price Range Sorting</button>
@@ -259,19 +221,72 @@
         </div>
     </div>
     <div class="topbar">
-        <button class="active home">Home</button>
-        <button></button>
-        <button></button>
+        <button class="active">Home</button>
+        <button>Calendar</button>
+        <button>Bingo Board</button>
+        <button>Tempo</button>
+        <button>Scale Display</button>
+        <button>Profile</button>
     </div>
     <div class="main">
-        <h1 class="neon-text">Welcome to The Musicali</h1>
+        <h1 class="neon-text">Welcome to Musicali / CraftVerify</h1>
+
+        <div id = "login-page" class="login">
+            <!-- Group 1: Login-related elements -->
+            <!--button id="show-login">Login Now</button-->
+            <p>Login</p>
+            <form id="login-form" class="group1">
+                <!--<input type="email" placeholder="Enter your Email" id="email">-->
+                <input type="text" placeholder="Enter your User Name" id="username">
+                <button type="button" id="email-otp">Send OTP via Email</button>
+            </form>
+
+            <!-- OTP verification form -->
+            <form id="otp-form" class="group1">
+                <input type="text" placeholder="Enter OTP from your email" id="enter-otp">
+                <button type="submit" id="submit-otp">Submit</button>
+            </form>
+        </div>
+        <br>
+        <div id = "registration"  style="display: none;">
+            <!-- Group 2: Registration-related elements -->
+            <button id="show-register">Register</button>
+            <form id="register-email-form" class="group2">
+                <input type="email" placeholder="Enter Email" id="register-email">
+                <button type="button" id="show-details-form">Submit</button>
+            </form>
+            <form id="register-details-form" class="group2">
+                <input type="text" placeholder="User Name" id="user-name">
+                <input type="email" placeholder="Recovery Email" id="backup-email">
+                <input type="date" id="dob">
+                <button type="submit" id="finalize-registration">Submit</button>
+            </form>
+        </div>
+        <br>
+        <div id="recovery"  style="display: none;">
+            <!-- Group 3: Account-recover-related elements -->
+            <button id="account-recovery-button">Account Recovery</button>
+
+            <!-- Account Recovery Section -->
+            <form id="account-recovery-section" class="group3" style="display: none;">
+                <input type="text" id="User Name" placeholder="Enter Username for Recovery">
+                <button id="submit-recovery-username">Submit</button>
+            </form>
+
+            <form id="otp-recovery-section" class="group3">
+                <input type="text" placeholder="Re-enter OTP" id="re-enter-otp">
+                <button type="submit" id="submit-recovery-otp">Submit</button>
+            </form>
+        </div>
+        
         <p class="neon-text">This is AWS ec2 running ubuntu for apache web server.</p>
         <p class="neon-text">command for ssh control to reclone HTML from github repo using putty:.</p>
         <p class="neon-text">cd /var/www/</p>
         <p class="neon-text">sudo rm -r html</p>
         <p class="neon-text">sudo git clone https://github.com/banhmy3t/testingUI.git html</p>
         <p class="neon-text">Https installed using command on https://certbot.eff.org/ </p>
-
+        <button class = "button">MusiCali</button>
+        <button class = "button">CraftVerify</button>
     </div>
 
     <!-- Page for tempo tool feature -->

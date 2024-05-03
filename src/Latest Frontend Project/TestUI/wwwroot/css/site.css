@@ -6,6 +6,9 @@ body, html {
     background-size: cover; /* Cover the entire page */
     background-position: center; /* Center the image */
 }
+h1{
+    margin-top: 72;
+}
 
 table.fixed { table-layout:fixed; width:1500px; }
 table, th, td {
@@ -232,4 +235,11 @@ tr:hover {background-color: #ddd;}
 
 .button:hover {
     background-color: #0a3f6e; /* Darker shade for hover effect */
+}
+
+.login{
+    border:1px solid black;
+    max-width: fit-content;
+    padding: 12px;
+    text-align: center;
 }
