@@ -2,14 +2,20 @@
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Text;
+using Amazon.S3.Model;
+using Amazon.S3;
 
 public class DataAccessLayer
 {
     private readonly string connectionString;
+    private readonly IAmazonS3 _s3Client;
+    private readonly string bucketName;
 
-    public DataAccessLayer(IConfiguration configuration)
+    public DataAccessLayer(IConfiguration configuration, IAmazonS3 s3Client)
     {
         this.connectionString = configuration.GetConnectionString("ConnectionString")!;
+        bucketName = configuration.GetValue<string>("AWS:BucketName");
+        _s3Client = s3Client;
     }
 
     public async Task<HashSet<Item>> FetchPagedItems(int pageNumber, int pageSize, string? name = null, decimal? bottomPrice = null, decimal? topPrice = null)
@@ -19,7 +25,7 @@ public class DataAccessLayer
         {
             await connection.OpenAsync();
             var offset = (pageNumber - 1) * pageSize;
-            var baseQuery = new StringBuilder("SELECT Name, Price, SKU FROM CraftItem WHERE Listed = 1");
+            var baseQuery = new StringBuilder("SELECT Name, Price, SKU, Image FROM CraftItem WHERE Listed = 1");
 
             if (!string.IsNullOrWhiteSpace(name) || bottomPrice.HasValue || topPrice.HasValue)
             {
@@ -65,11 +71,15 @@ public class DataAccessLayer
                 {
                     while (await reader.ReadAsync())
                     {
+                        var imageString = reader.GetString("Image");
+                        var firstImageName = imageString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+
                         items.Add(new Item
                         {
                             Name = reader.GetString("Name"),
                             Price = reader.GetDecimal("Price"),
-                            SKU = reader.GetString("SKU")
+                            SKU = reader.GetString("SKU"),
+                            FirstImageUrl = firstImageName != null ? GetImageUrl(reader.GetString("SKU"), firstImageName) : null
                         });
                     }
                 }
@@ -77,6 +87,34 @@ public class DataAccessLayer
         }
         return items;
     }
+
+    public string? GetImageUrl(string sku, string picName)
+    {
+        if (picName == null)
+        {
+            return null;
+        }
+
+        string firstImageKey = $"{sku}/{picName}";
+        // Assume _s3Client and bucketName are configured elsewhere in the DataAccessLayer
+        try
+        {
+            var request = new GetPreSignedUrlRequest
+            {
+                BucketName = bucketName,
+                Key = firstImageKey,
+                Expires = DateTime.Now.AddMinutes(60)
+            };
+
+            return _s3Client.GetPreSignedURL(request);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
+            return null;
+        }
+    }
+
 
     public async Task<int> CountItems()
     {

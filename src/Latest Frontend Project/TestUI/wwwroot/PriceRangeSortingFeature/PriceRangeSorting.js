@@ -91,26 +91,16 @@ function displayResults(items) {
     items.forEach(item => {
         const card = document.createElement('div');
         card.className = viewFormat === 'list' ? 'item-card-list' : 'item-card-grid';
+        
+        const imageUrl = item.firstImageUrl || 'images/wallpaperflare.com_wallpaper.jpg'; // Use a default image if no URL is provided
+        
         const content = `
+            <img src="${imageUrl}" alt="${item.name}" style="width: 225px; height: 218px; object-fit: cover;" class="item-image" />
             <div class="item-name">${item.name}</div>
             <div class="item-price">$${item.price.toFixed(2)}</div>
         `;
-
-        if (viewFormat === 'list') {
-            // Add your list view HTML structure here
-            card.innerHTML = `
-                    <img src="images/wallpaperflare.com_wallpaper.jpg" style="width: 225px; height: 218px; object-fit: cover;" class="item-image" />
-                    ${content}
-            `;
-        } else {
-            // Your existing grid view HTML structure
-            const content = `
-            <img src="images/wallpaperflare.com_wallpaper.jpg" style="width: 225px; height: 218px; object-fit: cover;" class="item-image" />
-            <div class="item-name">${item.name}</div>
-            <div class="item-price">$${item.price.toFixed(2)}</div>`;
-            card.innerHTML = content;
-        }
-
+        
+        card.innerHTML = content;
         results.appendChild(card);
     });
 }

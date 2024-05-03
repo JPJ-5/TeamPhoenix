@@ -25,6 +25,7 @@ public class ItemController : ControllerBase
 
             var items = await _itemService.GetPagedFilteredItems(pageNumber, pageSize, name, bottomPrice, topPrice);
             int totalItemCount = await _itemService.GetTotalItemCount();
+            
             return Ok(new
             {
                 TotalCount = totalItemCount,
