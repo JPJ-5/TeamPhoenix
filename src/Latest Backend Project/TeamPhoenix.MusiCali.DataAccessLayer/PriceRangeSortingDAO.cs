@@ -19,11 +19,10 @@ public class DataAccessLayer
         {
             await connection.OpenAsync();
             var offset = (pageNumber - 1) * pageSize;
-            var baseQuery = new StringBuilder("SELECT Name, Price, SKU FROM CraftItem");
+            var baseQuery = new StringBuilder("SELECT Name, Price, SKU FROM CraftItem WHERE Listed = 1");
 
             if (!string.IsNullOrWhiteSpace(name) || bottomPrice.HasValue || topPrice.HasValue)
             {
-                baseQuery.Append(" WHERE ");
                 var conditions = new HashSet<string>();
 
                 if (!string.IsNullOrWhiteSpace(name))
@@ -35,7 +34,11 @@ public class DataAccessLayer
                     conditions.Add("Price BETWEEN @bottomPrice AND @topPrice");
                 }
 
-                baseQuery.Append(string.Join(" AND ", conditions));
+                if (conditions.Count > 0)
+                {
+                    baseQuery.Append(" AND ");
+                    baseQuery.Append(string.Join(" AND ", conditions));
+                }
             }
 
             baseQuery.Append(" ORDER BY Price ASC LIMIT @pageSize OFFSET @offset");
@@ -66,7 +69,7 @@ public class DataAccessLayer
                         {
                             Name = reader.GetString("Name"),
                             Price = reader.GetDecimal("Price"),
-                            SKU = reader.GetString("SKU") // Ensure the SKU is also retrieved
+                            SKU = reader.GetString("SKU")
                         });
                     }
                 }
