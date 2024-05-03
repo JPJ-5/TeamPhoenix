@@ -316,26 +316,27 @@
         <p id="enter-collabFeature"></p>
         <div class="create-collabRequest">
             <!--<span class="popuptext" id="myPopup"></span>-->
-            <label for="receiver">Receiver Username:</label>
-            <input type="text" id="receiver" placeholder="Enter receiver username">
+            <label for="receiver">Enter Receiver Username:</label>
+            <input type="text" id="receiver" placeholder="Insert Username Here">
             <div class="popuptext" id="myPopup">
                 <button id="create-collabRequest">Send A Request</button>
             </div>
         </div>
         <div class="accept-collabRequest">
             <!-- Move onclick event to the outer button -->
-            <button id="accept-collabRequest">Accept A Request</button>
-        </div>
+            <label for="sender">Enter Sender Username:</label>
+            <input type="text" id="sender" placeholder="Insert Username Here">
+            <div class="popuptext" id="myPopup">
+                <button id="accept-collabRequest">Accept A Request</button>
+            </div>
         <div id="view-requests" style="margin-top: 20px;">
-        <select id="view-requests">
-            <option value="View Sent Requests">View Sent</option>
-            <option value="View Accepted Requests">View Accepted</option>
-        </select>
-        <br>
-        <button id="view-requests">See Collabs</button>
-        <br>
+            <select id="user-options">
+                <option value="View Sent Requests">View Sent</option>
+                <option value="View Accepted Requests">View Accepted</option>
+            </select>
+            <button id="view-requests">See Collabs</button>
         </div>
-        <div id="view-collabs" style="float: right;">
+        <!-- <div id="view-collabs" style="float: right;">
             <div class="info-slot" id="sent-requests">
 
             </div>
@@ -344,7 +345,7 @@
             </div>
             <div class="info-slot" id="accepted-requests">
 
-            </div>
+            </div> -->
         </div> 
     </div>
     
