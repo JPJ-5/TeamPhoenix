@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Amazon.S3;
 
 namespace MyApp.Tests
 {
@@ -8,6 +9,7 @@ namespace MyApp.Tests
         private readonly IConfiguration configuration;
         private DataAccessLayer dal;
         private ItemService service;
+        private readonly IAmazonS3 _s3Client;
 
         public ItemSortingTests()
         {
@@ -16,7 +18,11 @@ namespace MyApp.Tests
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             configuration = builder.Build();
 
-            dal = new DataAccessLayer(configuration);
+            // Setup the AWS S3 client
+            var awsOptions = configuration.GetAWSOptions();
+            _s3Client = awsOptions.CreateServiceClient<IAmazonS3>();
+
+            dal = new DataAccessLayer(configuration,_s3Client);
             service = new ItemService(dal, configuration);
         }
 
