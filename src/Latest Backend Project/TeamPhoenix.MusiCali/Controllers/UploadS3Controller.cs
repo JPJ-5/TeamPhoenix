@@ -156,8 +156,8 @@ namespace TeamPhoenix.MusiCali.Controllers
 
 
         // this api will get all the files in a sku folder
-        [HttpGet("GetAllFileInBucket/{sku}")]
-        public async Task<IActionResult> GetAllFilesAsync(string sku)
+        [HttpGet("GetAllFileInBucket")]
+        public async Task<IActionResult> GetAllFilesAsync([FromBody]string sku)
         {
             if (string.IsNullOrEmpty(sku))
             {
@@ -239,8 +239,8 @@ namespace TeamPhoenix.MusiCali.Controllers
 
 
         //this api will upload a file into a sku folder
-        [HttpPost("UploadAFile/{sku}")]
-        public async Task<IActionResult> UploadFileAsync(IFormFile file, string sku)
+        [HttpPost("UploadAFile")]
+        public async Task<IActionResult> UploadFileAsync(IFormFile file, [FromBody]string sku)
         {
             if (string.IsNullOrEmpty(sku))
             {
@@ -270,7 +270,7 @@ namespace TeamPhoenix.MusiCali.Controllers
  
         // this api will get a preview presignedURL of a file in a sku folder
         [HttpGet("PreviewAFile")]
-        public async Task<IActionResult> GetFileByKeyAsync([FromHeader] string sku, [FromHeader] string filename)
+        public async Task<IActionResult> GetFileByKeyAsync([FromHeader] string sku,[FromHeader] string filename)
         {
             // Construct the S3 key using the SKU and filename
             string key = $"{sku}/{filename}";
@@ -297,11 +297,14 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
 
+
+
+
         
 
         // this api will delete 1 file in the sku folder
-        [HttpDelete("DeleteAFile/{sku}/{filename}")]
-        public async Task<IActionResult> DeleteFileAsync(string sku, string filename)
+        [HttpDelete("DeleteAFile")]
+        public async Task<IActionResult> DeleteFileAsync([FromHeader] string sku,[FromBody] string filename)
         {
             if (string.IsNullOrEmpty(sku) || string.IsNullOrEmpty(filename))
             {
@@ -322,8 +325,8 @@ namespace TeamPhoenix.MusiCali.Controllers
 
 
         //this api will delete the whole sku folder by deleting each item first.
-        [HttpDelete("DeleteSkuFolder/{sku}")]
-        public async Task<IActionResult> DeleteSkuFolderAsync(string sku)
+        [HttpDelete("DeleteSkuFolder")]
+        public async Task<IActionResult> DeleteSkuFolderAsync([FromBody] string sku)
         {
             if (string.IsNullOrEmpty(sku))
             {

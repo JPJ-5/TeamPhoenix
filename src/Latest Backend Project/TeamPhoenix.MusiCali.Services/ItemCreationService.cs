@@ -2,24 +2,16 @@
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Logging;
 using TeamPhoenix.MusiCali.Security;
-using System;
-using System.Net;
-using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using Microsoft.IdentityModel.Tokens;
-using System.Configuration;
-using static Org.BouncyCastle.Asn1.Cmp.Challenge;
-using System.Runtime.InteropServices;
 using System.Text;
-using Google.Protobuf.WellKnownTypes;
-using Newtonsoft.Json.Linq;
 using System.Data.SqlClient;
 using System.Globalization;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
-using MySqlX.XDevAPI;
+
 
 
 namespace TeamPhoenix.MusiCali.Services
@@ -309,7 +301,38 @@ namespace TeamPhoenix.MusiCali.Services
             }
         }
 
+        public string? GetImageUrl(ItemCreationModel item, int picIndex) // getting s3 pic presigned url is synchonous task, no need await.
+        {
+            if (item.ImageUrls == null || item.ImageUrls.Count == 0 || item.ImageUrls.Count() < picIndex + 1)
+            {
+                return null;
+            }
 
+            string firstImageKey = $"{item.Sku}/{item.ImageUrls[picIndex]}";
+
+            try
+            {
+                var request = new GetPreSignedUrlRequest
+                {
+                    BucketName = bucketName,
+                    Key = firstImageKey,
+                    Expires = DateTime.Now.AddMinutes(60) // URL valid for 60 minutes
+                };
+
+                string url = _s3Client.GetPreSignedURL(request);
+                return url;
+            }
+            catch (AmazonS3Exception e)
+            {
+                Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
+                return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
+                return null;
+            }
+        }
 
     }
 }

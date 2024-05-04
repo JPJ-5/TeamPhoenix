@@ -354,28 +354,28 @@
         <h1>Hello and Welcome to CraftVerify</h1>
 
 
-        <div class="container">
-            <div class="form-container">
-                <select id="predefinedRanges" onchange="setPredefinedRanges()">
-                    <option value="">Select a Price Range</option>
-                    <option value="0-10">Up to $10</option>
-                    <option value="50-100">$50 to $100</option>
-                    <option value="200-400">$200 to $400</option>
-                    <option value="500-800">$500 to $800</option>
-                    <option value="900-2000">$900 to $2000</option>
-                </select>
-                <input type="number" id="bottomPrice" placeholder="Minimum Price" min="0" max="999999">
-                <input type="number" id="topPrice" placeholder="Maximum Price" min="1" max="1000000">
-                <button onclick="fetchItems()">Sort Items</button>
-            </div>
-            <div id="results"></div>
-            <div id="loading" class="loading">Loading...</div>
-        </div>
+
 
 
 
         <button id="buyerHistoryBtn">Buyer History</button>
         <button id="sellerDashboardBtn">Seller Dashboard</button>
+        <button id="buyerHistoryBtn">Price Range Sorting</button>
+        <div class="container">
+            <h1>Item List</h1>
+            <table id="itemsTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>SKU</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody id="itemTableBody"></tbody>
+            </table>
+            <div class="pagination" id="pagination"></div>
+        </div>
 
     </div>
 

@@ -15,8 +15,43 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             view.style.display = 'block';
         }
+        fetchData(1);
     });
 });
+function fetchData(page) {
+    const url = `http://localhost:8080/api/ItemPagination?Listed=true&pageNumber=1&pageSize=10`; // Modify this URL as necessary
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            renderItems(data.items);
+            setupPagination(data.totalCount, 10); // Adjust the page size if necessary
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+function renderItems(items) {
+    const tbody = document.getElementById('itemTableBody');
+    tbody.innerHTML = ''; // Clear previous items
+    items.forEach(item => {
+        const row = `<tr>
+                        <td>${item.name}</td>
+                        <td>${item.price}</td>
+                        <td>${item.sku}</td>
+                        <td><img src="${item.firstImage}" alt="Item Image" style="width: 100px;"></td>
+                     </tr>`;
+        tbody.innerHTML += row;
+    });
+}
+
+function setupPagination(totalCount, itemsPerPage) {
+    const pageCount = Math.ceil(totalCount / itemsPerPage);
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = ''; // Clear previous links
+    for (let i = 1; i <= pageCount; i++) {
+        const pageLink = `<a href="#" onclick="fetchData(${i})">${i}</a> `;
+        pagination.innerHTML += pageLink;
+    }
+}
 
 var baseUrl = 'http://localhost:8080';
 document.addEventListener('DOMContentLoaded', function () {
@@ -354,13 +389,13 @@ document.getElementById('creationForm').addEventListener('submit', async functio
         const name = formData.get('name');
         const price = formData.get('price');
         const description = formData.get('description');
-        const stock = formData.get('stockAvailable');
-        const cost = formData.get('productionCost');
-        const offerable = formData.get('offerablePrice');
+        const stockAvailable = formData.get('stockAvailable');
+        const productionCost = formData.get('productionCost');
+        const offerablePrice = Boolean(formData.get('offerablePrice'));
         const sellerContact = formData.get('sellerContact');
-        const itemListed = formData.get('itemListed');
+        const listed = Boolean(formData.get('itemListed'));
         
-        const data = { name, price, description, stock, cost, offerable, sellerContact, images, videos, itemListed };
+        const data = { name, price, description, stockAvailable, productionCost, offerablePrice, sellerContact, images, videos, listed };
 
         let itemCreationResponse = await fetch(itemCreatePath, {
             method: 'POST',
@@ -384,6 +419,9 @@ document.getElementById('creationForm').addEventListener('submit', async functio
         console.error('Error:', error);
     }
 });
+
+
+
 
 
 
