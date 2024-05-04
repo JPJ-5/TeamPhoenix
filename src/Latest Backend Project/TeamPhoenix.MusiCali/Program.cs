@@ -21,7 +21,7 @@ namespace AccCreationAPI
             _configuration = builder.Configuration ?? throw new InvalidOperationException("Configuration cannot be null");
 
             // Add services to the container.
-
+            builder.Services.AddHttpClient(); // Adds HttpClient services for API ro call API
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             
@@ -33,7 +33,10 @@ namespace AccCreationAPI
             builder.Services.AddScoped<LogoutService>();
             builder.Services.AddScoped<IAuthentication, AuthenticationSecurity>();
 
-            builder.Services.AddScoped<MariaDBDAO>();          // Register MariaDB Class with Dependency Injection
+            builder.Services.AddScoped<MariaDBDAO>();          // Register MariaDB Class with Dependency Injection 
+
+            
+
 
             // Add configuration
             var configurationBuilder = new ConfigurationBuilder()
@@ -44,18 +47,18 @@ namespace AccCreationAPI
             builder.Services.AddAWSService<IAmazonS3>();
             builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
 
-            builder.Services.AddTransient<DataAccessLayer>();
+            builder.Services.AddTransient<DataAccessLayer>(); // Assuming a parameterless constructor or adjust accordingly
             builder.Services.AddTransient<ItemService>();
 
 
             var app = builder.Build();
 
-            //Configure the HTTP request pipeline.
-            // if (app.Environment.IsDevelopment())
-            // {
-            //    app.UseSwagger();
-            //    app.UseSwaggerUI();
-            // }
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             app.UseHttpsRedirection();
 
@@ -90,5 +93,7 @@ namespace AccCreationAPI
 
             app.Run();
         }
+
+
     }
 }
