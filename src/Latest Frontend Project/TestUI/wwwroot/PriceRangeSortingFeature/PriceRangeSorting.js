@@ -92,7 +92,7 @@ function displayResults(items) {
         const card = document.createElement('div');
         card.className = viewFormat === 'list' ? 'item-card-list' : 'item-card-grid';
         
-        const imageUrl = item.firstImageUrl || 'images/wallpaperflare.com_wallpaper.jpg'; // Use a default image if no URL is provided
+        const imageUrl = item.firstImageUrl || 'images/default.png'; // Use a default image if no URL is provided
         
         const content = `
             <img src="${imageUrl}" alt="${item.name}" style="width: 225px; height: 218px; object-fit: cover;" class="item-image" />
