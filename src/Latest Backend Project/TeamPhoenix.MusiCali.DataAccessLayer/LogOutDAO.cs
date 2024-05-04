@@ -24,10 +24,20 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 string level = "Info";
                 string category = "View";
                 string context = "User has Logout";
+                //.CreateLog(userHash, level, category, context);
 
                 // Directly use the logging system to log the user's logout action
                 await Task.Run(() => mariaDBDAO.CreateLog(userInfo, level, category, context));
                 return true;
+                //string level = "Info";
+                //string category = "View";
+                //string context = "User has Logout";
+                ////.CreateLog(userHash, level, category, context);
+
+                //// Directly use the logging system to log the user's logout action
+                //await Task.Run(() => _mariaDao.CreateLog(userInfo, level, category, context));
+
+                //return true; // Return true if logging succeeded
             }
             catch (SqlException ex)
             {
