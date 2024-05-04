@@ -20,7 +20,6 @@ namespace TeamPhoenix.MusiCali.Services
     {
         //private UserCreationDAO userCreationDAO;
         private readonly IConfiguration configuration;
-        private Dictionary<string, List<byte[]>>? allowedFormatSignatures;
         private LoggerService loggerService;
         private AuthenticationSecurity authenticationSecurity;
         private Hasher hasher;
