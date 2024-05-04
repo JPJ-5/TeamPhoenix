@@ -4,6 +4,7 @@ using System;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
 {
+    //TODO: Add Collab data to Dashboard.
     //TODO: For all Sql lines there should be an order by date to double check.
     public class UsageAnalysisDashboardModel //change class type if needed
     {
@@ -49,6 +50,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
                             if (allReadRows.Count > 0)
                             {
                                 // calculate the numbers of logins each month.
+                                // TODO: Check if you can remove this for loop since I think the sql line should do this for you.
                                 Dictionary<int, int> countPerMonths = new Dictionary<int, int>();
                                 for (var pageLogNumber = 0; pageLogNumber < allReadRows.Count; pageLogNumber++)
                                 {
@@ -81,9 +83,10 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
             }
             return databaseLoginResult;
         }
-        public Result GetNumberOfRegistrationFromTimeframe(DateTime startDate, DateTime endDate) // TODO: Fix to change to match GetNumberOfLogin function
+        public Result GetNumberOfRegistrationFromTimeframe(int monthsInTimespan, DateTime endDate) // TODO: Fix to change to match GetNumberOfLogin function
         {
             Result databaseRegistrationResult = new Result("", false); //default results to false.
+            DateTime startDate = endDate.AddMonths(-(monthsInTimespan));
             string databaseRegistrationSql = "SELECT COUNT(logID), MONTH(Timestamp), YEAR(Timestamp) FROM UserLogs WHERE UserContext = @Context AND Timestamp BETWEEN @StartDate AND @EndDate GROUP BY MONTH(Timestamp), YEAR(Timestamp) ORDER BY YEAR(Timestamp), MONTH(Timestamp)"; //Add date timeframe to sql.
             try
             {
@@ -186,6 +189,81 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
                 databasePageViewResult.ErrorMessage = ex.ToString(); //change this to specify what function caused this
             }
             return databasePageViewResult;
+        }
+        public Result GetNumberOfGigsCreatedFromTimeframe(int monthsInTimeSpan, DateTime endDate)
+        {
+            Result GigCreatedResult = new Result ("", false);
+            DateTime startDate = endDate.AddMonths(-(monthsInTimeSpan)); // should subtract the amount months in the timespan from date.
+
+            string databaseGigCreatedSql = "SELECT COUNT(logID), MONTH(Timestamp), YEAR(Timestamp) FROM UserLogs WHERE Context = @Context AND Timestamp BETWEEN @StartDate AND @EndDate GROUP BY MONTH(Timestamp), YEAR(Timestamp) ORDER BY YEAR(Timestamp), MONTH(Timestamp)"; //Add date timeframe to sql.
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    MySqlCommand command = new MySqlCommand(databaseGigCreatedSql, connection); // used to create the command.     
+                    using (command)
+                    {
+                        command.Parameters.AddWithValue("@Context", "Gig was successfully created");
+                        command.Parameters.AddWithValue("@StartDate", startDate);
+                        command.Parameters.AddWithValue("@EndDate", endDate);
+                        using (MySqlDataReader sqlReader = command.ExecuteReader())
+                        {
+                            List<List<object>> allReadGigsCreated = new List<List<object>>(); //variable representing all of the rows being read with a SELECT Command.
+                            while (sqlReader.Read())
+                            {
+                                List<object> rowRead = new List<object>();
+
+                                for (int i = 0; i < sqlReader.FieldCount; i++) // This for loop will read every value given with a SELECT Command.
+                                {
+                                    rowRead.Add(sqlReader[i]); // Adds the value of an individual column on a certain row.
+                                }
+                                allReadGigsCreated.Add(rowRead);
+                            }
+                            if (allReadGigsCreated.Count > 0)
+                            {
+
+                                GigCreatedResult = new Result("Successful retrieval of gig created", true);
+                                GigCreatedResult.value = allReadGigsCreated;
+                                return GigCreatedResult;
+                            }
+                            else
+                            {
+                                GigCreatedResult.ErrorMessage = "No gigs were created within that timeframe";
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                GigCreatedResult.ErrorMessage = ex.ToString(); //change this to specify what function caused this
+            }
+            return GigCreatedResult;
+        }
+        public string GetUserHash(string username)
+        {
+            string userHash = ""; //starts empty if the hash for the user can't be found.
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string selectUserProfileSql = "SELECT UserHash FROM UserAccount WHERE Username = @Username";
+                using (MySqlCommand cmd = new MySqlCommand(selectUserProfileSql, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Username", username);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            userHash = new string(reader["UserHash"].ToString());
+                        }
+                    }
+
+                }
+            }
+            return userHash;
         }
     }
 }

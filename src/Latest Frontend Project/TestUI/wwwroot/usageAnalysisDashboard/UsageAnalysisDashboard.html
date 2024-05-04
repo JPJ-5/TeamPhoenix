@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>Usage Analysis Dashboard</h1>
+        <div class="trendChart-Login">
+            <div id="chart-container"></div>
+            <select id="monthsInTimespan" onchange="setMonthsInTimespan()">
+                <option value="">Select a timespan</option>
+                <option value="6">6 months</option>
+                <option value="12">12 months</option>
+                <option value="24">24 months</option>
+            </select>
+            <button onclick="getLoginInTimespan()" class="getLoginInTimespanbutton">Get Data</button>
+        </div>
+    </div>
+</body>
+</html>
