@@ -23,7 +23,7 @@ namespace TeamPhoenix.MusiCali.Services
         public VideoValidationService(IConfiguration configuration)
         {
             this.configuration = configuration;
-            this.loggerService = new LoggerService(configuration);
+            this.loggerService = loggerService;
             maxFileSize = configuration.GetValue<long>("VideoSettings:MaxFileSize");
             allowedExtensions = configuration.GetSection("VideoSettings:AllowedFormats").Get<string[]>();
         }

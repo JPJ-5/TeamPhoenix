@@ -46,6 +46,7 @@ public class RecoverUserService
             userA.OTP = otp;
             userA.otpTimestamp = otpTime;
             userA.IsDisabled = false;
+            userA.FailedAttempts = 0;
 
             bool emailSent = security.SendConfirmationEmail(userAcc.Email, otp);
             if (!emailSent)
@@ -53,7 +54,7 @@ public class RecoverUserService
                 throw new InvalidOperationException("Unable to send otp to email, please try again.");
             }
 
-            if (!daoRecov.updateAuth(userA))
+            if (!authenticationDAO.updateAuthentication(userA))
             {
                 throw new Exception($"Unable to reset auth");
             }
