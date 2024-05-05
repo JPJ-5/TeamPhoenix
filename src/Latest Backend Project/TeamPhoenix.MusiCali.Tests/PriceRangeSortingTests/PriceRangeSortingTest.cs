@@ -7,8 +7,8 @@ namespace MyApp.Tests
     public class ItemSortingTests
     {
         private readonly IConfiguration configuration;
-        private DataAccessLayer dal;
-        private ItemService service;
+        private readonly DataAccessLayer dal;
+        private readonly ItemService service;
         private readonly IAmazonS3 _s3Client;
 
         public ItemSortingTests()
@@ -22,21 +22,21 @@ namespace MyApp.Tests
             var awsOptions = configuration.GetAWSOptions();
             _s3Client = awsOptions.CreateServiceClient<IAmazonS3>();
 
-            dal = new DataAccessLayer(configuration,_s3Client);
+            dal = new DataAccessLayer(configuration, _s3Client);
             service = new ItemService(dal, configuration);
         }
 
         [TestMethod]
         public async Task FetchPagedItems_ReturnsAllItemsIfNoFilterApplied()
         {
-            var items = await dal.FetchPagedItems(1, 10);
+            var (items, _) = await dal.FetchPagedItems(1, 10);
             Assert.IsTrue(items.Count > 0, "Should return items without any filter.");
         }
 
         [TestMethod]
         public async Task FetchPagedItems_ReturnsFilteredItemsByName()
         {
-            var items = await dal.FetchPagedItems(1, 10, name: "craft");
+            var (items, _) = await dal.FetchPagedItems(1, 10, name: "craft");
             Assert.IsTrue(items.All(item => item.Name!.ToLower().Contains("craft")), "All items should contain the name 'craft'.");
         }
 
@@ -45,14 +45,14 @@ namespace MyApp.Tests
         {
             var bottomPrice = 50m;
             var topPrice = 100m;
-            var items = await dal.FetchPagedItems(1, 10, bottomPrice: bottomPrice, topPrice: topPrice);
+            var (items, _) = await dal.FetchPagedItems(1, 10, bottomPrice: bottomPrice, topPrice: topPrice);
             Assert.IsTrue(items.All(item => item.Price >= bottomPrice && item.Price <= topPrice), "All items should be within the specified price range.");
         }
 
         [TestMethod]
         public async Task FetchPagedItems_ReturnsFilteredItemsByNameAndPriceRange()
         {
-            var items = await dal.FetchPagedItems(1, 10, name: "craft", bottomPrice: 10m, topPrice: 1000m);
+            var (items, _) = await dal.FetchPagedItems(1, 10, name: "craft", bottomPrice: 10m, topPrice: 1000m);
             Assert.IsTrue(items.All(item => item.Name!.ToLower().Contains("craft") && item.Price >= 10m && item.Price <= 1000m), "All items should match the name 'craft' and be within the price range.");
         }
 
@@ -62,7 +62,5 @@ namespace MyApp.Tests
             var totalCount = await dal.CountItems();
             Assert.IsTrue(totalCount > 0, "Total item count should be greater than zero.");
         }
-
-
     }
 }
