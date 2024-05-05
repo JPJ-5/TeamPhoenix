@@ -1,3 +1,4 @@
+var baseUrl = 'http://localhost:8080';
 function fetchInventoryStock() {
     const username = document.getElementById('username').value;
     const resultsDiv = document.getElementById('inventoryResults');
