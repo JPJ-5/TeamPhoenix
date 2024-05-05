@@ -807,7 +807,7 @@
                 const jsScript = document.createElement('script');
                 jsScript.src = '/PriceRangeSortingFeature/PriceRangeSorting.js'; // Ensure this path is correct
                 jsScript.onload = function () {
-                    initPage();  // Assuming initPage() sets everything up
+                    setupPageComponents();  // Assuming initPage() sets everything up
                     // JavaScript file loaded and executed
                 };
                 jsScript.onerror = function () {
