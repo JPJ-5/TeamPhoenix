@@ -32,8 +32,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 return false;
             }
-
-            return false;
         }
 
         public bool DeleteGig(string username, DateTime dateOfGig)
@@ -50,8 +48,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 return false;
             }
-
-            return false;
         }
         public GigView? ViewGig(string username, string usernameOfOwner, DateTime dateOfGig)
         {
@@ -84,8 +80,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 return false;
             }
-
-            return false;
         }
         public bool ChangeGigVisibility(string username, bool visibility)
         {
@@ -101,8 +95,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 return false;
             }
-
-            return false;
         }
 
         public string GetUserHash(string username)

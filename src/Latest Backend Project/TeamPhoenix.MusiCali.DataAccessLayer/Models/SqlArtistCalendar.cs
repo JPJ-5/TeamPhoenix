@@ -49,7 +49,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //transaction?.Rollback(); // will not rollback if transcaction is null.
                 return false;
@@ -85,7 +85,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
                             {
                                 if (sqlReader["PosterUsername"].ToString() != UsernameOfViewer && (bool)sqlReader["GigVisibility"] == false)
                                 {
-                                    string errorMessage = "Gig is not visible to user";
                                     return readGigSqlResult;
                                 }
                                 readGigSqlResult = new GigView(
