@@ -43,7 +43,7 @@ function fetchItems() {
     }
 
     // Construct the full URL by appending the endpoint to the base URL
-    let url = `${baseUrl}Item/api/pagedFilteredItems?pageNumber=${currentPage}&pageSize=${pageSize}`;
+    let url = `${baseUrl}/Item/api/pagedFilteredItems?pageNumber=${currentPage}&pageSize=${pageSize}`;
     if (name) {
         url += `&name=${encodeURIComponent(name)}`;
     }

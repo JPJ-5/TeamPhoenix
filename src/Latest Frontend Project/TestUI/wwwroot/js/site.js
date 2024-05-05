@@ -8,7 +8,7 @@
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
-    var baseUrl = 'https://themusicali.com:5000/';
+    var baseUrl = 'https://themusicali.com:5000';
     var idToken;
     var accessToken;
 
@@ -746,7 +746,7 @@
             Feature: feature
         };
 
-        fetch('http://localhost:8080/LogFeature/api/LogFeatureAPI', {
+        fetch(`${baseUrl}/LogFeature/api/LogFeatureAPI`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

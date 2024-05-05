@@ -1,5 +1,3 @@
-var baseUrl = 'http://localhost:8080';
-
 //Bingo Board Features:
 document.getElementById('enter-BingoBoardView').addEventListener('click', function (){
     if(sessionStorage.getItem('loadCount') == null){
