@@ -1,3 +1,6 @@
+// Track previously used bottom and top prices
+let lastBottomPrice = null;
+let lastTopPrice = null;
 let currentPage = 1;
 let pageSize = document.getElementById('pageSize').value;
 
@@ -7,6 +10,15 @@ function fetchItems() {
     const name = document.getElementById('searchInput').value;
     const loadingIndicator = document.getElementById('loading');
     const results = document.getElementById('results');
+
+    // Reset page number if the price range changes
+    if (bottomPrice !== lastBottomPrice || topPrice !== lastTopPrice) {
+        currentPage = 1;
+    }
+
+    // Store the last used prices
+    lastBottomPrice = bottomPrice;
+    lastTopPrice = topPrice;
 
     loadingIndicator.style.display = 'block';
     results.innerHTML = '';
@@ -24,7 +36,7 @@ function fetchItems() {
         return;
     }
     
-    if (topPrice > 1000000 && topPrice >= bottomPrice) {
+    if (topPrice > 1000000 && topPrice > bottomPrice) {
         results.innerHTML = '<p>The top price should be less than or equal to 1 million.</p>';
         loadingIndicator.style.display = 'none';
         return;
@@ -41,6 +53,7 @@ function fetchItems() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             displayResults(data.items);
             const totalPageCount = Math.ceil(data.totalCount / pageSize);
             document.getElementById('pageInfo').textContent = `Page ${currentPage} / ${totalPageCount}`;
@@ -82,6 +95,8 @@ function setPredefinedRanges() {
         document.getElementById('bottomPrice').value = '';
         document.getElementById('topPrice').value = '';
     }
+
+    currentPage = 1
     fetchItems(); // Apply new filters and reset pagination
 }
 
@@ -136,7 +151,7 @@ function updateViewFormat() {
     } else {
         results.classList.add('item-card-grid');
     }
-
+    currentPage = 1
     fetchItems(); // Reload items to display with the new format
 }
 

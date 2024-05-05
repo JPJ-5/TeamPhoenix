@@ -18,56 +18,82 @@ public class DataAccessLayer
         _s3Client = s3Client;
     }
 
-    public async Task<HashSet<Item>> FetchPagedItems(int pageNumber, int pageSize, string? name = null, decimal? bottomPrice = null, decimal? topPrice = null)
+    public async Task<(HashSet<Item> items, int totalCount)> FetchPagedItems(int pageNumber, int pageSize, string? name = null, decimal? bottomPrice = null, decimal? topPrice = null)
     {
         var items = new HashSet<Item>();
+        int totalCount = 0;
+
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             await connection.OpenAsync();
             var offset = (pageNumber - 1) * pageSize;
-            var baseQuery = new StringBuilder("SELECT Name, Price, SKU, Image FROM CraftItem WHERE Listed = 1");
-
-            if (!string.IsNullOrWhiteSpace(name) || bottomPrice.HasValue || topPrice.HasValue)
+            
+            // Base query for filtering
+            var baseFilter = new StringBuilder("FROM CraftItem WHERE Listed = 1");
+            
+            var conditions = new List<string>();
+            
+            if (!string.IsNullOrWhiteSpace(name))
             {
-                var conditions = new HashSet<string>();
-
-                if (!string.IsNullOrWhiteSpace(name))
-                {
-                    conditions.Add("LOWER(Name) LIKE CONCAT(@nameQuery, '%')");
-                }
-                if (bottomPrice.HasValue && topPrice.HasValue)
-                {
-                    conditions.Add("Price BETWEEN @bottomPrice AND @topPrice");
-                }
-
-                if (conditions.Count > 0)
-                {
-                    baseQuery.Append(" AND ");
-                    baseQuery.Append(string.Join(" AND ", conditions));
-                }
+                conditions.Add("LOWER(Name) LIKE CONCAT(@nameQuery, '%')");
+            }
+            if (bottomPrice.HasValue && topPrice.HasValue)
+            {
+                conditions.Add("Price BETWEEN @bottomPrice AND @topPrice");
             }
 
-            baseQuery.Append(" ORDER BY Price ASC LIMIT @pageSize OFFSET @offset");
-            var query = baseQuery.ToString();
+            if (conditions.Count > 0)
+            {
+                baseFilter.Append(" AND ");
+                baseFilter.Append(string.Join(" AND ", conditions));
+            }
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            // Query to count the total filtered items
+            var countQuery = $"SELECT COUNT(*) {baseFilter}";
+            
+            // Query to fetch the paginated data
+            var dataQuery = new StringBuilder("SELECT Name, Price, SKU, Image ");
+            dataQuery.Append(baseFilter);
+            dataQuery.Append(" ORDER BY Price ASC LIMIT @pageSize OFFSET @offset");
+
+            // Execute the count query
+            using (MySqlCommand countCommand = new MySqlCommand(countQuery, connection))
             {
                 if (!string.IsNullOrWhiteSpace(name))
                 {
-                    command.Parameters.AddWithValue("@nameQuery", name.ToLower());
+                    countCommand.Parameters.AddWithValue("@nameQuery", name.ToLower());
                 }
                 if (bottomPrice.HasValue)
                 {
-                    command.Parameters.AddWithValue("@bottomPrice", bottomPrice.Value);
+                    countCommand.Parameters.AddWithValue("@bottomPrice", bottomPrice.Value);
                 }
                 if (topPrice.HasValue)
                 {
-                    command.Parameters.AddWithValue("@topPrice", topPrice.Value);
+                    countCommand.Parameters.AddWithValue("@topPrice", topPrice.Value);
                 }
-                command.Parameters.AddWithValue("@pageSize", pageSize);
-                command.Parameters.AddWithValue("@offset", offset);
 
-                using (var reader = await command.ExecuteReaderAsync())
+                totalCount = Convert.ToInt32(await countCommand.ExecuteScalarAsync());
+            }
+
+            // Execute the paginated data query
+            using (MySqlCommand dataCommand = new MySqlCommand(dataQuery.ToString(), connection))
+            {
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    dataCommand.Parameters.AddWithValue("@nameQuery", name.ToLower());
+                }
+                if (bottomPrice.HasValue)
+                {
+                    dataCommand.Parameters.AddWithValue("@bottomPrice", bottomPrice.Value);
+                }
+                if (topPrice.HasValue)
+                {
+                    dataCommand.Parameters.AddWithValue("@topPrice", topPrice.Value);
+                }
+                dataCommand.Parameters.AddWithValue("@pageSize", pageSize);
+                dataCommand.Parameters.AddWithValue("@offset", offset);
+
+                using (var reader = await dataCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -85,7 +111,9 @@ public class DataAccessLayer
                 }
             }
         }
-        return items;
+
+        // Return the set of items along with the total count
+        return (items, totalCount);
     }
 
     public string? GetImageUrl(string sku, string picName)
@@ -121,7 +149,7 @@ public class DataAccessLayer
         using (var connection = new MySqlConnection(connectionString))
         {
             await connection.OpenAsync();
-            var query = "SELECT COUNT(*) FROM CraftItem";
+            var query = "SELECT COUNT(*) FROM CraftItem WHERE Listed = 1";
             using (var command = new MySqlCommand(query, connection))
             {
                 return Convert.ToInt32(await command.ExecuteScalarAsync());

@@ -15,27 +15,34 @@ public class ItemService
         _configuration = configuration;
     }
 
-    public async Task<HashSet<Item>> GetPagedFilteredItems(int pageNumber, int pageSize, string? name = null, decimal? bottomPrice = null, decimal? topPrice = null)
+    public async Task<(HashSet<Item> items, int totalCount)> GetPagedFilteredItems(int pageNumber, int pageSize, string? name = null, decimal? bottomPrice = null, decimal? topPrice = null)
     {
         string userHash = "e12a8f14d3623f5206c060b0d1fba3d7105afc5062d13173aa17866d3b53b0d6";
         string logContext = $"Username: {"Anonymous"}, Page: {pageNumber}, PageSize: {pageSize}, NameFilter: {name}, BottomPrice: {bottomPrice}, TopPrice: {topPrice}";
 
         try
         {
-            var items = await _dataAccessLayer.FetchPagedItems(pageNumber, pageSize, name, bottomPrice, topPrice);
+            // Fetch items and total count
+            var result = await _dataAccessLayer.FetchPagedItems(pageNumber, pageSize, name, bottomPrice, topPrice);
+            var items = result.items;
+            var totalCount = result.totalCount;
+
+            // Log an error if no items are found
             if (items == null || items.Count == 0)
             {
                 _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "Data", "System fails to show the sorting result with valid available data.");
-                return new HashSet<Item>(); // Return an empty HashSet instead of throwing an exception
+                return (new HashSet<Item>(), totalCount); // Return empty set and total count
             }
 
+            // Log error if items exceed the page size limit
             if (items.Count > pageSize)
             {
                 _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "View", "Wrong sorting format is shown to user.");
                 throw new Exception("Results are not shown in the correct format.");
             }
-            _loggerService.CreateLog(userHash, LogLevel.Information.ToString(), "Item Retrieval", $"Fetched {items.Count} items. " + logContext);
-            return items;
+
+            _loggerService.CreateLog(userHash, LogLevel.Information.ToString(), "Item Retrieval", $"Fetched {items.Count} items out of {totalCount}. " + logContext);
+            return (items, totalCount);
         }
         catch (Exception ex)
         {
