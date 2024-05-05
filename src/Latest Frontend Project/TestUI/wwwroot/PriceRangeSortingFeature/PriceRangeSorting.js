@@ -18,8 +18,14 @@ function fetchItems() {
         return;
     }
     
-    if ((bottomPrice && bottomPrice < 0) || (topPrice && topPrice < 0)) {
-        results.innerHTML = '<p>Please enter a positive value for prices.</p>';
+    if (bottomPrice < 0) {
+        results.innerHTML = '<p>Please enter a positive value for the bottom price.</p>';
+        loadingIndicator.style.display = 'none';
+        return;
+    }
+    
+    if (topPrice > 1000000 && topPrice >= bottomPrice) {
+        results.innerHTML = '<p>The top price should be less than or equal to 1 million.</p>';
         loadingIndicator.style.display = 'none';
         return;
     }
