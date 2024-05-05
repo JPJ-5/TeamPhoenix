@@ -60,6 +60,9 @@ function playMedia(slot) {
 function displayArtistProfile(portfolioInfo) {
     const infoSlot = document.getElementById(`info-upload`);
     var activeUsername = sessionStorage.getItem('username');
+    const usernameParagraph = document.createElement('h1');
+    usernameParagraph.innerHTML = `<strong>${activeUsername}</strong>`;
+    infoSlot.appendChild(usernameParagraph);
 
 
     //Display for other occupation with selection boxes
@@ -175,86 +178,81 @@ function displayArtistProfile(portfolioInfo) {
     // Creating display for media sources based on file type for each media slot, Genre and Description included
     for (let i = 1; i <= 5; i++) {
         const fileContent = portfolioInfo[`file${i}`];
-        const mediaSlot = document.getElementById(`slot-${i}`);
+        document.getElementById('slotsTable').style.display = 'block';
+        var slotsTable = document.getElementById('slotsTable');
 
-        if (fileContent == null) {
-            //If null then we load upload button and input for info and media and set genre and desc to display lack of media
-            const NoFileParagraph = document.createElement('p');
-            NoFileParagraph.innerHTML = `<strong>No File Yet </strong>`;
-            mediaSlot.appendChild(NoFileParagraph);
-            
+        var row = slotsTable.insertRow();
+        var nameCell = row.insertCell();
+        var genreCell = row.insertCell();
+        var descCell = row.insertCell();
+        var mediaCell = row.insertCell();
+        var deleteCell = row.insertCell();
+
+        if (fileContent == "") {
+            // If null then we load upload button and input for info and media and set genre and desc to display lack of media
+            nameCell.innerHTML = 'No File Yet';
+            genreCell.innerHTML = 'N/A';
+            descCell.innerHTML = 'N/A';
+
             const uploadButton = document.createElement('button');
             uploadButton.textContent = 'Upload Media';
-            uploadButton.addEventListener('click', function() {
+            uploadButton.addEventListener('click', function () {
                 triggerFileInput(i);
             });
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.id = `media-slot-${i}-content`;
+            fileInput.style.display = 'none';
+            deleteCell.appendChild(fileInput);
+            deleteCell.appendChild(uploadButton);
 
-            //input boxes for Genre and Desc input if null
+            // Input boxes for Genre and Desc input if null
             const genreInput = document.createElement('input');
             genreInput.type = 'text';
             genreInput.id = `genre-input-${i}`;
             genreInput.placeholder = 'Enter Genre';
-            mediaSlot.appendChild(genreInput);
+            genreCell.appendChild(genreInput);
 
             const descInput = document.createElement('input');
             descInput.type = 'text';
             descInput.id = `desc-input-${i}`;
             descInput.placeholder = 'Enter Description';
-            mediaSlot.appendChild(descInput);
-            mediaSlot.appendChild(uploadButton);
+            descCell.appendChild(descInput);
+
         } else {
-            //Create display for Genre and Desc paragraphs when not null
+            // Create display for Genre and Desc paragraphs when not null
             const name = portfolioInfo[`file${i}Name`] || 'N/A';
             const genre = portfolioInfo[`file${i}Genre`] || 'N/A';
             const desc = portfolioInfo[`file${i}Desc`] || 'N/A';
 
-            const nameParagraph = document.createElement('p');
-            nameParagraph.innerHTML = `<strong>Name: </strong>${name}`;
-            mediaSlot.appendChild(nameParagraph);
-        
-            const genreParagraph = document.createElement('p');
-            genreParagraph.innerHTML = `<strong>Genre: </strong>${genre}`;
-            mediaSlot.appendChild(genreParagraph);
-        
-            const descParagraph = document.createElement('p');
-            descParagraph.innerHTML = `<strong>Desc: </strong>${desc}`;
-            mediaSlot.appendChild(descParagraph);
-        
-            //Get extension from backend data to create correct media type for base64 strings
+            nameCell.innerHTML = name;
+            genreCell.innerHTML = genre;
+            descCell.innerHTML = desc;
+
+            // Get extension from backend data to create correct media type for base64 strings
             const extension = portfolioInfo[`file${i}Ext`];
-            console.log('Extension:', extension);
             const supportedAudioFormats = ['.mp3', '.wav'];
             const supportedVideoFormats = ['.mp4'];
-        
-            //check for correct extension and for which exact type to contruct media
+
+            // Check for correct extension and for which exact type to construct media
             if (supportedAudioFormats.includes(extension) || supportedVideoFormats.includes(extension)) {
                 const media = extension === '.mp3' ? document.createElement('audio') : document.createElement('video');
                 media.src = 'data:audio/' + extension.substring(1) + ';base64,' + fileContent;
                 media.controls = true;
                 media.style.display = 'block';
+                mediaCell.appendChild(media);
 
-                //Delete button if user desires to remove this media
-                mediaSlot.appendChild(media);
+                // Delete button if user desires to remove this media
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete File';
-                deleteButton.addEventListener('click', function() {
+                deleteButton.addEventListener('click', function () {
                     deleteFile(i);
                 });
-                mediaSlot.appendChild(deleteButton);
-        
-                // Add play button if it is audio only
-                if (extension === '.mp3') {
-                    const playButton = document.createElement('button');
-                    playButton.textContent = 'Play';
-                    playButton.addEventListener('click', () => {
-                        playMedia(i);
-                    });
-                    mediaSlot.appendChild(playButton);
-                }
-            }
-        }      
-    }
 
+                deleteCell.appendChild(deleteButton);
+            }
+        }
+    }
 }
 
 //function to call api to delete file along with genre and description
@@ -420,10 +418,9 @@ function triggerInfoInput(section) {
 
 function resetArtistPortfolioView() {
     // Remove all media slot objects for reload
-    for (let i = 1; i <= 5; i++) {
-        const mediaSlot = document.getElementById(`slot-${i}`);
-        mediaSlot.innerHTML = `<p><strong>Media Slot ${i}:</strong></p>
-                               <input type="file" id="media-slot-${i}-content" style="display: none;">`;
+    const slotsTable = document.getElementById('slotsTable');
+    while (slotsTable.rows.length > 1) {
+        slotsTable.deleteRow(1);
     }
 
     // Remove profile pic for reload
@@ -455,8 +452,11 @@ function validateFile(file) {
 
 //to be implemented later for users searcing you
 //copy of normal display with all input and delete objects taken away
-function displayOtherArtiste(portfolioInfo) {
+function displayOtherArtiste(username, portfolioInfo) {
     const infoSlot = document.getElementById(`info-upload`);
+    const usernameParagraph = document.createElement('h1');
+    usernameParagraph.innerHTML = `<strong>${username}</strong>`;
+    infoSlot.appendChild(usernameParagraph);
 
     const infoParagraph = document.createElement('p');
     infoParagraph.innerHTML = `<strong>${portfolioInfo[`username`]}`;
@@ -514,60 +514,49 @@ function displayOtherArtiste(portfolioInfo) {
         mediaSlot.appendChild(picParagraph);
     }
 
-    // Set media sources based on file type for each media slot
+    // Creating display for media sources based on file type for each media slot, Genre and Description included
     for (let i = 1; i <= 5; i++) {
         const fileContent = portfolioInfo[`file${i}`];
-        const mediaSlot = document.getElementById(`slot-${i}`);
+        document.getElementById('slotsTable').style.display = 'block';
+        var slotsTable = document.getElementById('slotsTable');
 
-        if (fileContent == null) {
-            //If null then we load upload buttons for media and set genre and desc to display lack media
-            const genreParagraph = document.createElement('p');
-            genreParagraph.innerHTML = `<strong>Genre: </strong>No file yet`;
-            mediaSlot.appendChild(genreParagraph);
+        var row = slotsTable.insertRow();
+        var nameCell = row.insertCell();
+        var genreCell = row.insertCell();
+        var descCell = row.insertCell();
+        var mediaCell = row.insertCell();
 
-            const descParagraph = document.createElement('p');
-            descParagraph.innerHTML = `<strong>Desc: </strong>No file yet`;
-            mediaSlot.appendChild(descParagraph);
+        if (fileContent == "") {
+            // If null then we load upload button and input for info and media and set genre and desc to display lack of media
+            nameCell.innerHTML = 'No File Yet';
+            genreCell.innerHTML = 'N/A';
+            descCell.innerHTML = 'N/A';
 
         } else {
-            //Create in Genre and Desc paragraphs when not null
+            // Create display for Genre and Desc paragraphs when not null
+            const name = portfolioInfo[`file${i}Name`] || 'N/A';
             const genre = portfolioInfo[`file${i}Genre`] || 'N/A';
             const desc = portfolioInfo[`file${i}Desc`] || 'N/A';
-        
-            const genreParagraph = document.createElement('p');
-            genreParagraph.innerHTML = `<strong>Genre: </strong>${genre}`;
-            mediaSlot.appendChild(genreParagraph);
-        
-            const descParagraph = document.createElement('p');
-            descParagraph.innerHTML = `<strong>Desc: </strong>${desc}`;
-            mediaSlot.appendChild(descParagraph);
-        
-            //Get extension from backend data to create correct media type for base64 strings
+
+            nameCell.innerHTML = name;
+            genreCell.innerHTML = genre;
+            descCell.innerHTML = desc;
+
+            // Get extension from backend data to create correct media type for base64 strings
             const extension = portfolioInfo[`file${i}Ext`];
             const supportedAudioFormats = ['.mp3', '.wav'];
             const supportedVideoFormats = ['.mp4'];
-        
-            //Dependedt on the extension type it will construct media object to play
+
+            // Check for correct extension and for which exact type to construct media
             if (supportedAudioFormats.includes(extension) || supportedVideoFormats.includes(extension)) {
                 const media = extension === '.mp3' ? document.createElement('audio') : document.createElement('video');
                 media.src = 'data:audio/' + extension.substring(1) + ';base64,' + fileContent;
                 media.controls = true;
                 media.style.display = 'block';
+                mediaCell.appendChild(media);
 
-                //Delete button if user desires to remove this media
-                mediaSlot.appendChild(media);
-        
-                // Add play button if it is audio
-                if (extension === '.mp3') {
-                    const playButton = document.createElement('button');
-                    playButton.textContent = 'Play';
-                    playButton.addEventListener('click', () => {
-                        playMedia(i);
-                    });
-                    mediaSlot.appendChild(playButton);
-                }
             }
-        }      
+        }
     }
 
 }

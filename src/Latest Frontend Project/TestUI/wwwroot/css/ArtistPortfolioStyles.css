@@ -19,18 +19,20 @@ h1 {
     margin-top: 72px; /* Smaller margin */
 }
 
-
-.media-slots {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    align-items: flex-end;
-    grid-column: 2; /* Second column */
-    grid-row: 2; /* Second row */
-    margin-top: 50px; /* Smaller margin */
+table.slotsTable {
+    table-layout: fixed;
+    width: 1500px;
 }
 
-.media-slot {
-    margin-bottom: 20px;
-    margin-left: 20px;
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    /*border-collapse: collapse;*/
+}
+
+
+th {
+    background-color: #089aa4;
+    color: white;
+    text-align: left;
 }

@@ -22,7 +22,7 @@ namespace TeamPhoenix.MusiCali.Services
         }
         public ArtistProfileViewModel LoadArtistProfile(string username)
         {
-            try
+            try 
             {
                 var file = artistPortfolioDao.GetPortfolio(username);
                 var fileInfo = file[0];

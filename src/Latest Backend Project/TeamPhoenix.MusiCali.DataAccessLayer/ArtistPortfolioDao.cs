@@ -248,7 +248,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw new Exception($"An error occurred retrieving genre: {ex.Message}");
+                throw new Exception($"An error occurred retrieving all profile data: {ex.Message}");
             }
         }
 

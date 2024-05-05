@@ -9,8 +9,8 @@ namespace TeamPhoenix.MusiCali.Logging
     public class LoggerService
     {
         private readonly IConfiguration? configuration;
-        private readonly MariaDBDAO mariaDBDAO;
-        private readonly RecoverUserDAO recoverUserDAO;
+        private readonly MariaDBDAO? mariaDBDAO;
+        private readonly RecoverUserDAO? recoverUserDAO;
 
         public LoggerService()
         {
@@ -26,8 +26,8 @@ namespace TeamPhoenix.MusiCali.Logging
         public Result CreateLog(string UserHash, string logLevel, string logCategory, string context)
         {
             // calling dao function createLog
-            var result = mariaDBDAO.CreateLog(UserHash, logLevel, logCategory, context);
-            return result;
+            var result = mariaDBDAO?.CreateLog(UserHash, logLevel, logCategory, context);
+            return result!;
         }
         public Result LogFeature(string UserName, string Feature)
         {
@@ -35,9 +35,9 @@ namespace TeamPhoenix.MusiCali.Logging
             var level = "Info";
             var category = "View";
             var context = "User is using " + Feature;
-            var userHash = recoverUserDAO.GetUserHash(UserName);
+            var userHash = recoverUserDAO?.GetUserHash(UserName);
             // calling dao function createLog
-            var result = CreateLog(userHash, level, category, context);
+            var result = CreateLog(userHash!, level, category, context);
             return result;
         }
     }

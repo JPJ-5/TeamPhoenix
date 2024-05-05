@@ -54,7 +54,7 @@ namespace TeamPhoenix.MusiCali.Controllers
                 }
                 else
                 {
-                    return BadRequest($"Failed to upload file: {result.ErrorMessage}");
+                    return StatusCode(500, $"Failed to upload file: {result.ErrorMessage}");
                 }
             }
             catch (Exception ex)
@@ -124,7 +124,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
             catch (Exception ex)
             {
-                throw new Exception("Error deleting file: ", ex);
+                return StatusCode(500, $"Error deleting portfolio File: {ex.Message}");
             }
         }
 
