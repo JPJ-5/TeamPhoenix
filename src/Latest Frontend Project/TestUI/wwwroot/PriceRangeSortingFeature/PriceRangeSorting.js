@@ -4,6 +4,9 @@ let lastTopPrice = null;
 let currentPage = 1;
 let pageSize = document.getElementById('pageSize').value;
 
+// Base URL for all requests
+const baseUrl = 'https://themusicali.com:5000/';
+
 function fetchItems() {
     const bottomPrice = document.getElementById('bottomPrice').value;
     const topPrice = document.getElementById('topPrice').value;
@@ -24,25 +27,26 @@ function fetchItems() {
     results.innerHTML = '';
 
     // Input validation for prices
-    if (bottomPrice && isNaN(parseFloat(bottomPrice)) || topPrice && isNaN(parseFloat(topPrice))) {
+    if ((bottomPrice && isNaN(parseFloat(bottomPrice))) || (topPrice && isNaN(parseFloat(topPrice)))) {
         results.innerHTML = '<p>Please enter a valid number for price values.</p>';
         loadingIndicator.style.display = 'none';
         return;
     }
-    
+
     if (bottomPrice < 0) {
         results.innerHTML = '<p>Please enter a positive value for the bottom price.</p>';
         loadingIndicator.style.display = 'none';
         return;
     }
-    
+
     if (topPrice > 1000000 && topPrice > bottomPrice) {
         results.innerHTML = '<p>The top price should be less than or equal to 1 million.</p>';
         loadingIndicator.style.display = 'none';
         return;
     }
 
-    let url = `http://localhost:8080/Item/api/pagedFilteredItems?pageNumber=${currentPage}&pageSize=${pageSize}`;
+    // Construct the full URL by appending the endpoint to the base URL
+    let url = `${baseUrl}Item/api/pagedFilteredItems?pageNumber=${currentPage}&pageSize=${pageSize}`;
     if (name) {
         url += `&name=${encodeURIComponent(name)}`;
     }
@@ -95,7 +99,7 @@ function setPredefinedRanges() {
         document.getElementById('topPrice').value = '';
     }
 
-    currentPage = 1
+    currentPage = 1;
     fetchItems(); // Apply new filters and reset pagination
 }
 
@@ -150,7 +154,7 @@ function updateViewFormat() {
     } else {
         results.classList.add('item-card-grid');
     }
-    currentPage = 1
+    currentPage = 1;
     fetchItems(); // Reload items to display with the new format
 }
 
