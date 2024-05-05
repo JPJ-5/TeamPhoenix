@@ -1,4 +1,5 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+﻿var baseUrl = 'https://themusicali.com:5000';
+document.addEventListener('DOMContentLoaded', function () {
     // Event Listeners for Artist Profile Calendar
     document.getElementById('enter-calendar').addEventListener('click', function () {
         // display the artist calendar section when the button is clicked
