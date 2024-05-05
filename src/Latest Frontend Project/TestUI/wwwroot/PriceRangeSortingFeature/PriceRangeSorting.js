@@ -160,8 +160,8 @@ function updatePageSize() {
     fetchItems(); // Reload with the new page size
 }
 
-function initPage() {
+function setupPageComponents() {
     fetchItems(); // Initial fetch for default or saved filter states
 }
 
-document.addEventListener('DOMContentLoaded', initPage); // Ensures the script runs after the document is fully loaded
+document.addEventListener('DOMContentLoaded', setupPageComponents); // Ensures the script runs after the document is fully loaded
