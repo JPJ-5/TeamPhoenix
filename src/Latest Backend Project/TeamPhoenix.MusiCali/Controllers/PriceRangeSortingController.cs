@@ -23,13 +23,16 @@ public class ItemController : ControllerBase
                 return BadRequest(new ApiResponse<object>("Top price cannot be less than bottom price."));
             }
 
-            var items = await _itemService.GetPagedFilteredItems(pageNumber, pageSize, name, bottomPrice, topPrice);
-            int totalItemCount = await _itemService.GetTotalItemCount();
-            
+            // Retrieve both items and total count from the service
+            var result = await _itemService.GetPagedFilteredItems(pageNumber, pageSize, name, bottomPrice, topPrice);
+            var items = result.items ?? new HashSet<Item>(); // Ensure items is never null
+            var totalItemCount = result.totalCount; // Directly use the count provided by the service
+
+            // Construct the response with item information
             return Ok(new
             {
                 TotalCount = totalItemCount,
-                Items = items ?? new HashSet<Item>(), // Ensure this never returns null
+                Items = items,
                 PageNumber = pageNumber,
                 PageSize = pageSize
             });
@@ -40,4 +43,5 @@ public class ItemController : ControllerBase
             return StatusCode(500, "An error occurred while fetching the items: " + ex.Message);
         }
     }
+
 }
