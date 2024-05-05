@@ -4,9 +4,6 @@ let lastTopPrice = null;
 let currentPage = 1;
 let pageSize = document.getElementById('pageSize').value;
 
-// Base URL for all requests
-const baseUrl = 'https://themusicali.com:5000/';
-
 function fetchItems() {
     const bottomPrice = document.getElementById('bottomPrice').value;
     const topPrice = document.getElementById('topPrice').value;
