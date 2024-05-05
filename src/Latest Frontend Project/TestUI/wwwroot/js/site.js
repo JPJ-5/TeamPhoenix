@@ -746,7 +746,7 @@
             Feature: feature
         };
 
-        fetch('http://localhost:8080/LogFeature/api/LogFeatureAPI', {
+        fetch(`${baseUrl}/LogFeature/api/LogFeatureAPI`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
