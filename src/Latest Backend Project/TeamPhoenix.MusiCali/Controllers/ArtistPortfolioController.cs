@@ -47,7 +47,7 @@ namespace TeamPhoenix.MusiCali.Controllers
                 var genre = model.Genre ?? "N/A";
                 var desc = model.Desc ?? "N/A";
                 // Save the file and other information to the database
-                var result = await artistPortfolio.UploadFile(model.Username, model.Slot, model.File, model.Genre, model.Desc);
+                var result = await artistPortfolio.UploadFile(model.Username, model.Slot, model.File!, model.Genre, model.Desc);
                 if (result.Success)
                 {
                     return Ok("File uploaded successfully.");

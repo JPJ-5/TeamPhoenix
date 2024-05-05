@@ -67,7 +67,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         }
 
 
-        public Result DeleteFilePath(string username, int? slot)
+        public Result DeleteFilePath(string? username, int? slot)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public string GetFilePath(string username, int? slot)
+        public string GetFilePath(string? username, int? slot)
         {
             try
             {

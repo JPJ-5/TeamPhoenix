@@ -106,7 +106,7 @@ namespace TeamPhoenix.MusiCali.Services
             }
         }
 
-        public async Task<Result> UploadFile(string username, int slot, IFormFile file, string genre, string desc)
+        public async Task<Result> UploadFile(string? username, int? slot, IFormFile file, string? genre, string? desc)
         {
             var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
             var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
@@ -175,7 +175,7 @@ namespace TeamPhoenix.MusiCali.Services
             }
         }
 
-        public Result DeleteFile(string username, int? slot)
+        public Result DeleteFile(string? username, int? slot)
         {
             try
             {
