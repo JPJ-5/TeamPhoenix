@@ -53,7 +53,6 @@ function fetchItems() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             displayResults(data.items);
             const totalPageCount = Math.ceil(data.totalCount / pageSize);
             document.getElementById('pageInfo').textContent = `Page ${currentPage} / ${totalPageCount}`;
