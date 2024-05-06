@@ -904,22 +904,25 @@
                 // Failed to load HTML content
             });
     });
-	
-	    document.getElementById('enter-ArtistPortfolioView').addEventListener('click', function () {
+
+    document.getElementById('enter-ArtistPortfolioView').addEventListener('click', function () {
         // Hide other parts of the page
         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView').forEach(el => {
             showLoginFormButton.style.display = 'none'; // Hide the login button
             el.style.display = 'none';
         });
         var activeUsername = document.getElementById("username").value;
+
         // Show the Financial Progress Report view
         const container = document.getElementById('artistPortfolioView');
         container.style.display = 'block';
+
         // Load the CSS dynamically
         const cssLink = document.createElement('link');
         cssLink.rel = 'stylesheet';
         cssLink.href = '/ArtistPortfolioFeature/ArtistPortfolioStyles.css'; // Adjust path as needed
         document.head.appendChild(cssLink);
+
         // Fetch the HTML content and then load the JS
         fetch('ArtistPortfolioFeature/ArtistPortfolioView.html') // Adjust path as needed
             .then(response => {
@@ -930,6 +933,7 @@
             })
             .then(html => {
                 container.innerHTML = html;
+
                 // Load and execute JavaScript after the HTML is loaded
                 const jsScript = document.createElement('script');
                 jsScript.src = '/ArtistPortfolioFeature/ArtistPortfolio.js'; // Adjust path as needed
