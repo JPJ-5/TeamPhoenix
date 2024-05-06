@@ -31,17 +31,16 @@ public class InventoryStockController : ControllerBase
             {
                 var stockList = await itemService.RequestInventoryStockList(username);
 
-                return stockList.Count > 0 ? Ok(stockList) : BadRequest("No stock items found.");
+                return Ok(stockList);
             }
             else
             {
                 throw new Exception("Invalid Identity. Please Contact The System Administrator.");
             }
-            
         }
         catch (Exception ex)
         {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
+            return BadRequest($"Internal server error: {ex.Message}");
         }
     }
 
