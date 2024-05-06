@@ -127,13 +127,8 @@ namespace TeamPhoenix.MusiCali.Services
             var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
             var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;
             var fileName = file.FileName;
-            string saveFolder = @"C:\Users\Joshu\OneDrive\Documents\ClamCheck";
-
-            // Construct the path for saving the scanned file
-            string saveFilePath = Path.Combine(saveFolder, fileName);
-
             // Replace the line with the specified file path
-            var localFilePath = saveFilePath;
+            var localFilePath = Path.Combine(Path.GetTempPath(), fileName); // Save file to a temporary location
 
 
             try
