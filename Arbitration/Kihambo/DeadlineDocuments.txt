@@ -1,0 +1,13 @@
+All these Documents show the extension and failure to meet deadlines by Brandon Muhumuza refereed to as Kihambo in the documents.
+
+SprintStandup4/12 - Added this Standup to show how the Collab Feature LLD is still in progress despite being 1 day away from the original internal due date as described in the planning for Sprint 6.
+
+SprintStandup4/26 - To show you that his collab feature is still unfinished despite 2 extensions.
+
+All Work Checks- Added to show that he was behind 3 ties with his work the first being marked as a warning, the second being given as a free pass, and the 3rd in which we finally bump him up to an action item.
+
+Sprint 6 and 7 - To show you the extended deadline for both Scale Display and his initial deadlline for collab feature.
+
+Sprint 7 - Show his new extended deadline for collab feature from 4/13 to 4/20.
+
+Error When Running Solution.png, Collab Feature Successfully Sending a Request.md, & Collab Feature LLD.png - All added by Kihambo to show his work and errors when trying to run code.
