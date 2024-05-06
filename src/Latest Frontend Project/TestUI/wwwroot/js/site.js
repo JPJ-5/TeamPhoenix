@@ -772,7 +772,7 @@
     // Add an event listener for the "Inventory Stock View" button
     document.getElementById('Inventory Stock View').addEventListener('click', function () {
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #user-profile, #priceRangeSortingView, #financialProgressReportView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #financialProgressReportView').forEach(el => {
             el.style.display = 'none';
         });
 
