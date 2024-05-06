@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using static TeamPhoenix.MusiCali.Services.ArtistCalendarService; //fix this in the future to be implemented as a project reference instead.
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Services;
+using TeamPhoenix.MusiCali.DataAccessLayer;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {

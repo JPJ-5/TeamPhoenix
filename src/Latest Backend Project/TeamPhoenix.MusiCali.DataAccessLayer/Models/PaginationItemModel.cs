@@ -14,6 +14,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
         public string? FirstImage { get; set; }
 
         public PaginationItemModel() { }
-        
+
     }
 }

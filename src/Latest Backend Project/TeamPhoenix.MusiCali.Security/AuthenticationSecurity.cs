@@ -51,7 +51,8 @@ namespace TeamPhoenix.MusiCali.Security
             }
             if (userA.IsDisabled)
             {
-                throw new Exception("Account is disabled. Perform account recovery first or contact the system administrator");
+                return false;
+                //throw new Exception("Account is disabled. Perform account recovery first or contact the system administrator");
             }
 
             if (userA.IsAuth)
@@ -106,6 +107,19 @@ namespace TeamPhoenix.MusiCali.Security
 
                         return true;
                     }
+                    else
+                    {
+                        userA = RecordFailedAttempt(userA, userAcc);
+                        if (authenticationDAO.updateAuthentication(userA))
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            loggerService.CreateLog(userAcc.UserHash, "Error", "Data Store", "Fail To Update UserAuthN");
+                            return false;
+                        }
+                    }
                 }
                 else
                 {
@@ -135,17 +149,39 @@ namespace TeamPhoenix.MusiCali.Security
 
                         return true;
                     }
+                    else
+                    {
+                        userA = RecordFailedAttempt(userA, userAcc);
+                        if (authenticationDAO.updateAuthentication(userA))
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            loggerService.CreateLog(userAcc.UserHash, "Error", "Data Store", "Fail To Update UserAuthN");
+                            return false;
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
+                if (userA.FailedAttempts <= 3)
+                {
+                    RecordFailedAttempt(userA, userAcc);
+                    return false;
+                }
+                else
+                {
+                    RecoverUserDAO recoverUserDAO = new RecoverUserDAO(configuration);
+                    recoverUserDAO.DisableUser(userA);
+                }
                 //throw new Exception($"Error authenticating {ex.Message}");
                 Console.WriteLine(ex.ToString());
                 return false;        
             }
-            // Fix to return token
-            
-            return false;
+            //// Fix to return token
+            //return false;
         }
 
         private bool IsValidUsername(string username)
@@ -171,7 +207,7 @@ namespace TeamPhoenix.MusiCali.Security
             res.ErrorMessage = "Invalid security credentials provided. Retry again or contact the system administrator";
             TimeSpan timeFrame = DateTime.UtcNow - userA.FirstFailedAttemptTime;
 
-            if (userA.FailedAttempts >= 3 && timeFrame.TotalHours > 24)
+            if (userA.FailedAttempts >= 3 || timeFrame.TotalHours > 24)
             {
                 userA.IsDisabled = true;
                 logResult.ErrorMessage = $"Account {userA.Username} disabled due to too many failed attempts.";

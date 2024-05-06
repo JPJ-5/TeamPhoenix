@@ -1,25 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Logging;
 using TeamPhoenix.MusiCali.Security;
+using TeamPhoenix.MusiCali.Services;
+
 [ApiController]
 [Route("SellerDashboard")]
-public class InventoryStockController : ControllerBase
+public class FinancialProgressReportController : ControllerBase
 {
-    private readonly InventoryStockService itemService;
+    private FinancialProgressReportService financialService;
     private AuthenticationSecurity authentication;
-
-    public InventoryStockController(IConfiguration configuration)
+    public FinancialProgressReportController(IConfiguration configuration)
     {
-        itemService = new InventoryStockService(configuration);
+        financialService = new FinancialProgressReportService(configuration);
         authentication = new AuthenticationSecurity(configuration);
     }
 
-    [HttpGet("api/GetInventoryStock")]
-    public async Task<IActionResult> GetInventoryStock([FromHeader]string username)
+    [HttpGet("api/GetFinancialReport")]
+    public IActionResult GetInventoryStock([FromHeader] string username, [FromHeader] string frequency)
     {
         try
         {
@@ -29,9 +31,15 @@ public class InventoryStockController : ControllerBase
 
             if (!string.IsNullOrEmpty(role) && authentication.CheckIdRoleExisting(user, role))
             {
-                var stockList = await itemService.RequestInventoryStockList(username);
-
-                return Ok(stockList);
+                var report = financialService.GetReport(username, frequency);
+                if (report != (new HashSet<FinancialInfoModel>()))
+                {
+                    return Ok(report);
+                }
+                else
+                {
+                    throw new Exception("Invalid Report. Please Try Again Or Contact The System Administrator.");
+                }
             }
             else
             {
