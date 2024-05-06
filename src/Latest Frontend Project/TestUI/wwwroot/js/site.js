@@ -769,8 +769,48 @@
     }
 
     // InventoryStock
+    // Add an event listener for the "Inventory Stock View" button
     document.getElementById('Inventory Stock View').addEventListener('click', function () {
-        window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #user-profile, #priceRangeSortingView, #financialProgressReportView').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // Show the Inventory Stock View
+        const container = document.getElementById('inventoryStockView');
+        container.style.display = 'block';
+
+        // Load the CSS dynamically
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'InventoryStockFeature/InventoryStockView.css'; // Adjust path as needed
+        document.head.appendChild(cssLink);
+
+        // Fetch the HTML content and then load the JS
+        fetch('InventoryStockFeature/InventoryStockView.html') // Adjust path as needed
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load Inventory Stock HTML.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Load and execute JavaScript after the HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = 'InventoryStockFeature/InventoryStockView.js'; // Adjust path as needed
+                jsScript.onload = function () {
+                    setupInventoryStockView(); // Call the initialization function for your feature
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load Inventory Stock JS.');
+                };
+                document.body.appendChild(jsScript);
+            })
+            .catch(error => {
+                console.error('Error loading Inventory Stock View:', error);
+            });
     });
 
 
