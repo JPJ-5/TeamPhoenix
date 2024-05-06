@@ -1,3 +1,5 @@
+var baseUrl = 'https://themusicali.com:5000';
+//var baseUrl = 'http://localhost:8080';
 // Function to set up event listeners for Financial Progress Report
 function setupFinancialProgressReport() {
     const fetchFReportYear = document.getElementById('fetchYearly');
@@ -21,7 +23,7 @@ function fetchFPR(frequency) {
     loadingIndicator.style.display = 'block';
     resultsDiv.innerHTML = '';
 
-    fetch(`http://localhost:8080/SellerDashboard/api/GetFinancialReport`, {
+    fetch(`${baseUrl}/SellerDashboard/api/GetFinancialReport`, {
         method: 'GET',
         headers: {
             'Authentication': idToken,

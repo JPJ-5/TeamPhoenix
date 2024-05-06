@@ -1,4 +1,7 @@
 
+var baseUrl = 'https://themusicali.com:5000';
+//var baseUrl = 'http://localhost:8080';
+
 document.addEventListener('DOMContentLoaded', function () {
 
     var activeUsername = sessionStorage.getItem('username');
@@ -14,14 +17,13 @@ function reload() {
     loadProfileData(activeUsername);
 }
 
-
 //Calls LoadApi from Controller to load all ArtistProfile data
 function loadProfileData(username) {
     var feedbackBox = document.getElementById('portfolio-feedback');
     idToken = sessionStorage.getItem("idToken");
     accessToken = sessionStorage.getItem("accessToken");
     
-    fetch('http://localhost:8080/ArtistPortfolio/api/loadApi', {
+    fetch(`${baseUrl}/ArtistPortfolio/api/loadApi`, {
         method: 'GET',
         headers: {
             'Authentication': idToken,
@@ -292,7 +294,7 @@ function deleteFile(slot){
     deleteForm = new FormData();
     deleteForm.append('Username', activeUsername);
     deleteForm.append('SlotNumber', slot);
-    fetch('http://localhost:8080/ArtistPortfolio/api/deleteApi', {
+    fetch(`${baseUrl}/ArtistPortfolio/api/deleteApi`, {
         method: 'POST',
         headers: {
             'Authentication': idToken,
@@ -324,7 +326,7 @@ function deleteInfo(section) {
     accessToken = sessionStorage.getItem("accessToken");
 
     // Send POST request to delete info API endpoint
-    fetch('http://localhost:8080/ArtistPortfolio/api/delInfoApi', {
+    fetch(`${baseUrl}/ArtistPortfolio/api/delInfoApi`, {
         method: 'POST',
         headers: {
             'Authentication': idToken,
@@ -383,7 +385,7 @@ function triggerFileInput(slot) {
         }
 
         // Send POST request to upload API endpoint
-        fetch('http://localhost:8080/ArtistPortfolio/api/uploadApi', {
+        fetch(`${baseUrl}/ArtistPortfolio/api/uploadApi`, {
             method: 'POST',
             headers: {
                 'Authentication': idToken,
@@ -419,7 +421,7 @@ function triggerInfoInput(section) {
     accessToken = sessionStorage.getItem("accessToken");
 
     // Send POST request to upload API endpoint
-    fetch('http://localhost:8080/ArtistPortfolio/api/updateInfoApi', {
+    fetch(`${baseUrl}/ArtistPortfolio/api/updateInfoApi`, {
         method: 'POST',
         headers: {
             'Authentication': idToken,
@@ -485,7 +487,7 @@ function updateVis(vis) {
         visibility: vis
     }
 
-    fetch('http://localhost:8080/ArtistPortfolio/api/updateVisibility', {
+    fetch(`${baseUrl}/ArtistPortfolio/api/updateVisibility`, {
         method: 'POST',
         headers: {
             'Authentication': idToken,
