@@ -1,3 +1,4 @@
+var baseUrl = 'http://localhost:8080';
 function fetchInventoryStock() {
     const username = document.getElementById('username').value;
     const resultsDiv = document.getElementById('inventoryResults');
@@ -12,7 +13,7 @@ function fetchInventoryStock() {
     loadingIndicator.style.display = 'block';
     resultsDiv.innerHTML = '';
 
-    fetch(`http://localhost:8080/api/inventorystock`, {
+    fetch(`${baseUrl}/api/inventorystock`, {
         method: 'GET',
         headers: {
             'Authentication': idToken,
