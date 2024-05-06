@@ -325,7 +325,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    
+    document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
+        window.location.href = 'PriceRangeSorting.html'; // Redirects the user to PriceRangeSorting.html
+    });
 
     function logoutUser() {
         localStorage.clear()
