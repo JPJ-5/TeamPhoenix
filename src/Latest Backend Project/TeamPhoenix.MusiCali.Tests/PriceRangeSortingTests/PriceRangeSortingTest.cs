@@ -1,16 +1,16 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Amazon;
 using Amazon.S3;
+using Microsoft.Extensions.Configuration;
 
 namespace MyApp.Tests
 {
     [TestClass]
     public class ItemSortingTests
     {
-        // Test dependencies: configuration, data access layer, service layer, and S3 client
+        // Test dependencies: configuration and data access layer
         private readonly IConfiguration configuration;
         private readonly DataAccessLayer dal;
-        private readonly ItemService service;
-        private readonly IAmazonS3 _s3Client;
+        private IAmazonS3 s3Client;
 
         // Constructor to initialize and configure test dependencies
         public ItemSortingTests()
@@ -21,13 +21,16 @@ namespace MyApp.Tests
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             configuration = builder.Build();
 
-            // Setup the AWS S3 client using AWS options from the configuration
-            var awsOptions = configuration.GetAWSOptions();
-            _s3Client = awsOptions.CreateServiceClient<IAmazonS3>();
+            // Retrieve AWS credentials and region from the configuration
+            var awsAccessKey = configuration["AWS:AccessKey"];
+            var awsSecretKey = configuration["AWS:SecretKey"];
+            var awsRegion = configuration["AWS:Region"];
 
-            // Initialize data access and service layers
-            dal = new DataAccessLayer(configuration, _s3Client);
-            service = new ItemService(dal, configuration);
+            // Initialize the S3 client with the retrieved values
+            s3Client = new AmazonS3Client(awsAccessKey, awsSecretKey, RegionEndpoint.GetBySystemName(awsRegion));
+
+            // Initialize the data access layer (without S3)
+            dal = new DataAccessLayer(configuration, s3Client);
         }
 
         // Test to ensure all items are returned when no filters are applied
