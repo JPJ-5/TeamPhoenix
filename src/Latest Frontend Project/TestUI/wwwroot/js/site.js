@@ -770,7 +770,7 @@
             });
     }
 
-    // Inventory Stock
+    // InventoryStock
     document.getElementById('Inventory Stock View').addEventListener('click', function () {
         window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
     });
