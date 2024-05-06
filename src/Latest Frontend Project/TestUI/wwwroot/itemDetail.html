@@ -10,25 +10,35 @@
 <body>
     <div class="item-detail-container">
         <div class="image-gallery">
-            <img id="mainImage" src="path_to_main_image.jpg" alt="Main Image" class="main-image">
+            <img id="mainImage" alt="Main Image" class="main-image">
             <div class="thumbnail-container">
                 <!-- Thumbnails for other images -->
-                <img src="path_to_other_image1.jpg" alt="Other Image 1" class="thumbnail">
-                <img src="path_to_other_image2.jpg" alt="Other Image 2" class="thumbnail">
-                <img src="path_to_other_image3.jpg" alt="Other Image 2" class="thumbnail">
-                <img src="path_to_other_image4.jpg" alt="Other Image 2" class="thumbnail">
-                <img src="path_to_other_image5.jpg" alt="Other Image 2" class="thumbnail">
-                
+                <img id="Image1" class="thumbnail">
+                <img id="Image2" class="thumbnail">
+                <img id="Image3" class="thumbnail">
+                <img id="Image4" class="thumbnail">
+                <img id="Image5" class="thumbnail">
+
+
                 <!-- Add more thumbnails as needed -->
             </div>
+            <video id="Video1" class="thumbnail-video" controls>
+                <source type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <video id="Video2" class="thumbnail-video" controls>
+                <source type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
+        
         <div class="item-information">
             <h1 id="itemName">Item Name</h1>
             <p id="itemSKU">SKU: ABC123</p>
             <p id="itemPrice">Price: $199.99</p>
             <p id="itemDescription">Description: Lorem ipsum dolor sit amet...</p>
             <p id="itemStock">Stock Available: 15</p>
-            <p id="itemSellerContact">Seller Contact: contact@example.com</p>
+            <!--<p id="itemSellerContact">Seller Contact: contact@example.com</p>-->
             <button class="btn buy">Buy</button>
             <button class="btn offer">Make an Offer</button>
             <button class="btn notify">Notify Seller Out of Stock</button>

@@ -26,7 +26,8 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             try
             {
-                var item = await itemCreationDAO.GetItemBySkuAsync(sku);
+                bool withS3Files = true;
+                var item = await itemCreationDAO.GetItemBySkuAsync(sku , withS3Files);
                 if (item == null)
                 {
                     return NotFound("Item not found.");

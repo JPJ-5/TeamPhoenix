@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Amazon.S3.Model;
 using Amazon.S3;
+using MySqlX.XDevAPI;
 
 
 
@@ -57,14 +58,14 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public bool InsertIntoItemTable(ItemCreationModel model)
+        public async Task<bool> InsertIntoItemTable(ItemCreationModel model)
         {
             try
             {
-                Console.WriteLine(model);
+                
                 using (var connection = new MySqlConnection(connectionString))
                 {
-                    connection.Open(); // Open the MySQL connection.
+                    await connection.OpenAsync(); // Open the MySQL connection.
                     string commandText = @"
                 INSERT INTO CraftItem (Name, CreatorHash, SKU, Price, Description, StockAvailable, ProductionCost, OfferablePrice, SellerContact, Image, Video, DateCreated, Listed) 
                 VALUES (@Name, @CreatorHash, @SKU, @Price, @Description, @StockAvailable, @ProductionCost, @OfferablePrice, @SellerContact, @Image, @Video, @DateCreated, @Listed);";
@@ -99,14 +100,14 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
-        public async Task<ItemCreationModel> GetItemBySkuAsync(string sku)
+        public async Task<ItemCreationModel> GetItemBySkuAsync(string sku, bool s3Pic)
         {
             ItemCreationModel? item = null;
             try
             {
                 using (var connection = new MySqlConnection(connectionString))
                 {
-                    connection.Open();
+                    await connection.OpenAsync();
                     string query = @"
                     SELECT Name, SKU, Price, Description, StockAvailable, ProductionCost, 
                            OfferablePrice, SellerContact, Image, Video, DateCreated, Listed
@@ -140,11 +141,23 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     }
                 }
 
-                if (item != null)
+                if (item != null && s3Pic)
                 {
-                    //var s3Service = new S3Service(_s3Client, "your-bucket-name");
-                    item.ImageUrls = await GeneratePreSignedURLs(item.ImageUrls!);
-                    item.VideoUrls = await GeneratePreSignedURLs(item.VideoUrls!);
+                    List<string> imagelist = new List<string>();
+                    List<string> videolist = new List<string>();
+                    foreach (var filename in item.ImageUrls!)
+                    {
+                        imagelist.Add(GetImageUrl(item.Sku!, filename)!);
+                    }
+
+                    foreach (var filename in item.VideoUrls!)
+                    {
+                        videolist.Add(GetImageUrl(item.Sku!, filename)!);
+                    }
+                    item.ImageUrls.Clear();
+                    item.ImageUrls = imagelist;
+                    item.VideoUrls.Clear();
+                    item.VideoUrls = videolist;
                 }
 
             }
@@ -159,26 +172,73 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
 
 
-        public Task<string> GeneratePreSignedURL(string objectKey)
-        {
-            var request = new GetPreSignedUrlRequest
-            {
-                BucketName = bucketName,
-                Key = objectKey,
-                Expires = DateTime.UtcNow.AddMinutes(10) // URL expires in 10 minutes
-            };
 
-            return Task.FromResult(_s3Client.GetPreSignedURL(request));
+        public string? GetImageUrl(string sku, string picName) // getting s3 pic presigned url is synchonous task, no need await.
+        {
+            if (picName == null)
+            {
+                return null;
+            }
+
+            string firstImageKey = $"{sku}/{picName}";
+
+            try
+            {
+                var request = new GetPreSignedUrlRequest
+                {
+                    BucketName = bucketName,
+                    Key = firstImageKey,
+                    Expires = DateTime.Now.AddMinutes(60) // URL valid for 60 minutes
+                };
+
+                string url = _s3Client.GetPreSignedURL(request);
+                return url;
+            }
+            catch (AmazonS3Exception e)
+            {
+                Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
+                return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
+                return null;
+            }
         }
 
-        public async Task<List<string>> GeneratePreSignedURLs(List<string> objectKeys)
+
+
+        public async Task<bool> UpdateStockAvailable(string sku, int newStock)
         {
-            var urls = new List<string>();
-            foreach (var key in objectKeys)
+            try
             {
-                urls.Add(await GeneratePreSignedURL(key));
+                using (var connection = new MySqlConnection(connectionString))
+                {
+                    await connection.OpenAsync(); // Open the MySQL connection.
+                    string commandText = "UPDATE CraftItem SET StockAvailable = @NewStock WHERE SKU = @SKU;";
+                    using (var command = new MySqlCommand(commandText, connection))
+                    {
+                        command.Parameters.AddWithValue("@NewStock", newStock);
+                        command.Parameters.AddWithValue("@SKU", sku);
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine("Stock updated successfully!");
+                            return true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("No item found with the provided SKU.");
+                            return false;
+                        }
+                    }
+                }
             }
-            return urls;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred: {ex.Message}");
+                return false;
+            }
         }
 
     }

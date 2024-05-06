@@ -18,13 +18,12 @@ namespace TeamPhoenix.MusiCali.Services
 {
     public class ItemCreationService
     {
-        private ItemCreationDAO itemCreationDAO;
+        private readonly ItemCreationDAO itemCreationDAO;
         private readonly IConfiguration configuration;
-        //private Dictionary<string, List<byte[]>> allowedFormatSignatures;
-        private LoggerService loggerService;
-        private AuthenticationSecurity authenticationSecurity;
-        private Hasher hasher;
-        private static Random random = new Random();
+        private readonly LoggerService loggerService;
+        private readonly AuthenticationSecurity authenticationSecurity;
+        //private readonly Hasher hasher;
+        //private static Random random = new Random();
         private readonly IAmazonS3 _s3Client;
         private readonly string uploadFolderPath;
         private readonly string bucketName;
@@ -43,7 +42,7 @@ namespace TeamPhoenix.MusiCali.Services
             itemCreationDAO = new ItemCreationDAO(this.configuration, s3Client);
             loggerService = new LoggerService(this.configuration);
             authenticationSecurity = new AuthenticationSecurity(this.configuration);
-            hasher = new Hasher();
+            //hasher = new Hasher();
             bucketName = configuration.GetValue<string>("AWS:BucketName");
             uploadFolderPath = configuration.GetValue<string>("AWS:UploadFolderPath");
             _s3Client = s3Client;
@@ -71,7 +70,7 @@ namespace TeamPhoenix.MusiCali.Services
             string decimalString = price.ToString("0.##", CultureInfo.InvariantCulture);
 
             // Regular expression to match exactly 5 digits or 5 digits with 2 after the decimal point
-            string pattern = @"^\d{1,5}(\.\d{2})?$";
+            string pattern = @"^\d{1,7}(\.\d{2})?$";
 
             // Returns true if the input matches the pattern, false otherwise
             return Regex.IsMatch(decimalString, pattern);
@@ -184,7 +183,7 @@ namespace TeamPhoenix.MusiCali.Services
                 cost, offer, sellerContact, images, videos, listed);
 
             
-                if (!itemCreationDAO.InsertIntoItemTable(newItem))
+                if (!await itemCreationDAO.InsertIntoItemTable(newItem))
                 {
                     throw new Exception("Unable To insert to item table");
                 }

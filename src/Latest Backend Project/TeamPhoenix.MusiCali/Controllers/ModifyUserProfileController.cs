@@ -30,7 +30,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             var role = authentication.getScopeFromToken(accessToken!);
             var user = authentication.getUserFromToken(accessToken!);
 
-            if (!string.IsNullOrEmpty(role) && authentication.CheckIdRoleExisting(user, role))
+            if (!string.IsNullOrEmpty(role) && authentication.CheckIdRoleExisting(user, role))            // check username is exist
             {
                 var userProfile = modifyUserDAO.GetProfile(username);
                 if (userProfile == null)
@@ -42,7 +42,8 @@ namespace TeamPhoenix.MusiCali.Controllers
             else
             {
                 return BadRequest("Unauthenticated!");
-            }
+            } 
+
         }
 
         [HttpPost("updateClaims")]

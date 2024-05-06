@@ -73,46 +73,52 @@ function fetchItemDetails(sku) {
 }
 
 function updatePageContent(item) {
+    // Update main item information
     document.getElementById('itemName').textContent = item.name;
     document.getElementById('itemSKU').textContent = `SKU: ${item.sku}`;
     document.getElementById('itemPrice').textContent = `Price: $${item.price}`;
     document.getElementById('itemDescription').textContent = item.description;
     document.getElementById('itemStock').textContent = `Stock Available: ${item.stockAvailable}`;
-    document.getElementById('itemSellerContact').textContent = item.sellerContact;
+    /*document.getElementById('itemSellerContact').textContent = item.sellerContact;*/
 
-
-    // Images handling
+    // Update the main image
     const mainImage = document.getElementById('mainImage');
-    const thumbnails = document.querySelector('.thumbnail-container');
-    thumbnails.innerHTML = ''; // Clear existing thumbnails
+    mainImage.src = item.imageUrls[0]; // Ensure this is the main image URL
+    
 
-    item.imageUrls.slice(0, 5).forEach((url, index) => {
-        if (index === 0) {
-            mainImage.src = url; // Set the first image as the main image
-            mainImage.alt = `Main Image for ${item.name}`;
-        } else {
-            const img = document.createElement('img');
-            img.src = url;
-            img.alt = `Thumbnail ${index}`;
-            img.classList.add('thumbnail');
-            img.onclick = () => {
-                mainImage.src = url; // Update main image on thumbnail click
-                mainImage.alt = `Main Image for ${item.name}`;
+    // Ensure there is at least one URL for the main image
+    if (item.imageUrls.length > 1) {
+        // Update thumbnails starting from the second image URL
+        item.imageUrls.slice(0).forEach((url, index) => {
+            if (index < 5) { // Check if the index is within the number of available thumbnails
+                const thumbnail = document.getElementById(`Image${index + 1}`);
+                if (thumbnail) {
+                    thumbnail.src = url;
+                    thumbnail.alt = `Image ${index + 1} of ${item.name}`; // Note the index+2 for correct labeling
+                    thumbnail.addEventListener('click', function () {
+                        mainImage.src = thumbnail.src; // Update main image on thumbnail click
+                        mainImage.alt = thumbnail.alt;
+                    });
+                }
+            }
+        });
+    }
+
+    // Update thumbnails for videos
+    item.videoUrls.forEach((url, index) => {
+        const videoThumbnail = document.getElementById(`Video${index + 1}`);
+        if (videoThumbnail && videoThumbnail.children.length > 0) {
+            videoThumbnail.children[0].src = url; // Assuming the first child is the <source> element
+            videoThumbnail.load(); // Important to reload the video element to update the source
+            videoThumbnail.onclick = () => {
+                mainImage.style.display = 'none'; // Hide the main image
+                videoThumbnail.style.display = 'block'; // Display the video
+                videoThumbnail.play(); // Auto-play the video
             };
-            thumbnails.appendChild(img);
         }
     });
-
-    // Video handling
-    const videoContainer = document.querySelector('.video-container');
-    videoContainer.innerHTML = ''; // Clear previous videos
-    item.videoUrls.slice(0, 2).forEach(url => {
-        const video = document.createElement('video');
-        video.setAttribute('controls', true);
-        video.innerHTML = `<source src="${url}" type="video/mp4">Your browser does not support the video tag.`;
-        videoContainer.appendChild(video);
-    });
 }
+
 
 
 
