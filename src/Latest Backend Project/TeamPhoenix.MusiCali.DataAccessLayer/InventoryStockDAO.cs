@@ -23,7 +23,7 @@ public class InventoryStockDAO
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                var query = "SELECT * FROM CraftItem WHERE CreatorHash = @CreatorHash";
+                var query = "SELECT * FROM CraftItemTest WHERE CreatorHash = @CreatorHash";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@CreatorHash", userHash);

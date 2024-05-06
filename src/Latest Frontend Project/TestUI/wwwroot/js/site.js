@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+﻿document.addEventListener('DOMContentLoaded', function () {
     var menuButton = document.getElementById('menu-btn');
     var dropdown = document.getElementById('myDropdown');
     var showLoginFormButton = document.getElementById('show-login');
@@ -73,10 +73,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     alert("OTP sent to your email.");
                     // Optionally, show OTP form
                     document.getElementById("otp-form").style.display = 'block';
-                    document.getElementById('account-recovery-section').style.display = 'none';
                 } else {
                     // Email does not exist
-                    alert("Email does not exist or the account is disabled try account recovery.");
+                    alert("Email does not exist.");
                 }
             })
             .catch((error) => {
@@ -753,7 +752,7 @@ document.addEventListener('DOMContentLoaded', function () {
             Feature: feature
         };
 
-        fetch(`${baseUrl}/LogFeature/api/LogFeatureAPI`, {
+        fetch('http://localhost:8080/LogFeature/api/LogFeatureAPI', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -776,6 +775,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error logging {feature} usage:', error.message);
             });
     }
+<<<<<<< HEAD
 
     // InventoryStock
     // Add an event listener for the "Inventory Stock View" button
@@ -959,4 +959,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
+=======
+>>>>>>> parent of 87b1703 (Update Branch)
 });

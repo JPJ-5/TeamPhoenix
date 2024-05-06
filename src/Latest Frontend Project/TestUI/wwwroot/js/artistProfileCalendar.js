@@ -1,5 +1,4 @@
-﻿var baseUrl = 'http://localhost:8080';
-document.addEventListener('DOMContentLoaded', function () {
+﻿document.addEventListener('DOMContentLoaded', function () {
     // Event Listeners for Artist Profile Calendar
     document.getElementById('enter-calendar').addEventListener('click', function () {
         // display the artist calendar section when the button is clicked
@@ -27,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 gigVisibility: visibility
             }
 
-            fetch(`${baseUrl}/ArtistCalendar/api/ArtistCalendarGigVisibilityAPI`, {
+            fetch('http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigVisibilityAPI', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -80,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 usernameOwner: usernameOwner,
                 dateOfGig: gigDate
             }).toString();
-            url = `${baseUrl}/ArtistCalendar/api/ArtistCalendarGigViewAPI?` + queryView.toString();
+            url = 'http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigViewAPI?' + queryView.toString();
             fetch(url, {
                 method: 'GET',
             })
@@ -132,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 username: username,
                 dateOfGig: gigDate
             }
-            fetch(`${baseUrl}/ArtistCalendar/api/ArtistCalendarGigDeletionAPI`, {
+            fetch('http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigDeletionAPI', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -196,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 pay: gigPay
             }
 
-            fetch(`${baseUrl}/ArtistCalendar/api/ArtistCalendarGigUpdateAPI`, {
+            fetch('http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigUpdateAPI', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -259,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 pay: gigPay
             }
 
-            fetch(`${baseUrl}/ArtistCalendar/api/ArtistCalendarGigCreationAPI`, {
+            fetch('http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigCreationAPI', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

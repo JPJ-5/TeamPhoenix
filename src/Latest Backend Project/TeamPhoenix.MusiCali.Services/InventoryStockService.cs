@@ -16,7 +16,7 @@ public class InventoryStockService
 
     public async Task<HashSet<InventoryStockModel>> RequestInventoryStockList(string userName)
     {
-        var userHash = recoverUserDAO.GetUserHash(userName);
-        return await inventoryStockDAO.GetStockList(userHash);// replace username with userHash
+        //var userHash = recoverUserDAO.GetUserHash(userName);
+        return await inventoryStockDAO.GetStockList(userName);
     }
 }

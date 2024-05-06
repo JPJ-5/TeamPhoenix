@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
-using System.Configuration;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
@@ -15,6 +14,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         {
             this.configuration = configuration;
             this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
+            //this.connectionString = configuration.GetConnectionString("ConnectionString")!;
         }
         public Result? logAuthFailure(string error)
         {
@@ -117,7 +117,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     connection.Open();
 
                     // Update data in UserAuthN table
-                    string updateUserAuthNSql = "UPDATE UserAuthN SET OTP = @OTP, otpTimestamp = @otpTimestamp, FailedAttempts = @FailedAttempts, FirstFailedAttemptTime = @FirstFailedAttemptTime, IsDisabled = @IsDisabled, Salt = @Salt, IsAuth = @IsAuth WHERE Username = @Username";
+                    string updateUserAuthNSql = "UPDATE UserAuthN SET OTP = @OTP, otpTimestamp = @otpTimestamp, Salt = @Salt, IsAuth = @IsAuth WHERE Username = @Username";
                     using (MySqlCommand cmd = new MySqlCommand(updateUserAuthNSql, connection))
                     {
                         cmd.Parameters.AddWithValue("@Username", userAuthN.Username);
@@ -125,9 +125,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                         cmd.Parameters.AddWithValue("@otpTimestamp", userAuthN.otpTimestamp);
                         cmd.Parameters.AddWithValue("@Salt", userAuthN.Salt);
                         cmd.Parameters.AddWithValue("@IsAuth", userAuthN.IsAuth);
-                        cmd.Parameters.AddWithValue("@FailedAttempts", userAuthN.FailedAttempts);
-                        cmd.Parameters.AddWithValue("@FirstFailedAttemptTime", userAuthN.FirstFailedAttemptTime);
-                        cmd.Parameters.AddWithValue("@IsDisabled", userAuthN.IsDisabled);
                         cmd.ExecuteNonQuery();
                     }
                     
