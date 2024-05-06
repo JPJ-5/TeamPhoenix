@@ -1,4 +1,4 @@
-﻿namespace TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer.Models
+﻿namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
 {
     public class GigVisibilityModel
     {

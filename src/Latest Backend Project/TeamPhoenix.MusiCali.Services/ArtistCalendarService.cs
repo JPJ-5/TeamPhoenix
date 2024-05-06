@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using TeamPhoenix.MusiCali.Logging;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using Microsoft.Extensions.Configuration; //change to project reference later
@@ -8,15 +9,22 @@ namespace TeamPhoenix.MusiCali.Services
     public class ArtistCalendarService
     {
         private readonly IConfiguration configuration;
-        private readonly ArtistCalendarDAL artistCalendarDAL;
-
+        private readonly ArtistCalendarDAO artistCalendarDAL;
+        private readonly LoggerService artistCalendarLogging;
         public ArtistCalendarService(IConfiguration configuration)
         {
             this.configuration = configuration;
-            this.artistCalendarDAL = new ArtistCalendarDAL(this.configuration);
+            this.artistCalendarDAL = new ArtistCalendarDAO(this.configuration);
+            this.artistCalendarLogging = new LoggerService(this.configuration);
         }
         public Result CreateGigService(string posterUsername, string gigName, DateTime dateTimeStart, bool visibility, string location, string description, string pay)
         {
+            //set up logging information
+            string level;
+            string category;
+            string context;
+            string userHash;
+
             Result gigCreatedResult = new Result("", false); //result should default to false.
 
             //save created gig data to the database
@@ -53,17 +61,34 @@ namespace TeamPhoenix.MusiCali.Services
                 else
                 {
                     gigCreatedResult = new Result("Gig successfully created.", true);
+                    level = "Info";
+                    category = "View";
+                    context = "Gig was successfully created";
+                    userHash = artistCalendarDAL.GetUserHash(posterUsername);
+                    artistCalendarLogging.CreateLog(userHash, level, category, context);
+
                 }
             }
             catch (Exception ex)
             {
                 gigCreatedResult = new Result($"Error creating Gig: {ex.Message}", false);
+                level = "Info";
+                category = "View";
+                context = $"Error creating Gig: {ex.Message}";
+                userHash = artistCalendarDAL.GetUserHash(posterUsername);
+                artistCalendarLogging.CreateLog(userHash, level, category, context);
                 return gigCreatedResult;
             }
             return gigCreatedResult;
         }
         public Result UpdateGigService(DateTime oldDateTimeStart, string posterUsername, string gigName, DateTime newDateTimeStart, bool visibility, string location, string description, string pay)
         {
+            //set up logging information
+            string level;
+            string category;
+            string context;
+            string userHash;
+
             Result gigUpdatedResult = new Result("", false); //result should default to false.
 
             //save created gig data to the database
@@ -100,11 +125,21 @@ namespace TeamPhoenix.MusiCali.Services
                 else
                 {
                     gigUpdatedResult = new Result("Gig successfully updated.", true);
+                    level = "Info";
+                    category = "View";
+                    context = "Gig was successfully edited";
+                    userHash = artistCalendarDAL.GetUserHash(posterUsername);
+                    artistCalendarLogging.CreateLog(userHash, level, category, context);
                 }
             }
             catch (Exception ex)
             {
                 gigUpdatedResult = new Result($"Error updating Gig: {ex.Message}", false);
+                level = "Info";
+                category = "View";
+                context = "Gig was unsuccessfully edited";
+                userHash = artistCalendarDAL.GetUserHash(posterUsername);
+                artistCalendarLogging.CreateLog(userHash, level, category, context);
                 return gigUpdatedResult;
             }
             //maybe add a console line here for feedback.
@@ -112,6 +147,12 @@ namespace TeamPhoenix.MusiCali.Services
         }
         public Result DeleteGigService(string username, DateTime dateOfGig)
         {
+            //set up logging information
+            string level;
+            string category;
+            string context;
+            string userHash;
+
             Result gigDeletedResult = new Result("", false); //result should default to false.
             try
             {
@@ -121,6 +162,11 @@ namespace TeamPhoenix.MusiCali.Services
                 }
                 else
                 {
+                    level = "Info";
+                    category = "View";
+                    context = "Gig was successfully deleted";
+                    userHash = artistCalendarDAL.GetUserHash(username);
+                    artistCalendarLogging.CreateLog(userHash, level, category, context);
                     gigDeletedResult = new Result("Gig successfully created.", true);
                 }
 
@@ -128,24 +174,43 @@ namespace TeamPhoenix.MusiCali.Services
             catch (Exception ex)
             {
                 gigDeletedResult = new Result($"Error updating Gig: {ex.Message}", false);
+                level = "Info";
+                category = "View";
+                context = "Gig was successfully deleted";
+                userHash = artistCalendarDAL.GetUserHash(username);
+                artistCalendarLogging.CreateLog(userHash, level, category, context);
                 return gigDeletedResult;
             }
             return gigDeletedResult;
         }
         public GigView? ViewGigService(string username, string usernameOwner, DateTime dateOfGig)
         {
-            GigView? gigViewResult = null; //result should default to false.
+            string level;
+            string category;
+            string context;
+            string userHash;
+
+            GigView? gigViewResult = null; //result should default to false/null.
             try
             {
-                gigViewResult = artistCalendarDAL.ViewGig(username, usernameOwner, dateOfGig); ;
+                gigViewResult = artistCalendarDAL.ViewGig(username, usernameOwner, dateOfGig);
                 if (gigViewResult == null)
                 {
                     throw new Exception("Gig could not be found matching that date and time.");
                 }
+                level = "Info";
+                category = "View";
+                context = "Gig was successfully viewed";
+                userHash = artistCalendarDAL.GetUserHash(username);
+                artistCalendarLogging.CreateLog(userHash, level, category, context);
             }
             catch (Exception ex)
             {
-                string errorMessage = $"Error viewing Gig: {ex.Message}";
+                level = "Info";
+                category = "View";
+                context = $"Error viewing Gig: {ex.Message}";
+                userHash = artistCalendarDAL.GetUserHash(username);
+                artistCalendarLogging.CreateLog(userHash, level, category, context);
                 gigViewResult = null;
             }
             return gigViewResult;
@@ -153,6 +218,11 @@ namespace TeamPhoenix.MusiCali.Services
 
         public Result UpdateGigVisibilityService(string posterUsername, bool visibility)
         {
+            string level;
+            string category;
+            string context;
+            string userHash;
+
             Result gigVisibilityResult = new Result("", false); //result should default to false.
             //save edited gig data to the database
             try
@@ -162,10 +232,20 @@ namespace TeamPhoenix.MusiCali.Services
                     throw new Exception("Unable To Update Gig Visibility");
                 }
                 gigVisibilityResult = new Result($"Visibility settings successfully updated", true);
+                level = "Info";
+                category = "View";
+                context = "Gigs' visibility was successfully changed";
+                userHash = artistCalendarDAL.GetUserHash(posterUsername);
+                artistCalendarLogging.CreateLog(userHash, level, category, context);
             }
             catch (Exception ex)
             {
                 gigVisibilityResult = new Result($"Error updating Gig Visibility: {ex.Message}", false);
+                level = "Info";
+                category = "View";
+                context = "Gigs' visibility was unsuccessfully changed";
+                userHash = artistCalendarDAL.GetUserHash(posterUsername);
+                artistCalendarLogging.CreateLog(userHash, level, category, context);
                 return gigVisibilityResult;
             }
             //maybe add a console line here for feedback.

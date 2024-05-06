@@ -12,8 +12,6 @@
     var idToken;
     var accessToken;
 
-    
-
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         // Reset the visibility of login and register buttons when menu is toggled
@@ -73,9 +71,10 @@
                     alert("OTP sent to your email.");
                     // Optionally, show OTP form
                     document.getElementById("otp-form").style.display = 'block';
+                    document.getElementById('account-recovery-section').style.display = 'none';
                 } else {
                     // Email does not exist
-                    alert("Email does not exist.");
+                    alert("Email does not exist or the account is disabled try account recovery.");
                 }
             })
             .catch((error) => {
@@ -324,10 +323,6 @@
         }
     });
 
-    document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
-        window.location.href = 'PriceRangeSorting.html'; // Redirects the user to PriceRangeSorting.html
-    });
-
     function logoutUser() {
         localStorage.clear()
         sessionStorage.clear()
@@ -503,9 +498,6 @@
             form.style.display = 'block';
         }
     });
-
-
-
 
     // Inside prepareAdminUI
     document.getElementById('admin-get-user').addEventListener('click', function () {
@@ -752,7 +744,7 @@
             Feature: feature
         };
 
-        fetch('http://localhost:8080/LogFeature/api/LogFeatureAPI', {
+        fetch(`${baseUrl}/LogFeature/api/LogFeatureAPI`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -780,7 +772,7 @@
     // Add an event listener for the "Inventory Stock View" button
     document.getElementById('Inventory Stock View').addEventListener('click', function () {
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #financialProgressReportView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #user-profile, #priceRangeSortingView, #financialProgressReportView').forEach(el => {
             el.style.display = 'none';
         });
 
@@ -913,48 +905,4 @@
             });
     });
 
-    document.getElementById('enter-ArtistPortfolioView').addEventListener('click', function () {
-        // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView').forEach(el => {
-            showLoginFormButton.style.display = 'none'; // Hide the login button
-            el.style.display = 'none';
-        });
-        var activeUsername = document.getElementById("username").value;
-
-        // Show the Financial Progress Report view
-        const container = document.getElementById('artistPortfolioView');
-        container.style.display = 'block';
-
-        // Load the CSS dynamically
-        const cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = '/ArtistPortfolioFeature/ArtistPortfolioStyles.css'; // Adjust path as needed
-        document.head.appendChild(cssLink);
-
-        // Fetch the HTML content and then load the JS
-        fetch('ArtistPortfolioFeature/ArtistPortfolioView.html') // Adjust path as needed
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to load Artist Portfolio Report HTML.');
-                }
-                return response.text();
-            })
-            .then(html => {
-                container.innerHTML = html;
-
-                // Load and execute JavaScript after the HTML is loaded
-                const jsScript = document.createElement('script');
-                jsScript.src = '/ArtistPortfolioFeature/ArtistPortfolio.js'; // Adjust path as needed
-                jsScript.onload = function () {
-                    loadProfileData(activeUsername);
-                };
-                jsScript.onerror = function () {
-                    console.error('Failed to load Artist Portfolio JS.');
-                };
-                document.body.appendChild(jsScript);
-            })
-            .catch(error => {
-                console.error('Error loading Artist Portfolio Report:', error);
-            });
-    });
 });
