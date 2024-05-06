@@ -775,7 +775,7 @@
         window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
     });
 
-    // Inventory Stock
+    // FinancialProgressReport
     document.getElementById('FinancialProgressReport').addEventListener('click', function () {
         window.location.href = 'FinancialProgressReportView.html'; // Redirects the user to PriceRangeSorting.html
     });
