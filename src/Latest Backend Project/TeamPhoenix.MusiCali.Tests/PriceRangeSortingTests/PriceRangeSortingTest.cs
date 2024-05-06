@@ -29,7 +29,7 @@ namespace MyApp.Tests
             // Initialize the S3 client with the retrieved values
             s3Client = new AmazonS3Client(awsAccessKey, awsSecretKey, RegionEndpoint.GetBySystemName(awsRegion));
 
-            // Initialize the data access layer (without S3)
+            // Initialize the data access layer
             dal = new DataAccessLayer(configuration, s3Client);
         }
 
