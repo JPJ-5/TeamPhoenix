@@ -1,170 +1,162 @@
-//using System;
-//using System.Collections.Generic;
-//using System.IO;
-//using System.Threading.Tasks;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using MySql.Data.MySqlClient;
-//using TeamPhoenix.MusiCali.DataAccessLayer;
-//using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc;
+using TeamPhoenix.MusiCali.DataAccessLayer;
+using System.Configuration;
+using TeamPhoenix.MusiCali.Tests.Models;
 
-//namespace TeamPhoenix.MusiCali.Tests
-//{
-//    [TestClass]
-//    public class ArtistPortfolioDaoTest
-//    {
-//        [TestMethod]
-//        public async Task SaveFilePath_ShouldUpdateFilePath_WhenSlotIsZero()
-//        {
-//            // Arrange
-//            var username = "kihambo.wav";
-//            var slot = 3;
-//            var filePath = "test_file_path.jpg";
-//            var genre = "Test Genre.....";
-//            var desc = "Test Description";
+namespace Teamphoenix.Musicali.Tests
+{
+    [TestClass]
+    public class ArtistPortfolioDaoTest
+    {
+        private readonly IConfiguration configuration;
+        private ArtistPortfolioDao artistPortfolioDao;
 
-//            // Act
-//            var result = ArtistPortfolioDao.SaveFilePath(username, slot, filePath, genre, desc);
+        public ArtistPortfolioDaoTest()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            configuration = builder.Build();
+            artistPortfolioDao = new ArtistPortfolioDao(configuration);
+        }
 
-//            // Assert
-//            Assert.IsTrue(result.Success);
-//            Assert.IsNull(result.ErrorMessage);
+        [TestMethod]
+        public async Task savefilepath_shouldupdatefilepath_whenslotiszero()
+        {
+            // arrange
+            var username = "kihambo.wav";
+            var slot = 3;
+            var filepath = "test_file_path.jpg";
+            var genre = "test genre.....";
+            var desc = "test description";
 
-//            // Clean up: Delete the file path
-//            ArtistPortfolioDao.DeleteFilePath(username, slot);
-//        }
+            // act
+            var result = artistPortfolioDao.SaveFilePath(username, slot, filepath, genre, desc);
+            await Task.FromResult(result);
 
-//        [TestMethod]
-//        public async Task SaveFilePath_ShouldUpdateFilePath_WhenSlotIsNotZero()
-//        {
-//            // Arrange
-//            var username = "kihambo.wav";
-//            var slot = 4;
-//            var filePath = "test_file_path.mp3";
-//            var genre = "Test Genre....";
-//            var desc = "Test Description";
+            // assert
+            Assert.IsTrue(result.Success);
+            Assert.IsNull(result.ErrorMessage);
 
-//            // Act
-//            var result = ArtistPortfolioDao.SaveFilePath(username, slot, filePath, genre, desc);
+            // clean up: delete the file path
+            artistPortfolioDao.DeleteFilePath(username, slot);
+        }
 
-//            // Assert
-//            Assert.IsTrue(result.Success);
-//            Assert.IsNull(result.ErrorMessage);
+        [TestMethod]
+        public async Task savefilepath_shouldupdatefilepath_whenslotisnotzero()
+        {
+            // arrange
+            var username = "kihambo.wav";
+            var slot = 4;
+            var filepath = "test_file_path.mp3";
+            var genre = "test genre....";
+            var desc = "test description";
 
-//            // Clean up: Delete the file path
-//        }
+            // act
+            var result = artistPortfolioDao.SaveFilePath(username, slot, filepath, genre, desc);
+            await Task.FromResult(result);
 
-//        [TestMethod]
-//        public void DeleteFilePath_ShouldSetFilePathToNull_WhenSlotIsZero()
-//        {
-//            // Arrange
-//            var username = "kihambo.wav";
-//            var slot = 4;
+            // assert
+            Assert.IsTrue(result.Success);
+            Assert.IsNull(result.ErrorMessage);
 
-//            // Act
-//            var result = ArtistPortfolioDao.DeleteFilePath(username, slot);
+            // clean up: delete the file path
+        }
 
-//            // Assert
-//            Assert.IsTrue(result.Success);
-//            Assert.IsNull(result.ErrorMessage);
-//        }
+        [TestMethod]
+        public async Task deletefilepath_shouldsetfilepathtonull_whenslotiszero()
+        {
+            // arrange
+            var username = "kihambo.wav";
+            var slot = 4;
 
-//        [TestMethod]
-//        public void DeleteFilePath_ShouldSetFilePathToNull_WhenSlotIsNotZero()
-//        {
-//            // Arrange
-//            var username = "kihambo.wav";
-//            var slot = 2;
+            // act
+            var result = artistPortfolioDao.DeleteFilePath(username, slot);
+            await Task.FromResult(result);
 
-//            // Act
-//            var result = ArtistPortfolioDao.DeleteFilePath(username, slot);
+            // assert
+            Assert.IsTrue(result.Success);
+            Assert.IsNull(result.ErrorMessage);
+        }
 
-//            // Assert
-//            Assert.IsTrue(result.Success);
-//            Assert.IsNull(result.ErrorMessage);
-//        }
+        [TestMethod]
+        public async Task deletefilepath_shouldsetfilepathtonull_whenslotisnotzero()
+        {
+            // arrange
+            var username = "kihambo.wav";
+            var slot = 2;
 
-//        [TestMethod]
-//        public void GetFilePath_ShouldReturnFilePath_WhenSlotIsZero()
-//        {
-//            // Arrange
-//            var username = "kihambo.wav";
-//            var slot = 0;
-//            var expectedFilePath = "test_file_path.jpg";
-//            var result = ArtistPortfolioDao.SaveFilePath(username, slot, expectedFilePath, null, null);
+            // act
+            var result = artistPortfolioDao.DeleteFilePath(username, slot);
+            await Task.FromResult(result);
 
-//            // Act
-//            var actualFilePath = ArtistPortfolioDao.GetFilePath(username, slot);
+            // assert
+            Assert.IsTrue(result.Success);
+            Assert.IsNull(result.ErrorMessage);
+        }
 
-//            var res = ArtistPortfolioDao.DeleteFilePath(username, 0);
+        [TestMethod]
+        public void getfilepath_shouldreturnfilepath_whenslotiszero()
+        {
+            // arrange
+            var username = "kihambo.wav";
+            var slot = 0;
+            var expectedfilepath = "test_file_path.jpg";
+            var result = artistPortfolioDao.SaveFilePath(username, slot, expectedfilepath, "", "");
 
-//            // Assert
-//            Assert.AreEqual(expectedFilePath, actualFilePath);
+            // act
+            var actualfilepath = artistPortfolioDao.GetFilePath(username, slot);
 
-//        }
+            var res = artistPortfolioDao.DeleteFilePath(username, 0);
 
-//        [TestMethod]
-//        public void GetFilePath_ShouldReturnFilePath_WhenSlotIsNotZero()
-//        {
-//            // Arrange
-//            var username = "kihambo.wav";
-//            var slot = 1;
-//            var expectedFilePath = "test_file_path.mp3";
-//            ArtistPortfolioDao.SaveFilePath(username, slot, expectedFilePath, "", "");
+            // assert
+            Assert.AreEqual(expectedfilepath, actualfilepath);
 
-//            // Act
-//            var actualFilePath = ArtistPortfolioDao.GetFilePath(username, slot);
+        }
 
-//            // Assert
-//            Assert.AreEqual(expectedFilePath, actualFilePath);
+        [TestMethod]
+        public void getfilepath_shouldreturnfilepath_whenslotisnotzero()
+        {
+            // arrange
+            var username = "kihambo.wav";
+            var slot = 1;
+            var expectedfilepath = "test_file_path.mp3";
+            artistPortfolioDao.SaveFilePath(username, slot, expectedfilepath, "", "");
 
-//            // Clean up: Delete the file path
-//            ArtistPortfolioDao.DeleteFilePath(username, slot);
-//        }
+            // act
+            var actualfilepath = artistPortfolioDao.GetFilePath(username, slot);
 
+            // assert
+            Assert.AreEqual(expectedfilepath, actualfilepath);
 
-//        [TestMethod]
-//        public void GetProfileInfo_ShouldReturnProfileInfo_WhenUsernameExists()
-//        {
-//            // Arrange
-//            var username = "juliereyes";
-//            var expectedOccupation = "Artist";
-//            var expectedBio = "Into shoegaze, alt, indie music and jungle, phonk, and house for edm";
-//            var expectedLocation = "Los Angeles";
-
-//            // Act
-//            var Portfolio = ArtistPortfolioDao.GetPortfolio(username);
-//            var profileInfo = Portfolio[3];
-//            var actualOccupation = profileInfo[0];
-//            var actualBio = profileInfo[1];
-//            var actualLocation = profileInfo[2];
-
-//            // Assert
-//            Assert.AreEqual(expectedOccupation, actualOccupation);
-//            Assert.AreEqual(expectedBio, actualBio);
-//            Assert.AreEqual(expectedLocation, actualLocation);
+            // clean up: delete the file path
+            artistPortfolioDao.DeleteFilePath(username, slot);
+        }
 
 
-//        }
+        [TestMethod]
+        public void getprofileinfo_shouldreturnprofileinfo_whenusernameexists()
+        {
+            // arrange
+            var username = "juliereyes";
+            var expectedoccupation = "Instrumentalist";
+            var expectedbio = "Lead of MusiCali into edm and most rock genres(alt, punk, indie, etc.)";
+            var expectedlocation = "Los Angeles";
 
-//        [TestMethod]
-//        public void GetAllFileInfo_ShouldReturnFileInfo_WhenUsernameExists()
-//        {
-//            // Arrange
-//            var username = "kihambo.wav";
-//            var expectedFilePath = "test_file_path.mp3";
-//            ArtistPortfolioDao.SaveFilePath(username, 3, expectedFilePath, "test", "test");
+            // act
+            var portfolio = artistPortfolioDao.GetPortfolio(username);
+            var profileinfo = portfolio[3];
+            var actualoccupation = profileinfo[0];
+            var actualbio = profileinfo[1];
+            var actuallocation = profileinfo[2];
 
-//            // Act
-//            var fileData = ArtistPortfolioDao.GetPortfolio(username);
-//            var actualFilePath = fileData[0][3];
+            // assert
+            Assert.AreEqual(expectedoccupation, actualoccupation);
+            Assert.AreEqual(expectedbio, actualbio);
+            Assert.AreEqual(expectedlocation, actuallocation);
 
-//            // Assert
-//            Assert.AreEqual(expectedFilePath, actualFilePath);
-//            Assert.AreEqual("test", fileData[1][2]);
-//            Assert.AreEqual("test", fileData[2][2]);
+        }
 
-//            // Clean up: Delete the file path
-//            ArtistPortfolioDao.DeleteFilePath(username, 3);
-//        }
-//    }
-//}
+    }
+}
