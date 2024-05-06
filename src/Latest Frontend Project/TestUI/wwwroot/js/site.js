@@ -770,9 +770,14 @@
             });
     }
 
-    // Inventory Stock
+    // InventoryStock
     document.getElementById('Inventory Stock View').addEventListener('click', function () {
         window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
+    });
+
+    // FinancialProgressReport
+    document.getElementById('FinancialProgressReport').addEventListener('click', function () {
+        window.location.href = 'FinancialProgressReportView.html'; // Redirects the user to PriceRangeSorting.html
     });
 
     //Price Range Sorting
