@@ -1,54 +1,5 @@
-//function fetchYearlyFPR() {
-//    /*const username = sessionStorage.getItem("username");*/
-//    const username = "thisisparthpc"
-//    console.log(username);
-//    const resultsDiv = document.getElementById('financialResult');
-//    const loadingIndicator = document.getElementById('loading');
-//    idToken = sessionStorage.getItem("idToken");
-//    accessToken = sessionStorage.getItem("accessToken");
-//    if (!username) {
-//        alert("Please enter a username.");
-//        return;
-//    }
-//    const frequency = "Yearly";
-//    loadingIndicator.style.display = 'block';
-//    resultsDiv.innerHTML = '';
-
-//    fetch(`http://localhost:8080/SellerDashboard/api/GetFinancialReport`, {
-//        method: 'GET',
-//        headers: {
-//            'Authentication': idToken,
-//            'Authorization': accessToken,
-//            'userName': username,
-//            'frequency': frequency
-//        }
-//    })
-//        .then(response => {
-//            if (!response.ok) throw new Error('Failed to fetch inventory data: ' + response.statusText);
-//            return response.json();
-//        })
-//        .then(data => {
-//            if (data.length === 0) {
-//                resultsDiv.innerHTML = '<p>No  Financial Report Available</p>';
-//            } else {
-//                const list = document.createElement('ul');
-//                data.forEach(reports => {
-//                    const report = document.createElement('li');
-//                    report.textContent = `${reports.financialYear} (Profit: ${reports.financialProfit}) - (Revenue: ${reports.financialRevenue}) - (Sales: ${reports.sales})`;
-//                    list.appendChild(report);
-//                });
-//                resultsDiv.appendChild(list);
-//            }
-//        })
-//        .catch(error => {
-//            console.error('Error:', error);
-//            resultsDiv.innerHTML = `<p>${error.message}</p>`;
-//        })
-//        .finally(() => {
-//            loadingIndicator.style.display = 'none';
-//        });
-//}
-document.addEventListener('DOMContentLoaded', function () {
+// Function to set up event listeners for Financial Progress Report
+function setupFinancialProgressReport() {
     const fetchFReportYear = document.getElementById('fetchYearly');
     fetchFReportYear.addEventListener('click', () => fetchFPR("Yearly"));
 
@@ -57,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const fetchFReportMonth = document.getElementById('fetchMonthly');
     fetchFReportMonth.addEventListener('click', () => fetchFPR("Monthly"));
-});
+}
 
 function fetchFPR(frequency) {
     const resultsDiv = document.getElementById('financialResult');
@@ -65,6 +16,7 @@ function fetchFPR(frequency) {
     const idToken = sessionStorage.getItem("idToken");
     const accessToken = sessionStorage.getItem("accessToken");
     const username = sessionStorage.getItem("username");
+
     //const frequency = "Yearly";
     loadingIndicator.style.display = 'block';
     resultsDiv.innerHTML = '';
@@ -83,8 +35,6 @@ function fetchFPR(frequency) {
             return response.json();
         })
         .then(data => {
-            // console.log(username);
-            // console.log(data);
             if (data.length === 0) {
                 resultsDiv.innerHTML = '<p>No Financial Report Available</p>';
             } else {

@@ -12,8 +12,6 @@
     var idToken;
     var accessToken;
 
-
-
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         // Reset the visibility of login and register buttons when menu is toggled
@@ -775,10 +773,52 @@
         window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
     });
 
-    // FinancialProgressReport
+
+    // Add an event listener for the Financial Progress Report button
     document.getElementById('FinancialProgressReport').addEventListener('click', function () {
-        window.location.href = 'FinancialProgressReportView.html'; // Redirects the user to PriceRangeSorting.html
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView').forEach(el => {
+            showLoginFormButton.style.display = 'none'; // Hide the login button
+            el.style.display = 'none';
+        });
+
+        // Show the Financial Progress Report view
+        const container = document.getElementById('financialProgressReportView');
+        container.style.display = 'block';
+
+        // Load the CSS dynamically
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'FinancialProgressReportFeature/FinancialProgressReportView.css'; // Adjust path as needed
+        document.head.appendChild(cssLink);
+
+        // Fetch the HTML content and then load the JS
+        fetch('FinancialProgressReportFeature/FinancialProgressReportView.html') // Adjust path as needed
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load Financial Progress Report HTML.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Load and execute JavaScript after the HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = 'FinancialProgressReportFeature/FinancialProgressReport.js'; // Adjust path as needed
+                jsScript.onload = function () {
+                    setupFinancialProgressReport();  // Call the initialization function for your feature
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load Financial Progress Report JS.');
+                };
+                document.body.appendChild(jsScript);
+            })
+            .catch(error => {
+                console.error('Error loading Financial Progress Report:', error);
+            });
     });
+
 
     //Price Range Sorting
     document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
