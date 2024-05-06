@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details</title>
+   
+    <link href="css/ItemDetail.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="item-detail-container">
+        <div class="image-gallery">
+            <img id="mainImage" alt="Main Image" class="main-image">
+            <div class="thumbnail-container">
+                <!-- Thumbnails for other images -->
+                <img id="Image1" class="thumbnail">
+                <img id="Image2" class="thumbnail">
+                <img id="Image3" class="thumbnail">
+                <img id="Image4" class="thumbnail">
+                <img id="Image5" class="thumbnail">
+
+
+                <!-- Add more thumbnails as needed -->
+            </div>
+            <video id="Video1" class="thumbnail-video" controls>
+                <source type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <video id="Video2" class="thumbnail-video" controls>
+                <source type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <div class="item-information">
+            <h1 id="itemName">Item Name</h1>
+            <p id="itemSKU">SKU: ABC123</p>
+            <p id="itemPrice">Price: $199.99</p>
+            <p id="itemDescription">Description: Lorem ipsum dolor sit amet...</p>
+            <p id="itemStock">Stock Available: 15</p>
+            <!--<p id="itemSellerContact">Seller Contact: contact@example.com</p>-->
+            <button class="btn buy">Buy</button>
+            <button class="btn offer">Make an Offer</button>
+            <button class="btn notify">Notify Seller Out of Stock</button>
+        </div>
+    </div>
+
+    <script src="js/itemDetail.js"></script>
+</body>
+</html>

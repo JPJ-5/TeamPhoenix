@@ -1,4 +1,4 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     var menuButton = document.getElementById('menu-btn');
     var dropdown = document.getElementById('myDropdown');
     var showLoginFormButton = document.getElementById('show-login');
@@ -11,6 +11,8 @@
     var baseUrl = 'http://localhost:8080';
     var idToken;
     var accessToken;
+
+    
 
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
@@ -323,6 +325,10 @@
         }
     });
 
+    document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
+        window.location.href = 'PriceRangeSorting.html'; // Redirects the user to PriceRangeSorting.html
+    });
+
     function logoutUser() {
         localStorage.clear()
         sessionStorage.clear()
@@ -498,6 +504,9 @@
             form.style.display = 'block';
         }
     });
+
+
+
 
     // Inside prepareAdminUI
     document.getElementById('admin-get-user').addEventListener('click', function () {
