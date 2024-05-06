@@ -23,72 +23,81 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
         }
 
-        public async Task<HashSet<PaginationItemModel>> GetItemList(string? listed, string? offerable, string? userHash)
+        
+        public async Task<(HashSet<PaginationItemModel>, int)> GetItemListAndCountPagination(string? listed, string? offerable, string? userHash, int pageNum, int pageSize)
         {
             var items = new HashSet<PaginationItemModel>();
+            int totalCount = 0;
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     await connection.OpenAsync();
-                    string query = "";
+                    string baseQuery = "";
                     var cmdParams = new List<MySqlParameter>();
 
+                    // Construct the base query depending on the filters provided
                     if (listed == "true")
                     {
-                        query = "SELECT Name, Price, SKU, Image FROM CraftItem WHERE Listed = 1";
-
+                        baseQuery = "FROM CraftItem WHERE Listed = 1";
                         if (offerable != null)
                         {
-                            query += " AND OfferablePrice = @OfferablePrice";
+                            baseQuery += " AND OfferablePrice = @OfferablePrice";
                             cmdParams.Add(new MySqlParameter("@OfferablePrice", offerable == "true" ? 1 : 0));
                         }
-
                         if (userHash != null)
                         {
-                            query += " AND CreatorHash = @userHash";
+                            baseQuery += " AND CreatorHash = @userHash";
                             cmdParams.Add(new MySqlParameter("@userHash", userHash));
                         }
-
-                        query += " ORDER BY Price ASC;";
                     }
                     else if (userHash != null)
                     {
-                        query = "SELECT Name, Price, SKU, Image FROM CraftItem WHERE CreatorHash = @userHash ORDER BY Price ASC;";
-                        cmdParams.Add(new MySqlParameter("@userHash", userHash));
+                        baseQuery = "FROM CraftItem WHERE CreatorHash = @userHash";
                     }
                     else
                     {
                         throw new Exception("Incorrect input, cannot make a query to access database");
                     }
 
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    // Query to get total count
+                    string countQuery = $"SELECT COUNT(*) {baseQuery};";
+                    using (MySqlCommand countCommand = new MySqlCommand(countQuery, connection))
                     {
-                        command.Parameters.AddRange(cmdParams.ToArray());
+                        countCommand.Parameters.AddRange(cmdParams.ToArray());
+                        totalCount = Convert.ToInt32(await countCommand.ExecuteScalarAsync());
+                    }
 
-                        using (var reader = await command.ExecuteReaderAsync())
+                    // Query to get paginated items
+                    string itemQuery = $"SELECT Name, Price, SKU, Image {baseQuery} ORDER BY Price ASC LIMIT @Offset, @PageSize;";
+                    cmdParams.Add(new MySqlParameter("@PageSize", pageSize));
+                    cmdParams.Add(new MySqlParameter("@Offset", (pageNum - 1) * pageSize));
+
+                    using (MySqlCommand itemCommand = new MySqlCommand(itemQuery, connection))
+                    {
+                        itemCommand.Parameters.AddRange(cmdParams.ToArray());
+                        using (var reader = await itemCommand.ExecuteReaderAsync())
                         {
                             while (await reader.ReadAsync())
                             {
-                                var imageString = reader.GetString("Image");
-                                var firstImageName = imageString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                                                .Select(s => s.Trim())
-                                                                .FirstOrDefault(); // Gets the first image or null if none
-
                                 var item = new PaginationItemModel
                                 {
                                     Name = reader.GetString("Name"),
                                     Price = reader.GetDecimal("Price"),
-                                    Sku = reader.GetString("SKU"),
-                                    
+                                    Sku = reader.GetString("SKU")
                                 };
-                                item.FirstImage = firstImageName != null ? GetImageUrl(item.Sku, firstImageName) : null;
+
+                                var imageString = reader.GetString("Image");
+                                var firstImageName = imageString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                                .Select(s => s.Trim())
+                                                                .FirstOrDefault(); // Gets the first image from string of name or null if none
+                                item.FirstImage = firstImageName != null ? GetImageUrl(item.Sku, firstImageName) : null;  // Gets the imageURL from s3 bucket based on sku and file name
                                 items.Add(item);
                             }
                         }
                     }
                 }
-                return items;
+                return (items, totalCount);
             }
             catch (Exception ex)
             {
@@ -98,8 +107,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
 
 
-
-        public  string? GetImageUrl(string sku, string picName) // getting s3 pic presigned url is synchonous task, no need await.
+        public string? GetImageUrl(string sku, string picName) // getting s3 pic presigned url is synchonous task, no need await.
         {
             if (picName == null )
             {

@@ -1,0 +1,49 @@
+﻿.item-detail-container {
+    display: flex;
+    margin: 20px;
+    padding: 20px;
+}
+
+.image-gallery {
+    flex: 1;
+    text-align: center;
+}
+
+.main-image {
+    width: 100%;
+    max-width: 500px; /* Adjust based on your layout needs */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.thumbnail-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.thumbnail {
+    width: 100px; /* Smaller width for thumbnails */
+    height: auto;
+    cursor: pointer;
+}
+
+.item-information {
+    flex: 2;
+    padding-left: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+    .btn:hover {
+        background-color: #0056b3;
+    }

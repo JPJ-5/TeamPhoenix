@@ -11,7 +11,6 @@ namespace TeamPhoenix.MusiCali.Logging
         private readonly IConfiguration configuration;
         private MariaDBDAO mariaDBDAO;
         private RecoverUserDAO recoverUserDAO;
-
         public LoggerService(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -25,7 +24,6 @@ namespace TeamPhoenix.MusiCali.Logging
             var result = mariaDBDAO.CreateLog(UserHash, logLevel, logCategory, context);
             return result;
         }
-
         public Result LogFeature(string UserName, string Feature)
         {
             //logging

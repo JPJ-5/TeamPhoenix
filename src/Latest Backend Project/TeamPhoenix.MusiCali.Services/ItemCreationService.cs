@@ -40,7 +40,7 @@ namespace TeamPhoenix.MusiCali.Services
         public ItemCreationService(IAmazonS3 s3Client, IConfiguration configuration)
         {
             this.configuration = configuration;
-            itemCreationDAO = new ItemCreationDAO(this.configuration);
+            itemCreationDAO = new ItemCreationDAO(this.configuration, s3Client);
             loggerService = new LoggerService(this.configuration);
             authenticationSecurity = new AuthenticationSecurity(this.configuration);
             hasher = new Hasher();
@@ -133,30 +133,30 @@ namespace TeamPhoenix.MusiCali.Services
                 throw new ArgumentException("Invalid seller Contact provided. Retry again or contact system administrator");
             }
 
+            try
+            {
 
+                //scan virus here
+                //validate the video and image name, type, size, extension
 
-            //scan virus here
-            //validate the video and image name, type, size, extension
+                List<string> uploadedUrls = await UploadFolderFilesAsync(creatorHash, sku);          // upload file from sandbox to s3, return the file names.
 
-            List<string> uploadedUrls = await UploadFolderFilesAsync(creatorHash, sku);
             string userFolderPath = Path.Combine(uploadFolderPath, creatorHash);
 
-            if (DeleteSandboxFolder(userFolderPath))
-            {
-                Console.WriteLine("sucess delete the sandbox folder.");
-            }
-            else
-            {
-                throw new ArgumentException("fail to delete the sandbox.");
-            }
+                if (DeleteSandboxFolder(userFolderPath))
+                {
+                    Console.WriteLine("sucess delete the sandbox folder.");
+                }
+                else
+                {
+                    throw new ArgumentException("fail to delete the sandbox.");
+                }
 
-            var imageExtensions = new HashSet<string> { ".jpg", ".png", ".gif", ".tiff" };
-            var videoExtensions = new HashSet<string> { ".mp4", ".mov" };
+                var imageExtensions = new HashSet<string> { ".jpg", ".png", ".gif", ".tiff" };
+                var videoExtensions = new HashSet<string> { ".mp4", ".mov" };
 
-            List<string> images = uploadedUrls.Where(f => imageExtensions.Contains(Path.GetExtension(f).ToLower())).ToList();
-            List<string> videos = uploadedUrls.Where(f => videoExtensions.Contains(Path.GetExtension(f).ToLower())).ToList();
-
-
+                List<string> images = uploadedUrls.Where(f => imageExtensions.Contains(Path.GetExtension(f).ToLower())).ToList();       
+                List<string> videos = uploadedUrls.Where(f => videoExtensions.Contains(Path.GetExtension(f).ToLower())).ToList();
 
 
 
@@ -166,23 +166,24 @@ namespace TeamPhoenix.MusiCali.Services
 
 
 
-            //offer = false;
-            //List<string> pic = new List<string>();
-            //pic.Add("apple.jpg");
-            //List<string> video = new List<string>();
-            //video.Add("bear.mp4");
-            //bool listed = false;
+
+
+                //offer = false;
+                //List<string> pic = new List<string>();
+                //pic.Add("apple.jpg");
+                //List<string> video = new List<string>();
+                //video.Add("bear.mp4");
+                //bool listed = false;
 
 
 
 
 
             
-            ItemCreationModel newItem = new ItemCreationModel(name, creatorHash, sku, price, desc, stock,
-            cost, offer, sellerContact, images, videos, listed);
+                ItemCreationModel newItem = new ItemCreationModel(name, creatorHash, sku, price, desc, stock,
+                cost, offer, sellerContact, images, videos, listed);
 
-            try
-            {
+            
                 if (!itemCreationDAO.InsertIntoItemTable(newItem))
                 {
                     throw new Exception("Unable To insert to item table");
@@ -216,7 +217,8 @@ namespace TeamPhoenix.MusiCali.Services
 
             if (!dir.Exists)
             {
-                throw new DirectoryNotFoundException("Username folder not found.");
+                dir.Create(); // Create the directory if it does not exist
+                Console.WriteLine("User directory created.");
             }
             if (string.IsNullOrEmpty(bucketName))
             {
@@ -333,6 +335,10 @@ namespace TeamPhoenix.MusiCali.Services
                 return null;
             }
         }
+
+
+
+
 
     }
 }

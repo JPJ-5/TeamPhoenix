@@ -33,7 +33,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             _s3Client = s3Client;
             bucketName = configuration.GetValue<string>("AWS:BucketName");
             uploadFolderPath = configuration.GetValue<string>("AWS:UploadFolderPath");
-            itemCreationDAO = new ItemCreationDAO(configuration);
+            itemCreationDAO = new ItemCreationDAO(configuration, s3Client);
             recoverUserDAO = new RecoverUserDAO(configuration);
             itemCreationService  = new ItemCreationService(s3Client,configuration);
         }

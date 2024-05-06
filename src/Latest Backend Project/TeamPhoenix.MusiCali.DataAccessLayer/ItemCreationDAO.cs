@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Amazon.S3.Model;
+using Amazon.S3;
+
+
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
@@ -14,12 +18,17 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
     {
         private readonly string connectionString;
         private readonly IConfiguration configuration;
+        private readonly IAmazonS3 _s3Client;
+        private readonly string bucketName;
 
-        public ItemCreationDAO(IConfiguration configuration)
+
+        //public ItemCreationDAO(IConfiguration configuration, IAmazonS3 s3Client)
+        public ItemCreationDAO(IConfiguration configuration, IAmazonS3 s3Client)
         {
             this.configuration = configuration;
-            //this.connectionString = configuration.GetConnectionString("ConnectionString")!;
-            this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
+            this.connectionString = configuration.GetConnectionString("ConnectionString")!;
+            bucketName = configuration.GetValue<string>("AWS:BucketName");
+            _s3Client = s3Client;
         }
 
         public bool IsSkuDuplicate(string sku)
@@ -90,6 +99,87 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
+        public async Task<ItemCreationModel> GetItemBySkuAsync(string sku)
+        {
+            ItemCreationModel? item = null;
+            try
+            {
+                using (var connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string query = @"
+                    SELECT Name, SKU, Price, Description, StockAvailable, ProductionCost, 
+                           OfferablePrice, SellerContact, Image, Video, DateCreated, Listed
+                    FROM CraftItem
+                    WHERE SKU = @SKU;";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@SKU", sku);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                item = new ItemCreationModel
+                                {
+                                    Name = reader["Name"].ToString()!,
+                                    Sku = reader["SKU"].ToString(),
+                                    Price = reader.GetDecimal("Price"),
+                                    Description = reader["Description"].ToString()!,
+                                    StockAvailable = reader.GetInt32("StockAvailable"),
+                                    ProductionCost = reader.GetDecimal("ProductionCost"),
+                                    OfferablePrice = reader.GetBoolean("OfferablePrice"),
+                                    SellerContact = reader["SellerContact"].ToString()!,
+                                    ImageUrls = reader["Image"].ToString()!.Split(',').ToList(),
+                                    VideoUrls = reader["Video"].ToString()!.Split(',').ToList(),
+                                    DateCreated = reader.GetDateTime("DateCreated"),
+                                    Listed = reader.GetBoolean("Listed")
+                                };
+                            }
+                        }
+                    }
+                }
+
+                if (item != null)
+                {
+                    //var s3Service = new S3Service(_s3Client, "your-bucket-name");
+                    item.ImageUrls = await GeneratePreSignedURLs(item.ImageUrls!);
+                    item.VideoUrls = await GeneratePreSignedURLs(item.VideoUrls!);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetItemBySku: {ex.Message}");
+                throw; // Optionally rethrow if you want to handle this further up the call stack
+            }
+
+            return item!;
+        }
+
+
+
+        public Task<string> GeneratePreSignedURL(string objectKey)
+        {
+            var request = new GetPreSignedUrlRequest
+            {
+                BucketName = bucketName,
+                Key = objectKey,
+                Expires = DateTime.UtcNow.AddMinutes(10) // URL expires in 10 minutes
+            };
+
+            return Task.FromResult(_s3Client.GetPreSignedURL(request));
+        }
+
+        public async Task<List<string>> GeneratePreSignedURLs(List<string> objectKeys)
+        {
+            var urls = new List<string>();
+            foreach (var key in objectKeys)
+            {
+                urls.Add(await GeneratePreSignedURL(key));
+            }
+            return urls;
+        }
 
     }
 }

@@ -12,6 +12,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         {
             this.configuration = configuration;
             this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
+            //this.connectionString = configuration.GetConnectionString("ConnectionString")!;
         }
 
 

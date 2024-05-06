@@ -35,7 +35,7 @@ namespace TeamPhoenix.MusiCali.Controllers
         public ItemCreationController(IAmazonS3 s3Client, IConfiguration configuration)
         {
             this.configuration = configuration;
-            itemCreationDAO = new ItemCreationDAO(this.configuration);
+            itemCreationDAO = new ItemCreationDAO(this.configuration, s3Client);
             recoverUserDAO = new RecoverUserDAO(configuration);
             _s3Client = s3Client;
             itemCreationService = new ItemCreationService(s3Client,configuration);
