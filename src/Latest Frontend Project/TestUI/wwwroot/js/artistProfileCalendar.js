@@ -1,4 +1,5 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+﻿var baseUrl = 'http://localhost:8080';
+document.addEventListener('DOMContentLoaded', function () {
     // Event Listeners for Artist Profile Calendar
     document.getElementById('enter-calendar').addEventListener('click', function () {
         // display the artist calendar section when the button is clicked
@@ -26,7 +27,7 @@
                 gigVisibility: visibility
             }
 
-            fetch('http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigVisibilityAPI', {
+            fetch(`${baseUrl}/ArtistCalendar/api/ArtistCalendarGigVisibilityAPI`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,7 +80,7 @@
                 usernameOwner: usernameOwner,
                 dateOfGig: gigDate
             }).toString();
-            url = 'http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigViewAPI?' + queryView.toString();
+            url = `${baseUrl}/ArtistCalendar/api/ArtistCalendarGigViewAPI?` + queryView.toString();
             fetch(url, {
                 method: 'GET',
             })
@@ -131,7 +132,7 @@
                 username: username,
                 dateOfGig: gigDate
             }
-            fetch('http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigDeletionAPI', {
+            fetch(`${baseUrl}/ArtistCalendar/api/ArtistCalendarGigDeletionAPI`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -195,7 +196,7 @@
                 pay: gigPay
             }
 
-            fetch('http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigUpdateAPI', {
+            fetch(`${baseUrl}/ArtistCalendar/api/ArtistCalendarGigUpdateAPI`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -258,7 +259,7 @@
                 pay: gigPay
             }
 
-            fetch('http://localhost:8080/ArtistCalendar/api/ArtistCalendarGigCreationAPI', {
+            fetch(`${baseUrl}/ArtistCalendar/api/ArtistCalendarGigCreationAPI`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

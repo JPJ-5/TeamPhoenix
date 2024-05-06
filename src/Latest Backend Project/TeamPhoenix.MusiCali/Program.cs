@@ -2,6 +2,7 @@ using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.Services;
 using AuthenticationSecurity = TeamPhoenix.MusiCali.Security.AuthenticationSecurity;
 using TeamPhoenix.MusiCali.Security.Contracts;
+using Amazon.S3;
 
 namespace AccCreationAPI
 {
@@ -23,13 +24,16 @@ namespace AccCreationAPI
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            
+
+            
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<LogOutDAO>();
             builder.Services.AddScoped<LogoutService>();
             builder.Services.AddScoped<IAuthentication, AuthenticationSecurity>();
 
-            builder.Services.AddScoped<MariaDBDAO>();          // Register MariaDB Class with Dependency Injection 
+            builder.Services.AddScoped<MariaDBDAO>();          // Register MariaDB Class with Dependency Injection
 
             // Add configuration
             var configurationBuilder = new ConfigurationBuilder()
@@ -37,20 +41,21 @@ namespace AccCreationAPI
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             IConfiguration configuration = configurationBuilder.Build();
 
-            builder.Services.AddTransient<DataAccessLayer>(); // Assuming a parameterless constructor or adjust accordingly
+            builder.Services.AddAWSService<IAmazonS3>();
+            builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+
+            builder.Services.AddTransient<DataAccessLayer>();
             builder.Services.AddTransient<ItemService>();
-            builder.Services.AddScoped<InventoryStockDAO>();
-            builder.Services.AddTransient<InventoryStockService>();
 
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            //Configure the HTTP request pipeline.
+            // if (app.Environment.IsDevelopment())
+            // {
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI();
+            // }
 
             app.UseHttpsRedirection();
 
@@ -85,7 +90,5 @@ namespace AccCreationAPI
 
             app.Run();
         }
-
-
     }
 }

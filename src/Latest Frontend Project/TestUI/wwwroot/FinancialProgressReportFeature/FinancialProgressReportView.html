@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Progress Report Viewer</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Financial Progress Report Viewer</h1>
+        <div class="form-container">
+            <button id="fetchYearly">View Yearly</button>
+            <button id="fetchQuarterly">View Quarterly</button>
+            <button id="fetchMonthly">View Monthly</button>
+        </div>
+        <div id="financialResult" class="results"></div>
+        <div id="loading" class="loading">Loading...</div>
+        <canvas id="chartCanvas" width="600" height="300"></canvas>
+    </div>
+</body>
+</html>

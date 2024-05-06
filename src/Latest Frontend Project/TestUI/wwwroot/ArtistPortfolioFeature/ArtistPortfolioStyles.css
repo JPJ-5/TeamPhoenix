@@ -1,0 +1,38 @@
+APcontainer {
+    text-align: center;
+    margin-top: 50px;
+}
+
+h1 {
+    text-align: center;
+}
+
+#profile-info {
+    grid-column: 2; /* Second column */
+    grid-row: 1; /* First row */
+    margin-top: 100px; /* Smaller margin */
+}
+
+#file-upload-0 {
+    grid-column: 1; /* First column */
+    grid-row: 1; /* First row */
+    margin-top: 72px; /* Smaller margin */
+}
+
+table.slotsTable {
+    table-layout: fixed;
+    width: 1500px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    /*border-collapse: collapse;*/
+}
+
+
+th {
+    background-color: #089aa4;
+    color: white;
+    text-align: left;
+}

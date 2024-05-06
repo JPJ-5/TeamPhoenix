@@ -1,18 +1,21 @@
+
+function setupInventoryStockView() {
+    fetchInventoryStock();
+}
+
+var baseUrl = 'http://localhost:8080';
+
 function fetchInventoryStock() {
-    const username = document.getElementById('username').value;
+    const username = sessionStorage.getItem("username");
     const resultsDiv = document.getElementById('inventoryResults');
     const loadingIndicator = document.getElementById('loading');
     idToken = sessionStorage.getItem("idToken");
     accessToken = sessionStorage.getItem("accessToken");
-    if (!username) {
-        alert("Please enter a username.");
-        return;
-    }
 
     loadingIndicator.style.display = 'block';
     resultsDiv.innerHTML = '';
 
-    fetch(`http://localhost:8080/api/inventorystock`,{
+    fetch(`${baseUrl}/SellerDashboard/api/GetInventoryStock`, {
         method: 'GET',
         headers: {
             'Authentication': idToken,
