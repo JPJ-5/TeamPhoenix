@@ -775,7 +775,6 @@
                 console.error('Error logging {feature} usage:', error.message);
             });
     }
-<<<<<<< HEAD
 
     // InventoryStock
     // Add an event listener for the "Inventory Stock View" button
@@ -958,7 +957,4 @@
                 console.error('Error loading Artist Portfolio Report:', error);
             });
     });
-
-=======
->>>>>>> parent of 87b1703 (Update Branch)
 });
