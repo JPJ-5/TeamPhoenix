@@ -64,6 +64,35 @@ function displayArtistProfile(portfolioInfo) {
     usernameParagraph.innerHTML = `<strong>${activeUsername}</strong>`;
     infoSlot.appendChild(usernameParagraph);
 
+    const visibilityLabel = document.createElement('label');
+    visibilityLabel.innerHTML = 'Visibility:';
+
+    // Create a True button
+    const trueButton = document.createElement('button');
+    trueButton.textContent = 'True';
+    trueButton.style.backgroundColor = portfolioInfo[`visibility`] ? 'green' : ''; // Highlight if visibility is true
+    trueButton.disabled = portfolioInfo[`visibility`]; // Disable if visibility is true
+    trueButton.addEventListener('click', function () {
+        // Call updateVis function with the new visibility value (true)
+        updateVis(true);
+    });
+
+    // Create a False button
+    const falseButton = document.createElement('button');
+    falseButton.textContent = 'False';
+    falseButton.style.backgroundColor = !portfolioInfo[`visibility`] ? 'red' : ''; // Highlight if visibility is false
+    falseButton.disabled = !portfolioInfo[`visibility`]; // Disable if visibility is false
+    falseButton.addEventListener('click', function () {
+        // Call updateVis function with the new visibility value (false)
+        updateVis(false);
+    });
+
+    // Append the buttons to the label
+    visibilityLabel.appendChild(trueButton);
+    visibilityLabel.appendChild(falseButton);
+
+    // Append the label to the info slot
+    infoSlot.appendChild(visibilityLabel);
 
     //Display for other occupation with selection boxes
     if (portfolioInfo[`occupation`]){
@@ -448,6 +477,39 @@ function validateFile(file) {
     return { valid: true };
 }
 
+function updateVis(vis) {
+    var activeUsername = sessionStorage.getItem('username');
+    idToken = sessionStorage.getItem("idToken");
+    accessToken = sessionStorage.getItem("accessToken");
+    console.log(vis)
+    var payload = {
+        username: activeUsername,
+        visibility: vis
+    }
+
+    fetch('http://localhost:8080/ArtistPortfolio/api/updateVisibility', {
+        method: 'POST',
+        headers: {
+            'Authentication': idToken,
+            'Authorization': accessToken,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.text();
+        } else {
+            return response.text().then(text => { throw new Error(text); });
+        }
+    })
+    .then(responseText => {
+        reload(); //reloads page when info is changed
+    })
+    .catch(error => {
+        console.error('Error:', error); // Log error message
+    });
+}
 
 
 //to be implemented later for users searcing you

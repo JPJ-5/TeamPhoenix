@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using TeamPhoenix.MusiCali.Logging;
 using static Org.BouncyCastle.Math.EC.ECCurve;
+using Google.Protobuf.WellKnownTypes;
 
 namespace TeamPhoenix.MusiCali.Services
 {
@@ -37,7 +38,7 @@ namespace TeamPhoenix.MusiCali.Services
                 var localFiles = DownloadFilesLocally(fileInfo);
                 if (localFiles == new List<string>())
                 {
-                    loggerService.LogError(username, "Error", "Data", "ArtistPortfolio, Error connecting to server and downloading files locally");
+                    loggerService.LogSuccessFailure(username, "Error", "Data", "ArtistPortfolio, Error connecting to server and downloading files locally");
                     return new ArtistProfileViewModel();
                 }
                 var genreList = file[1];
@@ -53,6 +54,7 @@ namespace TeamPhoenix.MusiCali.Services
                     Occupation = artistInfo[0],
                     Bio = artistInfo[1],
                     Location = artistInfo[2],
+                    Visibility = bool.Parse(artistInfo[3]),
                     File0 = GetFileBase64(localFiles[0]),
                     File1 = GetFileBase64(localFiles[1]),
                     File2 = GetFileBase64(localFiles[2]),
@@ -178,12 +180,12 @@ namespace TeamPhoenix.MusiCali.Services
             }
             catch (Renci.SshNet.Common.SshConnectionException sshEx)
             {
-                loggerService.LogError(username!, "Error", "Data", "ArtistPortfolio, Unable to connect to server and Upload file");
+                loggerService.LogSuccessFailure(username!, "Error", "Data", "ArtistPortfolio, Unable to connect to server and Upload file");
                 return new Result { Success = false, ErrorMessage = sshEx.Message };
             }
             catch (Renci.SshNet.Common.SshAuthenticationException authEx)
             {
-                loggerService.LogError(username!, "Error", "Data", "ArtistPortfolio, Unable to connect to server and Upload file");
+                loggerService.LogSuccessFailure(username!, "Error", "Data", "ArtistPortfolio, Unable to connect to server and Upload file");
                 return new Result { Success = false, ErrorMessage = authEx.Message };
             }
             catch (Exception ex)
@@ -253,12 +255,12 @@ namespace TeamPhoenix.MusiCali.Services
             }
             catch (Renci.SshNet.Common.SshConnectionException sshEx)
             {
-                loggerService.LogError(username!, "Error", "Data", "ArtistPortfolio, Unable to connect to server and Delete file");
+                loggerService.LogSuccessFailure(username!, "Error", "Data", "ArtistPortfolio, Unable to connect to server and Delete file");
                 return new Result { Success = false, ErrorMessage = sshEx.Message };
             }
             catch (Renci.SshNet.Common.SshAuthenticationException authEx)
             {
-                loggerService.LogError(username!, "Error", "Data", "ArtistPortfolio, Unable to connect to server and Delete file");
+                loggerService.LogSuccessFailure(username!, "Error", "Data", "ArtistPortfolio, Unable to connect to server and Delete file");
                 return new Result { Success = false, ErrorMessage = authEx.Message };
             }
             catch (Exception ex)

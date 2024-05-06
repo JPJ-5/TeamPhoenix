@@ -156,7 +156,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 string occ = "";
                 string bio = "";
                 string loc = "";
-                string query = $"SELECT ArtistOccupation, ArtistBio, ArtistLocation FROM ArtistProfile WHERE Username = @Username";
+                string query = $"SELECT ArtistOccupation, ArtistBio, ArtistLocation, ArtistCollabSearchVisibility FROM ArtistProfile WHERE Username = @Username";
 
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
@@ -227,9 +227,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 occ = reader[$"ArtistOccupation"].ToString() ?? string.Empty;
                                 bio = reader[$"ArtistBio"].ToString() ?? string.Empty;
                                 loc = reader[$"ArtistLocation"].ToString() ?? string.Empty;
+                                bool vis = reader.GetBoolean(reader.GetOrdinal("ArtistCollabSearchVisibility"));
                                 artistInfo.Add(occ);
                                 artistInfo.Add(bio);
                                 artistInfo.Add(loc);
+                                artistInfo.Add(vis.ToString());
                             }
                             else
                             {
@@ -278,6 +280,34 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
 
                 throw new Exception($"An error occurred adding info to database: {ex.Message}");
+            }
+        }
+
+        public Result updateVisibility(string username, bool? visibility)
+        {
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Update the file path in the database
+                    var query = $"UPDATE ArtistProfile SET ArtistCollabSearchVisibility = @visibility WHERE Username = @Username";
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@visibility", visibility);
+                        command.Parameters.AddWithValue("@Username", username);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                return new Result { Success = true };
+            }
+            catch (Exception ex)
+            {
+
+                return new Result() { Success = false, ErrorMessage = $"An error occurred updating visibilitye: {ex.Message}" };
             }
         }
 

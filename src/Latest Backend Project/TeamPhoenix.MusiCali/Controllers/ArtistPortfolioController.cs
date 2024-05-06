@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Ocsp;
 using System;
 using System.Configuration;
 using System.IO;
@@ -8,6 +9,7 @@ using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Logging;
 using TeamPhoenix.MusiCali.Services;
+using TeamPhoenix.MusiCali.TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
@@ -36,14 +38,15 @@ namespace TeamPhoenix.MusiCali.Controllers
                 ArtistProfileViewModel artistProfileViewModel = artistPortfolio.LoadArtistProfile(Username);
                 if(artistProfileViewModel == new ArtistProfileViewModel())
                 {
-                    loggerService.LogError(Username, "Error", "Data", "ArtistPortfolio, Profile was not able to be loaded");
+                    loggerService.LogSuccessFailure(Username, "Error", "Data", "ArtistPortfolio, Profile was not able to be loaded");
                     return StatusCode(500, $"Error loading artist profile");
                 }
+                loggerService.LogSuccessFailure(Username, "Info", "View", $"ArtistPortfolio,  View successfully loaded");
                 return Ok(artistProfileViewModel);
             }
             catch (Exception ex)
             {
-                loggerService.LogError(Username, "Error", "Data", "ArtistPortfolio, Profile was not able to be loaded");
+                loggerService.LogSuccessFailure(Username, "Error", "Data", "ArtistPortfolio, Profile was not able to be loaded");
                 return StatusCode(500, $"Error loading artist profile: {ex.Message}");
             }
         }
@@ -60,17 +63,18 @@ namespace TeamPhoenix.MusiCali.Controllers
                 var result = await artistPortfolio.UploadFile(model.Username, model.Slot, model.File!, model.Genre, model.Desc);
                 if (result.Success)
                 {
+                    loggerService.LogSuccessFailure(model.Username!, "Info", "Data", $"ArtistPortfolio, File successfully uploaded");
                     return Ok("File uploaded successfully.");
                 }
                 else
                 {
-                    loggerService.LogError(model.Username!, "Error", "Data", "ArtistPortfolio, File was not able to be uploaded");
+                    loggerService.LogSuccessFailure(model.Username!, "Error", "Data", "ArtistPortfolio, File was not able to be uploaded");
                     return StatusCode(500, $"Failed to upload file: {result.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
-                loggerService.LogError(model.Username!, "Error", "Data", "ArtistPortfolio, Fileile was not able to be uploaded");
+                loggerService.LogSuccessFailure(model.Username!, "Error", "Data", "ArtistPortfolio, Fileile was not able to be uploaded");
                 return StatusCode(500, $"Error uploading file: {ex.Message}");
             }
         }
@@ -87,11 +91,12 @@ namespace TeamPhoenix.MusiCali.Controllers
                 var result = artistPortfolioDao.updateInfo(username, section, info);
                 if (result.Success)
                 {
+                    loggerService.LogSuccessFailure(username, "Info", "Data", $"ArtistPortfolio, Info section successfully updated");
                     return Ok("Info uploaded successfully.");
                 }
                 else
                 {
-                    loggerService.LogError(username, "Error", "Data", "ArtistPortfolio, Artist info was not able to be uploaded");
+                    loggerService.LogSuccessFailure(username, "Error", "Data", "ArtistPortfolio, Artist info was not able to be uploaded");
                     return BadRequest($"Failed to upload info: {result.ErrorMessage}");
                 }
             }
@@ -112,17 +117,18 @@ namespace TeamPhoenix.MusiCali.Controllers
                 var result = artistPortfolioDao.DeleteSection(username, section);
                 if (result.Success)
                 {
+                    loggerService.LogSuccessFailure(username, "Info", "Data", $"ArtistPortfolio, Info section successfully deleted");
                     return Ok("Section deleted successfully.");
                 }
                 else
                 {
-                    loggerService.LogError(username, "Error", "Data", "ArtistPortfolio, Info was not able to be deleted");
+                    loggerService.LogSuccessFailure(username, "Error", "Data", "ArtistPortfolio, Info was not able to be deleted");
                     return BadRequest($"Failed to delete section info: {result.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
-                loggerService.LogError(username, "Error", "Data", "ArtistPortfolio, Info was not able to be deleted");
+                loggerService.LogSuccessFailure(username, "Error", "Data", "ArtistPortfolio, Info was not able to be deleted");
                 return StatusCode(500, $"Error deleting portfolio info: {ex.Message}");
             }
         }
@@ -135,14 +141,30 @@ namespace TeamPhoenix.MusiCali.Controllers
             try
             {
                 var result = artistPortfolio.DeleteFile(user, fileSlot);
+                loggerService.LogSuccessFailure(req.Username!, "Info", "Data", $"ArtistPortfolio, File successfully deleted");
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                loggerService.LogError(user!, "Error", "Data", "ArtistPortfolio, File was not able to be deleted");
+                loggerService.LogSuccessFailure(user!, "Error", "Data", "ArtistPortfolio, File was not able to be deleted");
                 return StatusCode(500, $"Error deleting portfolio File: {ex.Message}");
             }
         }
 
+        [HttpPost("api/updateVisibility")]
+        public IActionResult UpdateVis([FromBody] PortfolioVisibility vis)
+        {
+            try
+            {
+                var result = artistPortfolioDao.updateVisibility(vis.Username!, vis.Visibility);
+                loggerService.LogSuccessFailure(vis.Username!, "Info", "Business", $"ArtistPortfolio, Portfolio updated to {vis.Visibility}");
+                return Ok(result);
+            } 
+            catch (Exception ex)
+            {
+                loggerService.LogSuccessFailure(vis.Username!, "Error", "Data", "ArtistPortfolio, Unable to update user visibility");
+                return StatusCode(500, $"Error updating visibility: {ex.Message}");
+            }
+        }
     }
 }

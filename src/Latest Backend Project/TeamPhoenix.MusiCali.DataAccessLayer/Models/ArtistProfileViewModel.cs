@@ -12,6 +12,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
         public string? Occupation { get; set; }
         public string? Bio { get; set; }
         public string? Location { get; set; }
+        public bool? Visibility { get; set; }
         public string? File0 { get; set; }
         public string? File0Name { get; set; }
         public string? File0Ext { get; set; }

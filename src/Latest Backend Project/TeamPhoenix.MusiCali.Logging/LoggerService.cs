@@ -41,7 +41,7 @@ namespace TeamPhoenix.MusiCali.Logging
             return result;
         }
 
-        public void LogError(string Username, string Level, string Category, string Context)
+        public void LogSuccessFailure(string Username, string Level, string Category, string Context)
         {
             var userHash = recoverUserDAO?.GetUserHash(Username);
             mariaDBDAO?.CreateLog(userHash!, Level, Category, Context);
