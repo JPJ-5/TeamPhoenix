@@ -1,4 +1,10 @@
+
+function setupInventoryStockView() {
+    fetchInventoryStock();
+}
+
 var baseUrl = 'http://localhost:8080';
+
 function fetchInventoryStock() {
     const username = sessionStorage.getItem("username");
     const resultsDiv = document.getElementById('inventoryResults');
@@ -9,7 +15,7 @@ function fetchInventoryStock() {
     loadingIndicator.style.display = 'block';
     resultsDiv.innerHTML = '';
 
-    fetch(`${baseUrl}/api/inventorystock`, {
+    fetch(`${baseUrl}/SellerDashboard/api/GetInventoryStock`, {
         method: 'GET',
         headers: {
             'Authentication': idToken,
