@@ -31,7 +31,7 @@ public class InventoryStockController : ControllerBase
             {
                 var stockList = await itemService.RequestInventoryStockList(username);
 
-                return stockList.Count > 0 ? Ok(stockList) : NotFound("No stock items found.");
+                return stockList.Count > 0 ? Ok(stockList) : BadRequest("No stock items found.");
             }
             else
             {
