@@ -38,7 +38,6 @@ function loadProfileData(username) {
             }
         })
         .then(profileData => {
-            console.log(profileData);
             displayArtistProfile(profileData);
         })
         .catch(error => {
@@ -481,7 +480,6 @@ function updateVis(vis) {
     var activeUsername = sessionStorage.getItem('username');
     idToken = sessionStorage.getItem("idToken");
     accessToken = sessionStorage.getItem("accessToken");
-    console.log(vis)
     var payload = {
         username: activeUsername,
         visibility: vis
