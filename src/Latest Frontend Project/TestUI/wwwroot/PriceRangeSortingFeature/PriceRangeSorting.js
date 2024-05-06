@@ -3,7 +3,8 @@ let lastBottomPrice = null;
 let lastTopPrice = null;
 let currentPage = 1;
 let pageSize = document.getElementById('pageSize').value;
-var baseUrl = 'http://localhost:8080';
+var baseUrl = 'https://themusicali.com:5000';
+//var baseUrl = 'http://localhost:8080';
 
 function fetchItems() {
     const bottomPrice = document.getElementById('bottomPrice').value;
