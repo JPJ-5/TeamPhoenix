@@ -911,6 +911,7 @@
             showLoginFormButton.style.display = 'none'; // Hide the login button
             el.style.display = 'none';
         });
+        var activeUsername = document.getElementById("username").value;
 
         // Show the Financial Progress Report view
         const container = document.getElementById('artistPortfolioView');
@@ -919,7 +920,7 @@
         // Load the CSS dynamically
         const cssLink = document.createElement('link');
         cssLink.rel = 'stylesheet';
-        cssLink.href = 'ArtistPortfolioFeature/ArtistPortfolioStyles.css'; // Adjust path as needed
+        cssLink.href = '/ArtistPortfolioFeature/ArtistPortfolioStyles.css'; // Adjust path as needed
         document.head.appendChild(cssLink);
 
         // Fetch the HTML content and then load the JS
@@ -935,8 +936,9 @@
 
                 // Load and execute JavaScript after the HTML is loaded
                 const jsScript = document.createElement('script');
-                jsScript.src = 'ArtistPortfolioFeature/ArtistPortfolio.js'; // Adjust path as needed
+                jsScript.src = '/ArtistPortfolioFeature/ArtistPortfolio.js'; // Adjust path as needed
                 jsScript.onload = function () {
+                    loadProfileData(activeUsername);
                 };
                 jsScript.onerror = function () {
                     console.error('Failed to load Artist Portfolio JS.');
