@@ -20,7 +20,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
         }
 
-        public Result SaveFilePath(string username, int slot, string filePath, string genre, string desc)
+        public Result SaveFilePath(string username, int? slot, string filePath, string genre, string desc)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw new Exception($"An error occurred adding file path to the database: {ex.Message}");
+                return new Result() { Success = false, ErrorMessage = $"An error occurred adding file path to the database: {ex.Message}" };
             }
         }
 
@@ -104,7 +104,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw new Exception($"An error occurred deleting file path from the database: {ex.Message}");
+                return new Result() { Success = false, ErrorMessage = $"An error occurred deleting file path from the database: {ex.Message}" };
             }
         }
 
@@ -138,9 +138,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
                 return filePath!;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception($"An error occurred retrieving file path from server: {ex.Message}");
+                return "";
             }
         }
 
@@ -246,9 +246,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 ProfileData.Add(artistInfo);
                 return ProfileData;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception($"An error occurred retrieving all profile data: {ex.Message}");
+                return new List<List<string>>();  
             }
         }
 
@@ -276,6 +276,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             catch (Exception ex)
             {
+
                 throw new Exception($"An error occurred adding info to database: {ex.Message}");
             }
         }
@@ -303,9 +304,10 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw new Exception($"An error occurred deleting section from the database: {ex.Message}");
+                return new Result() { Success = false, ErrorMessage = $"An error occurred deleting section from the database: {ex.Message}" };
             }
         }
 
     }
 }
+        

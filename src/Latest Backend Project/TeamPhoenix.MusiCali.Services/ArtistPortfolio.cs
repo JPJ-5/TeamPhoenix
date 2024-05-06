@@ -7,6 +7,8 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using Renci.SshNet;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
+using TeamPhoenix.MusiCali.Logging;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace TeamPhoenix.MusiCali.Services
 {
@@ -14,25 +16,36 @@ namespace TeamPhoenix.MusiCali.Services
     {
         private readonly IConfiguration config;
         private readonly ArtistPortfolioDao artistPortfolioDao;
-        
+        private LoggerService loggerService;
+
         public ArtistPortfolio(IConfiguration configuration)
         {
             config = configuration;
             artistPortfolioDao = new ArtistPortfolioDao(configuration);
+            loggerService = new LoggerService(configuration);
         }
         public ArtistProfileViewModel LoadArtistProfile(string username)
         {
             try 
             {
                 var file = artistPortfolioDao.GetPortfolio(username);
+                if (file == new List<List<string>>())
+                {
+                    return new ArtistProfileViewModel();
+                }
                 var fileInfo = file[0];
                 var localFiles = DownloadFilesLocally(fileInfo);
+                if (localFiles == new List<string>())
+                {
+                    loggerService.LogError(username, "Error", "Data", "ArtistPortfolio, Error connecting to server and downloading files locally");
+                    return new ArtistProfileViewModel();
+                }
                 var genreList = file[1];
                 var descList = file[2];
                 var artistInfo = file[3];
                 if (artistInfo == null || fileInfo == null)
                 {
-                    throw new Exception($"Unable to access profile data");
+                    return new ArtistProfileViewModel();
                 }
 
                 var responseData = new ArtistProfileViewModel
@@ -78,9 +91,9 @@ namespace TeamPhoenix.MusiCali.Services
 
                 return responseData;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception($"error in loading service for artist portfolio {ex.Message}");
+                return new ArtistProfileViewModel();
             }
         }
 
@@ -150,7 +163,11 @@ namespace TeamPhoenix.MusiCali.Services
                         scpClient.Upload(new FileInfo(localFilePath), remoteFilePath + fileName);
 
                         // Save the file path to the database
-                        artistPortfolioDao.SaveFilePath(username, slot, remoteFilePath + fileName, genre, desc);
+                        var res = artistPortfolioDao.SaveFilePath(username!, slot, remoteFilePath + fileName, genre!, desc!);
+                        if (res.Success == false)
+                        {
+                            return new Result { Success = false, ErrorMessage = "unable to save filepath" };
+                        }
                     }
 
 
@@ -159,10 +176,18 @@ namespace TeamPhoenix.MusiCali.Services
 
                 return new Result { Success = true };
             }
+            catch (Renci.SshNet.Common.SshConnectionException sshEx)
+            {
+                loggerService.LogError(username!, "Error", "Data", "ArtistPortfolio, Unable to connect to server and Upload file");
+                return new Result { Success = false, ErrorMessage = sshEx.Message };
+            }
+            catch (Renci.SshNet.Common.SshAuthenticationException authEx)
+            {
+                loggerService.LogError(username!, "Error", "Data", "ArtistPortfolio, Unable to connect to server and Upload file");
+                return new Result { Success = false, ErrorMessage = authEx.Message };
+            }
             catch (Exception ex)
             {
-                // Log the exception for troubleshooting
-                Console.WriteLine($"Error uploading file: {ex.Message}");
                 return new Result { Success = false, ErrorMessage = ex.Message };
             }
             finally
@@ -181,6 +206,10 @@ namespace TeamPhoenix.MusiCali.Services
             {
                 // Get the file path from the database
                 string filePath = artistPortfolioDao.GetFilePath(username, slot);
+                if (filePath == "")
+                {
+                    return new Result { Success = false, ErrorMessage = "error finding filepath to delete" };
+                }
 
                 string? privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY"); // access backend vm enviromental variable
                 var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
@@ -212,16 +241,28 @@ namespace TeamPhoenix.MusiCali.Services
                     sshClient.Disconnect();
 
                     // Update the file path in the database to null
-                    artistPortfolioDao.DeleteFilePath(username, slot);
+                    var res = artistPortfolioDao.DeleteFilePath(username, slot);
+                    if (res.Success == false)
+                    {
+                        return new Result { Success = false, ErrorMessage = "error finding filepath to delete" };
+                    }
 
                 }
 
                 return new Result { Success = true };
             }
+            catch (Renci.SshNet.Common.SshConnectionException sshEx)
+            {
+                loggerService.LogError(username!, "Error", "Data", "ArtistPortfolio, Unable to connect to server and Delete file");
+                return new Result { Success = false, ErrorMessage = sshEx.Message };
+            }
+            catch (Renci.SshNet.Common.SshAuthenticationException authEx)
+            {
+                loggerService.LogError(username!, "Error", "Data", "ArtistPortfolio, Unable to connect to server and Delete file");
+                return new Result { Success = false, ErrorMessage = authEx.Message };
+            }
             catch (Exception ex)
             {
-                // Log the exception for troubleshooting
-                Console.WriteLine($"Error deleting file from server: {ex.Message}");
                 return new Result { Success = false, ErrorMessage = ex.Message };
             }
         }
@@ -294,50 +335,18 @@ namespace TeamPhoenix.MusiCali.Services
 
                 return localFilePaths;
             }
-            catch (Renci.SshNet.Common.SshConnectionException sshEx)
+            catch (Renci.SshNet.Common.SshConnectionException)
             {
-                throw new Exception($"SSH connection error: {sshEx.Message}", sshEx);
+                return new List<string>();
             }
-            catch (Renci.SshNet.Common.SshAuthenticationException authEx)
+            catch (Renci.SshNet.Common.SshAuthenticationException)
             {
-                throw new Exception($"SSH authentication error: {authEx.Message}", authEx);
+                return new List<string>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Log the exception for troubleshooting
-                throw new Exception($"Error downloading files locally: {ex.Message}", ex);
-            }
-        }
-
-
-        public void DeleteLocalFiles(List<string> filePaths)
-        {
-            try
-            {
-                foreach (var filePath in filePaths)
-                {
-                    if (!string.IsNullOrEmpty(filePath))
-                    {
-                        // Check if the file exists locally
-                        if (File.Exists(filePath))
-                        {
-                            // Delete the file
-                            File.Delete(filePath);
-                        }
-                        else
-                        {
-                            // Log a message indicating that the file does not exist locally
-                            Console.WriteLine($"File does not exist at path: {filePath}");
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log any exceptions that occur during file deletion
-                throw new Exception($"Error deleting local files: {ex.Message}");
+                return new List<string>();
             }
         }
-
     }
 }

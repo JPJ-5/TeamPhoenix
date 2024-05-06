@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using TeamPhoenix.MusiCali.Logging;
 using TeamPhoenix.MusiCali.Services;
 
 namespace TeamPhoenix.MusiCali.Controllers
@@ -16,11 +18,13 @@ namespace TeamPhoenix.MusiCali.Controllers
         private readonly IConfiguration? config;
         private readonly ArtistPortfolio artistPortfolio;
         private readonly ArtistPortfolioDao artistPortfolioDao;
+        private LoggerService loggerService;
 
         public ArtistPortfolioController(IConfiguration _config){
             config = _config;
             artistPortfolioDao = new ArtistPortfolioDao(_config);
-            artistPortfolio = new ArtistPortfolio(config);
+            artistPortfolio = new ArtistPortfolio(_config);
+            loggerService = new LoggerService(_config);
         }
 
 
@@ -30,10 +34,16 @@ namespace TeamPhoenix.MusiCali.Controllers
             try
             {
                 ArtistProfileViewModel artistProfileViewModel = artistPortfolio.LoadArtistProfile(Username);
+                if(artistProfileViewModel == new ArtistProfileViewModel())
+                {
+                    loggerService.LogError(Username, "Error", "Data", "ArtistPortfolio, Profile was not able to be loaded");
+                    return StatusCode(500, $"Error loading artist profile");
+                }
                 return Ok(artistProfileViewModel);
             }
             catch (Exception ex)
             {
+                loggerService.LogError(Username, "Error", "Data", "ArtistPortfolio, Profile was not able to be loaded");
                 return StatusCode(500, $"Error loading artist profile: {ex.Message}");
             }
         }
@@ -54,11 +64,13 @@ namespace TeamPhoenix.MusiCali.Controllers
                 }
                 else
                 {
+                    loggerService.LogError(model.Username!, "Error", "Data", "ArtistPortfolio, File was not able to be uploaded");
                     return StatusCode(500, $"Failed to upload file: {result.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
+                loggerService.LogError(model.Username!, "Error", "Data", "ArtistPortfolio, Fileile was not able to be uploaded");
                 return StatusCode(500, $"Error uploading file: {ex.Message}");
             }
         }
@@ -79,6 +91,7 @@ namespace TeamPhoenix.MusiCali.Controllers
                 }
                 else
                 {
+                    loggerService.LogError(username, "Error", "Data", "ArtistPortfolio, Artist info was not able to be uploaded");
                     return BadRequest($"Failed to upload info: {result.ErrorMessage}");
                 }
             }
@@ -91,10 +104,10 @@ namespace TeamPhoenix.MusiCali.Controllers
         [HttpPost("api/delInfoApi")]
         public IActionResult DeleteInfo([FromBody] List<string> sectionRequest)
         {
+            var username = sectionRequest[0];
+            var section = sectionRequest[1];
             try
             {
-                var username = sectionRequest[0];
-                var section = sectionRequest[1];
                 // Save the information to the database
                 var result = artistPortfolioDao.DeleteSection(username, section);
                 if (result.Success)
@@ -103,11 +116,13 @@ namespace TeamPhoenix.MusiCali.Controllers
                 }
                 else
                 {
+                    loggerService.LogError(username, "Error", "Data", "ArtistPortfolio, Info was not able to be deleted");
                     return BadRequest($"Failed to delete section info: {result.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
+                loggerService.LogError(username, "Error", "Data", "ArtistPortfolio, Info was not able to be deleted");
                 return StatusCode(500, $"Error deleting portfolio info: {ex.Message}");
             }
         }
@@ -124,6 +139,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
             catch (Exception ex)
             {
+                loggerService.LogError(user!, "Error", "Data", "ArtistPortfolio, File was not able to be deleted");
                 return StatusCode(500, $"Error deleting portfolio File: {ex.Message}");
             }
         }
