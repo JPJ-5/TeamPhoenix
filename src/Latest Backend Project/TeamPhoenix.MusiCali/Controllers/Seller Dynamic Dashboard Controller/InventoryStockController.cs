@@ -2,22 +2,23 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
-
+[ApiController]
+[Route("SellerDashboard")]
 public class InventoryStockController : ControllerBase
 {
-    private readonly InventoryStockService _itemService;
+    private readonly InventoryStockService itemService;
 
     public InventoryStockController(IConfiguration configuration)
     {
-        _itemService = new InventoryStockService(configuration);
+        itemService = new InventoryStockService(configuration);
     }
 
-    [HttpGet("api/inventorystock")]
+    [HttpGet("api/GetInventoryStock")]
     public async Task<IActionResult> GetInventoryStock([FromHeader]string username)
     {
         try
         {
-            var stockList = await _itemService.RequestInventoryStockList(username);
+            var stockList = await itemService.RequestInventoryStockList(username);
             
             return stockList.Count > 0 ? Ok(stockList) : NotFound("No stock items found.");
         }
