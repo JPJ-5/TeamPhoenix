@@ -233,3 +233,7 @@ tr:hover {background-color: #ddd;}
 .button:hover {
     background-color: #0a3f6e; /* Darker shade for hover effect */
 }
+
+.error {
+    color:#ff2d2d;
+}

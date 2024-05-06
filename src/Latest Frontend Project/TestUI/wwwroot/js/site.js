@@ -54,6 +54,9 @@
         sessionStorage.clear()
         //var email = document.getElementById("email").value;
         var username = document.getElementById("username").value;
+        var loginerror = document.getElementById('login-error');
+        loginerror.innerHTML = '';
+        //loginerror.style.display = 'none';
 
         var checkUsernameApiUrl = baseUrl + '/Login/api/CheckUsernameAPI?';
 
@@ -74,13 +77,19 @@
                     // Optionally, show OTP form
                     document.getElementById("otp-form").style.display = 'block';
                     document.getElementById('account-recovery-section').style.display = 'none';
+                    //loginerror.style.display = 'none';
+                    loginerror.innerHTML = ''
                 } else {
                     // Email does not exist
                     alert("Email does not exist or the account is disabled try account recovery.");
+                    //loginerror.style.display = 'block';
+                    loginerror.innerHTML = 'Email nonexistent or needs recovery';
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
+                //loginerror.style.display = 'block';
+                loginerror.innerHTML = 'Connection Error';
             });
     });
 
@@ -697,6 +706,9 @@
         var dob = document.getElementById('dob').value;
         var uname = document.getElementById('user-name').value;
         var bmail = document.getElementById('backup-email').value;
+        var registererror = document.getElementById('register-error');
+        registererror.innerHTML = '';
+
         console.log(bmail);
         // Create a URLSearchParams object to encode the data
         var params = new URLSearchParams();
@@ -724,11 +736,12 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                registererror.innerHTML='';
                 // Handle success (e.g., show success message)
             })
             .catch((error) => {
                 console.error('Error:', error);
-                // Handle error (e.g., show error message)
+                registererror.innerHTML = 'Error';
             });
     });
 
