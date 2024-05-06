@@ -83,8 +83,8 @@ function fetchFPR(frequency) {
             return response.json();
         })
         .then(data => {
-            console.log(username);
-            console.log(data);
+            // console.log(username);
+            // console.log(data);
             if (data.length === 0) {
                 resultsDiv.innerHTML = '<p>No Financial Report Available</p>';
             } else {
