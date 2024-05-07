@@ -1,4 +1,6 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+
+
+document.addEventListener('DOMContentLoaded', function () {
     const params = new URLSearchParams(window.location.search);
     const sku = params.get('sku');
 
@@ -52,7 +54,7 @@ document.querySelectorAll('.thumbnail').forEach(item => {
 
 
 function fetchItemDetails(sku) {
-    fetch(`http://localhost:8080/api/GetItemDetail?sku=${sku}`, { // Adjust the URL based on your actual API URL
+    fetch(baseUrl + `/api/GetItemDetail?sku=${sku}`, { // Adjust the URL based on your actual API URL
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
