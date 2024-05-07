@@ -100,7 +100,7 @@ namespace TeamPhoenix.MusiCali.Controllers
 
             try
             {
-
+                Console.WriteLine(userName);
                 CollabData result = CollabFeature.LoadCollabFeature(userName);
 
                 return Ok(result);
@@ -108,7 +108,8 @@ namespace TeamPhoenix.MusiCali.Controllers
 
             catch(Exception ex){
 
-                throw new Exception("Could not load the collabs" + ex.Message);
+                Console.WriteLine("Could not load the collabs" + ex.Message);
+                return BadRequest("Collab Not Available Right Now");
             }
         }
 
