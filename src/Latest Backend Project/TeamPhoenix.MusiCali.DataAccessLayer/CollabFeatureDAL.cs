@@ -88,7 +88,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                         {
                             result.Success = false;
                             result.ErrorMessage = "Failed to insert collab record";
-                            //throw new Exception("Failed to insert collab record");
                             return result;
                         }
                     }
@@ -156,7 +155,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
 
-                string query = "SELECT * FROM Collab WHERE SenderUsername = @username, Accepted = FALSE";
+                string query = "SELECT RecieverUsername FROM Collab WHERE SenderUsername != @username AND Accepted = FALSE";
 
                 sentCollabs = RetrieveCollabs(connection, query, username);
             }
@@ -172,16 +171,19 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
                 
-                string sql = "SELECT * FROM Collab WHERE ReceiverUsername = @username, Accepted = FALSE,";
+                string sql = "SELECT * FROM Collab WHERE RecieverUsername = @username AND Accepted = FALSE";
                 
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
+                    command.Parameters.AddWithValue("@username", username);
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        while (reader.Read())
                         {
-                            string senderUsername = reader.GetString("SenderUsername");
-                            receivedCollabs.Add(senderUsername);
+                            while (reader.Read())
+                            {
+                                string senderUsername = reader.GetString(0);
+                                receivedCollabs.Add(senderUsername);
+                            }
                         }
                     }
                 }
@@ -203,8 +205,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
 
-                string sentQuery = "SELECT * SenderUsername WHERE SenderUsername != @username, Accepted = true";
-                string receivedQuery = "SELECT * ReceiverUsername WHERE ReceiverUsername != @username, Accepted = true";
+                string sentQuery = "SELECT SenderUsername FROM Collab WHERE SenderUsername != @username AND Accepted = true";
+                string receivedQuery = "SELECT RecieverEmail FROM Collab WHERE RecieverUsername != @username AND Accepted = true";
 
                 sentCollabs = RetrieveCollabs(connection,sentQuery, username);
                 receivedCollabs = RetrieveCollabs(connection, receivedQuery, username);
