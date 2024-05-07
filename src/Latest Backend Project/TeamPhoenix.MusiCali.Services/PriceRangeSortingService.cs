@@ -4,24 +4,27 @@ using Microsoft.Extensions.Logging;
 
 public class ItemService
 {
-    private readonly DataAccessLayer _dataAccessLayer;
-    private readonly LoggerService _loggerService;
-    private readonly IConfiguration _configuration;
+    private readonly DataAccessLayer _dataAccessLayer; // Dependency for data access operations
+    private readonly LoggerService _loggerService; // Dependency for logging
+    private readonly IConfiguration _configuration; // Dependency for configuration settings
 
+    // Constructor to initialize dependencies
     public ItemService(DataAccessLayer dataAccessLayer, IConfiguration configuration)
     {
-        _dataAccessLayer = dataAccessLayer;
-        _loggerService = new LoggerService(configuration);
-        _configuration = configuration;
+        _dataAccessLayer = dataAccessLayer; // Assigning the Data Access Layer
+        _loggerService = new LoggerService(configuration); // Initializing logger with configuration
+        _configuration = configuration; // Assigning the configuration
     }
 
+    // Method to get filtered and paginated items
     public async Task<(HashSet<Item> items, string message, int totalCount)> GetPagedFilteredItems(int pageNumber, int pageSize, string? name = null, decimal? bottomPrice = null, decimal? topPrice = null)
     {
-        string userHash = "e12a8f14d3623f5206c060b0d1fba3d7105afc5062d13173aa17866d3b53b0d6";
-        string logContext = $"Username: {"Anonymous"}, Page: {pageNumber}, PageSize: {pageSize}, NameFilter: {name}, BottomPrice: {bottomPrice}, TopPrice: {topPrice}";
+        string userHash = "e12a8f14d3623f5206c060b0d1fba3d7105afc5062d13173aa17866d3b53b0d6"; // Example user hash
+        string logContext = $"Username: {"Anonymous"}, Page: {pageNumber}, PageSize: {pageSize}, NameFilter: {name}, BottomPrice: {bottomPrice}, TopPrice: {topPrice}"; // Log context string
 
         try
         {
+            // Fetching items using DAL
             var result = await _dataAccessLayer.FetchPagedItems(pageNumber, pageSize, name, bottomPrice, topPrice);
             var items = result.items;
             var totalCount = result.totalCount;
@@ -40,6 +43,7 @@ public class ItemService
                 return (new HashSet<Item>(), errorMessage, totalCount);
             }
 
+            // Success log entry
             string successMessage = $"Fetched {items.Count} items out of {totalCount}.";
             _loggerService.CreateLog(userHash, LogLevel.Information.ToString(), "Item Retrieval", successMessage + " " + logContext);
             return (items, successMessage, totalCount);
@@ -52,6 +56,7 @@ public class ItemService
         }
     }
 
+    // Method to get the total count of items
     public async Task<(int count, string message)> GetTotalItemCount()
     {
         string userHash = "e12a8f14d3623f5206c060b0d1fba3d7105afc5062d13173aa17866d3b53b0d6";
@@ -65,6 +70,7 @@ public class ItemService
                 return (0, errorMessage);
             }
 
+            // Success message for item count
             string successMessage = $"Total items count: {itemCount}.";
             _loggerService.CreateLog(userHash, LogLevel.Information.ToString(), "Item Count", successMessage);
             return (itemCount, successMessage);
