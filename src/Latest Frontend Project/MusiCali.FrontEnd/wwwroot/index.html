@@ -312,13 +312,13 @@
     <!-- Page for collab feature feature -->
     <div id="CollabFeatureView" style="display: none;">
         <h1 class="neon-text">Collab Feature</h1>
-        <p class= "neon-text">Collab Feature</p>
+        <p class="neon-text">Collab Feature</p>
         <p id="enter-collabFeature"></p>
         <div class="create-collabRequest">
             <!--<span class="popuptext" id="myPopup"></span>-->
             <label for="receiver">Enter Receiver Username:</label>
             <input type="text" id="receiver" placeholder="Insert Username Here">
-            <div class="popuptext" id="myPopup">
+            <div class="popuptext" id="createPopup">
                 <button id="create-collabRequest">Send A Request</button>
             </div>
         </div>
@@ -326,28 +326,19 @@
             <!-- Move onclick event to the outer button -->
             <label for="sender">Enter Sender Username:</label>
             <input type="text" id="sender" placeholder="Insert Username Here">
-            <div class="popuptext" id="myPopup">
+            <div class="popuptext" id="acceptPopup">
                 <button id="accept-collabRequest">Accept A Request</button>
             </div>
+        </div>
+        <select id="user-options">
+            <option value="View Sent Requests">View Sent</option>
+            <option value="View Accepted Requests">View Accepted</option>
+        </select>
         <div id="view-requests" style="margin-top: 20px;">
-            <select id="user-options">
-                <option value="View Sent Requests">View Sent</option>
-                <option value="View Accepted Requests">View Accepted</option>
-            </select>
             <button id="view-requests">See Collabs</button>
         </div>
-        <!-- <div id="view-collabs" style="float: right;">
-            <div class="info-slot" id="sent-requests">
-
-            </div>
-            <div class="info-slot" id="received-requests">
-
-            </div>
-            <div class="info-slot" id="accepted-requests">
-
-            </div> -->
-        </div> 
     </div>
+
     
 
      <!-- Page for bingo board feature-->
