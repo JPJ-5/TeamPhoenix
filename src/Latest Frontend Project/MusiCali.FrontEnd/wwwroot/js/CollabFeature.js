@@ -16,7 +16,12 @@ document.addEventListener('DOMContentLoaded', function () {
         displayCollabs();
     });
 
-    // Function t2o send collab request
+    document.getElementById('user-options').addEventListener('click', function(){
+
+        updateCollabSelection();
+    });
+
+    // Function to send collab request
     function sendCollabRequest(collabUser) {
         idToken = sessionStorage.getItem("idToken");
         accessToken = sessionStorage.getItem("accessToken");
@@ -62,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // })
         .catch(error => {
             console.error('Error:', error);
-            const feedbackBox = document.getElementById('enter-collabFeature');
+            const feedbackBox = document.getElementById('CollabFeatureView');
             feedbackBox.textContent = 'Error sending collab. Please try again.';
             feedbackBox.style.color = 'red';
         });
@@ -95,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }) 
         .then(response => response.json())
         .then(result => {
-            feedbackBox = document.getElementById('enter-collabFeature');
+            feedbackBox = document.getElementById('CollabFeatureView');
             feedbackBox.style.display = 'block';
             if (result.success) {
                 acceptCollabAlert();
@@ -117,10 +122,29 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // function displayCollabData(collabData){
+        
+    //     // var sentUsernames = collabData.sentCollabs //list of sent collabs
+    //     // var receivedUsernames = collabData.receivedUsernames //list of received collabs
+    //     // var acceptedUsernames = collabData.acceptedUsernames //list of accepted collabs
+    
+    //     var displayNames = document.getElementById('user-options'); //append child
+
+    //     var sentUsernames = document.createElement('p');
+    //     sentUsernames.textContent = `Sent Collabs:${collabData.sentCollabs}`;
+
+    //     displayNames.appendChild(sentUsernames)
+
+    //     displayNames.style.display = 'block';
+
+    //     alert("Sent Collabs: " + sentUsernames);
+    
+    // }
     // Function to display collab requests
     function displayCollabs() {
 
-        var username = sessionStorage.getItem("sender").value;
+        var selectedOption = document.getElementById('user-options').value;
+        var username = sessionStorage.getItem("username").value;
         var feedbackBox = document.getElementById('enter-collabFeature')
 
         idToken = sessionStorage.getItem("idToken");
@@ -129,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('http://localhost:8080/CollabFeature/api/LoadCollabsAPI',{
             method: 'GET',
             headers: {
-                //'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
                 'Authentication': idToken,
                 'Authorization': accessToken,
                 'userName': username
@@ -158,27 +182,34 @@ document.addEventListener('DOMContentLoaded', function () {
         // })
         .then(collabData => {
             console.log(collabData)
-            displayCollabData(collabData)
+
+            var displayNames = document.getElementById('user-options'); //append child
+            var sentUsernames = document.createElement('p');
+
+            displayNames.innerHTML = ''; //clears previous details
+
+            if(selectedOption === "View Sent Requests"){
+
+                sentUsernames.textContent = `Sent Collabs:${collabData.sentCollabs}`;
+                alert("Sent Collabs: " + collabData.sentCollabs)
+            }
+            else if (selectedOption === "View Accepted Requests") {
+                sentUsernames.textContent = `Accepted Collabs: ${collabData.acceptedCollabs}`;
+                alert("Accepted Collabs: " + collabData.acceptedCollabs);
+            }
+            displayNames.appendChild(sentUsernames)
+            displayNames.style.display = 'block';
         })
         .catch(error => {
             console.error('Error:', error);
             feedbackBox.textContent = 'Error loading collab requests. Please try again.';
+            feedbackBox.style.color = 'red';
         });
     }
 });
 
-function displayCollabData(collabData){
-
-    var sentUsernames = collabData.sentCollabs //list of sent collabs
-    var receivedUsernames = collabData.receivedUsernames //list of received collabs
-    var acceptedUsernames = collabData.acceptedUsernames //lsit of accepted collabs
-
-    displayElement.textContent = sentUsernames;
-
-}
-
 function collabSentAlert() {
-    var popup = document.getElementById('myPopup');
+    var popup = document.getElementById('createPopup');
     var receiver = document.getElementById("receiver").value;
 
     popup.classList.toggle("show");
@@ -186,7 +217,7 @@ function collabSentAlert() {
 }
 
 function acceptCollabAlert(){
-    var popup = document.getElementById('myPopup');
+    var popup = document.getElementById('acceptPopup');
     var sender = document.getElementById('sender').value;
 
     popup.classList.toggle("show");
@@ -195,23 +226,11 @@ function acceptCollabAlert(){
 
 
 
-//for later use
-function moveLeft() {
+function updateCollabSelection(){
     var selectBox = document.getElementById('user-options');
-    if (!selectBox) return;
     var selectedIndex = selectBox.selectedIndex;
-    if (selectedIndex > 0) {
-        selectBox.selectedIndex = selectedIndex - 1;
-        updateDisplay();
-    }
-}
 
-function moveRight() {
-    var selectBox = document.getElementById('user-options');
-    if (!selectBox) return;
-    var selectedIndex = selectBox.selectedIndex;
-    if (selectedIndex < selectBox.options.length - 1) {
-        selectBox.selectedIndex = selectedIndex + 1;
-        updateDisplay();
-    }
+    var selectedValue = selectBox.options[selectedIndex];
+    return selectedValue;
+
 }
