@@ -52,12 +52,6 @@ function fetchItems() {
     if (bottomPrice && topPrice) {
         url += `&bottomPrice=${bottomPrice}&topPrice=${topPrice}`;
     }
-    if (bottomPrice) {
-        url += `&bottomPrice=${bottomPrice}`;
-    }
-    if (topPrice) {
-        url += `&topPrice=${topPrice}`;
-    }
 
     fetch(url)
         .then(response => response.json())
