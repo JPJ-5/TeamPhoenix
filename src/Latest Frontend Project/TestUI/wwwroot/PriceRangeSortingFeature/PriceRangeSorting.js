@@ -56,8 +56,8 @@ function fetchItems() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            displayResults(data.items);
-            const totalPageCount = Math.ceil(data.totalCount / pageSize);
+            displayResults(data.data.items);
+            const totalPageCount = Math.ceil(data.data.totalCount / pageSize);
             document.getElementById('pageInfo').textContent = `Page ${currentPage} / ${totalPageCount}`;
             document.getElementById('prevPage').disabled = currentPage <= 1;
             document.getElementById('nextPage').disabled = currentPage >= totalPageCount;
