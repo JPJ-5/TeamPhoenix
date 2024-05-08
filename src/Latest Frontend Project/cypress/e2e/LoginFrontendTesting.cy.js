@@ -1,3 +1,4 @@
+const apiKey= '7138e4e54658683686ffe75c6759a738fea535711e13bc025b5eb36c86e5c1fe';
 
 describe('blank cases', () => {
     describe('register blank', () => {
@@ -31,9 +32,9 @@ describe('signin/signup cases', () => {
     let inboxId;
     let emailAddress;
     let username = 'cypresstester';
-    beforeEach(() => {
+    it('should create account w/ mailslurp', () => {
         cy.mailslurp({
-            apiKey: '7138e4e54658683686ffe75c6759a738fea535711e13bc025b5eb36c86e5c1fe'
+            apiKey
         }).then(mailslurp => mailslurp.createInbox())
             .then(inbox => {
                 //cy.wrap(inbox.id).as('inboxId');
@@ -41,9 +42,9 @@ describe('signin/signup cases', () => {
                 inboxId = inbox.id;
                 emailAddress = inbox.emailAddress;
             }) ;
-    });
+    })
         
-    describe('registration', () => {
+    describe('registration & login', () => {
         it('should register when boxes are filled out correctly', () => {
             cy.visit('http://localhost:8800/');
 
@@ -64,21 +65,19 @@ describe('signin/signup cases', () => {
         });
     });
 
-    describe('logging in successfully', () => {
-        it('should enter correct email and OTP', () => {
-            cy.visit('http://localhost:8800/');
+    it('should enter correct email and OTP', () => {
+        cy.visit('http://localhost:8800/');
 
-            cy.get('#menu-btn').click();
-            cy.get('#show-login').click();
+        cy.get('#menu-btn').click();
+        cy.get('#show-login').click();
 
-            cy.get('#username').type(username);
-            cy.get('#email-otp').click();
-            cy.wait(3000);
-            cy.mailslurp(function(mailslurp) {
-                return mailslurp.waitForLatestEmail(inboxId, 120000, true)
-            }).then(email => expect(email.body).contains('Hello'))
+        cy.get('#username').type(username);
+        cy.get('#email-otp').click();
+        cy.wait(3000);
+        cy.mailslurp(function(mailslurp) {
+            return mailslurp.waitForLatestEmail(inboxId, 120000, true)
+        }).then(email => expect(email.body).contains('Hello'))
 
-            cy.get('#login-error').should('exist');
-        });
+        cy.get('#login-error').should('exist');
     });
 });
