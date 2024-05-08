@@ -1,31 +1,39 @@
-﻿using TeamPhoenix.MusiCali.Logging;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using TeamPhoenix.MusiCali.Logging;
 
 public class ItemService
 {
-    private readonly DataAccessLayer _dataAccessLayer; // Dependency for data access operations
-    private readonly LoggerService _loggerService; // Dependency for logging
-    private readonly IConfiguration _configuration; // Dependency for configuration settings
+    private readonly DataAccessLayer _dataAccessLayer;
+    private readonly LoggerService _loggerService;
+    private readonly IConfiguration _configuration;
 
-    // Constructor to initialize dependencies
     public ItemService(DataAccessLayer dataAccessLayer, IConfiguration configuration)
     {
-        _dataAccessLayer = dataAccessLayer; // Assigning the Data Access Layer
-        _loggerService = new LoggerService(configuration); // Initializing logger with configuration
-        _configuration = configuration; // Assigning the configuration
+        _dataAccessLayer = dataAccessLayer;
+        _loggerService = new LoggerService(configuration);
+        _configuration = configuration;
     }
 
-    // Method to get filtered and paginated items
-    public async Task<(HashSet<Item> items, string message, int totalCount)> GetPagedFilteredItems(int pageNumber, int pageSize, string? name = null, decimal? bottomPrice = null, decimal? topPrice = null)
+    public async Task<(HashSet<Item> items, string message, int totalCount)> GetPagedFilteredItems(ItemQueryParameters parameters)
     {
-        string userHash = "e12a8f14d3623f5206c060b0d1fba3d7105afc5062d13173aa17866d3b53b0d6"; // Example user hash
-        string logContext = $"Username: {"Anonymous"}, Page: {pageNumber}, PageSize: {pageSize}, NameFilter: {name}, BottomPrice: {bottomPrice}, TopPrice: {topPrice}"; // Log context string
+        string? userHash = null;
+        string logContext = $"Username: Anonymous, Page: {parameters.PageNumber}, PageSize: {parameters.PageSize}, NameFilter: {parameters.Name}, BottomPrice: {parameters.BottomPrice}, TopPrice: {parameters.TopPrice}";
 
         try
         {
-            // Fetching items using DAL
-            var result = await _dataAccessLayer.FetchPagedItems(pageNumber, pageSize, name, bottomPrice, topPrice);
+            // Create an ItemQuery object from the parameters
+            ItemQueryParameters query = new ItemQueryParameters
+            {
+                PageNumber = parameters.PageNumber,
+                PageSize = parameters.PageSize,
+                Name = parameters.Name,
+                BottomPrice = parameters.BottomPrice,
+                TopPrice = parameters.TopPrice
+            };
+
+            // Pass the query object to FetchPagedItems
+            var result = await _dataAccessLayer.FetchPagedItems(query);
             var items = result.items;
             var totalCount = result.totalCount;
 
@@ -36,14 +44,13 @@ public class ItemService
                 return (new HashSet<Item>(), errorMessage, totalCount);
             }
 
-            if (items.Count > pageSize)
+            if (items.Count > parameters.PageSize)
             {
                 string errorMessage = "Incorrect sorting format shown to the user.";
                 _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "View", errorMessage);
                 return (new HashSet<Item>(), errorMessage, totalCount);
             }
 
-            // Success log entry
             string successMessage = $"Fetched {items.Count} items out of {totalCount}.";
             _loggerService.CreateLog(userHash, LogLevel.Information.ToString(), "Item Retrieval", successMessage + " " + logContext);
             return (items, successMessage, totalCount);
@@ -56,29 +63,27 @@ public class ItemService
         }
     }
 
-    // Method to get the total count of items
     public async Task<(int count, string message)> GetTotalItemCount()
     {
-        string userHash = "e12a8f14d3623f5206c060b0d1fba3d7105afc5062d13173aa17866d3b53b0d6";
+        string? userHash = null;
         try
         {
             int itemCount = await _dataAccessLayer.CountItems();
             if (itemCount < 0)
             {
                 string errorMessage = "Invalid total item count received.";
-                _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "View", "Invalid Page Count shown to user.");
+                _loggerService.CreateLog(userHash!, LogLevel.Error.ToString(), "View", "Invalid Page Count shown to user.");
                 return (0, errorMessage);
             }
 
-            // Success message for item count
             string successMessage = $"Total items count: {itemCount}.";
-            _loggerService.CreateLog(userHash, LogLevel.Information.ToString(), "Item Count", successMessage);
+            _loggerService.CreateLog(userHash!, LogLevel.Information.ToString(), "Item Count", successMessage);
             return (itemCount, successMessage);
         }
         catch (Exception ex)
         {
             string errorMessage = $"Error counting items: {ex.Message}.";
-            _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "Item Count", errorMessage);
+            _loggerService.CreateLog(userHash!, LogLevel.Error.ToString(), "Item Count", errorMessage);
             return (0, errorMessage);
         }
     }

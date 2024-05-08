@@ -21,106 +21,81 @@ public class DataAccessLayer
     }
 
     // Method to fetch paginated and filtered items from the database
-    public async Task<(HashSet<Item> items, int totalCount)> FetchPagedItems(int pageNumber, int pageSize, string? name = null, decimal? bottomPrice = null, decimal? topPrice = null)
+    public async Task<(HashSet<Item> items, int totalCount)> FetchPagedItems(ItemQueryParameters query)
     {
-        // Initialize an empty set to store items and an integer to store the total count
         var items = new HashSet<Item>();
         int totalCount = 0;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
-            // Open database connection asynchronously
             await connection.OpenAsync();
-            var offset = (pageNumber - 1) * pageSize;
+            var offset = (query.PageNumber - 1) * query.PageSize;
 
-            // Create a base filter query to filter data
             var baseFilter = new StringBuilder("FROM CraftItem WHERE Listed = 1");
-
             var conditions = new List<string>();
 
-            // Add search conditions based on parameters
-            if (!string.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(query.Name))
             {
                 conditions.Add("LOWER(Name) LIKE CONCAT(@nameQuery, '%')");
             }
-            if (bottomPrice.HasValue && topPrice.HasValue)
+            if (query.BottomPrice.HasValue && query.TopPrice.HasValue)
             {
                 conditions.Add("Price BETWEEN @bottomPrice AND @topPrice");
             }
-            else if (bottomPrice.HasValue)
-            {
-                conditions.Add("Price >= @bottomPrice");
-            }
-            else if (topPrice.HasValue)
-            {
-                conditions.Add("Price <= @topPrice");
-            }
 
-            // Append conditions to the base filter
             if (conditions.Count > 0)
             {
                 baseFilter.Append(" AND ");
                 baseFilter.Append(string.Join(" AND ", conditions));
             }
 
-            // Create a count query to find the total count of filtered items
             var countQuery = $"SELECT COUNT(*) {baseFilter}";
-
-            // Create a paginated query to retrieve the filtered items
             var dataQuery = new StringBuilder("SELECT Name, Price, SKU, Image ");
             dataQuery.Append(baseFilter);
             dataQuery.Append(" ORDER BY Price ASC LIMIT @pageSize OFFSET @offset");
 
-            // Execute the count query to determine the total filtered count
             using (MySqlCommand countCommand = new MySqlCommand(countQuery, connection))
             {
-                // Add parameters to the command based on filter criteria
-                if (!string.IsNullOrWhiteSpace(name))
+                if (!string.IsNullOrWhiteSpace(query.Name))
                 {
-                    countCommand.Parameters.AddWithValue("@nameQuery", name.ToLower());
+                    countCommand.Parameters.AddWithValue("@nameQuery", query.Name.ToLower());
                 }
-                if (bottomPrice.HasValue)
+                if (query.BottomPrice.HasValue)
                 {
-                    countCommand.Parameters.AddWithValue("@bottomPrice", bottomPrice.Value);
+                    countCommand.Parameters.AddWithValue("@bottomPrice", query.BottomPrice.Value);
                 }
-                if (topPrice.HasValue)
+                if (query.TopPrice.HasValue)
                 {
-                    countCommand.Parameters.AddWithValue("@topPrice", topPrice.Value);
+                    countCommand.Parameters.AddWithValue("@topPrice", query.TopPrice.Value);
                 }
 
-                // Get the count result
                 totalCount = Convert.ToInt32(await countCommand.ExecuteScalarAsync());
             }
 
-            // Execute the query to retrieve paginated data
             using (MySqlCommand dataCommand = new MySqlCommand(dataQuery.ToString(), connection))
             {
-                // Add parameters for filtering items
-                if (!string.IsNullOrWhiteSpace(name))
+                if (!string.IsNullOrWhiteSpace(query.Name))
                 {
-                    dataCommand.Parameters.AddWithValue("@nameQuery", name.ToLower());
+                    dataCommand.Parameters.AddWithValue("@nameQuery", query.Name.ToLower());
                 }
-                if (bottomPrice.HasValue)
+                if (query.BottomPrice.HasValue)
                 {
-                    dataCommand.Parameters.AddWithValue("@bottomPrice", bottomPrice.Value);
+                    dataCommand.Parameters.AddWithValue("@bottomPrice", query.BottomPrice.Value);
                 }
-                if (topPrice.HasValue)
+                if (query.TopPrice.HasValue)
                 {
-                    dataCommand.Parameters.AddWithValue("@topPrice", topPrice.Value);
+                    dataCommand.Parameters.AddWithValue("@topPrice", query.TopPrice.Value);
                 }
-                dataCommand.Parameters.AddWithValue("@pageSize", pageSize);
+                dataCommand.Parameters.AddWithValue("@pageSize", query.PageSize);
                 dataCommand.Parameters.AddWithValue("@offset", offset);
 
-                // Read results and add each item to the set
                 using (var reader = await dataCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        // Get first image name if present
                         var imageString = reader.GetString("Image");
                         var firstImageName = imageString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
 
-                        // Add item details to the collection
                         items.Add(new Item
                         {
                             Name = reader.GetString("Name"),
@@ -133,7 +108,6 @@ public class DataAccessLayer
             }
         }
 
-        // Return the items and the total count as a tuple
         return (items, totalCount);
     }
 
