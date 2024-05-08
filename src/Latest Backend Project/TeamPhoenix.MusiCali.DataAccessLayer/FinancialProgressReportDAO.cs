@@ -35,13 +35,14 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     connection.Open();
                     string sql = "SELECT YEAR(SaleDate) AS Year, SUM(Profit) AS TotalProfit, SUM(Revenue) AS TotalRevenue, COUNT(ReceiptID) AS NumberOfSales "
                             + "FROM CraftReceipt "
-                            + "WHERE CreatorHash = @CreatorHash GROUP BY YEAR(SaleDate)";
+                            + "WHERE CreatorHash = @CreatorHash GROUP BY YEAR(SaleDate) AND PendingSale = @PendingSale";
 
                     // Create a SqlCommand to execute the SQL
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         // Add the UserId parameter to the command
                         command.Parameters.AddWithValue("@CreatorHash", userHash);
+                        command.Parameters.AddWithValue("@PendingSale", false)
 
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
