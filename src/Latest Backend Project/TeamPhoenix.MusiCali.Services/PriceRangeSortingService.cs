@@ -40,25 +40,25 @@ public class ItemService
             if (items == null || items.Count == 0)
             {
                 string errorMessage = "No items found with the given criteria.";
-                _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "Data", errorMessage);
+                _loggerService.CreateLog(userHash!, LogLevel.Error.ToString(), "Data", errorMessage);
                 return (new HashSet<Item>(), errorMessage, totalCount);
             }
 
             if (items.Count > parameters.PageSize)
             {
                 string errorMessage = "Incorrect sorting format shown to the user.";
-                _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "View", errorMessage);
+                _loggerService.CreateLog(userHash!, LogLevel.Error.ToString(), "View", errorMessage);
                 return (new HashSet<Item>(), errorMessage, totalCount);
             }
 
             string successMessage = $"Fetched {items.Count} items out of {totalCount}.";
-            _loggerService.CreateLog(userHash, LogLevel.Information.ToString(), "Item Retrieval", successMessage + " " + logContext);
+            _loggerService.CreateLog(userHash!, LogLevel.Information.ToString(), "Item Retrieval", successMessage + " " + logContext);
             return (items, successMessage, totalCount);
         }
         catch (Exception ex)
         {
             string errorMessage = $"Error fetching items: {ex.Message}.";
-            _loggerService.CreateLog(userHash, LogLevel.Error.ToString(), "Item Retrieval", errorMessage + " " + logContext);
+            _loggerService.CreateLog(userHash!, LogLevel.Error.ToString(), "Item Retrieval", errorMessage + " " + logContext);
             return (new HashSet<Item>(), errorMessage, 0);
         }
     }
