@@ -731,12 +731,52 @@
             });
     });
 
+    // Scale Display
     document.getElementById('enter-scaleDisplay').addEventListener('click', function () {
-        document.querySelector('.main').style.display = 'none'; // Hide main content
-        document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
-        document.getElementById('ScaleDisplayView').style.display = 'block'; // Show tempo tool content
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // Show the Scale Display view
+        const container = document.getElementById('ScaleDisplayView');
+        container.style.display = 'block';
+
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "Scale Display");
+
+        //// Dynamically load and apply CSS specific to Scale Display
+        //const cssLink = document.createElement('link');
+        //cssLink.rel = 'stylesheet';
+        //cssLink.href = 'ScaleDisplayFeature/ScaleDisplay.css'; // Ensure this path is correct
+        //document.head.appendChild(cssLink);
+
+        // Fetch the HTML content and then load JS
+        fetch('ScaleDisplayFeature/ScaleDisplay.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load HTML content.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Initialize JavaScript functionalities after HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = '/ScaleDisplayFeature/ScaleDisplay.js'; // Ensure this path is correct
+                jsScript.onload = function () {
+                    setupPageComponents();  // Assuming setupPageComponents() sets everything up
+                    // JavaScript file loaded and executed
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load JavaScript file');
+                };
+                document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+            })
+            .catch(error => {
+                console.error('Failed to load HTML content:', error);
+            });
     });
 
     function logFeatureUsage(username, feature) {
@@ -768,6 +808,50 @@
                 console.error('Error logging {feature} usage:', error.message);
             });
     }
+
+    // Bingo Board Feature
+    document.getElementById('enter-BingoBoardView').addEventListener('click', function () {
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #user-profile').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // Show the Bingo Board view
+        const container = document.getElementById('BingoBoardView');
+        container.style.display = 'block';
+
+        // Dynamically load and apply CSS specific to Bingo Board
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'BingoBoardFeature/BingoBoard.css'; // Ensure this path is correct
+        document.head.appendChild(cssLink);
+
+        // Fetch the HTML content and then load JS
+        fetch('BingoBoardFeature/BingoBoard.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load HTML content.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Initialize JavaScript functionalities after HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = '/BingoBoardFeature/BingoBoard.js'; // Ensure this path is correct
+                jsScript.onload = function () {
+                    setupPageComponents();  // Assuming setupPageComponents() sets everything up
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load JavaScript file');
+                };
+                document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+            })
+            .catch(error => {
+                console.error('Failed to load HTML content:', error);
+            });
+    });
 
     // InventoryStock
     // Add an event listener for the "Inventory Stock View" button
@@ -814,7 +898,6 @@
             });
     });
 
-
     // Add an event listener for the Financial Progress Report button
     document.getElementById('FinancialProgressReport').addEventListener('click', function () {
         // Hide other parts of the page
@@ -859,7 +942,6 @@
                 console.error('Error loading Financial Progress Report:', error);
             });
     });
-
 
     //Price Range Sorting
     document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
@@ -948,6 +1030,50 @@
             })
             .catch(error => {
                 console.error('Error loading Artist Portfolio Report:', error);
+            });
+    });
+
+    //TempoTool
+    document.getElementById('enter-tempoTool').addEventListener('click', function () {
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #financialProgressReportView').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // Show the Inventory Stock View
+        const container = document.getElementById('tempoToolView');
+        container.style.display = 'block';
+
+        // Load the CSS dynamically
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'TempoToolFeature/TempoTool.css'; // Adjust path as needed
+        document.head.appendChild(cssLink);
+
+        // Fetch the HTML content and then load the JS
+        fetch('TempoToolFeature/TempoTool.html') // Adjust path as needed
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load Inventory Stock HTML.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Load and execute JavaScript after the HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = 'TempoToolFeature/TempoTool.js'; // Adjust path as needed
+                jsScript.onload = function () {
+                    setupTempoTool(); // Call the initialization function for your feature
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load Inventory Stock JS.');
+                };
+                document.body.appendChild(jsScript);
+            })
+            .catch(error => {
+                console.error('Error loading Inventory Stock View:', error);
             });
     });
 

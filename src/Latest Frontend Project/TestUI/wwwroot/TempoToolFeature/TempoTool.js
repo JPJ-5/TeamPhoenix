@@ -4,29 +4,31 @@ var mainCircle = document.getElementById('mainCircle');
 var innerCircle = document.getElementById('innerCircle');
 var speedDisplay = document.getElementById('speedDisplay');
 
-/*var tickSound = new Audio('js/tick2.mp3');*/
+var tickSound = new Audio('audio/tick2.mp3'); // Initialize the tick sound
 var playing = false;
 var intervalID;
 var growCircle = true; // Flag to control whether to grow or shrink the inner circle
 
-tempoSlider.addEventListener('input', function () {
-    var tempo = parseInt(tempoSlider.value);
-    updateTempo(tempo);
-    updateSpeedDisplay(tempo); // Update speed display when slider value changes
-});
-
-startStopButton.addEventListener('click', function () {
-    playing = !playing;
-    startStopButton.textContent = playing ? 'Stop' : 'Start';
-    if (playing) {
+function setupTempoTool() {
+    tempoSlider.addEventListener('input', function () {
         var tempo = parseInt(tempoSlider.value);
-        intervalID = setInterval(playTick, 60000 / tempo);
-        playTick();
-    } else {
-        clearInterval(intervalID);
-        resetInnerCircle();
-    }
-});
+        updateTempo(tempo);
+        updateSpeedDisplay(tempo); // Update speed display when slider value changes
+    });
+
+    startStopButton.addEventListener('click', function () {
+        playing = !playing;
+        startStopButton.textContent = playing ? 'Stop' : 'Start';
+        if (playing) {
+            var tempo = parseInt(tempoSlider.value);
+            intervalID = setInterval(playTick, 60000 / tempo);
+            playTick();
+        } else {
+            clearInterval(intervalID);
+            resetInnerCircle();
+        }
+    });
+}
 
 function updateTempo(tempo) {
     if (playing) {
@@ -65,3 +67,8 @@ function resetInnerCircle() {
 function updateSpeedDisplay(tempo) {
     speedDisplay.textContent = 'Speed: ' + tempo + ' BPM';
 }
+
+// Call setupTempoTool when the page loads or when the feature is activated
+document.addEventListener('DOMContentLoaded', function () {
+    setupTempoTool();
+});
