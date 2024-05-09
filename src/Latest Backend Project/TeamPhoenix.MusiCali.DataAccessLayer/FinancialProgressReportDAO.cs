@@ -42,7 +42,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     {
                         // Add the UserId parameter to the command
                         command.Parameters.AddWithValue("@CreatorHash", userHash);
-                        command.Parameters.AddWithValue("@PendingSale", false)
+                        command.Parameters.AddWithValue("@PendingSale", false);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
