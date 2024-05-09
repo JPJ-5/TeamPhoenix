@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+﻿document.addEventListener('DOMContentLoaded', function () {
     var menuButton = document.getElementById('menu-btn');
     var dropdown = document.getElementById('myDropdown');
     var showLoginFormButton = document.getElementById('show-login');
@@ -8,12 +8,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
-    ﻿var baseUrl = 'https://themusicali.com:5000';
-    //var baseUrl = 'http://localhost:8080';
+    //var baseUrl = 'https://themusicali.com:5000';
+    var baseUrl = 'http://localhost:8080';    
     var idToken;
     var accessToken;
-
-    
 
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
@@ -326,8 +324,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    
-
     function logoutUser() {
         localStorage.clear()
         sessionStorage.clear()
@@ -503,9 +499,6 @@ document.addEventListener('DOMContentLoaded', function () {
             form.style.display = 'block';
         }
     });
-
-
-
 
     // Inside prepareAdminUI
     document.getElementById('admin-get-user').addEventListener('click', function () {
@@ -910,6 +903,51 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => {
                 // Failed to load HTML content
+            });
+    });
+
+    document.getElementById('enter-ArtistPortfolioView').addEventListener('click', function () {
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView').forEach(el => {
+            showLoginFormButton.style.display = 'none'; // Hide the login button
+            el.style.display = 'none';
+        });
+        var activeUsername = document.getElementById("username").value;
+
+        // Show the Financial Progress Report view
+        const container = document.getElementById('artistPortfolioView');
+        container.style.display = 'block';
+
+        // Load the CSS dynamically
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = '/ArtistPortfolioFeature/ArtistPortfolioStyles.css'; // Adjust path as needed
+        document.head.appendChild(cssLink);
+
+        // Fetch the HTML content and then load the JS
+        fetch('ArtistPortfolioFeature/ArtistPortfolioView.html') // Adjust path as needed
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load Artist Portfolio Report HTML.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Load and execute JavaScript after the HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = '/ArtistPortfolioFeature/ArtistPortfolio.js'; // Adjust path as needed
+                jsScript.onload = function () {
+                    loadProfileData(activeUsername);
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load Artist Portfolio JS.');
+                };
+                document.body.appendChild(jsScript);
+            })
+            .catch(error => {
+                console.error('Error loading Artist Portfolio Report:', error);
             });
     });
 

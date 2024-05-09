@@ -3,6 +3,7 @@ let lastBottomPrice = null;
 let lastTopPrice = null;
 let currentPage = 1;
 let pageSize = document.getElementById('pageSize').value;
+//var baseUrl = 'https://themusicali.com:5000';
 var baseUrl = 'http://localhost:8080';
 
 function fetchItems() {
@@ -55,8 +56,8 @@ function fetchItems() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            displayResults(data.items);
-            const totalPageCount = Math.ceil(data.totalCount / pageSize);
+            displayResults(data.data.items);
+            const totalPageCount = Math.ceil(data.data.totalCount / pageSize);
             document.getElementById('pageInfo').textContent = `Page ${currentPage} / ${totalPageCount}`;
             document.getElementById('prevPage').disabled = currentPage <= 1;
             document.getElementById('nextPage').disabled = currentPage >= totalPageCount;

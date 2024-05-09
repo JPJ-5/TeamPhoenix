@@ -1,21 +1,18 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Musicali</title>
     <link href="css/site.css" rel="stylesheet" />
-    <!--<link href="css/PriceRangeSorting.css" rel="stylesheet" />-->
 </head>
 <body>
     <div class="navbar">
+        <a href="#other" class="left">Other Functions</a>
 
-        <!--<a href="#other" class="left">Other Functions</a>-->
-        <!--onclick="toggleCraftVerifyView();"-->
 
         <div class="navbar">
-            <a href="#craftVerify" class="left" id="craftVerify">CraftVerify</a>
-
+            <a href="#other" class="left">Other Functions</a>
             <div class="hamburger" id="menu-btn">
                 <div class="bar"></div>
                 <div class="bar"></div>
@@ -133,6 +130,9 @@
 
                     <!-- Bingo Board button here -->
                     <button id="enter-BingoBoardView" class="enter-BingoBoardView">Bingo Board</button>
+
+                    <!-- Bingo Board button here -->
+                    <button id="enter-ArtistPortfolioView" class="enter-ArtistPortfolioView">Artist Portfolio</button>
 
                     <!-- Artist Profile Calendar Coding Starts Here -->
                     <button id="enter-calendar" class="enter-calendar">Artist Profile Calendar</button>
@@ -267,6 +267,7 @@
     <div id="financialProgressReportView" style="display: none;"></div>
     <div id="inventoryStockView" style="display: none;"></div>
     <div id="priceRangeSortingView" style="display: none;"></div>
+    <div id="artistPortfolioView" style="display: none;"></div>
 
 
     <div class="main">
@@ -355,145 +356,10 @@
 
     </div>
 
-
-    <!-- Page for CraftVerify feature -->
-    <div id="craftVerifyView" style="display: none;">
-        <!-- Content of the CraftVerify feature goes here -->
-        <h1>Hello and Welcome to CraftVerify</h1>
-
-
-
-
-
-
-        <button id="buyerHistoryBtn">Buyer History</button>
-        <button id="sellerDashboardBtn">Seller Dashboard</button>
-        <button id="buyerHistoryBtn2">Price Range Sorting</button>
-        <div class="container">
-            <h1>Item List</h1>
-            <table id="itemsTable">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Image</th>
-                    </tr>
-                </thead>
-                <tbody id="itemTableBody"></tbody>
-            </table>
-            <div class="pagination" id="pagination"></div>
-        </div>
-
-    </div>
-
-
-
-
-    <div id="sellerDashboardView" style="display: none;">
-        <h1>Hello and Welcome to Seller Dashboard </h1>
-
-        <button id="itemCreationBtn">Item Creation</button>
-        <button id="itemListingBtn">Item Listing</button>
-        <button id="itemEditingBtn">Item Editing/Deleting</button>
-        <button id="inventoryStockBtn">Inventory Stock</button>
-        <button id="financialProgressBtn">Financial Progress</button>
-
-
-        <div id="itemCreationForm" style="display: none;">
-            <h1>Item Creation</h1>
-            <form id="creationForm" enctype="multipart/form-data">
-                Ensure you have enctype for file uploads
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" placeholder="Name"
-                           pattern="[a-zA-Z0-9 ]{1,250}"
-                           title="Name can only contain alphanumeric characters and spaces, up to 250 characters."
-                           maxlength="250" required>
-                </div>
-                <div>
-                    <label for="price">Price:</label>
-                    <input type="number" id="price" name="price" placeholder="Price"
-                           min="0" max="9999999.99" step="0.01"
-                           title="Price must be up to 7 digits with an optional 2 decimal places."
-                           required>
-                </div>
-                <div>
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description" placeholder="Description"
-                              maxlength="2000"
-                              oninput="validateDescription()"
-                              title="Can include letters, numbers, and ,: '\" ()!@#$%&* characters up to 2000 characters."></textarea>
-                    <div id="descriptionError" style="color: red;"></div>
-                </div>
-                <div>
-                    <label for="stockAvailable">Stock Available:</label>
-                    <input type="number" id="stockAvailable" name="stockAvailable" placeholder="Stock Available"
-                           min="0" max="999" step="1"
-                           title="Stock must be from 0 to 999."
-                           required>
-                </div>
-
-                <div>
-                    <label for="productionCost">Production Cost:</label>
-                    <input type="number" id="productionCost" name="productionCost" placeholder="Production Cost" step="0.01"
-                           min="0" max="9999999.99"
-                           title="Price must be up to 7 digits with an optional 2 decimal places."
-                           required>
-                </div>
-                <div>
-                    <label for="offerablePrice">Offerable Price:</label>
-                    <input type="checkbox" id="offerablePrice" name="offerablePrice">
-                </div>
-                <div>
-                    <label for="itemListed">Also list item for sell now?:</label>
-                    <input type="checkbox" id="itemListed" name="itemListed">
-                </div>
-                <div>
-                    <label for="sellerContact">Seller Contact:</label>
-                    <textarea id="sellerContact" name="sellerContact" placeholder="Seller Contact"
-                              maxlength="250"
-                              oninput="validateDescription()"
-                              title="Can include letters, numbers, and ,: '\" ()!@#$%&* characters up to 2000 characters."></textarea>
-                    <div id="descriptionError" style="color: red;"></div>
-                </div>
-                <div>
-                    <label for="image">Images (up to 5):</label>
-                    <input type="file" id="image" name="image[]" accept="image/jpeg, image/png, image/gif, image/tiff" multiple>
-                    <div id="imageError"></div>
-                </div>
-                <div>
-                    <label for="video">Videos (up to 2):</label>
-                    <input type="file" id="video" name="video[]" accept="video/mp4, video/quicktime" multiple>
-                    <div id="videoError"></div>
-                </div>
-                <div>
-                    <button type="submit">Create Item</button>
-                </div>
-            </form>
-        </div>
-
-
-
-
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
     <script src="js/site.js"></script>
     <script src="js/ScaleDisplay.js"></script>
     <script src="js/tempoTool.js"></script>
     <script src="js/BingoBoard.js"></script>
     <script src="js/artistProfileCalendar.js"></script>
-    <!--<script src="js/PriceRangeSorting.js"></script>-->
-    <script src="js/CraftVerify.js"></script>
 </body>
 </html>
