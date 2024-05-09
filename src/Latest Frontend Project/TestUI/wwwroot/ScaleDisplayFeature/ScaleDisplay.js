@@ -231,9 +231,6 @@ function updateDisplay() {
     displayElement.textContent = selectedScale.join() + " " + selectedType + ": " + "\n" + selectedScaleType.join(', ');
 }
 
-
-
-
 function moveLeft() {
     var selectBox = document.getElementById('note-options');
     if (!selectBox) return;
@@ -259,3 +256,11 @@ function printSelectedScale() {
     var displayContent = document.getElementById('display') ? document.getElementById('display').textContent : '';
     alert("Here Is Your Selected Scale: \n" + displayContent);
 }
+
+function setupPageComponents() {
+    // Add any setup logic here
+    console.log("Page components setup complete");
+}
+
+// Call setupPageComponents when the page loads
+window.onload = setupPageComponents;

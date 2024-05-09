@@ -1,13 +1,13 @@
 var baseUrl = 'http://localhost:8080';
 //Bingo Board Features:
-document.getElementById('enter-BingoBoardView').addEventListener('click', function (){
-    if(sessionStorage.getItem('loadCount') == null){
-        sessionStorage.setItem('loadCount', 7);
-    }
-    sessionStorage.setItem('pageNum', 1)
-    pageNum = sessionStorage.getItem('pageNum');
-    buildBingoBoard(pageNum);
-});
+//document.getElementById('enter-BingoBoardView').addEventListener('click', function (){
+//    if(sessionStorage.getItem('loadCount') == null){
+//        sessionStorage.setItem('loadCount', 7);
+//    }
+//    sessionStorage.setItem('pageNum', 1)
+//    pageNum = sessionStorage.getItem('pageNum');
+//    buildBingoBoard(pageNum);
+//});
 
 document.getElementById('bbGoPrev').addEventListener('click', function(){
     var pageNum = sessionStorage.getItem('pageNum');
@@ -200,3 +200,17 @@ function configurePagination(){
         nextButton.style.display = 'none';
     }
 }
+
+function setupPageComponents() {
+    // Add any setup logic here
+    if (sessionStorage.getItem('loadCount') == null) {
+        sessionStorage.setItem('loadCount', 7);
+    }
+    sessionStorage.setItem('pageNum', 1)
+    pageNum = sessionStorage.getItem('pageNum');
+    buildBingoBoard(pageNum);
+    console.log("Page components setup complete");
+}
+
+// Call setupPageComponents when the page loads
+window.onload = setupPageComponents;
