@@ -9,8 +9,9 @@ function startPageTimer() {
 }
 
 // Function to reset the page timer
-function resetPageTimer() {
+function resetPageTimer(newNameOfPage) {
     logPageDuration(pageName);
+    pageName = newNameOfPage;
     startPageTimer();
 }
 

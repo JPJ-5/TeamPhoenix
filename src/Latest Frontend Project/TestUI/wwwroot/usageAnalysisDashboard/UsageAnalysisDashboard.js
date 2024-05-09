@@ -21,7 +21,6 @@ function getLoginInTimespan() {
         .then(data => {
             displayLoginResults(data);
         }).catch(error => {
-            console.error('Error fetching data:', error);
             results.innerHTML = `<p>Error: ${error.message}</p>`;
         });
 }
@@ -110,7 +109,6 @@ function getRegistrationInTimespan() {
         .then(data => {
             displayRegistrationResults(data);
         }).catch(error => {
-            console.error('Error fetching data:', error);
             results.innerHTML = `<p>Error: ${error.message}</p>`;
         });
 }
@@ -198,7 +196,6 @@ function getGigsCreatedInTimespan() {
         .then(data => {
             displayGigsCreatedResults(data);
         }).catch(error => {
-            console.error('Error fetching data:', error);
             results.innerHTML = `<p>Error: ${error.message}</p>`;
         });
 }
@@ -286,7 +283,6 @@ function getItemsSoldInTimespan() {
         .then(data => {
             displayItemsSoldResults(data);
         }).catch(error => {
-            console.error('Error fetching data:', error);
             results.innerHTML = `<p>Error: ${error.message}</p>`;
         });
 }
@@ -298,7 +294,7 @@ function displayItemsSoldResults(itemsSoldData) {
 
     for (var i = 0; i < itemsSoldData.itemNames.length; i++) {
         var topPlacementNumber = i + 1;
-        var textNode = document.createTextNode(topPlacementNumber + ". Item name: " + itemsSoldData.itemNames[i] + " Quantity Sold: " + itemsSoldData.quantity[i]);
+        var textNode = document.createTextNode(topPlacementNumber + ". Item name: " + itemsSoldData.itemNames[i] + " Quantity Sold: " + itemsSoldData.quantity[i] + " ");
         textContainer.appendChild(textNode);
     }
 }
@@ -312,7 +308,6 @@ function getPageLengthInTimespan() {
         .then(data => {
             displayPageLengthResults(data);
         }).catch(error => {
-            console.error('Error fetching data:', error);
             results.innerHTML = `<p>Error: ${error.message}</p>`;
         });
 }
@@ -325,7 +320,7 @@ function displayPageLengthResults(pageLengthData) {
     for (var i = 0; i < pageLengthData.pageNames.length; i++) {
         var topPlacementNumber = i + 1;
         var lengthOfPageInSeconds = pageLengthData.lengthOfPage[i] / 1000;
-        var textNode = document.createTextNode(topPlacementNumber + ". Name of Page View: " + pageLengthData.pageNames[i] + " Average Length of Time: " + lengthOfPageInSeconds);
+        var textNode = document.createTextNode(topPlacementNumber + ". Name of Page View: " + pageLengthData.pageNames[i] + " Average Length of Time: " + lengthOfPageInSeconds + " ");
         textContainer.appendChild(textNode);
     }
 }
