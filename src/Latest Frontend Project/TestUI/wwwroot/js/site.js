@@ -13,6 +13,8 @@
     var idToken;
     var accessToken;
 
+    
+
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         // Reset the visibility of login and register buttons when menu is toggled
@@ -324,6 +326,10 @@
         }
     });
 
+    document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
+        window.location.href = 'PriceRangeSorting.html'; // Redirects the user to PriceRangeSorting.html
+    });
+
     function logoutUser() {
         localStorage.clear()
         sessionStorage.clear()
@@ -499,6 +505,9 @@
             form.style.display = 'block';
         }
     });
+
+
+
 
     // Inside prepareAdminUI
     document.getElementById('admin-get-user').addEventListener('click', function () {
@@ -769,6 +778,7 @@
             });
     }
 
+    
     // InventoryStock
     // Add an event listener for the "Inventory Stock View" button
     document.getElementById('Inventory Stock View').addEventListener('click', function () {
@@ -951,4 +961,3 @@
             });
     });
 
-});
