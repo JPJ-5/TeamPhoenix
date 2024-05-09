@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TeamPhoenix.MusiCali.Services;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using TeamPhoenix.MusiCali.DataAccessLayer;
 
 namespace TeamPhoenix.MusiCali.Controllers
 {
@@ -9,7 +10,7 @@ namespace TeamPhoenix.MusiCali.Controllers
     public class UsageAnalysisDashboardController : ControllerBase
     {
         private readonly IConfiguration configuration;
-        public UsageAnalysisDashboardService analysisDashboardService;
+        private readonly UsageAnalysisDashboardService analysisDashboardService;
 
         public UsageAnalysisDashboardController(IConfiguration configuration)
         {
@@ -18,46 +19,126 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
         //might need to change what is retrived from controller here.
-        [HttpPost("api/UsageAnalysisDashboardGetLoginAPI")]
+        [HttpGet("api/UsageAnalysisDashboardGetLoginAPI")]
         public IActionResult GetLoginWithinTimeframe([FromQuery] string username, [FromQuery] int monthsInTimeSpan)
         {
-            Result loginsToView = analysisDashboardService.GetLoginWithinTimeframeService(username, monthsInTimeSpan);
+            MonthYearCountResult loginsToView = analysisDashboardService.GetLoginWithinTimeframeService(username, monthsInTimeSpan);
             if (loginsToView.Success)
             {
-                Ok(loginsToView);
+                List<DateTime> monthsInResult = [];
+                List<long> countsInResult = [];
+                for (int i = 0; i < loginsToView.Values?.Count; i++)
+                {
+                    MonthYearCount item = loginsToView.Values[i];
+                    monthsInResult.Add(item.monthYear);
+                    countsInResult.Add(item.count);
+                }
+                return Ok(new
+                {
+                    months = monthsInResult,
+                    count = countsInResult
+                });
             }
             return BadRequest(loginsToView.ErrorMessage);
         }
-        [HttpPost("api/UsageAnalysisDashboardGetRegistrationAPI")]
+        [HttpGet("api/UsageAnalysisDashboardGetRegistrationAPI")]
         public IActionResult GetRegistrationWithinTimeframe([FromQuery] string username, [FromQuery] int monthsInTimeSpan)
         {
-            Result RegistrationToView = analysisDashboardService.GetRegistrationWithinTimeframeService(username, monthsInTimeSpan);
-            if (RegistrationToView.Success)
+            MonthYearCountResult registrationToView = analysisDashboardService.GetRegistrationWithinTimeframeService(username, monthsInTimeSpan);
+            if (registrationToView.Success)
             {
-                Ok(RegistrationToView);
+                List<DateTime> monthsInResult = [];
+                List<long> countsInResult = [];
+                for (int i = 0; i < registrationToView.Values?.Count; i++)
+                {
+                    MonthYearCount item = registrationToView.Values[i];
+                    monthsInResult.Add(item.monthYear);
+                    countsInResult.Add(item.count);
+                }
+                return Ok(new
+                {
+                    months = monthsInResult,
+                    count = countsInResult
+                });
             }
-            return BadRequest(RegistrationToView.ErrorMessage);
+            return BadRequest(registrationToView.ErrorMessage);
         }
-        [HttpPost("api/UsageAnalysisDashboardGetLongestPageViewAPI")]
+        [HttpGet("api/UsageAnalysisDashboardGetLongestPageViewAPI")]
         public IActionResult GetLongestPageViewWithinTimeframe([FromQuery] string username, [FromQuery] int monthsInTimeSpan)
         {
-            Result LongestPageViewToView = analysisDashboardService.GetLongestPageViewWithinTimeframeService(username, monthsInTimeSpan);
-            if (LongestPageViewToView.Success)
+            PageViewLengthResult longestPageViewToView = analysisDashboardService.GetLongestPageViewWithinTimeframeService(username, monthsInTimeSpan);
+            if (longestPageViewToView.Success)
             {
-                Ok(LongestPageViewToView);
+                List<string> pageNamesInResult = [];
+                List<decimal> lengthsInResult = [];
+                for (int i = 0; i < longestPageViewToView.Values?.Count; i++)
+                {
+                    PageViewLengthData item = longestPageViewToView.Values[i];
+                    pageNamesInResult.Add(item.pageViewName);
+                    lengthsInResult.Add(item.length);
+                }
+                return Ok(new
+                {
+                    pageNames = pageNamesInResult,
+                    lengthOfPage = lengthsInResult
+                });
             }
-            return BadRequest(LongestPageViewToView.ErrorMessage);
+            return BadRequest(longestPageViewToView.ErrorMessage);
         }
-        [HttpPost("api/UsageAnalysisDashboardGetGigsCreatedAPI")]
+        [HttpGet("api/UsageAnalysisDashboardGetGigsCreatedAPI")]
         public IActionResult GetGigsCreatedWithinTimeframe([FromQuery] string username, [FromQuery] int monthsInTimeSpan)
         {
-            Result GigsCreatedToView = analysisDashboardService.GetGigsCreatedWithinTimeframeService(username, monthsInTimeSpan);
-            if (GigsCreatedToView.Success)
+            MonthYearCountResult gigsCreatedToView = analysisDashboardService.GetGigsCreatedWithinTimeframeService(username, monthsInTimeSpan);
+            if (gigsCreatedToView.Success)
             {
-                Ok(GigsCreatedToView);
+                List<DateTime> monthsInResult = [];
+                List<long> countsInResult = [];
+                for (int i = 0; i < gigsCreatedToView.Values?.Count; i++)
+                {
+                    MonthYearCount item = gigsCreatedToView.Values[i];
+                    monthsInResult.Add(item.monthYear);
+                    countsInResult.Add(item.count);
+                }
+                return Ok(new
+                {
+                    months = monthsInResult,
+                    count = countsInResult
+                });
             }
-            return BadRequest(GigsCreatedToView.ErrorMessage);
+            return BadRequest(gigsCreatedToView.ErrorMessage);
         }
+        [HttpGet("api/UsageAnalysisDashboardGetItemsSoldAPI")]
+        public IActionResult GetItemsSoldWithinTimeframe([FromQuery] string username, [FromQuery] int monthsInTimeSpan)
+        {
+            ItemQuantityResult ItemsSoldToView = analysisDashboardService.GetItemsSoldWithinTimeframeService(username, monthsInTimeSpan);
+            if (ItemsSoldToView.Success)
+            {
+                List<string> itemNamesInResult = [];
+                List<decimal> quantitiesInResult = [];
+                for (int i = 0; i < ItemsSoldToView.Values?.Count; i++)
+                {
+                    ItemQuantityData item = ItemsSoldToView.Values[i];
+                    itemNamesInResult.Add(item.itemName);
+                    quantitiesInResult.Add(item.quantity);
+                }
+                return Ok(new
+                {
+                    itemNames = itemNamesInResult,
+                    quantity = quantitiesInResult
+                });
+            }
+            return BadRequest(ItemsSoldToView.ErrorMessage);
+        }
+        [HttpPost("api/UsageAnalysisDashboardLogPageLengthAPI")]
+        public IActionResult CreatePageLengthLog([FromBody] PageViewLengthLoggingRequest pageLengthData)
+        {
+            Result pageLengthResult = analysisDashboardService.CreatePageLengthLogService(pageLengthData.Username, pageLengthData.Context, pageLengthData.PageLength);
 
+            if (pageLengthResult.HasError == false)
+            {
+                return Ok(pageLengthResult);
+            }
+            return BadRequest(pageLengthResult.ErrorMessage);
+        }
     }
 }

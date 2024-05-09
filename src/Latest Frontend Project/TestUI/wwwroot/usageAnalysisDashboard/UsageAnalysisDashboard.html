@@ -8,15 +8,19 @@
 <body>
     <div class="sidebar">
         <h1>Usage Analysis Dashboard</h1>
-        <div class="trendChart-Login">
-            <div id="chart-container"></div>
-            <select id="monthsInTimespan" onchange="setMonthsInTimespan()">
+        <div class="Dashboard-Charts">
+            <div id="login-chart-container"></div>
+            <div id="registration-chart-container"></div>
+            <div id="gigs-created-chart-container"></div>
+            <div id="items-sold-text-container"></div>
+            <div id="page-length-text-container"></div>
+            <select id="monthsInTimespan">
                 <option value="">Select a timespan</option>
                 <option value="6">6 months</option>
                 <option value="12">12 months</option>
                 <option value="24">24 months</option>
             </select>
-            <button onclick="getLoginInTimespan()" class="getLoginInTimespanbutton">Get Data</button>
+            <button onclick="getAllChartsInTimespan()" class="getLoginInTimespanbutton">Get Data</button>
         </div>
     </div>
 </body>

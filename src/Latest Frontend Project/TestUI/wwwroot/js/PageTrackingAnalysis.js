@@ -8,20 +8,42 @@ function startPageTimer() {
     pageTimer = Date.now(); // Time page was first accessed
 }
 
-    // Function to reset the page timer
+// Function to reset the page timer
 function resetPageTimer() {
     logPageDuration(pageName);
     startPageTimer();
 }
 
 // Function to log the session duration
-// TODO: Change logging to be sent to database after done testing.
 function logPageDuration(nameOfPage) {
-    console.log(nameOfPage + ' duration: ' + (Date.now() - pageTimer) / 1000 + ' seconds'); //change to send this data back to database in a log later.
-}
+    var username = document.getElementById("username").value;
+    var pageLengthInMilliseconds = Math.floor(Date.now() - pageTimer);
+    var url = 'http://localhost:8080/UsageAnalysisDashboard/api/UsageAnalysisDashboardLogPageLengthAPI';
 
-    // Function to check time after user moves pages.
-function checkTimeUserSpentOnPage(nameOfPage) {
-    logPageDuration(nameOfPage);
-    resetPageTimer();
+    var data = {
+        Username: username,
+        Context: nameOfPage,
+        PageLength: pageLengthInMilliseconds
+    };
+
+    idToken = sessionStorage.getItem("idToken");
+    accessToken = sessionStorage.getItem("accessToken");
+
+    var options = {
+        method: 'POST',
+        headers: {
+            'Authentication': idToken,
+            'Authorization': accessToken,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    };
+
+    fetch(url, options)
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Error sending data:', error);
+        });
+
+    console.log(nameOfPage + ' duration: ' + (Date.now() - pageTimer) / 1000 + ' seconds'); //change to send this data back to database in a log later.
 }

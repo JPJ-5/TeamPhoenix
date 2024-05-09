@@ -16,36 +16,48 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             this.configuration = configuration;
             this.usageAnalysisDatabaseAccess = new UsageAnalysisDashboardModel(this.configuration);
         }
-        public Result GetLoginWithinTimeframe(int monthsInTimeSpan)
+        public MonthYearCountResult GetLoginWithinTimeframe(int monthsInTimeSpan)
         {
             DateTime todaysDate = DateTime.Now;
-            Result databaseLoginResult = usageAnalysisDatabaseAccess.GetNumberOfLoginFromTimeframe(monthsInTimeSpan, todaysDate);
+            MonthYearCountResult databaseLoginResult = usageAnalysisDatabaseAccess.GetNumberOfLoginFromTimeframe(monthsInTimeSpan, todaysDate);
             return databaseLoginResult;
         }
-        public Result GetRegistrationWithinTimeframe(int monthsInTimeSpan)
+        public MonthYearCountResult GetRegistrationWithinTimeframe(int monthsInTimeSpan)
         {
             DateTime todaysDate = DateTime.Now;
-            Result databaseRegistrationResult = usageAnalysisDatabaseAccess.GetNumberOfRegistrationFromTimeframe(monthsInTimeSpan, todaysDate);
+            MonthYearCountResult databaseRegistrationResult = usageAnalysisDatabaseAccess.GetNumberOfRegistrationFromTimeframe(monthsInTimeSpan, todaysDate);
             return databaseRegistrationResult;
         }
-        public Result GetLongestPageViewWithinTimeframe(int monthsInTimeSpan)
+        public PageViewLengthResult GetLongestPageViewWithinTimeframe(int monthsInTimeSpan)
         {
             DateTime todaysDate = DateTime.Now;
-            Result databasePageViewResult = usageAnalysisDatabaseAccess.GetLongestPageViewsFromTimeframe(monthsInTimeSpan, todaysDate);
+            PageViewLengthResult databasePageViewResult = usageAnalysisDatabaseAccess.GetLongestPageViewsFromTimeframe(monthsInTimeSpan, todaysDate);
             return databasePageViewResult;
         }
-        public Result GetGigsCreatedWithinTimeframe(int monthsInTimeSpan)
+        public MonthYearCountResult GetGigsCreatedWithinTimeframe(int monthsInTimeSpan)
         {
             DateTime todaysDate = DateTime.Now;
-            Result databasePageViewResult = usageAnalysisDatabaseAccess.GetNumberOfGigsCreatedFromTimeframe(monthsInTimeSpan, todaysDate);
+            MonthYearCountResult databasePageViewResult = usageAnalysisDatabaseAccess.GetNumberOfGigsCreatedFromTimeframe(monthsInTimeSpan, todaysDate);
             return databasePageViewResult;
         }
-
+        public ItemQuantityResult GetItemsSoldWithinTimeframe(int monthsInTimeSpan)
+        {
+            DateTime todaysDate = DateTime.Now;
+            ItemQuantityResult databaseItemsSoldResult = usageAnalysisDatabaseAccess.GetMostSoldItemsFromTimeframe(monthsInTimeSpan, todaysDate);
+            return databaseItemsSoldResult;
+        }
         public string GetUserHash(string username)
         {
             string userHash = usageAnalysisDatabaseAccess.GetUserHash(username);
             return userHash;
         }
-
+        public Result CreatePageLengthLog(string username, string context, int pageLength)
+        {
+            string level = "Info";
+            string category = "View";
+            string userHash = GetUserHash(username);
+            Result pageLengthResult = usageAnalysisDatabaseAccess.LogPageLength(userHash, level, category, context, pageLength);
+            return pageLengthResult;
+        }
     }
 }
