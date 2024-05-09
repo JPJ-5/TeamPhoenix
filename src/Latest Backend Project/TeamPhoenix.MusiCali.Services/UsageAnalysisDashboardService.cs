@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Logging;
+using static Mysqlx.Notice.Warning.Types;
 
 namespace TeamPhoenix.MusiCali.Services
 {
@@ -18,14 +19,14 @@ namespace TeamPhoenix.MusiCali.Services
             this.usageAnalysisDashboardLogging = new LoggerService(this.configuration);
         }
         //TODO: Should Service/Business Layer restrict the available Timespans of Months?
-        public Result GetLoginWithinTimeframeService(string username, int monthsInTimeSpan)
+        public MonthYearCountResult GetLoginWithinTimeframeService(string username, int monthsInTimeSpan)
         {
             string level;
             string category;
             string context;
             string userHash;
-            Result DashboardLoginServiceResult = usageAnalysisDashboardDAL.GetLoginWithinTimeframe(monthsInTimeSpan);
-            if (DashboardLoginServiceResult.Success == true)
+            MonthYearCountResult DashboardLoginServiceResult = usageAnalysisDashboardDAL.GetLoginWithinTimeframe(monthsInTimeSpan);
+            if (DashboardLoginServiceResult.Success)
             {
                 level = "Info";
                 category = "View";
@@ -43,13 +44,13 @@ namespace TeamPhoenix.MusiCali.Services
             }
             return DashboardLoginServiceResult;
         }
-        public Result GetRegistrationWithinTimeframeService(string username, int monthsInTimeSpan)
+        public MonthYearCountResult GetRegistrationWithinTimeframeService(string username, int monthsInTimeSpan)
         {
             string level;
             string category;
             string context;
             string userHash;
-            Result DashboardRegistrationServiceResult = usageAnalysisDashboardDAL.GetRegistrationWithinTimeframe(monthsInTimeSpan);
+            MonthYearCountResult DashboardRegistrationServiceResult = usageAnalysisDashboardDAL.GetRegistrationWithinTimeframe(monthsInTimeSpan);
             if (DashboardRegistrationServiceResult.Success == true)
             {
                 level = "Info";
@@ -68,13 +69,13 @@ namespace TeamPhoenix.MusiCali.Services
             }
             return DashboardRegistrationServiceResult;
         }
-        public Result GetLongestPageViewWithinTimeframeService(string username, int monthsInTimeSpan)
+        public PageViewLengthResult GetLongestPageViewWithinTimeframeService(string username, int monthsInTimeSpan)
         {
             string level;
             string category;
             string context;
             string userHash;
-            Result DashboardPageViewServiceResult = usageAnalysisDashboardDAL.GetLongestPageViewWithinTimeframe(monthsInTimeSpan);
+            PageViewLengthResult DashboardPageViewServiceResult = usageAnalysisDashboardDAL.GetLongestPageViewWithinTimeframe(monthsInTimeSpan);
             if (DashboardPageViewServiceResult.Success == true)
             {
                 level = "Info";
@@ -93,13 +94,13 @@ namespace TeamPhoenix.MusiCali.Services
             }
             return DashboardPageViewServiceResult;
         }
-        public Result GetGigsCreatedWithinTimeframeService(string username, int monthsInTimeSpan)
+        public MonthYearCountResult GetGigsCreatedWithinTimeframeService(string username, int monthsInTimeSpan)
         {
             string level;
             string category;
             string context;
             string userHash;
-            Result DashboardGigCreatedServiceResult = usageAnalysisDashboardDAL.GetGigsCreatedWithinTimeframe(monthsInTimeSpan);
+            MonthYearCountResult DashboardGigCreatedServiceResult = usageAnalysisDashboardDAL.GetGigsCreatedWithinTimeframe(monthsInTimeSpan);
             if (DashboardGigCreatedServiceResult.Success == true)
             {
                 level = "Info";
@@ -117,6 +118,36 @@ namespace TeamPhoenix.MusiCali.Services
                 usageAnalysisDashboardLogging.CreateLog(userHash, level, category, context);
             }
             return DashboardGigCreatedServiceResult;
+        }
+        public ItemQuantityResult GetItemsSoldWithinTimeframeService(string username, int monthsInTimeSpan)
+        {
+            string level;
+            string category;
+            string context;
+            string userHash;
+            ItemQuantityResult DashboardItemsSoldServiceResult = usageAnalysisDashboardDAL.GetItemsSoldWithinTimeframe(monthsInTimeSpan);
+            if (DashboardItemsSoldServiceResult.Success == true)
+            {
+                level = "Info";
+                category = "View";
+                context = "Retrieved top 3 items sold For Usage Analysis Dashboard";
+                userHash = usageAnalysisDashboardDAL.GetUserHash(username);
+                usageAnalysisDashboardLogging.CreateLog(userHash, level, category, context);
+            }
+            else
+            {
+                level = "Info";
+                category = "View";
+                context = "Did not retrieved top 3 items sold For Usage Analysis Dashboard";
+                userHash = usageAnalysisDashboardDAL.GetUserHash(username);
+                usageAnalysisDashboardLogging.CreateLog(userHash, level, category, context);
+            }
+            return DashboardItemsSoldServiceResult;
+        }
+        public Result CreatePageLengthLogService(string username, string context, int pageLength)
+        {
+            Result pageLengthResult = usageAnalysisDashboardDAL.CreatePageLengthLog(username, context, pageLength);
+            return pageLengthResult;
         }
     }
 }
