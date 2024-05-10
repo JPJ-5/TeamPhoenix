@@ -13,6 +13,8 @@
     var idToken;
     var accessToken;
 
+    
+
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         // Reset the visibility of login and register buttons when menu is toggled
@@ -75,7 +77,7 @@
                     document.getElementById('account-recovery-section').style.display = 'none';
                 } else {
                     // Email does not exist
-                    alert("Email does not exist or the account is disabled try account recovery.");
+                    alert("Email does not exist.");
                 }
             })
             .catch((error) => {
@@ -500,6 +502,9 @@
         }
     });
 
+
+
+
     // Inside prepareAdminUI
     document.getElementById('admin-get-user').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to fetch:");
@@ -779,6 +784,9 @@
             });
     });
 
+
+
+
     function logFeatureUsage(username, feature) {
         const requestData = {
             UserName: username,
@@ -809,8 +817,9 @@
             });
     }
 
-    // Bingo Board Feature
-    document.getElementById('enter-BingoBoardView').addEventListener('click', function () {
+
+     // Bingo Board Feature
+     document.getElementById('enter-BingoBoardView').addEventListener('click', function () {
         // Hide other parts of the page
         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #financialProgressReportView, #inventoryStockView, #artistPortfolioView').forEach(el => {
             el.style.display = 'none';
@@ -853,53 +862,7 @@
             });
     });
 
-    // InventoryStock
-    // Add an event listener for the "Inventory Stock View" button
-    document.getElementById('Inventory Stock View').addEventListener('click', function () {
-        // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
-            el.style.display = 'none';
-        });
-
-        // Show the Inventory Stock View
-        const container = document.getElementById('inventoryStockView');
-        container.style.display = 'block';
-
-        // Load the CSS dynamically
-        const cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = 'InventoryStockFeature/InventoryStockView.css'; // Adjust path as needed
-        document.head.appendChild(cssLink);
-
-        // Fetch the HTML content and then load the JS
-        fetch('InventoryStockFeature/InventoryStockView.html') // Adjust path as needed
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to load Inventory Stock HTML.');
-                }
-                return response.text();
-            })
-            .then(html => {
-                container.innerHTML = html;
-
-                // Load and execute JavaScript after the HTML is loaded
-                const jsScript = document.createElement('script');
-                jsScript.src = 'InventoryStockFeature/InventoryStockView.js'; // Adjust path as needed
-                jsScript.onload = function () {
-                    setupInventoryStockView(); // Call the initialization function for your feature
-                };
-                jsScript.onerror = function () {
-                    console.error('Failed to load Inventory Stock JS.');
-                };
-                document.body.appendChild(jsScript);
-            })
-            .catch(error => {
-                console.error('Error loading Inventory Stock View:', error);
-            });
-    });
-
-    // Add an event listener for the Financial Progress Report button
-    document.getElementById('FinancialProgressReport').addEventListener('click', function () {
+    document.getElementById('financialProgressBtn').addEventListener('click', function () {
         // Hide other parts of the page
         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #artistPortfolioView').forEach(el => {
             showLoginFormButton.style.display = 'none'; // Hide the login button
@@ -943,6 +906,7 @@
             });
     });
 
+    //Price Range Sorting
     //Price Range Sorting
     document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
         // Hide other parts of the page
@@ -1049,7 +1013,6 @@
         cssLink.rel = 'stylesheet';
         cssLink.href = 'TempoToolFeature/TempoTool.css'; // Adjust path as needed
         document.head.appendChild(cssLink);
-
         // Fetch the HTML content and then load the JS
         fetch('TempoToolFeature/TempoTool.html') // Adjust path as needed
             .then(response => {
@@ -1077,4 +1040,10 @@
             });
     });
 
+
+   
+   
+
+
 });
+
