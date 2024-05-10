@@ -16,20 +16,23 @@ document.addEventListener('DOMContentLoaded', function () {
         displayCollabs();
     });
 
+    //selection menu for which collabs the user wants to view
     document.getElementById('user-options').addEventListener('click', function(){
-
         updateCollabSelection();
     });
 
-    // Function to send collab request
+    document.getElementById('show-availUsers').addEventListener('click', function(){
+        showAvailUsers();
+    });
+
     function sendCollabRequest(collabUser) {
         idToken = sessionStorage.getItem("idToken");
         accessToken = sessionStorage.getItem("accessToken");
-
+    
         var sender = document.getElementById("username").value;
         var receiver = document.getElementById("receiver").value;
         var feedbackBox = document.getElementById('enter-collabFeature');
-
+    
         const payload = {
             senderUsername: sender,
             receiverUsername: receiver
@@ -52,26 +55,23 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
         .then(result => {
-            feedbackBox.style.display = 'block';
+            feedbackBox.textContent = ''; // Clear previous messages
             if (result.success) {
                 collabSentAlert();
                 feedbackBox.textContent = 'Collab request sent successfully';
                 feedbackBox.style.color = 'green';
             } else {
-                feedbackBox.textContent = 'Failed to send collab';
+                feedbackBox.textContent = 'Collab Already Exists';
                 feedbackBox.style.color = 'red';
             }
         })
-        // .then(data => {
-        //     console.log('Collaboration request has been sent to ' + receiver + ' !');
-        // })
         .catch(error => {
             console.error('Error:', error);
-            const feedbackBox = document.getElementById('CollabFeatureView');
             feedbackBox.textContent = 'Error sending collab. Please try again.';
             feedbackBox.style.color = 'red';
         });
     }
+    
 
     // Function to accept collab request
     function acceptCollabRequest() {
@@ -100,7 +100,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }) 
         .then(response => response.json())
         .then(result => {
-            feedbackBox = document.getElementById('CollabFeatureView');
             feedbackBox.style.display = 'block';
             if (result.success) {
                 acceptCollabAlert();
@@ -122,30 +121,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // function displayCollabData(collabData){
-        
-    //     // var sentUsernames = collabData.sentCollabs //list of sent collabs
-    //     // var receivedUsernames = collabData.receivedUsernames //list of received collabs
-    //     // var acceptedUsernames = collabData.acceptedUsernames //list of accepted collabs
-    
-    //     var displayNames = document.getElementById('user-options'); //append child
 
-    //     var sentUsernames = document.createElement('p');
-    //     sentUsernames.textContent = `Sent Collabs:${collabData.sentCollabs}`;
-
-    //     displayNames.appendChild(sentUsernames)
-
-    //     displayNames.style.display = 'block';
-
-    //     alert("Sent Collabs: " + sentUsernames);
-    
-    // }
     // Function to display collab requests
     function displayCollabs() {
 
         var selectedOption = document.getElementById('user-options').value;
-        var username = sessionStorage.getItem("username").value;
-        var feedbackBox = document.getElementById('enter-collabFeature')
+        var username = sessionStorage.getItem("username");
+        var feedbackBox = document.getElementById('enter-collabFeature');
 
         idToken = sessionStorage.getItem("idToken");
         accessToken = sessionStorage.getItem("accessToken");
@@ -167,35 +149,30 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.text().then(text => { throw new Error(text); });
             }
         })
-        // .then(collabData => {
-        //     feedbackBox.style.display = 'block';
-        //     if (result.success) {
-        //         console.log(collabData)
-        //         displayCollabData(collabData);
-        //         feedbackBox.textContent = 'Sent collabs loaded successfully';
-        //         feedbackBox.style.color = 'green';
-        //     } 
-        //     else {
-        //         feedbackBox.textContent = 'Failed to load sent collabs';
-        //         feedbackBox.style.color = 'red';
-        //     }
-        // })
+
         .then(collabData => {
             console.log(collabData)
+
+            //feedbackBox.style.display = 'block';
 
             var displayNames = document.getElementById('user-options'); //append child
             var sentUsernames = document.createElement('p');
 
-            displayNames.innerHTML = ''; //clears previous details
+            //displayNames.innerHTML = ''; //clears previous details
 
             if(selectedOption === "View Sent Requests"){
 
                 sentUsernames.textContent = `Sent Collabs:${collabData.sentCollabs}`;
-                alert("Sent Collabs: " + collabData.sentCollabs)
+                alert("You've sent requests to: " + collabData.sentCollabs)
+            }
+            else if(selectedOption === "View Received Requests"){
+
+                sentUsernames.textContent = `Received Collabs:${collabData.receivedCollabs}`;
+                alert("You received collabs from: " + collabData.receivedCollabs)
             }
             else if (selectedOption === "View Accepted Requests") {
                 sentUsernames.textContent = `Accepted Collabs: ${collabData.acceptedCollabs}`;
-                alert("Accepted Collabs: " + collabData.acceptedCollabs);
+                alert("You've accepted collab requests from: " + collabData.acceptedCollabs);
             }
             displayNames.appendChild(sentUsernames)
             displayNames.style.display = 'block';
@@ -207,6 +184,48 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+    function showAvailUsers(userSearch){
+        var table = document.getElementById("userTable");
+        var username = sessionStorage.getItem("username");
+        
+        idToken = sessionStorage.getItem("idToken");
+        accessToken = sessionStorage.getItem("accessToken");
+        
+
+        // Clear existing table content
+        table.innerHTML = '';
+
+        // Make AJAX request to backend API
+        fetch('http://localhost:8080/CollabFeature/api/DisplayAvailableUsersAPI',{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authentication': idToken,
+                'Authorization': accessToken,
+                'userName': username
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to fetch available users');
+            }
+        })
+        .then(users => {
+            // Create table rows for each user
+            users.forEach(user => {
+                var row = table.insertRow();
+                var cell = row.insertCell();
+                cell.textContent = user;
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Display error message or handle error appropriately
+        });
+    }
 
 function collabSentAlert() {
     var popup = document.getElementById('createPopup');

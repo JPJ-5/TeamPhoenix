@@ -332,11 +332,29 @@
         </div>
         <select id="user-options">
             <option value="View Sent Requests">View Sent</option>
+            <option value="View Received Requests">View Received</option>
             <option value="View Accepted Requests">View Accepted</option>
         </select>
         <div id="view-requests" style="margin-top: 20px;">
-            <button id="view-requests">See Collabs</button>
+            <button id="view-requests">See Your Collabs</button>
         </div>
+
+        <div id="show-availUsers">
+            <button id="show-available-users">Show Available Users</button>
+        </div>
+    
+        <!-- Table to display available users -->
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
     </div>
 
     
