@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>Usage Analysis Dashboard</h1>
+        <div class="Dashboard-Charts">
+            <div id="login-chart-container"></div>
+            <div id="registration-chart-container"></div>
+            <div id="gigs-created-chart-container"></div>
+            <div id="items-sold-text-container"></div>
+            <div id="page-length-text-container"></div>
+            <select id="monthsInTimespan">
+                <option value="">Select a timespan</option>
+                <option value="6">6 months</option>
+                <option value="12">12 months</option>
+                <option value="24">24 months</option>
+            </select>
+            <div id="uad-results"></div>
+            <button onclick="getAllChartsInTimespan()" class="getLoginInTimespanbutton">Get Data</button>
+        </div>
+    </div>
+</body>
+</html>
