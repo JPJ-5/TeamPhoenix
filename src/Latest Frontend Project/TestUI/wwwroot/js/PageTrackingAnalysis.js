@@ -45,6 +45,4 @@ function logPageDuration(nameOfPage) {
         .catch(error => {
             console.error('Error sending data:', error);
         });
-
-    console.log(nameOfPage + ' duration: ' + (Date.now() - pageTimer) / 1000 + ' seconds'); //change to send this data back to database in a log later.
 }
