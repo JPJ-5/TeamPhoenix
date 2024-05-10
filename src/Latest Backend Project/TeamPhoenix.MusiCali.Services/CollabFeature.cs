@@ -32,7 +32,7 @@ namespace TeamPhoenix.MusiCali.Services
                     return result;
                 }
 
-                //var receiverEmail = CollabFeatureDAL.GetEmailByUsername(receiverUsername);
+                
                 var isEmailSent = SendCollabEmail(receiverEmail, senderUsername);
 
                 if (isEmailSent == false){
