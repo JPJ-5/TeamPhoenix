@@ -29,7 +29,7 @@ namespace TeamPhoenix.MusiCali.Controllers
                 else{
 
                     result.Success = false;
-                    result.ErrorMessage = "Failed to create request";
+                    result.ErrorMessage = "Collab Already Exists";
                     
                     return Ok(result);
                 }
