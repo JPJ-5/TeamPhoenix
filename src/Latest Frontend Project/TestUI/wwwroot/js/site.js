@@ -626,6 +626,7 @@
     }
 
     document.getElementById('logoutButton').addEventListener('click', function () {
+        resetPageTimer("Home page");
         const startTime = Date.now();
         var userName = document.getElementById("username").value;
         idToken = sessionStorage.getItem("idToken");
@@ -733,8 +734,9 @@
 
     // Scale Display
     document.getElementById('enter-scaleDisplay').addEventListener('click', function () {
+        resetPageTimer("Scale Display");
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #usageAnalysisDashboardView').forEach(el => {
             el.style.display = 'none';
         });
 
@@ -811,8 +813,9 @@
 
     // Bingo Board Feature
     document.getElementById('enter-BingoBoardView').addEventListener('click', function () {
+        resetPageTimer("Bingo Board");
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #financialProgressReportView, #inventoryStockView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #financialProgressReportView, #inventoryStockView, #artistPortfolioView, #usageAnalysisDashboardView').forEach(el => {
             el.style.display = 'none';
         });
 
@@ -856,8 +859,9 @@
     // InventoryStock
     // Add an event listener for the "Inventory Stock View" button
     document.getElementById('Inventory Stock View').addEventListener('click', function () {
+        resetPageTimer("Inventory Stock");
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #usageAnalysisDashboardView').forEach(el => {
             el.style.display = 'none';
         });
 
@@ -900,8 +904,9 @@
 
     // Add an event listener for the Financial Progress Report button
     document.getElementById('FinancialProgressReport').addEventListener('click', function () {
+        resetPageTimer("Financial Progress Report");
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #artistPortfolioView, #usageAnalysisDashboardView').forEach(el => {
             showLoginFormButton.style.display = 'none'; // Hide the login button
             el.style.display = 'none';
         });
@@ -945,8 +950,9 @@
 
     //Price Range Sorting
     document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
+        resetPageTimer("Price Range Sorting");
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #usageAnalysisDashboardView').forEach(el => {
             el.style.display = 'none';
         });
 
@@ -989,8 +995,9 @@
     });
 
     document.getElementById('enter-ArtistPortfolioView').addEventListener('click', function () {
+        resetPageTimer("Artist Portfolio");
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #usageAnalysisDashboardView').forEach(el => {
             showLoginFormButton.style.display = 'none'; // Hide the login button
             el.style.display = 'none';
         });
@@ -1035,8 +1042,9 @@
 
     //TempoTool
     document.getElementById('enter-tempoTool').addEventListener('click', function () {
+        resetPageTimer("Tempo Tool");
         // Hide other parts of the page
-        document.querySelectorAll('.main, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #usageAnalysisDashboardView').forEach(el => {
             el.style.display = 'none';
         });
 
@@ -1076,5 +1084,49 @@
                 console.error('Error loading Inventory Stock View:', error);
             });
     });
+
+    // Usage Analysis Dashboard
+    document.getElementById('enter-usageAnalysisDashboard').addEventListener('click', function () {
+        resetPageTimer("Usage Analysis Dashboard");
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+            el.style.display = 'none';
+        });
+        const container = document.getElementById('usageAnalysisDashboardView');
+        container.style.display = 'block';
+
+        // Load the CSS dynamically
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'UsageAnalysisDashboard/UsageAnalysisDashboard.css'; // Adjust path as needed
+        document.head.appendChild(cssLink);
+
+        fetch('UsageAnalysisDashboard/UsageAnalysisDashboard.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load UsageAnalysis Dashboard HTML.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Initialize JavaScript functionalities after HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = 'UsageAnalysisDashboard/UsageAnalysisDashboard.js'; // Ensure this path is correct
+                jsScript.onload = function () {
+                    setupUsageAnalysisDashboard();  // Assuming initPage() sets everything up
+                    // JavaScript file loaded and executed
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load Usage Analysis Dashboard JS.');
+                };
+                document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+            })
+            .catch(error => {
+                console.error('Error loading Usage Analysis Dashboard View:', error);
+            });
+    });
+
+    startPageTimer();
 
 });

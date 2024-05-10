@@ -11,6 +11,7 @@ function getAllChartsInTimespan() {
     getPageLengthInTimespan();
 }
 function getLoginInTimespan() {
+    var results = document.getElementById('login-results-container')
     var username = document.getElementById("username").value;
     monthsInTimespan = document.getElementById('monthsInTimespan').value
     let url = `http://localhost:8080/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetLoginAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
@@ -18,6 +19,7 @@ function getLoginInTimespan() {
         .then(response => response.json())
         .then(data => {
             displayLoginResults(data);
+            results.innerHTML = ``;
         }).catch(error => {
             results.innerHTML = `<p>Error: ${error.message}</p>`;
         });
@@ -99,6 +101,7 @@ function setupLoginBoard() {
 }
 
 function getRegistrationInTimespan() {
+    var results = document.getElementById('registration-results-container')
     var username = document.getElementById("username").value;
     monthsInTimespan = document.getElementById('monthsInTimespan').value
     let url = `http://localhost:8080/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetRegistrationAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
@@ -106,6 +109,7 @@ function getRegistrationInTimespan() {
         .then(response => response.json())
         .then(data => {
             displayRegistrationResults(data);
+            results.innerHTML = ``;
         }).catch(error => {
             results.innerHTML = `<p>Error: ${error.message}</p>`;
         });
@@ -186,6 +190,7 @@ function setupRegistrationBoard() {
 }
 
 function getGigsCreatedInTimespan() {
+    var results = document.getElementById('gigs-created-results-container')
     var username = document.getElementById("username").value;
     monthsInTimespan = document.getElementById('monthsInTimespan').value
     let url = `http://localhost:8080/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetGigsCreatedAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
@@ -193,6 +198,7 @@ function getGigsCreatedInTimespan() {
         .then(response => response.json())
         .then(data => {
             displayGigsCreatedResults(data);
+            results.innerHTML = ``;
         }).catch(error => {
             results.innerHTML = `<p>Error: ${error.message}</p>`;
         });
@@ -273,6 +279,7 @@ function setupGigsCreatedBoard() {
 }
 
 function getItemsSoldInTimespan() {
+    var results = document.getElementById('items-sold-results-container')
     var username = document.getElementById("username").value;
     monthsInTimespan = document.getElementById('monthsInTimespan').value
     let url = `http://localhost:8080/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetItemsSoldAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
@@ -280,6 +287,7 @@ function getItemsSoldInTimespan() {
         .then(response => response.json())
         .then(data => {
             displayItemsSoldResults(data);
+            results.innerHTML = ``;
         }).catch(error => {
             results.innerHTML = `<p>Error: ${error.message}</p>`;
         });
@@ -298,6 +306,7 @@ function displayItemsSoldResults(itemsSoldData) {
 }
 
 function getPageLengthInTimespan() {
+    var results = document.getElementById('page-length-results-container')
     var username = document.getElementById("username").value;
     monthsInTimespan = document.getElementById('monthsInTimespan').value
     let url = `http://localhost:8080/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetLongestPageViewAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
@@ -305,6 +314,7 @@ function getPageLengthInTimespan() {
         .then(response => response.json())
         .then(data => {
             displayPageLengthResults(data);
+            results.innerHTML = ``;
         }).catch(error => {
             results.innerHTML = `<p>Error: ${error.message}</p>`;
         });
