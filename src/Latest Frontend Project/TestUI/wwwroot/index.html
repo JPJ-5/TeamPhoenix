@@ -5,20 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Musicali</title>
     <link href="css/site.css" rel="stylesheet" />
+    <link href="css/ItemDetail.css" rel="stylesheet" />
+    <!--<link href="css/PriceRangeSorting.css" rel="stylesheet" />-->
 </head>
 <body>
     <div class="navbar">
-        <a href="#other" class="left">Other Functions</a>
 
+        <!--<a href="#other" class="left">Other Functions</a>-->
+        <!--onclick="toggleCraftVerifyView();"-->
 
         <div class="navbar">
-            <a href="#other" class="left">Other Functions</a>
+            <a href="#craftVerify" class="left" id="craftVerify">CraftVerify</a>
+
             <div class="hamburger" id="menu-btn">
                 <div class="bar"></div>
                 <div class="bar"></div>
                 <div class="bar"></div>
             </div>
-
             <div class="dropdown" id="myDropdown">
                 <!-- Group 1: Login-related elements -->
                 <button id="show-login">Login Now</button>
@@ -131,18 +134,11 @@
                     <!-- Bingo Board button here -->
                     <button id="enter-BingoBoardView" class="enter-BingoBoardView">Bingo Board</button>
 
-                    <!-- Bingo Board button here -->
-                    <button id="enter-ArtistPortfolioView" class="enter-ArtistPortfolioView">Artist Portfolio</button>
+                     <!-- Bingo Board button here -->
+                     <button id="enter-ArtistPortfolioView" class="enter-ArtistPortfolioView">Artist Portfolio</button>
 
-                    <!-- Inventory Stock button here -->
-                    <button id="Inventory Stock View" class="InventoryStockbutton">Inventory Stock View</button>
-
-                    <!-- Financial Progress Report button here -->
-                    <button id="FinancialProgressReport" class="button">Financial Progress Report</button>
-
-                    <!-- Artist Profile Calendar button here and the coding starts here -->
+                    <!-- Artist Profile Calendar Coding Starts Here -->
                     <button id="enter-calendar" class="enter-calendar">Artist Profile Calendar</button>
-
                     <!-- Artist Profile Calendar Section (Hidden Initally) -->
                     <div id="artist-calendar-section" style="display: none;">
 
@@ -267,39 +263,365 @@
             </div>
         </div>
     </div>
-
     <div class="main">
         <h1 class="neon-text">Welcome to The Musicali</h1>
         <!--<p class="neon-text">This is AWS ec2 running ubuntu for apache web server.</p>
+        <p class="neon-text">This is AWS ec2 running ubuntu for apache web server.</p>
         <p class="neon-text">command for ssh control to reclone HTML from github repo using putty:.</p>
         <p class="neon-text">cd /var/www/</p>
         <p class="neon-text">sudo rm -r html</p>
         <p class="neon-text">sudo git clone https://github.com/banhmy3t/testingUI.git html</p>
         <p class="neon-text">Https installed using command on https://certbot.eff.org/ </p>-->
+        <p class="neon-text">Https installed using command on https://certbot.eff.org/ </p>
+
     </div>
 
-    <!-- Page for financialProgressReport feature -->
-    <div id="financialProgressReportView" style="display: none;"></div>
-
-    <!-- Page for inventoryStock feature -->
-    <div id="inventoryStockView" style="display: none;"></div>
-
-    <!-- Page for priceRangeSorting feature -->
-    <div id="priceRangeSortingView" style="display: none;"></div>
-
-    <!-- Page for artistPortfolio feature -->
-    <div id="artistPortfolioView" style="display: none;"></div>
-
     <!-- Page for tempo tool feature -->
-    <div id="tempoToolView" style="display: none;"></div>
+    <div id="tempoToolView" style="display: none;">
+        <!-- Content of the tempo tool view -->
+        <div id="container">
+            <span id="speedDisplay">Speed: 120 BPM</span>
+            <input type="range" min="35" max="250" value="120" id="tempoSlider">
+            <button id="startStopButton">Start</button>
+            <div id="metronomeContainer">
+                <div id="mainCircle"></div>
+                <div id="innerCircle"></div>
+            </div>
+        </div>
+    </div>
 
-    <!-- Page for ScaleDisplay feature -->
-    <div id="ScaleDisplayView" style="display:none;"></div>
+    <!-- Page for scale display feature -->
+    <div id="ScaleDisplayView" style="display: none;">
+        <h1 class="neon-text">Welcome to Scale Display!</h1>
+        <p>Choose a scale then pick its type!</p>
+        <select id="note-options" size="7">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+        </select>
+        <select id="options" size="7">
+            <option value="major">Major</option>
+            <option value="minor">minor</option>
+            <option value="Lydian">Lydian</option>
+            <option value="HarmonicMinor">Harmonic minor</option>
+            <option value="Dorian">Dorian</option>
+            <option value="Pentatonic">Pentatonic</option>
+        </select>
+        <br>
+        <button onclick="printSelectedScale()">Print Scale</button>
+        <br>
+    </div>
+    <div id="display"></div>
 
     <!-- Page for bingo board feature-->
-    <div id="BingoBoardView" style="display: none;"></div>
+    <div id="BingoBoardView" style="display: none;">
+        <h1>Bingo Board</h1>
+        <p id="BingoBoardLoadMsg"></p>
+        <!--script type="text/javascript" src="js/BingoBoard.js"></script-->
+        <table id="BingoBoardPostsTable" style="display: none;" class="fixed">
+            <tr>
+                <th>Post Title</th>
+                <th>Poster</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Pay</th>
+                <th>Description</th>
+                <!--th></th-->
+            </tr>
+        </table>
+        <br>
+        <div class="pagination">
+            <button id="bbGoPrev" class="pagination button" style="display: none; float: left; margin-left: 33%;">Previous Page</button>
+            <button id="bbGoNext" class="pagination button" style="display: none; float: right; margin-right: 33%;">Next Page</button>
+        </div>
+        <br>
+        <br>
+        <label id="bbPageSize">Posts Per Page:</label>
+        <select name="bbPageSize" id="bbPageSize">
+            <option value=7>7</option>
+            <option value=19>19</option>
+            <option value=31>31</option>
+        </select>
+        <br>
+        <br>
+
+    </div>
+
+
+    <!-- Page for CraftVerify feature -->
+    <div id="craftVerifyView" style="display: none;">
+        <!-- Content of the CraftVerify feature goes here -->
+        <h1>Hello and Welcome to CraftVerify</h1>
+
+        <!-- Page for priceRangeSorting feature -->
+        <div id="priceRangeSortingView" style="display: none;"></div>
+
+        <button id="sellerDashboardBtn">Seller Dashboard</button>
+
+
+    </div>
+
+
+
+
+    <div id="sellerDashboardView" style="display: none;">
+        <h1>Hello and Welcome to Seller Dashboard </h1>
+
+        <button id="listedItemsBtn">Fetch Listed Items</button>
+        <button id="itemCreationBtn">Item Creation</button>
+        <button id="itemModificationBtn">Item Modification/Deletion</button>
+        <button id="financialProgressBtn">Financial Progress</button>
+        <button id="pendingSaleBtn">Pending sale</button>
+
+
+
+        <div id="itemsContainer" style="display: none;">
+            <div class="itemModificationList">
+                <h1>Item List</h1>
+                <table id="allItemsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Image</th>
+                            <th>Stock Available</th>
+                        </tr>
+                    </thead>
+                    <tbody id="allItemsTableBody"></tbody>
+                </table>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+
+
+
+        <div id="itemCreationForm" style="display: none;">
+            <h1>Item Creation</h1>
+            <form id="creationForm" enctype="multipart/form-data">
+                Ensure you have enctype for file uploads
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Name"
+                           pattern="[a-zA-Z0-9 ]{1,250}"
+                           title="Name can only contain alphanumeric characters and spaces, up to 250 characters."
+                           maxlength="250" required>
+                </div>
+                <div>
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" placeholder="Price"
+                           min="0" max="9999999.99" step="0.01"
+                           title="Price must be up to 7 digits with an optional 2 decimal places."
+                           required>
+                </div>
+                <div>
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" placeholder="Description"
+                              maxlength="2000"
+                              oninput="validateDescription()"
+                              title="Can include letters, numbers, and ,: '\" ()!@#$%&* characters up to 2000 characters."></textarea>
+                    <div id="descriptionError" style="color: red;"></div>
+                </div>
+                <div>
+                    <label for="stockAvailable">Stock Available:</label>
+                    <input type="number" id="stockAvailable" name="stockAvailable" placeholder="Stock Available"
+                           min="0" max="999" step="1"
+                           title="Stock must be from 0 to 999."
+                           required>
+                </div>
+
+                <div>
+                    <label for="productionCost">Production Cost:</label>
+                    <input type="number" id="productionCost" name="productionCost" placeholder="Production Cost" step="0.01"
+                           min="0" max="9999999.99"
+                           title="Price must be up to 7 digits with an optional 2 decimal places."
+                           required>
+                </div>
+                <div>
+                    <label for="offerablePrice">Offerable Price:</label>
+                    <input type="checkbox" id="offerablePrice" name="offerablePrice">
+                </div>
+                <div>
+                    <label for="itemListed">Also list item for sell now?:</label>
+                    <input type="checkbox" id="itemListed" name="itemListed">
+                </div>
+                <div>
+                    <label for="sellerContact">Seller Contact:</label>
+                    <textarea id="sellerContact" name="sellerContact" placeholder="Seller Contact"
+                              maxlength="250"
+                              oninput="validateDescription()"
+                              title="Can include letters, numbers, and ,: '\" ()!@#$%&* characters up to 2000 characters."></textarea>
+                    <div id="descriptionError" style="color: red;"></div>
+                </div>
+                <div>
+                    <label for="image">Images (up to 5):</label>
+                    <input type="file" id="image" name="image[]" accept="image/jpeg, image/png, image/gif, image/tiff" multiple>
+                    <div id="imageError"></div>
+                </div>
+                <div>
+                    <label for="video">Videos (up to 2):</label>
+                    <input type="file" id="video" name="video[]" accept="video/mp4, video/quicktime" multiple>
+                    <div id="videoError"></div>
+                </div>
+                <div>
+                    <button type="submit">Create Item</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div id="itemModificationContainer" style="display: none;">
+            <div class="itemModificationList">
+                <h1>Item List</h1>
+                <table id="itemsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Image</th>
+                            <th>Stock Available</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemTableBody"></tbody>
+                </table>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+
+
+        <div id="itemModificationForm" style="display: none;">
+            <h1>Item Modification</h1>
+            <form id="modificationForm" enctype="multipart/form-data">
+                <!--Ensure you have enctype for file uploads-->
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Name"
+                           pattern="[a-zA-Z0-9 ]{1,250}"
+                           title="Name can only contain alphanumeric characters and spaces, up to 250 characters."
+                           maxlength="250" required>
+                </div>
+                <div>
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" placeholder="Price"
+                           min="0" max="9999999.99" step="0.01"
+                           title="Price must be up to 7 digits with an optional 2 decimal places."
+                           required>
+                </div>
+                <div>
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" pattern="[a-zA-Z0-9 ]{1,2000}"
+                              oninput="validateDescription()"
+                              title="Can include letters, and numbers up to 2000 characters."></textarea>
+                    <div id="descriptionError" style="color: red;"></div>
+                </div>
+                <div>
+                    <label for="stockAvailable">Stock Available:</label>
+                    <input type="number" id="stockAvailable" name="stockAvailable" placeholder="Stock Available"
+                           min="0" max="999" step="1"
+                           title="Stock must be from 0 to 999."
+                           required>
+                </div>
+
+                <div>
+                    <label for="productionCost">Production Cost:</label>
+                    <input type="number" id="productionCost" name="productionCost" placeholder="Production Cost" step="0.01"
+                           min="0" max="9999999.99"
+                           title="Price must be up to 7 digits with an optional 2 decimal places."
+                           required>
+                </div>
+                <div>
+                    <label for="offerablePrice">Offerable Price:</label>
+                    <input type="checkbox" id="offerablePrice" name="offerablePrice">
+                </div>
+                <div>
+                    <label for="itemListed">Also list item for sale now?:</label>
+                    <input type="checkbox" id="itemListed" name="itemListed">
+                </div>
+                <div>
+                    <label for="sellerContact">Seller Contact:</label>
+                    <textarea id="sellerContact" name="sellerContact" placeholder="Seller Contact"
+                              maxlength="250"
+                              title="Can include letters, numbers, and ,: '\" ()!@#$%&* characters up to 2000 characters."></textarea>
+                    <div id="descriptionError" style="color: red;"></div>
+                </div>
+                <div>
+                    <label for="image">Images (up to 5):</label>
+                    <input type="file" id="image" name="image[]" accept="image/jpeg, image/png, image/gif, image/tiff" multiple>
+                    <div id="imageError"></div>
+                </div>
+                <div>
+                    <label for="video">Videos (up to 2):</label>
+                    <input type="file" id="video" name="video[]" accept="video/mp4, video/quicktime" multiple>
+                    <div id="videoError"></div>
+                </div>
+                <div>
+                    <button type="submit">Modify Item</button>
+                </div>
+            </form>
+        </div>
+        <!-- Page for financialProgressReport feature -->
+        <div id="financialProgressReportView" style="display: none;"></div>
+        <div id="pendingSaleContainer" style="display: none;">
+            <div class="pendingSaleList">
+                <h1>Pending Sale Items</h1>
+                <table id="saleAcceptTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Sku</th>
+                            <th>Image</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Quantity</th>
+                            <th>Offer Price</th>
+                            <th>Revenue</th>
+                            <th>Profit</th>
+                            <th>Sale Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="saleAcceptTableBody"></tbody>
+                </table>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+<!-- Page for priceRangeSorting feature -->
+<div id="priceRangeSortingView" style="display: none;"></div>
+
+<!-- Page for artistPortfolio feature -->
+<div id="artistPortfolioView" style="display: none;"></div>
+
+<!-- Page for tempo tool feature -->
+<div id="tempoToolView" style="display: none;"></div>
+
+<!-- Page for ScaleDisplay feature -->
+<div id="ScaleDisplayView" style="display:none;"></div>
+
+<!-- Page for bingo board feature-->
+<div id="BingoBoardView" style="display: none;"></div>
+
+
+
+
+
 
     <script src="js/site.js"></script>
     <script src="js/artistProfileCalendar.js"></script>
+    <script src="js/ScaleDisplay.js"></script>
+    <script src="js/tempoTool.js"></script>
+    <script src="js/BingoBoard.js"></script>
+    <script src="js/PriceRangeSorting.js"></script>
+    <script src="js/CraftVerify.js"></script>
+    <script src="js/ItemCreation.js"></script>
+    <script src="js/ItemModification.js"></script>
+    <!--<script src="js/itemDetail.js"></script>-->
 </body>
 </html>
