@@ -18,7 +18,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
 
-                string sql = "SELECT Username FROM UserAccount";
+                string sql = "SELECT Username FROM UserProfile WHERE Username != @userSearch";
 
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
@@ -67,10 +67,20 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         public static Result InsertCollab(string senderUsername, string receiverUsername, string senderEmail, string receiverEmail)
         {
             Result result = new Result();
-            
+
+            // Check if collab already exists
+            if (CollabExists(senderUsername, receiverUsername))
+            {
+                result.Success = false;
+                result.ErrorMessage = "Collab already exists";
+                return result;
+            }
+
+            // If collab doesn't exist, proceed with insertion
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                try
                 {
-                try{
                     connection.Open();
 
                     string sql = "INSERT INTO Collab (SenderUsername, RecieverUsername, Accepted, SenderEmail, RecieverEmail) " +
@@ -92,17 +102,39 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                         }
                     }
                 }
-                 
+
                 catch (Exception ex)
                 {
                     // You can add more specific exception handling if needed
-                    throw new Exception($"Error updating UserProfile: {ex.Message}");
+                    throw new Exception($"Error inserting collab: {ex.Message}");
                 }
             }
 
             result.Success = true;
             return result;
         }
+
+        //check if the collab already exists
+        private static bool CollabExists(string senderUsername, string receiverUsername)
+        {
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT COUNT(*) FROM Collab WHERE SenderUsername = @senderUsername AND RecieverUsername = @receiverUsername";
+
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@senderUsername", senderUsername);
+                    command.Parameters.AddWithValue("@receiverUsername", receiverUsername);
+
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+
+                    return count > 0;
+                }
+            }
+        }
+
 
         //Create second function to find collab based on sender and receiver users where accept = true now
         public static Result AcceptCollabByUsername(string senderUsername, string receiverUsername)
@@ -155,7 +187,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
 
-                string query = "SELECT RecieverUsername FROM Collab WHERE SenderUsername != @username AND Accepted = FALSE";
+                string query = "SELECT DISTINCT RecieverUsername FROM Collab WHERE SenderUsername = @username AND Accepted = FALSE";
 
                 sentCollabs = RetrieveCollabs(connection, query, username);
             }
@@ -171,7 +203,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
                 
-                string sql = "SELECT * FROM Collab WHERE RecieverUsername = @username AND Accepted = FALSE";
+                string sql = "SELECT DISTINCT Senderusername FROM Collab WHERE RecieverUsername = @username AND Accepted = FALSE";
                 
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
@@ -206,7 +238,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 connection.Open();
 
                 string sentQuery = "SELECT SenderUsername FROM Collab WHERE SenderUsername != @username AND Accepted = true";
-                string receivedQuery = "SELECT RecieverEmail FROM Collab WHERE RecieverUsername != @username AND Accepted = true";
+                string receivedQuery = "SELECT DISTINCT RecieverEmail FROM Collab WHERE RecieverUsername != @username AND Accepted = true";
 
                 sentCollabs = RetrieveCollabs(connection,sentQuery, username);
                 receivedCollabs = RetrieveCollabs(connection, receivedQuery, username);
@@ -237,32 +269,5 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             return collabs;
         }
-
-        // private static List<string> RetrieveAcceptedCollabs(MySqlConnection connection, string query, string username)
-        // {
-        //     List<string> acceptedCollabs = new List<string>();
-        //     List<string> sentCollabs = new List<string>();
-
-        //     using (MySqlCommand command = new MySqlCommand(query, connection))
-        //     {
-        //         command.Parameters.AddWithValue("@username", username);
-
-        //         using (MySqlDataReader reader = command.ExecuteReader())
-        //         {
-        //             while (reader.Read())
-        //             {
-        //                 List<string> collabData = new List<string>();
-                        
-        //                 // Assuming the collab data is stored in the first and second columns
-        //                 collabData.Add(reader.GetString(0));
-        //                 collabData.Add(reader.GetString(1));
-        //                 acceptedCollabs.Add(collabData);
-        //                 sentCollabs.Add(collabData);
-        //             }
-        //         }
-        //     }
-
-        //     return acceptedCollabs;
-        // }
     }
 }
