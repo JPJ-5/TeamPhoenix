@@ -1038,5 +1038,91 @@
                 console.error('Error loading Inventory Stock View:', error);
             });
     });
+
+    //Artist Calendar
+    document.getElementById('enter-calendar').addEventListener('click', function () {
+        resetPageTimer("Artist Calendar Feature");
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #usageAnalysisDashboardView').forEach(el => {
+            el.style.display = 'none';
+        });
+        const container = document.getElementById('artistProfileCalendarView');
+        container.style.display = 'block';
+
+        // Load the CSS dynamically
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'ArtistProfileCalendar/ArtistProfileCalendar.css';
+        document.head.appendChild(cssLink);
+
+        fetch('ArtistProfileCalendar/ArtistProfileCalendar.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load ArtistProfileCalendar HTML.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Initialize JavaScript functionalities after HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = 'ArtistProfileCalendar/ArtistProfileCalendar.js'; // Ensure this path is correct
+                jsScript.onload = function () {
+                    setupArtistProfileCalendar();
+                    // JavaScript file loaded and executed
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load Artist Profile Calendar JS.');
+                };
+                document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+            })
+            .catch(error => {
+                console.error('Error loading Artist Profile Calendar View:', error);
+            });
+    });
+
+    // Usage Analysis Dashboard
+    document.getElementById('enter-usageAnalysisDashboard').addEventListener('click', function () {
+        resetPageTimer("Usage Analysis Dashboard");
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+            el.style.display = 'none';
+        });
+        const container = document.getElementById('usageAnalysisDashboardView');
+        container.style.display = 'block';
+
+        // Load the CSS dynamically
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'UsageAnalysisDashboard/UsageAnalysisDashboard.css'; // Adjust path as needed
+        document.head.appendChild(cssLink);
+
+        fetch('UsageAnalysisDashboard/UsageAnalysisDashboard.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load UsageAnalysis Dashboard HTML.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Initialize JavaScript functionalities after HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = 'UsageAnalysisDashboard/UsageAnalysisDashboard.js'; // Ensure this path is correct
+                jsScript.onload = function () {
+                    setupUsageAnalysisDashboard();
+                    // JavaScript file loaded and executed
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load Usage Analysis Dashboard JS.');
+                };
+                document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+            })
+            .catch(error => {
+                console.error('Error loading Usage Analysis Dashboard View:', error);
+            });
+    });
+
+    startPageTimer();
 });
 

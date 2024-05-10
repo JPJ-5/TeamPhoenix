@@ -30,6 +30,8 @@
             fetch(`${baseUrl}/ArtistCalendar/api/ArtistCalendarGigVisibilityAPI`, {
                 method: 'POST',
                 headers: {
+                    'Authentication': idToken,
+                    'Authorization': accessToken,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(payload),
@@ -79,6 +81,10 @@
             url = `${baseUrl}/ArtistCalendar/api/ArtistCalendarGigViewAPI?` + queryView.toString();
             fetch(url, {
                 method: 'GET',
+                headers: {
+                    'Authentication': idToken,
+                    'Authorization': accessToken
+                }
             })
                 .then(response => {
                     if (response.ok) {
@@ -132,6 +138,8 @@
             fetch(`${baseUrl}/ArtistCalendar/api/ArtistCalendarGigDeletionAPI`, {
                 method: 'DELETE',
                 headers: {
+                    'Authentication': idToken,
+                    'Authorization': accessToken,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(payload),
@@ -197,6 +205,8 @@
             fetch(`${baseUrl}/ArtistCalendar/api/ArtistCalendarGigUpdateAPI`, {
                 method: 'POST',
                 headers: {
+                    'Authentication': idToken,
+                    'Authorization': accessToken,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(payload),
@@ -261,6 +271,8 @@
             fetch(`${baseUrl}/ArtistCalendar/api/ArtistCalendarGigCreationAPI`, {
                 method: 'POST',
                 headers: {
+                    'Authentication': idToken,
+                    'Authorization': accessToken,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(payload),
