@@ -2,8 +2,6 @@
 var baseUrl = 'http://localhost:8080';
 // Function to set up event listeners for Financial Progress Report
 function setupFinancialProgressReport() {
-    hideAllSections();
-    document.getElementById('financialProgressReportView').style.display = 'block';
     const fetchFReportYear = document.getElementById('fetchYearly');
     fetchFReportYear.addEventListener('click', () => fetchFPR("Yearly"));
 
@@ -78,7 +76,7 @@ function drawYearlyChart(data) {
     const maxProfit = Math.max(...data.map(d => d.financialProfit));
 
     const xScale = (financialYear) => {
-        const yearSpan = data.length > 1 ? data[data.length - 1].financialYear - data[0].financialYear : 1;
+        const yearSpan = data[data.length - 1].financialYear - data[0].financialYear;
         return ((financialYear - data[0].financialYear) / yearSpan) * width + margin.left;
     };
 
@@ -87,19 +85,17 @@ function drawYearlyChart(data) {
     };
 
     // Setup for the filled area
-    if (data.length > 1) {
-        ctx.fillStyle = 'rgba(173, 216, 230, 0.5)';
-        ctx.beginPath();
-        ctx.moveTo(margin.left, height + margin.top);
-        data.forEach((d) => {
-            const x = xScale(d.financialYear);
-            const y = yScale(d.financialProfit);
-            ctx.lineTo(x, y);
-        });
-        ctx.lineTo(xScale(data[data.length - 1].financialYear), height + margin.top);
-        ctx.closePath();
-        ctx.fill();
-    }
+    ctx.fillStyle = 'rgba(173, 216, 230, 0.5)';
+    ctx.beginPath();
+    ctx.moveTo(margin.left, height + margin.top);
+    data.forEach((d, i) => {
+        const x = xScale(d.financialYear);
+        const y = yScale(d.financialProfit);
+        ctx.lineTo(x, y);
+    });
+    ctx.lineTo(xScale(data[data.length - 1].financialYear), height + margin.top);
+    ctx.closePath();
+    ctx.fill();
 
     // Redraw the axes over the filled area
     ctx.beginPath();
@@ -112,28 +108,19 @@ function drawYearlyChart(data) {
     // Drawing the line and points
     ctx.strokeStyle = 'deepskyblue';
     ctx.beginPath();
-    if (data.length > 1) {
-        data.forEach((d, i) => {
-            const x = xScale(d.financialYear);
-            const y = yScale(d.financialProfit);
-            ctx.lineTo(x, y);
-        });
-    }
-    ctx.stroke();
-
-    // Draw the individual points, even if only one
-    data.forEach((d) => {
+    data.forEach((d, i) => {
         const x = xScale(d.financialYear);
         const y = yScale(d.financialProfit);
         ctx.fillStyle = 'deepskyblue';
-        ctx.beginPath();
+        ctx.moveTo(x, y);
         ctx.arc(x, y, 5, 0, Math.PI * 2, true);
         ctx.fill();
     });
+    ctx.stroke();
 
     // Add a label to the y-axis
     ctx.save();
-    ctx.translate(20, height / 2 + margin.top);
+    ctx.translate(20, height / 2 + margin.top);  // Changed from 10 to 20
     ctx.rotate(-Math.PI / 2);
     ctx.textAlign = 'center';
     ctx.fillStyle = '#000';
@@ -146,7 +133,7 @@ function drawYearlyChart(data) {
         const y = yScale(tick);
         ctx.fillStyle = '#000';
         ctx.textAlign = 'right';
-        ctx.textBaseline = 'middle';
+        ctx.textBaseline = 'middle'; // Center text vertically
         ctx.fillText(`$${tick}`, margin.left - 10, y);
     });
 
@@ -158,6 +145,7 @@ function drawYearlyChart(data) {
         ctx.fillText(d.financialYear.toString(), x, height + margin.top + 20);
     });
 }
+
 function drawQuarterlyChart(data) {
     const canvas = document.getElementById('chartCanvas');
     const ctx = canvas.getContext('2d');
@@ -174,7 +162,7 @@ function drawQuarterlyChart(data) {
     const labeledProfits = new Set();
 
     const xScale = (index) => {
-        return data.length > 1 ? margin.left + index * (width / (data.length - 1)) : margin.left + width / 2;
+        return margin.left + index * (width / (data.length - 1));
     };
 
     const yScale = (profit) => {
@@ -182,19 +170,18 @@ function drawQuarterlyChart(data) {
     };
 
     // Setup for the filled area
-    if (data.length > 1) {
-        ctx.fillStyle = 'rgba(128, 0, 128, 0.5)';
-        ctx.beginPath();
-        ctx.moveTo(margin.left, height + margin.top);
-        data.forEach((d, i) => {
-            const x = xScale(i);
-            const y = yScale(d.financialProfit);
-            ctx.lineTo(x, y);
-        });
-        ctx.lineTo(xScale(data.length - 1), height + margin.top);
-        ctx.closePath();
-        ctx.fill();
-    }
+    ctx.fillStyle = 'rgba(173, 216, 230, 0.5)';
+    ctx.beginPath();
+    ctx.moveTo(margin.left, height + margin.top);
+    data.forEach((d, i) => {
+        const x = xScale(i);
+        const y = yScale(d.financialProfit);
+        ctx.lineTo(x, y);
+    });
+
+    ctx.lineTo(xScale(data.length - 1), height + margin.top);
+    ctx.closePath();
+    ctx.fill();
 
     // Redraw the axes
     ctx.beginPath();
@@ -205,30 +192,22 @@ function drawQuarterlyChart(data) {
     ctx.stroke();
 
     // Drawing the line and points
-    ctx.strokeStyle = 'purple';
+    ctx.strokeStyle = 'deepskyblue';
     ctx.beginPath();
-    if (data.length > 1) {
-        data.forEach((d, i) => {
-            const x = xScale(i);
-            const y = yScale(d.financialProfit);
-            ctx.lineTo(x, y);
-        });
-    }
-    ctx.stroke();
-
-    // Draw the individual points, even if only one
     data.forEach((d, i) => {
         const x = xScale(i);
         const y = yScale(d.financialProfit);
-        ctx.fillStyle = 'purple';
-        ctx.beginPath();
+
+        ctx.fillStyle = 'deepskyblue';
+        ctx.moveTo(x, y);
         ctx.arc(x, y, 5, 0, Math.PI * 2, true);
         ctx.fill();
     });
+    ctx.stroke();
 
     // Add a label to the y-axis
     ctx.save();
-    ctx.translate(20, height / 2 + margin.top);
+    ctx.translate(20, height / 2 + margin.top);  // Changed from 10 to 20
     ctx.rotate(-Math.PI / 2);
     ctx.textAlign = 'center';
     ctx.fillStyle = '#000';
@@ -251,9 +230,9 @@ function drawQuarterlyChart(data) {
     data.forEach((d, i) => {
         const x = xScale(i);
         ctx.fillStyle = '#000';
-        ctx.textAlign = 'center';
-        ctx.fillText(d.financialYear, x, height + margin.top + 20);
-        ctx.fillText(`Q${d.financialQuater}`, x, height + margin.top + 40);
+        ctx.textAlign = 'center';  // Align text to the center of the x position
+        ctx.fillText(d.financialYear, x, height + margin.top + 20);  // Year
+        ctx.fillText(`Q${d.financialQuater}`, x, height + margin.top + 40);  // Quarter below year
     });
 }
 
@@ -265,7 +244,7 @@ function drawMonthlyChart(data) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const margin = { top: 40, right: 20, bottom: 100, left: 90 };
+    const margin = { top: 40, right: 20, bottom: 100, left: 90 }; // Adjust left margin for y-axis labels
     const width = canvas.width - margin.left - margin.right;
     const height = canvas.height - margin.top - margin.bottom;
 
@@ -277,7 +256,7 @@ function drawMonthlyChart(data) {
 
     // Adjust xScale to distribute points evenly regardless of the actual date
     const xScale = (index) => {
-        return data.length > 1 ? margin.left + index * (width / (data.length - 1)) : margin.left + width / 2;
+        return margin.left + index * (width / (data.length - 1));
     };
 
     const yScale = (profit) => {
@@ -285,17 +264,15 @@ function drawMonthlyChart(data) {
     };
 
     // Draw the filled area under the line
-    if (data.length > 1) {
-        ctx.fillStyle = 'rgba(255, 165, 0, 0.5)';
-        ctx.beginPath();
-        ctx.moveTo(margin.left, height + margin.top);
-        data.forEach((d, index) => {
-            ctx.lineTo(xScale(index), yScale(d.financialProfit));
-        });
-        ctx.lineTo(xScale(data.length - 1), height + margin.top);
-        ctx.closePath();
-        ctx.fill();
-    }
+    ctx.fillStyle = 'rgba(173, 216, 230, 0.5)';
+    ctx.beginPath();
+    ctx.moveTo(margin.left, height + margin.top);
+    data.forEach((d, index) => {
+        ctx.lineTo(xScale(index), yScale(d.financialProfit));
+    });
+    ctx.lineTo(xScale(data.length - 1), height + margin.top);
+    ctx.closePath();
+    ctx.fill();
 
     // Draw axes
     ctx.beginPath();
@@ -306,7 +283,7 @@ function drawMonthlyChart(data) {
     ctx.stroke();
 
     // Draw points
-    ctx.fillStyle = 'orange';
+    ctx.fillStyle = 'deepskyblue';
     data.forEach((d, index) => {
         const x = xScale(index);
         const y = yScale(d.financialProfit);
@@ -314,18 +291,6 @@ function drawMonthlyChart(data) {
         ctx.arc(x, y, 5, 0, 2 * Math.PI);
         ctx.fill();
     });
-
-    // Draw line path if more than one data point
-    if (data.length > 1) {
-        ctx.strokeStyle = 'orange';
-        ctx.beginPath();
-        data.forEach((d, index) => {
-            const x = xScale(index);
-            const y = yScale(d.financialProfit);
-            ctx.lineTo(x, y);
-        });
-        ctx.stroke();
-    }
 
     // Y-axis labels for each unique profit value
     ctx.fillStyle = '#000';
