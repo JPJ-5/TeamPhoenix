@@ -1,5 +1,5 @@
-var baseUrl = 'https://themusicali.com:5000';
-//var baseUrl = 'http://localhost:8080';
+//var baseUrl = 'https://themusicali.com:5000';
+var baseUrl = 'http://localhost:8080';
 // Function to set up event listeners for Financial Progress Report
 function setupFinancialProgressReport() {
     const fetchFReportYear = document.getElementById('fetchYearly');
