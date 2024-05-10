@@ -1,14 +1,20 @@
-﻿let monthsInTimespan = null;
-function setMonthsInTimespan() { 
+﻿var monthsInTimespan = "";
+function setMonthsInTimespan() {
     monthsInTimespan = document.getElementById('monthsInTimespan').value
 }
 
 function getAllChartsInTimespan() {
-    getLoginInTimespan();
-    getRegistrationInTimespan();
-    getGigsCreatedInTimespan();
-    getItemsSoldInTimespan();
-    getPageLengthInTimespan();
+    setMonthsInTimespan()
+    if (monthsInTimespan !== "") {
+        getLoginInTimespan();
+        getRegistrationInTimespan();
+        getGigsCreatedInTimespan();
+        getItemsSoldInTimespan();
+        getPageLengthInTimespan();
+    }
+    if (document.getElementById('usageAnalysisDashboardView').style.display === 'none') {
+        clearInterval(updateUsageAnalysisDashboard);
+    }
 }
 function getLoginInTimespan() {
     var results = document.getElementById('login-results-container')
@@ -95,8 +101,8 @@ function displayLoginResults(loginData) {
 function setupLoginBoard() {
     var chartContainer = document.getElementById('login-chart-container');
     var canvas = document.createElement('canvas');
-    canvas.width = 400;
-    canvas.height = 300;
+    canvas.width = 1;
+    canvas.height = 1;
     chartContainer.appendChild(canvas);
 }
 
@@ -184,8 +190,8 @@ function displayRegistrationResults(registrationData) {
 function setupRegistrationBoard() {
     var chartContainer = document.getElementById('registration-chart-container');
     var canvas = document.createElement('canvas');
-    canvas.width = 400;
-    canvas.height = 300;
+    canvas.width = 1;
+    canvas.height = 1;
     chartContainer.appendChild(canvas);
 }
 
@@ -273,8 +279,8 @@ function displayGigsCreatedResults(gigsCreatedData) {
 function setupGigsCreatedBoard() {
     var chartContainer = document.getElementById('gigs-created-chart-container');
     var canvas = document.createElement('canvas');
-    canvas.width = 400;
-    canvas.height = 300;
+    canvas.width = 1;
+    canvas.height = 1;
     chartContainer.appendChild(canvas);
 }
 
@@ -334,10 +340,9 @@ function displayPageLengthResults(pageLengthData) {
 }
 
 function setupUsageAnalysisDashboard() {
-    var username = document.getElementById("username").value;
     setupLoginBoard();
     setupRegistrationBoard();
     setupGigsCreatedBoard();
 }
 
-setInterval(getAllChartsInTimespan, 60000);
+var updateUsageAnalysisDashboard = setInterval(getAllChartsInTimespan, 60000);

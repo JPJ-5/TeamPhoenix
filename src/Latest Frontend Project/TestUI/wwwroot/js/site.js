@@ -1084,7 +1084,7 @@
     // Usage Analysis Dashboard
     document.getElementById('enter-usageAnalysisDashboard').addEventListener('click', function () {
         resetPageTimer("Usage Analysis Dashboard");
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #artistProfileCalendarView').forEach(el => {
             el.style.display = 'none';
         });
         const container = document.getElementById('usageAnalysisDashboardView');
@@ -1121,6 +1121,16 @@
             .catch(error => {
                 console.error('Error loading Usage Analysis Dashboard View:', error);
             });
+    });
+
+    //enter collab feature view
+    document.getElementById('enter-collabFeature').addEventListener('click', function () {
+        document.querySelector('.main').style.display = 'none'; // Hide main content
+        document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
+        document.getElementById('ScaleDisplayView').style.display = 'none'; // hide scale display view
+        document.getElementById('CollabFeatureView').style.display = 'block'; //show collab feature
+        var username = document.getElementById("username").value;
+        logFeatureUsage(username, "Collab Feature");
     });
 
     startPageTimer();
