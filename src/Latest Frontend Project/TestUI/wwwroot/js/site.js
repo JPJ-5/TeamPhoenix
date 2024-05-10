@@ -907,7 +907,6 @@
     });
 
     //Price Range Sorting
-    //Price Range Sorting
     document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
         // Hide other parts of the page
         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
@@ -1039,11 +1038,5 @@
                 console.error('Error loading Inventory Stock View:', error);
             });
     });
-
-
-   
-   
-
-
 });
 

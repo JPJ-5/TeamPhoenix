@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Logging;
 using TeamPhoenix.MusiCali.Security;
@@ -12,12 +9,13 @@ using TeamPhoenix.MusiCali.Services;
 [Route("SellerDashboard")]
 public class FinancialProgressReportController : ControllerBase
 {
-    private FinancialProgressReportService financialService;
-    private AuthenticationSecurity authentication;
+    private FinancialProgressReportService _financialService;
+    private AuthenticationSecurity _authentication;
+
     public FinancialProgressReportController(IConfiguration configuration)
     {
-        financialService = new FinancialProgressReportService(configuration);
-        authentication = new AuthenticationSecurity(configuration);
+        _financialService = new FinancialProgressReportService(configuration);
+        _authentication = new AuthenticationSecurity(configuration);
     }
 
     [HttpGet("api/GetFinancialReport")]
@@ -26,12 +24,12 @@ public class FinancialProgressReportController : ControllerBase
         try
         {
             var accessToken = Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            var role = authentication.getScopeFromToken(accessToken!);
-            var user = authentication.getUserFromToken(accessToken!);
+            var role = _authentication.getScopeFromToken(accessToken!);
+            var user = _authentication.getUserFromToken(accessToken!);
 
-            if (!string.IsNullOrEmpty(role) && authentication.CheckIdRoleExisting(user, role))
+            if (!string.IsNullOrEmpty(role) && _authentication.CheckIdRoleExisting(user, role))
             {
-                var report = financialService.GetReport(username, frequency);
+                var report = _financialService.GetReport(username, frequency);
                 if (report != (new HashSet<FinancialInfoModel>()))
                 {
                     return Ok(report);
@@ -51,5 +49,4 @@ public class FinancialProgressReportController : ControllerBase
             return BadRequest($"Internal server error: {ex.Message}");
         }
     }
-
 }
