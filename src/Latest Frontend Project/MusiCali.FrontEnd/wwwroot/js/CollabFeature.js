@@ -170,6 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 sentUsernames.textContent = `Received Collabs:${collabData.receivedCollabs}`;
                 alert("You received collabs from: " + collabData.receivedCollabs)
             }
+
             else if (selectedOption === "View Accepted Requests") {
                 sentUsernames.textContent = `Accepted Collabs: ${collabData.acceptedCollabs}`;
                 alert("You've accepted collab requests from: " + collabData.acceptedCollabs);
@@ -185,47 +186,68 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-    function showAvailUsers(userSearch){
-        var table = document.getElementById("userTable");
-        var username = sessionStorage.getItem("username");
-        
-        idToken = sessionStorage.getItem("idToken");
-        accessToken = sessionStorage.getItem("accessToken");
-        
+function showAvailUsers(userSearch){
+    var table = document.getElementById("userTable");
+    var username = sessionStorage.getItem("username");
+    
+    idToken = sessionStorage.getItem("idToken");
+    accessToken = sessionStorage.getItem("accessToken");
+    
 
-        // Clear existing table content
-        table.innerHTML = '';
+    // Clear existing table content
+    table.innerHTML = '';
 
-        // Make AJAX request to backend API
-        fetch('http://localhost:8080/CollabFeature/api/DisplayAvailableUsersAPI',{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authentication': idToken,
-                'Authorization': accessToken,
-                'userName': username
-            },
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Failed to fetch available users');
-            }
-        })
-        .then(users => {
-            // Create table rows for each user
-            users.forEach(user => {
-                var row = table.insertRow();
-                var cell = row.insertCell();
-                cell.textContent = user;
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            // Display error message or handle error appropriately
+    // Make AJAX request to backend API
+    fetch('http://localhost:8080/CollabFeature/api/DisplayAvailableUsersAPI',{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authentication': idToken,
+            'Authorization': accessToken,
+            'userName': username
+        },
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Failed to fetch available users');
+        }
+    })
+    .then(users => {
+        // Create table rows for each user
+        users.forEach(user => {
+            var row = table.insertRow();
+            var usernameCell = row.insertCell();
+            usernameCell.textContent = user;
+
+            // Add "View Artist Portfolio" button cell
+            var viewPortfolioButtonCell = row.insertCell();
+            var viewPortfolioButton = document.createElement('button');
+            viewPortfolioButton.textContent = 'View Artist Portfolio';
+            viewPortfolioButton.onclick = function() {
+                // Handle button click event, e.g., navigate to artist portfolio page
+                alert('Viewing portfolio for ' + user);
+            };
+            viewPortfolioButtonCell.appendChild(viewPortfolioButton);
+
+            // Add "Send a Request" button cell
+            var sendRequestButtonCell = row.insertCell();
+            var sendRequestButton = document.createElement('button');
+            sendRequestButton.textContent = 'Send a Request';
+            sendRequestButton.onclick = function() {
+                sendCollabRequest(user.stringify());
+            };
+            sendRequestButtonCell.appendChild(sendRequestButton);
         });
-    }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Display error message or handle error appropriately
+    });
+}
+
+
 
 function collabSentAlert() {
     var popup = document.getElementById('createPopup');
