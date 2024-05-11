@@ -16,17 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             view.style.display = 'block';
         }
-    //should call pricerange sorting here 
+        //should call pricerange sorting here 
     });
 
 });
-
-
-
-
-
-
-
 
 function setupPagination(totalCount, itemsPerPage) {
     const pageCount = Math.ceil(totalCount / itemsPerPage);

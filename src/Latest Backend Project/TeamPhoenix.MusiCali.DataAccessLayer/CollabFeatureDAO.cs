@@ -145,49 +145,23 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
 
-                string sql = "SELECT Accepted FROM Collab WHERE SenderUsername = @senderUsername AND ReceiverUsername = @receiverUsername";
+                string sql = "UPDATE Collab SET Accepted = true WHERE SenderUsername = @senderUsername AND RecieverUsername = @receiverUsername";
 
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@senderUsername", senderUsername);
                     command.Parameters.AddWithValue("@receiverUsername", receiverUsername);
 
-                    bool isAlreadyAccepted = false;
-
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            isAlreadyAccepted = reader.GetBoolean("Accepted");
-                        }
-                    }
-
-                    if (isAlreadyAccepted)
+                    int rowsAffected = command.ExecuteNonQuery();
+                    if (rowsAffected == 0)
                     {
                         result.Success = false;
-                        result.ErrorMessage = "Collab is already accepted.";
+                        result.ErrorMessage = "No collab found for the specified sender and receiver usernames.";
                     }
                     else
                     {
-                        sql = "UPDATE Collab SET Accepted = true WHERE SenderUsername = @senderUsername AND ReceiverUsername = @receiverUsername";
-
-                        using (MySqlCommand updateCommand = new MySqlCommand(sql, connection))
-                        {
-                            updateCommand.Parameters.AddWithValue("@senderUsername", senderUsername);
-                            updateCommand.Parameters.AddWithValue("@receiverUsername", receiverUsername);
-
-                            int rowsAffected = updateCommand.ExecuteNonQuery();
-                            if (rowsAffected == 0)
-                            {
-                                result.Success = false;
-                                result.ErrorMessage = "No collab found for the specified sender and receiver usernames.";
-                            }
-                            else
-                            {
-                                result.Success = true;
-                                result.ErrorMessage = "Collab accepted successfully.";
-                            }
-                        }
+                        result.Success = true;
+                        result.ErrorMessage = "Collab accepted successfully.";
                     }
                 }
             }
