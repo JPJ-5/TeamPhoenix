@@ -24,11 +24,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         }
 
         
-        public async Task<(HashSet<PaginationItemModel>, int)> GetItemListAndCountPagination(string? listed, string? offerable, string? userHash, int pageNum, int pageSize)
+        public async Task<(HashSet<PaginationItemModel>, int )> GetItemListAndCountPagination(string? listed, string? offerable, string? userHash, int pageNum, int pageSize)
         {
             var items = new HashSet<PaginationItemModel>();
             int totalCount = 0;
-            Console.WriteLine(userHash);
+            
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -68,9 +68,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                         countCommand.Parameters.AddRange(cmdParams.ToArray());
                         totalCount = Convert.ToInt32(await countCommand.ExecuteScalarAsync());
                     }
-                    Console.WriteLine(baseQuery);
+                    
                     // Query to get paginated items
-                    string itemQuery = $"SELECT Name, Price, SKU, Image {baseQuery} ORDER BY Price ASC LIMIT @Offset, @PageSize;";
+                    string itemQuery = $"SELECT Name, Price, SKU, StockAvailable, Image {baseQuery} ORDER BY Price ASC LIMIT @Offset, @PageSize;";
                     cmdParams.Add(new MySqlParameter("@PageSize", pageSize));
                     cmdParams.Add(new MySqlParameter("@Offset", (pageNum - 1) * pageSize));
 
@@ -85,13 +85,12 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                                 {
                                     Name = reader.GetString("Name"),
                                     Price = reader.GetDecimal("Price"),
-                                    Sku = reader.GetString("SKU")
+                                    Sku = reader.GetString("SKU"),
+                                    StockAvailable = reader.GetInt32("StockAvailable")
                                 };
 
                                 var imageString = reader.GetString("Image");
-                                var firstImageName = imageString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                                                .Select(s => s.Trim())
-                                                                .FirstOrDefault(); // Gets the first image from string of name or null if none
+                                var firstImageName = imageString.Split(',')[0]; // Gets the first image from string of name or null if none
                                 item.FirstImage = firstImageName != null ? GetImageUrl(item.Sku, firstImageName) : null;  // Gets the imageURL from s3 bucket based on sku and file name
                                 items.Add(item);
                             }
@@ -107,6 +106,92 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
         }
 
+
+        //public async Task<(HashSet<PaginationItemWithReceiptsModel>, int count)> GetItemListAndCountPaginationPendingSale(string? userHash, int pageNum, int pageSize)
+        //{
+        //    var items = new HashSet<PaginationItemWithReceiptsModel>();
+        //    int totalCount = 0;
+
+        //    using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //    {
+        //        await connection.OpenAsync();
+
+        //        string baseQuery = @"FROM CraftItem ci
+        //                     RIGHT JOIN CraftReceipt cr ON ci.SKU = cr.SKU AND cr.PendingSale = 1
+        //                     WHERE ci.CreatorHash = @CreatorHash";
+
+        //        string countQuery = $@"SELECT COUNT(DISTINCT ci.SKU) {baseQuery};";
+
+        //        string dataQuery = $@"SELECT ci.Name, ci.SKU, ci.Price, ci.StockAvailable, ci.Image AS FirstImage,
+        //                             cr.ReceiptID, cr.OfferPrice, cr.Quantity, cr.Profit, cr.Revenue, cr.SaleDate
+        //                      {baseQuery}
+        //                      ORDER BY ci.Name ASC, cr.SaleDate ASC
+        //                      LIMIT @Offset, @PageSize;";
+
+        //        using (MySqlCommand countCommand = new MySqlCommand(countQuery, connection))
+        //        {
+        //            countCommand.Parameters.AddWithValue("@CreatorHash", userHash ?? string.Empty);
+        //            totalCount = Convert.ToInt32(await countCommand.ExecuteScalarAsync());
+        //        }
+
+        //        using (MySqlCommand dataCommand = new MySqlCommand(dataQuery, connection))
+        //        {
+        //            dataCommand.Parameters.AddWithValue("@CreatorHash", userHash ?? string.Empty);
+        //            dataCommand.Parameters.AddWithValue("@Offset", (pageNum - 1) * pageSize);
+        //            dataCommand.Parameters.AddWithValue("@PageSize", pageSize);
+
+        //            using (var reader = (MySqlDataReader)await dataCommand.ExecuteReaderAsync())
+        //            {
+        //                var itemDictionary = new Dictionary<string, PaginationItemWithReceiptsModel>();
+
+        //                while (await reader.ReadAsync())
+        //                {
+        //                    string sku = reader.GetString("SKU");
+
+        //                    if (!itemDictionary.TryGetValue(sku, out PaginationItemWithReceiptsModel? itemWithReceipts))
+        //                    {
+        //                        string firstImageField = reader.GetString("FirstImage");
+        //                        List<string> imageUrls = firstImageField?.Split(',').ToList() ?? new List<string>();
+
+        //                        itemWithReceipts = new PaginationItemWithReceiptsModel
+        //                        {
+        //                            Item = new PaginationItemModel
+        //                            {
+        //                                Name = reader.GetString("Name"),
+        //                                Sku = sku,
+        //                                Price = reader.GetDecimal("Price"),
+        //                                StockAvailable = reader.GetInt32("StockAvailable"),
+        //                                FirstImage = imageUrls.Count > 0 ? GetImageUrl(sku, imageUrls[0]) : null
+        //                            },
+        //                            PendingReceipts = new List<CraftReceiptModel>()
+        //                        };
+
+        //                        itemDictionary.Add(sku, itemWithReceipts);
+        //                        items.Add(itemWithReceipts);
+        //                    }
+
+        //                    if (!reader.IsDBNull(reader.GetOrdinal("ReceiptID")))
+        //                    {
+        //                        var receipt = new CraftReceiptModel
+        //                        {
+        //                            ReceiptID = reader.GetInt32("ReceiptID"),
+        //                            SKU = sku,
+        //                            OfferPrice = reader.GetDecimal("OfferPrice"),
+        //                            Quantity = reader.GetInt32("Quantity"),
+        //                            Profit = reader.GetDecimal("Profit"),
+        //                            Revenue = reader.GetDecimal("Revenue"),
+        //                            SaleDate = reader.IsDBNull(reader.GetOrdinal("SaleDate")) ? (DateTime?)null : reader.GetDateTime("SaleDate")
+        //                        };
+
+        //                        itemWithReceipts.PendingReceipts.Add(receipt);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    return (items, totalCount);
+        //}
 
 
         public string? GetImageUrl(string sku, string picName) // getting s3 pic presigned url is synchonous task, no need await.

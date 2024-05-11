@@ -36,4 +36,16 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
         }
 
     }
+
+    public class CraftReceiptWithItemModel
+    {
+        public int ReceiptID { get; set; }
+        public string SKU { get; set; } = string.Empty;
+        public decimal OfferPrice { get; set; }
+        public int Quantity { get; set; }
+        public decimal Profit { get; set; }
+        public decimal Revenue { get; set; }
+        public DateTime? SaleDate { get; set; }
+        public PaginationItemModel Item { get; set; } = new PaginationItemModel();
+    }
 }

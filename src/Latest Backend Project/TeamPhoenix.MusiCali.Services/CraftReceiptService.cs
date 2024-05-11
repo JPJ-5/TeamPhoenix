@@ -16,6 +16,7 @@ using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Logging;
 using TeamPhoenix.MusiCali.Security;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace TeamPhoenix.MusiCali.Services
 {
@@ -30,7 +31,7 @@ namespace TeamPhoenix.MusiCali.Services
         {
             this.configuration = configuration;
             loggerService = new LoggerService(this.configuration);
-            itemBuyingDAO = new ItemBuyingDAO(this.configuration);
+            itemBuyingDAO = new ItemBuyingDAO(this.configuration, s3Client);
             itemCreationDAO = new ItemCreationDAO(this.configuration, s3Client);
         }
 
@@ -171,6 +172,45 @@ namespace TeamPhoenix.MusiCali.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"Error sending confirmation email: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> acceptPendingSale(CraftReceiptModel receipt)
+        {
+            bool isSuccess = await itemBuyingDAO!.AcceptPendingSale(receipt);
+
+            if (isSuccess)
+            {
+                string buyerEmail = itemBuyingDAO!.GetEmailByUserHash(receipt.BuyerHash!);
+                string sellerEmail = itemBuyingDAO.GetEmailByUserHash(receipt.CreatorHash!);
+                string messageToBuyer = $"Your Pending Buy is accepted, please contact the seller for item {receipt.SKU} by receipt ID number {receipt.ReceiptID}.";
+                string messageToSeller = $"You accepted a pending sale, please contact the buyer for item {receipt.SKU} by receipt ID number {receipt.ReceiptID}.";
+                SendConfirmationEmail(buyerEmail, "Sale Confirmation CreaftVerify", messageToBuyer);
+                SendConfirmationEmail(sellerEmail, "Sale Confirmation CreaftVerify", messageToSeller);
+                loggerService.CreateLog(receipt.CreatorHash!, "Info", "View", "Accept Pending Sale");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> declinePendingSale(CraftReceiptModel receipt)
+        {
+            bool isSuccess = await itemBuyingDAO!.DeclinePendingSale(receipt.ReceiptID);
+
+            if (isSuccess)
+            {
+                string buyerEmail = itemBuyingDAO!.GetEmailByUserHash(receipt.BuyerHash!);
+                string messageToBuyer = $"Your pending buy for item {receipt.SKU}, quantity {receipt.Quantity}, at $ {receipt.OfferPrice} is refused, thank you for stopping by";
+                SendConfirmationEmail(buyerEmail, "Sale Confirmation CreaftVerify", messageToBuyer);
+                loggerService.CreateLog(receipt.CreatorHash!, "Info", "View", "Accept Pending Sale");
+                return true;
+            }
+            else
+            {
                 return false;
             }
         }

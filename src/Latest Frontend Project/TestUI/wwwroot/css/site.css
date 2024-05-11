@@ -61,8 +61,8 @@ tr:hover {background-color: #ddd;}
     position: fixed;
     top: 0;
     width: 100%;
-    display: flex; /* Use flexbox for positioning */
-    justify-content: space-between; /* Space out the navbar items */
+    display: flex;  
+    justify-content: space-between;   
 }
 
     .navbar a, .navbar .hamburger {
@@ -98,6 +98,7 @@ tr:hover {background-color: #ddd;}
     font-size: 2em;
     text-align: center;
 }
+
 
 .dropdown {
     display: none;

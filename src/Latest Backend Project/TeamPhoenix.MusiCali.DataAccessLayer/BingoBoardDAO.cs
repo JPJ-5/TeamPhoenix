@@ -84,14 +84,20 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 using (var selectCommand = new MySqlCommand(selectSql, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@gigID", gigID);
-                    string interestedUsersJson = (string)selectCommand.ExecuteScalar();
+                    var result = selectCommand.ExecuteScalar();
+
+                    // Check if the result is DBNull
+                    if (result == DBNull.Value)
+                    {
+                        return null;
+                    }
 
                     // Parse the JSON string to a list of usernames
+                    string interestedUsersJson = (string)result;
                     List<string>? interestedUsers = JsonConvert.DeserializeObject<List<string>>(interestedUsersJson);
 
-                    //ensure list is both not null and has values before returning
+                    // Ensure list is both not null and has values before returning
                     return interestedUsers;
-
                 }
             }
         }

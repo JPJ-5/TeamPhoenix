@@ -1,9 +1,19 @@
-﻿document.getElementById('itemCreationBtn').addEventListener('click', function () {
+﻿
+var baseUrl = 'http://localhost:8080';
+document.getElementById('itemCreationBtn').addEventListener('click', function () {
 
     hideAllSections();
     var formContainer = document.getElementById('itemCreationForm'); // Show the form container
+    
     formContainer.style.display = 'block';
 });
+
+function hideAllSections() {
+    document.getElementById('itemCreationForm').style.display = 'none';
+    document.getElementById('itemModificationContainer').style.display = 'none';
+    document.getElementById('itemModificationForm').style.display = 'none';
+    document.getElementById('pendingSaleContainer').style.display = 'none';
+}
 
 document.getElementById('creationForm').addEventListener('submit', function (event) {
     event.preventDefault(); // Prevent the traditional form submission
@@ -24,10 +34,10 @@ document.getElementById('video').addEventListener('change', function () {
     validateFiles(this.files, 2, 500 * 1024 * 1024, ['video/mp4', 'video/quicktime'], 'videoError');
 });
 
-function validateFiles(files, maxFiles, maxSize, validTypes, errorElementId) {
+function validateFiles(files, maxNumberOfFiles, maxSize, validTypes, errorElementId) {
     let errorMessages = [];
-    if (files.length > maxFiles) {
-        errorMessages.push(`You can only upload up to ${maxFiles} files.`);
+    if (files.length > maxNumberOfFiles) {
+        errorMessages.push(`You can only upload up to ${maxNumberOfFiles} files.`);
     }
 
     for (let i = 0; i < files.length; i++) {
@@ -57,7 +67,7 @@ function validateDescription() {
         errorDiv.textContent = "Description can only include alphanumeric characters and ,: '\"()!@#$%&*.";
         description.value = description.value.replace(/[^a-zA-Z0-9 ,:"'()!@#$%&*]/g, '');
     } else {
-        errorDiv.textContent = ''; // Clear error message when valid
+        errorDiv.textContent = ''; 
     }
 }
 
