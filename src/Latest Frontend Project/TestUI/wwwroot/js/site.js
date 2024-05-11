@@ -8,11 +8,12 @@
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
-    var baseUrl = 'http://localhost:8080';
+    //var baseUrl = 'https://themusicali.com:5000';
+    var baseUrl = 'http://localhost:8080';    
     var idToken;
     var accessToken;
 
-
+    
 
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
@@ -81,9 +82,7 @@
                     loginerror.innerHTML = ''
                 } else {
                     // Email does not exist
-                    alert("Email does not exist or the account is disabled try account recovery.");
-                    //loginerror.style.display = 'block';
-                    loginerror.innerHTML = 'Email nonexistent or needs recovery';
+                    alert("Email does not exist.");
                 }
             })
             .catch((error) => {
@@ -510,6 +509,9 @@
         }
     });
 
+
+
+
     // Inside prepareAdminUI
     document.getElementById('admin-get-user').addEventListener('click', function () {
         var username = prompt("Enter the username of the user to fetch:");
@@ -745,12 +747,52 @@
             });
     });
 
+    // Scale Display
     document.getElementById('enter-scaleDisplay').addEventListener('click', function () {
-        document.querySelector('.main').style.display = 'none'; // Hide main content
-        document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
-        document.getElementById('ScaleDisplayView').style.display = 'block'; // Show tempo tool content
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // Show the Scale Display view
+        const container = document.getElementById('ScaleDisplayView');
+        container.style.display = 'block';
+
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "Scale Display");
+
+        //// Dynamically load and apply CSS specific to Scale Display
+        //const cssLink = document.createElement('link');
+        //cssLink.rel = 'stylesheet';
+        //cssLink.href = 'ScaleDisplayFeature/ScaleDisplay.css'; // Ensure this path is correct
+        //document.head.appendChild(cssLink);
+
+        // Fetch the HTML content and then load JS
+        fetch('ScaleDisplayFeature/ScaleDisplay.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load HTML content.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Initialize JavaScript functionalities after HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = '/ScaleDisplayFeature/ScaleDisplay.js'; // Ensure this path is correct
+                jsScript.onload = function () {
+                    setupPageComponents();  // Assuming setupPageComponents() sets everything up
+                    // JavaScript file loaded and executed
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load JavaScript file');
+                };
+                document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+            })
+            .catch(error => {
+                console.error('Failed to load HTML content:', error);
+            });
     });
 
     function logFeatureUsage(username, feature) {
@@ -759,7 +801,7 @@
             Feature: feature
         };
 
-        fetch('http://localhost:8080/LogFeature/api/LogFeatureAPI', {
+        fetch(`${baseUrl}/LogFeature/api/LogFeatureAPI`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -783,15 +825,99 @@
             });
     }
 
-    // Inventory Stock
-    document.getElementById('Inventory Stock View').addEventListener('click', function () {
-        window.location.href = 'InventoryStockView.html'; // Redirects the user to PriceRangeSorting.html
+
+     // Bingo Board Feature
+     document.getElementById('enter-BingoBoardView').addEventListener('click', function () {
+        // Hide other parts of the page
+         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #priceRangeSortingView, #financialProgressReportView, #inventoryStockView, #artistPortfolioView').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // Show the Bingo Board view
+        const container = document.getElementById('BingoBoardView');
+        container.style.display = 'block';
+
+        // Dynamically load and apply CSS specific to Bingo Board
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'BingoBoardFeature/BingoBoard.css'; // Ensure this path is correct
+        document.head.appendChild(cssLink);
+
+        // Fetch the HTML content and then load JS
+        fetch('BingoBoardFeature/BingoBoard.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load HTML content.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Initialize JavaScript functionalities after HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = '/BingoBoardFeature/BingoBoard.js'; // Ensure this path is correct
+                jsScript.onload = function () {
+                    setupPageComponents();  // Assuming setupPageComponents() sets everything up
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load JavaScript file');
+                };
+                document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+            })
+            .catch(error => {
+                console.error('Failed to load HTML content:', error);
+            });
+    });
+
+    document.getElementById('financialProgressBtn').addEventListener('click', function () {
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #artistPortfolioView').forEach(el => {
+            showLoginFormButton.style.display = 'none'; // Hide the login button
+            el.style.display = 'none';
+        });
+
+        // Show the Financial Progress Report view
+        const container = document.getElementById('financialProgressReportView');
+        container.style.display = 'block';
+
+        // Load the CSS dynamically
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'FinancialProgressReportFeature/FinancialProgressReportView.css'; // Adjust path as needed
+        document.head.appendChild(cssLink);
+
+        // Fetch the HTML content and then load the JS
+        fetch('FinancialProgressReportFeature/FinancialProgressReportView.html') // Adjust path as needed
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load Financial Progress Report HTML.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Load and execute JavaScript after the HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = 'FinancialProgressReportFeature/FinancialProgressReport.js'; // Adjust path as needed
+                jsScript.onload = function () {
+                    setupFinancialProgressReport();  // Call the initialization function for your feature
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load Financial Progress Report JS.');
+                };
+                document.body.appendChild(jsScript);
+            })
+            .catch(error => {
+                console.error('Error loading Financial Progress Report:', error);
+            });
     });
 
     //Price Range Sorting
     document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #user-profile').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #inventoryStockView, #CollabFeatureView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
             el.style.display = 'none';
         });
 
@@ -820,7 +946,7 @@
                 const jsScript = document.createElement('script');
                 jsScript.src = '/PriceRangeSortingFeature/PriceRangeSorting.js'; // Ensure this path is correct
                 jsScript.onload = function () {
-                    initPage();  // Assuming initPage() sets everything up
+                    setupPageComponents();  // Assuming initPage() sets everything up
                     // JavaScript file loaded and executed
                 };
                 jsScript.onerror = function () {
@@ -833,4 +959,189 @@
             });
     });
 
+    document.getElementById('enter-ArtistPortfolioView').addEventListener('click', function () {
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistProfileCalendarView').forEach(el => {
+            showLoginFormButton.style.display = 'none'; // Hide the login button
+            el.style.display = 'none';
+        });
+        var activeUsername = document.getElementById("username").value;
+
+        // Show the Financial Progress Report view
+        const container = document.getElementById('artistPortfolioView');
+        container.style.display = 'block';
+
+        // Load the CSS dynamically
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = '/ArtistPortfolioFeature/ArtistPortfolioStyles.css'; // Adjust path as needed
+        document.head.appendChild(cssLink);
+
+        // Fetch the HTML content and then load the JS
+        fetch('ArtistPortfolioFeature/ArtistPortfolioView.html') // Adjust path as needed
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load Artist Portfolio Report HTML.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Load and execute JavaScript after the HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = '/ArtistPortfolioFeature/ArtistPortfolio.js'; // Adjust path as needed
+                jsScript.onload = function () {
+                    loadProfileData(activeUsername);
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load Artist Portfolio JS.');
+                };
+                document.body.appendChild(jsScript);
+            })
+            .catch(error => {
+                console.error('Error loading Artist Portfolio Report:', error);
+            });
+    });
+
+    //TempoTool
+    document.getElementById('enter-tempoTool').addEventListener('click', function () {
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #ScaleDisplayView, #priceRangeSortingView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #artistProfileCalendarView').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // Show the Inventory Stock View
+        const container = document.getElementById('tempoToolView');
+        container.style.display = 'block';
+
+        // Load the CSS dynamically
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'TempoToolFeature/TempoTool.css'; // Adjust path as needed
+        document.head.appendChild(cssLink);
+        // Fetch the HTML content and then load the JS
+        fetch('TempoToolFeature/TempoTool.html') // Adjust path as needed
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load Inventory Stock HTML.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Load and execute JavaScript after the HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = 'TempoToolFeature/TempoTool.js'; // Adjust path as needed
+                jsScript.onload = function () {
+                    setupTempoTool(); // Call the initialization function for your feature
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load Inventory Stock JS.');
+                };
+                document.body.appendChild(jsScript);
+            })
+            .catch(error => {
+                console.error('Error loading Inventory Stock View:', error);
+            });
+    });
+
+    //Artist Calendar
+    document.getElementById('enter-calendar').addEventListener('click', function () {
+        resetPageTimer("Artist Calendar Feature");
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #usageAnalysisDashboardView').forEach(el => {
+            el.style.display = 'none';
+        });
+        const container = document.getElementById('artistProfileCalendarView');
+        container.style.display = 'block';
+
+        // Load the CSS dynamically
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'ArtistProfileCalendar/ArtistProfileCalendar.css';
+        document.head.appendChild(cssLink);
+
+        fetch('ArtistProfileCalendar/ArtistProfileCalendar.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load ArtistProfileCalendar HTML.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Initialize JavaScript functionalities after HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = 'ArtistProfileCalendar/ArtistProfileCalendar.js'; // Ensure this path is correct
+                jsScript.onload = function () {
+                    setupArtistProfileCalendar();
+                    // JavaScript file loaded and executed
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load Artist Profile Calendar JS.');
+                };
+                document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+            })
+            .catch(error => {
+                console.error('Error loading Artist Profile Calendar View:', error);
+            });
+    });
+
+    // Usage Analysis Dashboard
+    document.getElementById('enter-usageAnalysisDashboard').addEventListener('click', function () {
+        resetPageTimer("Usage Analysis Dashboard");
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #artistProfileCalendarView').forEach(el => {
+            el.style.display = 'none';
+        });
+        const container = document.getElementById('usageAnalysisDashboardView');
+        container.style.display = 'block';
+
+        // Load the CSS dynamically
+        const cssLink = document.createElement('link');
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'UsageAnalysisDashboard/UsageAnalysisDashboard.css'; // Adjust path as needed
+        document.head.appendChild(cssLink);
+
+        fetch('UsageAnalysisDashboard/UsageAnalysisDashboard.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load UsageAnalysis Dashboard HTML.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+
+                // Initialize JavaScript functionalities after HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = 'UsageAnalysisDashboard/UsageAnalysisDashboard.js'; // Ensure this path is correct
+                jsScript.onload = function () {
+                    setupUsageAnalysisDashboard();
+                    // JavaScript file loaded and executed
+                };
+                jsScript.onerror = function () {
+                    console.error('Failed to load Usage Analysis Dashboard JS.');
+                };
+                document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+            })
+            .catch(error => {
+                console.error('Error loading Usage Analysis Dashboard View:', error);
+            });
+    });
+
+    //enter collab feature view
+    document.getElementById('enter-collabFeature').addEventListener('click', function () {
+        document.querySelector('.main').style.display = 'none'; // Hide main content
+        document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
+        document.getElementById('ScaleDisplayView').style.display = 'none'; // hide scale display view
+        document.getElementById('CollabFeatureView').style.display = 'block'; //show collab feature
+        document.getElementById('artistProfileCalendarView').style.display = "none";
+        var username = document.getElementById("username").value;
+        logFeatureUsage(username, "Collab Feature");
+    });
+
+    startPageTimer();
 });
+

@@ -14,28 +14,37 @@ public class ItemController : ControllerBase
     }
 
     [HttpGet("api/pagedFilteredItems")]
-    public async Task<IActionResult> GetPagedFilteredItems(int pageNumber, int pageSize, string? name = null, decimal? bottomPrice = null, decimal? topPrice = null)
+    public async Task<IActionResult> GetPagedFilteredItems([FromQuery] ItemQueryParameters parameters)
     {
         try
         {
-            if (topPrice.HasValue && bottomPrice.HasValue && topPrice < bottomPrice)
+            // You need to create an instance of ItemFilterParameters from the query parameters
+            ItemQueryParameters filterParameters = new ItemQueryParameters
             {
-                return BadRequest(new ApiResponse<object>("Top price cannot be less than bottom price."));
-            }
+                PageNumber = parameters.PageNumber,
+                PageSize = parameters.PageSize,
+                Name = parameters.Name,
+                BottomPrice = parameters.BottomPrice,
+                TopPrice = parameters.TopPrice
+            };
 
-            var items = await _itemService.GetPagedFilteredItems(pageNumber, pageSize, name, bottomPrice, topPrice);
-            int totalItemCount = await _itemService.GetTotalItemCount();
-            return Ok(new
+            // Now pass this instance to your service
+            var result = await _itemService.GetPagedFilteredItems(filterParameters);
+            var items = result.items ?? new HashSet<Item>();
+            var totalItemCount = result.totalCount;
+
+            return Ok(new ApiResponse<object>(new
             {
                 TotalCount = totalItemCount,
-                Items = items ?? new HashSet<Item>(), // Ensure this never returns null
-                PageNumber = pageNumber,
-                PageSize = pageSize
-            });
+                Items = items,
+                PageNumber = parameters.PageNumber,
+                PageSize = parameters.PageSize
+            }));
         }
         catch (Exception ex)
         {
-            return StatusCode(500, "An error occurred while fetching the items: " + ex.Message);
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new ApiResponse<object>("An error occurred while fetching the items: " + ex.Message));
         }
     }
 }

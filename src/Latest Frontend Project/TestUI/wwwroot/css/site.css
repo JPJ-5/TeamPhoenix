@@ -61,8 +61,8 @@ tr:hover {background-color: #ddd;}
     position: fixed;
     top: 0;
     width: 100%;
-    display: flex; /* Use flexbox for positioning */
-    justify-content: space-between; /* Space out the navbar items */
+    display: flex;  
+    justify-content: space-between;   
 }
 
     .navbar a, .navbar .hamburger {
@@ -98,6 +98,7 @@ tr:hover {background-color: #ddd;}
     font-size: 2em;
     text-align: center;
 }
+
 
 .dropdown {
     display: none;
@@ -237,3 +238,152 @@ tr:hover {background-color: #ddd;}
 .error {
     color:#ff2d2d;
 }
+
+#craftVerifyView {
+    margin-top: 70px; /* Adjust this value based on the actual height of your navbar */
+    z-index: 1000; /* High z-index to ensure it is on top */
+    position: relative; /* This can be adjusted as needed */
+}
+
+#craftVerifyView button {
+    background-color: #089aa4; /* Teal background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Padding for size */
+    margin: 5px; /* Margin for spacing */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+#craftVerifyView button:hover {
+    background-color: #0a3f6e; /* Darker shade on hover */
+}
+
+
+#sellerDashboardView button {
+    background-color: #089aa4; /* Teal background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Padding for size */
+    margin: 5px; /* Margin for spacing */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+#sellerDashboardView button:hover {
+    background-color: #0a3f6e; /* Darker shade on hover */
+}
+
+
+#itemCreationForm div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 4px;
+}
+
+#itemCreationForm label {
+    flex: 1; /* Allow labels to grow */
+    text-align: right;
+    margin-right: 10px; /* Space between label and input */
+}
+
+#itemCreationForm input, #itemCreationForm textarea, #itemCreationForm select {
+    flex: 3; /* Inputs take more space than labels */
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+#itemCreationForm button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    width: auto;
+    align-self: flex-end;
+}
+
+#creationForm {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px; /* Adjust based on your design preferences */
+    margin: 20px auto; /* Centering the form in the page */
+}
+
+#creationForm div {
+    display: flex;
+    margin-bottom: 10px; /* Space between form groups */
+    align-items: center; /* Align items vertically in the center */
+}
+
+#creationForm label {
+    width: 150px; /* Fixed width for all labels */
+    padding-right: 10px; /* Padding between label and input */
+    text-align: right; /* Right align the text in labels */
+}
+
+#creationForm input[type="text"],
+#creationForm input[type="number"],
+#creationForm textarea,
+#creationForm select,
+#creationForm input[type="datetime-local"] {
+    flex-grow: 1; /* Allow inputs to take up remaining space */
+    padding: 8px; /* Padding inside inputs */
+}
+
+#creationForm input[type="checkbox"] {
+    margin-left: auto; /* Align checkbox to the right of its label */
+}
+
+#creationForm button {
+    width: auto;
+    padding: 10px 20px;
+    margin-top: 10px;
+    align-self: flex-end; /* Align the button to the right */
+}
+#errorContainer {
+    color: red;
+    margin-top: 5px;
+}
+
+/* this is for pagination*/
+.container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+img {
+    width: 50px;
+    height: auto;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+    .pagination a {
+        margin: 0 5px;
+        text-decoration: none;
+        color: blue;
+    }
+
+        .pagination a.active {
+            font-weight: bold;
+        }

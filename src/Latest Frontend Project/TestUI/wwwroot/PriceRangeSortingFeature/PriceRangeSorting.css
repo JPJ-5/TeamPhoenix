@@ -11,7 +11,7 @@
 }
 
 #priceRangeSortingView {
-    padding-top: 100px;
+    padding-top: 50px;
     padding-left: 20px;
     width: 100%;
     margin: 0 auto;
@@ -169,10 +169,6 @@
         max-height: 785px;
     }
 
-    #priceRangeSortingView .item-card-grid {
-        /* Your existing styles for grid view */
-    }
-
     #priceRangeSortingView .item-card-list {
         display: flex;
         align-items: center;
@@ -197,10 +193,6 @@
         #priceRangeSortingView .item-card-list .item-name {
             flex-grow: 1;
             /* Allows the name to take up the remaining space */
-        }
-
-        #priceRangeSortingView .item-card-list .item-price {
-            /* Any specific styles for the price in list view */
         }
 
     #priceRangeSortingView .item-card img {

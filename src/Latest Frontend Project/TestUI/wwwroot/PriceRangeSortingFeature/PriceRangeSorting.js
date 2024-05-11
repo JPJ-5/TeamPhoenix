@@ -1,5 +1,10 @@
+// Track previously used bottom and top prices
+let lastBottomPrice = null;
+let lastTopPrice = null;
 let currentPage = 1;
 let pageSize = document.getElementById('pageSize').value;
+//var baseUrl = 'https://themusicali.com:5000';
+var baseUrl = 'http://localhost:8080';
 
 function fetchItems() {
     const bottomPrice = document.getElementById('bottomPrice').value;
@@ -8,10 +13,39 @@ function fetchItems() {
     const loadingIndicator = document.getElementById('loading');
     const results = document.getElementById('results');
 
+    // Reset page number if the price range changes
+    if (bottomPrice !== lastBottomPrice || topPrice !== lastTopPrice) {
+        currentPage = 1;
+    }
+
+    // Store the last used prices
+    lastBottomPrice = bottomPrice;
+    lastTopPrice = topPrice;
+
     loadingIndicator.style.display = 'block';
     results.innerHTML = '';
 
-    let url = `http://localhost:8080/Item/api/pagedFilteredItems?pageNumber=${currentPage}&pageSize=${pageSize}`;
+    // Input validation for prices
+    if ((bottomPrice && isNaN(parseFloat(bottomPrice))) || (topPrice && isNaN(parseFloat(topPrice)))) {
+        results.innerHTML = '<p>Please enter a valid number for price values.</p>';
+        loadingIndicator.style.display = 'none';
+        return;
+    }
+
+    if (bottomPrice < 0) {
+        results.innerHTML = '<p>Please enter a positive value for the bottom price.</p>';
+        loadingIndicator.style.display = 'none';
+        return;
+    }
+
+    if (topPrice > 1000000 && topPrice > bottomPrice) {
+        results.innerHTML = '<p>The top price should be less than or equal to 1 million.</p>';
+        loadingIndicator.style.display = 'none';
+        return;
+    }
+
+    // Construct the full URL by appending the endpoint to the base URL
+    let url = `${baseUrl}/Item/api/pagedFilteredItems?pageNumber=${currentPage}&pageSize=${pageSize}`;
     if (name) {
         url += `&name=${encodeURIComponent(name)}`;
     }
@@ -22,8 +56,8 @@ function fetchItems() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            displayResults(data.items);
-            const totalPageCount = Math.ceil(data.totalCount / pageSize);
+            displayResults(data.data.items);
+            const totalPageCount = Math.ceil(data.data.totalCount / pageSize);
             document.getElementById('pageInfo').textContent = `Page ${currentPage} / ${totalPageCount}`;
             document.getElementById('prevPage').disabled = currentPage <= 1;
             document.getElementById('nextPage').disabled = currentPage >= totalPageCount;
@@ -63,6 +97,8 @@ function setPredefinedRanges() {
         document.getElementById('bottomPrice').value = '';
         document.getElementById('topPrice').value = '';
     }
+
+    currentPage = 1;
     fetchItems(); // Apply new filters and reset pagination
 }
 
@@ -78,26 +114,16 @@ function displayResults(items) {
     items.forEach(item => {
         const card = document.createElement('div');
         card.className = viewFormat === 'list' ? 'item-card-list' : 'item-card-grid';
+        
+        const imageUrl = item.firstImageUrl || 'images/default.png'; // Use a default image if no URL is provided
+        
         const content = `
+            <img src="${imageUrl}" alt="${item.name}" style="width: 225px; height: 218px; object-fit: cover;" class="item-image" />
             <div class="item-name">${item.name}</div>
             <div class="item-price">$${item.price.toFixed(2)}</div>
         `;
-
-        if (viewFormat === 'list') {
-            // Add your list view HTML structure here
-            card.innerHTML = `
-                    <img src="images/wallpaperflare.com_wallpaper.jpg" style="width: 225px; height: 218px; object-fit: cover;" class="item-image" />
-                    ${content}
-            `;
-        } else {
-            // Your existing grid view HTML structure
-            const content = `
-            <img src="images/wallpaperflare.com_wallpaper.jpg" style="width: 225px; height: 218px; object-fit: cover;" class="item-image" />
-            <div class="item-name">${item.name}</div>
-            <div class="item-price">$${item.price.toFixed(2)}</div>`;
-            card.innerHTML = content;
-        }
-
+        
+        card.innerHTML = content;
         results.appendChild(card);
     });
 }
@@ -127,7 +153,7 @@ function updateViewFormat() {
     } else {
         results.classList.add('item-card-grid');
     }
-
+    currentPage = 1;
     fetchItems(); // Reload items to display with the new format
 }
 
@@ -137,8 +163,8 @@ function updatePageSize() {
     fetchItems(); // Reload with the new page size
 }
 
-function initPage() {
+function setupPageComponents() {
     fetchItems(); // Initial fetch for default or saved filter states
 }
 
-document.addEventListener('DOMContentLoaded', initPage); // Ensures the script runs after the document is fully loaded
+document.addEventListener('DOMContentLoaded', setupPageComponents); // Ensures the script runs after the document is fully loaded
