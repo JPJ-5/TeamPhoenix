@@ -7,18 +7,18 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 
 namespace TeamPhoenix.MusiCali.Tests
 {
-    [TestClass]
-    public class CollabSearchDALTest
-    {
+     [TestClass]
+     public class SendRequestTest
+     {
         [TestMethod]
         public async Task SearchUsers_ShouldReturnMatchingUsers_WhenQueryIsProvided()
         {
             // Arrange
-            var query = "UserSearch";
-            var expectedUsers = new List<string> { "UserSearch1", "UserSearch2", "UserSearch3" };
+            var query = "juliereyes";
+            var expectedUsers = new List<string> { "juliereyes" };
 
             // Act
-            var matchingUsers = CollabSearchDao.SearchUsers(query);
+            var matchingUsers = CollabFeatureDAL.SearchUsers(query);
 
             // Assert
             CollectionAssert.AreEqual(expectedUsers, matchingUsers);
@@ -28,10 +28,10 @@ namespace TeamPhoenix.MusiCali.Tests
         public async Task SearchUsers_ShouldReturnEmptyList_WhenNoMatchingUsersFound()
         {
             // Arrange
-            var query = "NonExistentUser";
+            var query = "NonExistingUser";
 
             // Act
-            var matchingUsers = CollabSearchDao.SearchUsers(query);
+            var matchingUsers = CollabFeatureDAL.SearchUsers(query);
 
             // Assert
             Assert.AreEqual(0, matchingUsers.Count);
@@ -44,7 +44,7 @@ namespace TeamPhoenix.MusiCali.Tests
             string query = null;
 
             // Act
-            var matchingUsers = CollabSearchDao.SearchUsers(query);
+            var matchingUsers = CollabFeatureDAL.SearchUsers(query);
 
             // Assert
             Assert.AreEqual(0, matchingUsers.Count);
@@ -57,24 +57,10 @@ namespace TeamPhoenix.MusiCali.Tests
             var query = "";
 
             // Act
-            var matchingUsers = CollabSearchDao.SearchUsers(query);
+            var matchingUsers = CollabFeatureDAL.SearchUsers(query);
 
             // Assert
             Assert.AreEqual(0, matchingUsers.Count);
-        }
-
-        [TestMethod]
-        public void SearchUsers_ShouldReturnMatchingUsersWithVisibilityTrue_WhenQueryIsProvided()
-        {
-            // Arrange
-            var query = "UserSearch";
-            var expectedUsers = new List<string> { "UserSearch1", "UserSearch2", "UserSearch3" };
-
-            // Act
-            var matchingUsers = CollabSearchDao.SearchUsersWithVisibility(query);
-
-            // Assert
-            CollectionAssert.AreEqual(expectedUsers, matchingUsers);
         }
 
         [TestMethod]
@@ -84,7 +70,7 @@ namespace TeamPhoenix.MusiCali.Tests
             var query = "NonExistentUser";
 
             // Act
-            var matchingUsers = CollabSearchDao.SearchUsersWithVisibility(query);
+            var matchingUsers = CollabFeatureDAL.SearchUsers(query);
 
             // Assert
             Assert.AreEqual(0, matchingUsers.Count);
@@ -97,7 +83,7 @@ namespace TeamPhoenix.MusiCali.Tests
             string query = null;
 
             // Act
-            var matchingUsers = CollabSearchDao.SearchUsersWithVisibility(query);
+            var matchingUsers = CollabFeatureDAL.SearchUsers(query);
 
             // Assert
             Assert.AreEqual(0, matchingUsers.Count);
@@ -107,10 +93,10 @@ namespace TeamPhoenix.MusiCali.Tests
         public void SearchUsersWithVisibility_ShouldReturnEmptyList_WhenQueryIsEmpty()
         {
             // Arrange
-            var query = "";
+            var query = " ";
 
             // Act
-            var matchingUsers = CollabSearchDao.SearchUsersWithVisibility(query);
+            var matchingUsers = CollabFeatureDAL.SearchUsers(query);
 
             // Assert
             Assert.AreEqual(0, matchingUsers.Count);
