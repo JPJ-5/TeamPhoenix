@@ -181,7 +181,7 @@
             });
 
 
-        disableSpecificButtonsIfMissingCredentials();
+        /*disableSpecificButtonsIfMissingCredentials();*/
     });
 
     function fetchUserProfile(username) {
