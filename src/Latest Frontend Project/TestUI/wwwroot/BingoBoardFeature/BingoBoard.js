@@ -90,7 +90,7 @@ function constructGigList(gigSet){
     document.getElementById('BingoBoardPostsTable').style.display = 'block';
     var bbtable = document.getElementById('BingoBoardPostsTable');
     const gigData = gigSet.gigSummaries;//.values();
-    console.log(gigData);
+    //console.log(gigData);
     for(i in (gigData)){
         //console.log(gigData[i]);
         var row = bbtable.insertRow();
