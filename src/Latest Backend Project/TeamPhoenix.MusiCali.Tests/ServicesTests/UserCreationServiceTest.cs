@@ -27,10 +27,10 @@ namespace TeamPhoenix.MusiCali.Tests
         public void RegisterUser_ShouldReturnTrueForValidRegistration()
         {
             // Arrange
-            string email = "test@example.com";
-            string backupEmail = "backupTest@example.com";
+            string email = "test1234@example.com";
+            string backupEmail = "backuestemailtry@example.com";
             DateTime dateOfBirth = new DateTime(1990, 1, 1);
-            string username = "testuser";
+            string username = "testuser123";
 
             // Act
             bool result = userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail);

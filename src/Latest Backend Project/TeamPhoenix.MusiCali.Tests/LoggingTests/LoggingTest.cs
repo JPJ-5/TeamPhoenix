@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using TeamPhoenix.MusiCali.Logging;
 using Microsoft.Extensions.Configuration;
+using TeamPhoenix.MusiCali.Services;
+using TeamPhoenix.MusiCali.DataAccessLayer;
 
 namespace TeamPhoenix.MusiCali.Tests
 {
@@ -14,6 +16,9 @@ namespace TeamPhoenix.MusiCali.Tests
     {
         private readonly IConfiguration configuration;
         private LoggerService loggerService;
+        private UserCreationService userCreationService;
+        private RecoverUserDAO recoverUserDAO;
+        private UserDeletionDAO userDeletionDAO;
 
         public LoggingLibraryTest()
         {
@@ -23,16 +28,27 @@ namespace TeamPhoenix.MusiCali.Tests
             configuration = builder.Build();
 
             loggerService = new LoggerService(configuration);
+            userCreationService = new UserCreationService(configuration);
+            recoverUserDAO = new RecoverUserDAO(configuration);
+            userDeletionDAO = new UserDeletionDAO(configuration);
         }
 
         [TestMethod]
         public void CreateLog_And_Returns_Success()
         {
-            string hash = "testHash";
+            // Arrange
+            string email = "test1234@example.com";
+            string backupEmail = "backuestemailtry@example.com";
+            DateTime dateOfBirth = new DateTime(1990, 1, 1);
+            string username = "testuser123";
+            bool result = userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
             string level = "test level";
             string category = "test category";
             string context = "test context";
-            Result logResult = loggerService.CreateLog(hash, level, category, context);
+            userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
+            var uHash = recoverUserDAO.GetUserHash(username);
+            Result logResult = loggerService.CreateLog(uHash, level, category, context);
+            userDeletionDAO.DeleteProfile(username);
 
             Assert.IsFalse(logResult.HasError);
 

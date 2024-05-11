@@ -130,9 +130,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 dao.ExecuteSql(insertUserProfileSql, userProfileParameters);
 
                 // Insert data into ArtistProfile table
-                string inserArtistProfileSql = "INSERT INTO UserProfile (Username) VALUES (@Username)";
+                string inserArtistProfileSql = "INSERT INTO ArtistProfile (Username) VALUES (@Username)";
                 Dictionary<string, object> artistProfileParameters = new Dictionary<string, object>();
-                userProfileParameters.Add("@Username", userProfile.Username);
+                artistProfileParameters.Add("@Username", userProfile.Username);
                 dao.ExecuteSql(inserArtistProfileSql, artistProfileParameters);
             }
             catch (Exception ex)

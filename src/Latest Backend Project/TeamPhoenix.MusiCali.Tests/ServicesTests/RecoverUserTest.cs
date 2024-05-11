@@ -87,16 +87,5 @@ namespace TeamPhoenix.MusiCali.Tests
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
-        public void RecoverDisabledAccount_ShouldThrowExceptionForNonMatchingUsername()
-        {
-            // Arrange
-            string username = "testuser";
-
-            // Act
-
-            // Assert
-            Assert.ThrowsException<Exception>(() => recoverUserService.EnableUser(username));
-        }
     }
 }

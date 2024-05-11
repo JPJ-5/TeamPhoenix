@@ -31,17 +31,15 @@ namespace Teamphoenix.Musicali.Tests
         [TestMethod]
         public void FindUsernameInfo_ShouldReturnValidAuthResult()
         {
-            // Arrange
-            string email = "test@example.com";
+
+            //Arrange
+            string email = "test1234@example.com";
+            string backupEmail = "backuestemailtry@example.com";
             DateTime dateOfBirth = new DateTime(1990, 1, 1);
-            string username = "testuser";
-            string backupEmail = "";
+            string username = "testuser123";
 
             // Act
-            userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail);//change this
-            // Arrange
-
-            // Act
+            bool result = userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
             AuthResult authResult = authenticationDAO.findUsernameInfo(username);
 
             // Assert

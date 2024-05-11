@@ -32,15 +32,15 @@ namespace Teamphoenix.Musicali.Tests
         public void UpdateProfile_ShouldUpdateUserProfile()
         {
             // Arrange
-            string email = "test@example.com";
+            string email = "test1234@example.com";
+            string backupEmail = "backuestemailtry@example.com";
             DateTime dateOfBirth = new DateTime(1990, 1, 1);
-            string username = "testuser";
-            string updatedUsername = "testuser1";
+            string username = "testuser123";
+            bool result = userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
             string fname = "John";
             string lname = "Doe";
-            string backupEmail = "";
             userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
-            UserProfile userProfile = new UserProfile(updatedUsername, fname, lname, dateOfBirth);
+            UserProfile userProfile = new UserProfile(username, fname, lname, dateOfBirth);
 
             // Act
             modifyUserDAO.UpdateProfile(userProfile);
@@ -61,7 +61,7 @@ namespace Teamphoenix.Musicali.Tests
             Assert.AreEqual(userProfile.FirstName, fname);
             Assert.AreEqual(userProfile.LastName, lname);
             Assert.AreEqual(userProfile.DOB, dateOfBirth);
-            userDeletionService.DeleteUser(updatedUsername);
+            userDeletionService.DeleteUser(username);
         }
 
         [TestMethod]

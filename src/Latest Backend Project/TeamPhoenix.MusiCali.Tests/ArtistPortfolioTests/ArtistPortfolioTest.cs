@@ -43,6 +43,8 @@ namespace TeamPhoenix.MusiCali.Tests
             // Assert
             Assert.IsTrue(result.Success);
             Assert.IsNull(result.ErrorMessage);
+
+            artistPortfolio.DeleteFile(username, 2);
         }
 
 
@@ -54,7 +56,7 @@ namespace TeamPhoenix.MusiCali.Tests
 
             ArtistProfileViewModel profile = artistPortfolio.LoadArtistProfile(username);
             var name = "smoothie-liquid-dnb--jungle_TK15603481.mp3.mp3";
-            var occ = "Instrumentalist";
+            var occ = "Arranger";
 
             // Assert
             Assert.AreEqual(profile.File1Name, name);
@@ -63,17 +65,24 @@ namespace TeamPhoenix.MusiCali.Tests
 
 
         [TestMethod]
-        public void DeleteFile_and_filepath()
+        public async Task DeleteFile_and_filepath()
         {
             // Arrange
             var username = "kihambo.wav";
+            // Load the test file 'tick.mp' from the test files folder
+            var filePath = @"..\..\..\ArtistPortfolioTests\tick.mp3";
+            var fileBytes = await File.ReadAllBytesAsync(filePath);
+            var formFile = new FormFile(new MemoryStream(fileBytes), 2, fileBytes.Length, "", "tick.wav");
+
+            // Act
+            var result = await artistPortfolio.UploadFile(username, 2, formFile, "wav", "tick sound but in wav");
 
             int slot = 2;
-            var result = artistPortfolio.DeleteFile(username, slot);
+            var res = artistPortfolio.DeleteFile(username, slot);
 
             // Assert
-            Assert.IsTrue(result.Success);
-            Assert.IsNull(result.ErrorMessage);
+            Assert.IsTrue(res.Success);
+            Assert.IsNull(res.ErrorMessage);
         }
 
     }

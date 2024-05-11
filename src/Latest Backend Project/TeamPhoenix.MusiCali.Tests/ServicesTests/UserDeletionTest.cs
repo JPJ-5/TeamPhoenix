@@ -29,13 +29,15 @@ namespace TeamPhoenix.MusiCali.Tests
         [TestMethod]
         public void DeleteUser_ShouldReturnTrueAndDeleteUser()
         {
-            string email = "deletetest@example.com";
-            string backupEmail = "backupdeleteTest@example.com";
+            // Arrange
+            string email = "test1234@example.com";
+            string backupEmail = "backuestemailtry@example.com";
             DateTime dateOfBirth = new DateTime(1990, 1, 1);
-            string username = "deletetestuser";
+            string username = "testuser123";
 
-            bool createRes = userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
-            Assert.IsTrue(createRes);
+            // Act
+            bool result = userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
+            Assert.IsTrue(result);
 
             bool deleteRes = userDeletionService.DeleteUser(username);
 
@@ -43,9 +45,13 @@ namespace TeamPhoenix.MusiCali.Tests
 
         }
 
+        [TestMethod]
         public void DeleteUser_ShouldReturnFalseForInvalidUsername()
         {
-            string username = "deletetestuser";
+            // Arrange
+            string username = "haley";
+
+            // Act
 
             bool deleteRes = userDeletionService.DeleteUser(username);
 

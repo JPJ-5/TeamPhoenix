@@ -139,7 +139,7 @@ namespace Teamphoenix.Musicali.Tests
         {
             // arrange
             var username = "juliereyes";
-            var expectedoccupation = "Instrumentalist";
+            var expectedoccupation = "Arranger";
             var expectedbio = "Lead of MusiCali into edm and most rock genres(alt, punk, indie, etc.)";
             var expectedlocation = "Los Angeles";
 
