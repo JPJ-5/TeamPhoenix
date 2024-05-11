@@ -1127,9 +1127,10 @@
         document.getElementById('ScaleDisplayView').style.display = 'none'; // hide scale display view
         document.getElementById('CollabFeatureView').style.display = 'block'; //show collab feature
         document.getElementById('artistProfileCalendarView').style.display = "none";
-        document.getElementById('#BingoBoardView').style.display = "none";
-        document.getElementById('#usageAnalysisDashboardView').style.display = "none";
+        document.getElementById('BingoBoardView').style.display = "none";
+        document.getElementById('usageAnalysisDashboardView').style.display = "none";
         document.getElementById('artistProfileCalendarView').style.display = "none";
+        document.getElementById('artistPortfolioView').style.display = "none";
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "Collab Feature");
     });
