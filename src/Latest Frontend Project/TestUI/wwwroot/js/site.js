@@ -29,7 +29,7 @@
     }
 
     function isPageLoaded(){
-        if(sessionStorage.getItem('currentPage' == null)){return false;}
+        if(sessionStorage.getItem('currentPage') == null){return false;}
         return true;
 
     }
@@ -41,8 +41,9 @@
             fetchUserProfile(sessionStorage.getItem('username'));
         }
         if(logged && loaded){
-            if(sessionStorage.getItem('currentPage' == 'BingoBoard')){
-                
+            if(sessionStorage.getItem('currentPage') == 'BingoBoard'){
+                console.log('true')
+                loadBingoBoard();
             }
         }
     }
@@ -860,12 +861,16 @@
 
 
      // Bingo Board Feature
+     
      document.getElementById('enter-BingoBoardView').addEventListener('click', function () {
         // Hide other parts of the page
          document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #priceRangeSortingView, #financialProgressReportView, #inventoryStockView, #artistPortfolioView').forEach(el => {
             el.style.display = 'none';
         });
+        loadBingoBoard();
+    });
 
+function loadBingoBoard(){
         // Show the Bingo Board view
         const container = document.getElementById('BingoBoardView');
         container.style.display = 'block';
@@ -901,7 +906,7 @@
             .catch(error => {
                 console.error('Failed to load HTML content:', error);
             });
-    });
+    };
 
     document.getElementById('financialProgressBtn').addEventListener('click', function () {
         // Hide other parts of the page
