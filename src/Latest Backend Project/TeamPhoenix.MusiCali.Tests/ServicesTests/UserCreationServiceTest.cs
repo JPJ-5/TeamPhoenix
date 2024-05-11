@@ -51,7 +51,7 @@ namespace TeamPhoenix.MusiCali.Tests
             // Act
             bool result = userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
             // Assert
-            Assert.ThrowsException<ArgumentException>(() => userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail));
+            Assert.IsFalse(result);
         }
 
         [TestMethod]
@@ -65,7 +65,7 @@ namespace TeamPhoenix.MusiCali.Tests
             // Act
             bool result = userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
             // Assert
-            Assert.ThrowsException<ArgumentException>(() => userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail));
+            Assert.IsFalse(result);
         }
         [TestMethod]
         public void RegisterUser_ShouldThrowArgumentExceptionForInvalidUsername()
@@ -78,7 +78,7 @@ namespace TeamPhoenix.MusiCali.Tests
             // Act
             bool result = userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail);
             // Assert
-            Assert.ThrowsException<ArgumentException>(() => userCreationService.RegisterNormalUser(email, dateOfBirth, username, backupEmail));
+            Assert.IsFalse(result);
         }
 
     }
