@@ -49,11 +49,8 @@ namespace TeamPhoenix.MusiCali.Controllers
         //public IActionResult CreateAnItem([FromBody] ItemCreationModel item, [FromHeader] string username)
         public async Task<IActionResult> CreateAnItem([FromBody] ItemCreationModel item, [FromHeader] string username)
         {
-            
-
             try
-            {
-                
+            { 
                 ItemCreationService iC = new ItemCreationService(_s3Client, configuration);
                 string creatorHash = recoverUserDAO.GetUserHash(username);
                 string sku = itemCreationService.GenerateSku(12);

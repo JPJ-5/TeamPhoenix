@@ -1,4 +1,6 @@
-﻿document.getElementById('itemCreationBtn').addEventListener('click', function () {
+﻿
+var baseUrl = 'http://localhost:8080';
+document.getElementById('itemCreationBtn').addEventListener('click', function () {
 
     hideAllSections();
     var formContainer = document.getElementById('itemCreationForm'); // Show the form container
