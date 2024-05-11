@@ -53,10 +53,10 @@
             else if(savedPage =='ScaleDisplay'){
                 loadScaleDisplay();
             }
-            /* craftverify
+            //craftverify
             else if(savedPage == 'CraftVerify'){
-                //currently set up as an href so hard to implement
-            }*/
+                loadCraftVerify();
+            }
             //collab search?
             
         }
@@ -930,6 +930,7 @@
             showLoginFormButton.style.display = 'none'; // Hide the login button
             el.style.display = 'none';
         });
+        sessionStorage.setItem('currentPage', 'Main');
 
 
         // Show the Financial Progress Report view
@@ -1021,6 +1022,7 @@
             el.style.display = 'none';
         });
         var activeUsername = document.getElementById("username").value;
+        sessionStorage.setItem('currentPage', 'Main');
 
         // Show the Financial Progress Report view
         const container = document.getElementById('artistPortfolioView');
@@ -1114,6 +1116,7 @@
         });
         const container = document.getElementById('artistProfileCalendarView');
         container.style.display = 'block';
+        sessionStorage.setItem('currentPage', 'Main');
 
         // Load the CSS dynamically
         const cssLink = document.createElement('link');
@@ -1156,6 +1159,7 @@
         });
         const container = document.getElementById('usageAnalysisDashboardView');
         container.style.display = 'block';
+        sessionStorage.setItem('currentPage', 'Main');
 
         // Load the CSS dynamically
         const cssLink = document.createElement('link');

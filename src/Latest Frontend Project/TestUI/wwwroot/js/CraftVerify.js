@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var craftVerifyButton = document.getElementById('craftVerify');
 
     craftVerifyButton.addEventListener('click', function () {
+        sessionStorage.setItem('currentPage', 'CraftVerify');
+        loadCraftVerify();
+    });
+
+    function loadCraftVerify(){
         // Toggle visibility of the CraftVerify view
         document.querySelector('.main').style.display = 'none'; // Hide main content
         //document.getElementById('craftVerifyView').style.display = 'block'; // Show bingo board
@@ -17,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
             view.style.display = 'block';
         }
         //should call pricerange sorting here 
-    });
+    }
 
 });
 
