@@ -42,6 +42,14 @@ public class DataAccessLayer
             {
                 conditions.Add("Price BETWEEN @bottomPrice AND @topPrice");
             }
+            else if (query.BottomPrice.HasValue)
+            {
+                conditions.Add("Price >= @bottomPrice");
+            }
+            else if (query.TopPrice.HasValue)
+            {
+                conditions.Add("Price <= @topPrice");
+            }
 
             if (conditions.Count > 0)
             {

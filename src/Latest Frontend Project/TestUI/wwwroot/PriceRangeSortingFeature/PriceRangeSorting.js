@@ -41,7 +41,7 @@ function fetchItems() {
         return;
     }
 
-    if (topPrice > 1000000 && topPrice > bottomPrice) {
+    if (topPrice > 1000000) {
         results.innerHTML = '<p>The top price should be less than or equal to 1 million.</p>';
         loadingIndicator.style.display = 'none';
         return;
@@ -52,9 +52,14 @@ function fetchItems() {
     if (name) {
         url += `&name=${encodeURIComponent(name)}`;
     }
-    if (bottomPrice && topPrice) {
-        url += `&bottomPrice=${bottomPrice}&topPrice=${topPrice}`;
+    if (bottomPrice) {
+        url += `&bottomPrice=${bottomPrice}`;
     }
+    if (topPrice) {
+        url += `&topPrice=${topPrice}`;
+    }
+
+    console.log(url)
 
     fetch(url)
         .then(response => response.json())
