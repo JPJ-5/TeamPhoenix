@@ -13,11 +13,44 @@
     var idToken;
     var accessToken;
 
-    
+    function isLoggedIn() {
+        // Check if the authentication token (or any other relevant data) exists in session storage
+        if (sessionStorage.getItem('idToken') == null) {
+            return false;
+        }
+        if (sessionStorage.getItem('accessToken') == null) {
+            return false;
+        }
+        if(sessionStorage.getItem('username') == null){
+            return false;
+        }
+        // Add additional checks if needed
+        return true; // Return true if token exists, false otherwise
+    }
+
+    function isPageLoaded(){
+        if(sessionStorage.getItem('currentPage' == null)){return false;}
+        return true;
+
+    }
+
+    function onPageLoad(){
+        const logged = isLoggedIn();
+        const loaded = isPageLoaded();
+        if(logged){
+            fetchUserProfile(sessionStorage.getItem('username'));
+        }
+        if(logged && loaded){
+            if(sessionStorage.getItem('currentPage' == 'BingoBoard')){
+                
+            }
+        }
+    }
+
+    onPageLoad();
 
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        // Reset the visibility of login and register buttons when menu is toggled
         resetButtonVisibility();
     });
 
@@ -55,6 +88,9 @@
         sessionStorage.clear()
         //var email = document.getElementById("email").value;
         var username = document.getElementById("username").value;
+        var loginerror = document.getElementById('login-error');
+        loginerror.innerHTML = '';
+        //loginerror.style.display = 'none';
 
         var checkUsernameApiUrl = baseUrl + '/Login/api/CheckUsernameAPI?';
 
@@ -75,6 +111,8 @@
                     // Optionally, show OTP form
                     document.getElementById("otp-form").style.display = 'block';
                     document.getElementById('account-recovery-section').style.display = 'none';
+                    //loginerror.style.display = 'none';
+                    loginerror.innerHTML = ''
                 } else {
                     // Email does not exist
                     alert("Email does not exist.");
@@ -82,6 +120,8 @@
             })
             .catch((error) => {
                 console.error('Error:', error);
+                //loginerror.style.display = 'block';
+                loginerror.innerHTML = 'Connection Error';
             });
     });
 
@@ -142,7 +182,7 @@
     });
 
     function fetchUserProfile(username) {
-        var username = document.getElementById('username').value;
+        //var username = document.getElementById('username').value;
         var userProfileUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
         idToken = sessionStorage.getItem("idToken");
         accessToken = sessionStorage.getItem("accessToken");
@@ -701,6 +741,9 @@
         var dob = document.getElementById('dob').value;
         var uname = document.getElementById('user-name').value;
         var bmail = document.getElementById('backup-email').value;
+        var registererror = document.getElementById('register-error');
+        registererror.innerHTML = '';
+
         console.log(bmail);
         // Create a URLSearchParams object to encode the data
         var params = new URLSearchParams();
@@ -728,11 +771,12 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                registererror.innerHTML='';
                 // Handle success (e.g., show success message)
             })
             .catch((error) => {
                 console.error('Error:', error);
-                // Handle error (e.g., show error message)
+                registererror.innerHTML = 'Error';
             });
     });
 

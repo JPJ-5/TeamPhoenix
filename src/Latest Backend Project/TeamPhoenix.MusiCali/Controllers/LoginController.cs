@@ -38,6 +38,8 @@ namespace AccCreationAPI.Controllers
         }
 
 
+
+
         [AllowAnonymous]
         [HttpPost("api/CheckUsernameAPI")]
         public IActionResult CheckUsernameExist([FromBody] LoginModel login)

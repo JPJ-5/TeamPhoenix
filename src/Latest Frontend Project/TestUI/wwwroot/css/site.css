@@ -235,6 +235,9 @@ tr:hover {background-color: #ddd;}
     background-color: #0a3f6e; /* Darker shade for hover effect */
 }
 
+.error {
+    color:#ff2d2d;
+}
 
 #craftVerifyView {
     margin-top: 70px; /* Adjust this value based on the actual height of your navbar */
