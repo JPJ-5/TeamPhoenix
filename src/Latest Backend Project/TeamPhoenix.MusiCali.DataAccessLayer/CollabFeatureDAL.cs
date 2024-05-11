@@ -11,18 +11,17 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
         public static List<string> SearchUsers(string userSearch)
         {
-            string search = userSearch + '%';
             List<string> users = new List<string>();
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
 
-                string sql = "SELECT Username FROM UserProfile WHERE Username != @userSearch";
+                string sql = "SELECT Username FROM ArtistProfile";
 
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@userSearch", search);
+                    command.Parameters.AddWithValue("@userSearch", userSearch);
 
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
@@ -36,6 +35,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             return users;
         }
+
         //Create fuction to retrieve email from ArtistProfile using Username
         public static string GetEmailByUsername(string username)
         {
