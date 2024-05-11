@@ -1,5 +1,0 @@
-{
-  "ConnectionStrings": {
-    "ConnectionString": "server=invalid;database=testdb;uid=root;pwd=password;"
-  }
-}
