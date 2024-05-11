@@ -784,9 +784,6 @@
             });
     });
 
-
-
-
     function logFeatureUsage(username, feature) {
         const requestData = {
             UserName: username,
