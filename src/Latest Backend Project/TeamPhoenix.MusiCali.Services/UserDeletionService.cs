@@ -1,7 +1,7 @@
 ﻿using TeamPhoenix.MusiCali.DataAccessLayer;
 using Microsoft.Extensions.Configuration;
 
-namespace TeamPhoenix.MusiCali.BusinessLogicLayer
+namespace TeamPhoenix.MusiCali.Services
 {
     public class UserDeletionService
     {
