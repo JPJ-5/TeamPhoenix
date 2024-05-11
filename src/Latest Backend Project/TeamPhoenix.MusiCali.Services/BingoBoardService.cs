@@ -71,25 +71,15 @@ namespace TeamPhoenix.MusiCali.Services
             string context;
             string userHash;
 
-            List<string>? interestedUsers = bingoBoardDAO.UserInterestList(username, gigID);
-            
-            if (interestedUsers != null && interestedUsers.Count > 0)
-            {
-                userHash = recoverUserDAO.GetUserHash(username);
-                level = "Info";
-                category = "View";
-                context = "User Interest list Successfully Checked";
-                loggerService.CreateLog(userHash, level, category, context);
-
-                return interestedUsers.Contains(username);
-            }
+            bool isInterested = bingoBoardDAO.IsUserInterested(username, gigID);
 
             userHash = recoverUserDAO.GetUserHash(username);
             level = "Info";
             category = "View";
-            context = "Error retrieving user interest list";
+            context = "User Interest Checked";
             loggerService.CreateLog(userHash, level, category, context);
-            return false;
+
+            return isInterested;
         }
 
         public BingoBoardInterestMessage addUserInterest(string username, int gigID)
