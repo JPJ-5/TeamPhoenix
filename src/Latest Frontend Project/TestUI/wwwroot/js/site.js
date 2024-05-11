@@ -40,11 +40,25 @@
         if(logged){
             fetchUserProfile(sessionStorage.getItem('username'));
         }
+        savedPage = sessionStorage.getItem('currentPage');
         if(logged && loaded){
-            if(sessionStorage.getItem('currentPage') == 'BingoBoard'){
-                console.log('true')
+            console.log('true')
+            if(savedPage == 'BingoBoard'){
                 loadBingoBoard();
             }
+            else if(savedPage == 'TempoTool'){
+                loadTempoTool();
+            }
+            //scale display
+            else if(savedPage =='ScaleDisplay'){
+                loadScaleDisplay();
+            }
+            /* craftverify
+            else if(savedPage == 'CraftVerify'){
+                //currently set up as an href so hard to implement
+            }*/
+            //collab search?
+            
         }
     }
 
@@ -787,14 +801,16 @@
         document.querySelectorAll('.main, #tempoToolView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
             el.style.display = 'none';
         });
+        sessionStorage.setItem('currentPage', 'ScaleDisplay');
+        loadScaleDisplay();
+    });
 
+    function loadScaleDisplay(){
         // Show the Scale Display view
         const container = document.getElementById('ScaleDisplayView');
         container.style.display = 'block';
-
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "Scale Display");
-
         //// Dynamically load and apply CSS specific to Scale Display
         //const cssLink = document.createElement('link');
         //cssLink.rel = 'stylesheet';
@@ -827,7 +843,7 @@
             .catch(error => {
                 console.error('Failed to load HTML content:', error);
             });
-    });
+    };
 
     function logFeatureUsage(username, feature) {
         const requestData = {
@@ -860,17 +876,17 @@
     }
 
 
-     // Bingo Board Feature
-     
-     document.getElementById('enter-BingoBoardView').addEventListener('click', function () {
+    // Bingo Board Feature
+    document.getElementById('enter-BingoBoardView').addEventListener('click', function () {
         // Hide other parts of the page
          document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #priceRangeSortingView, #financialProgressReportView, #inventoryStockView, #artistPortfolioView').forEach(el => {
             el.style.display = 'none';
         });
+        sessionStorage.setItem('currentPage', 'BingoBoard');
         loadBingoBoard();
     });
 
-function loadBingoBoard(){
+    function loadBingoBoard(){
         // Show the Bingo Board view
         const container = document.getElementById('BingoBoardView');
         container.style.display = 'block';
@@ -914,6 +930,7 @@ function loadBingoBoard(){
             showLoginFormButton.style.display = 'none'; // Hide the login button
             el.style.display = 'none';
         });
+
 
         // Show the Financial Progress Report view
         const container = document.getElementById('financialProgressReportView');
@@ -1048,7 +1065,11 @@ function loadBingoBoard(){
         document.querySelectorAll('.main, #ScaleDisplayView, #priceRangeSortingView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #artistProfileCalendarView').forEach(el => {
             el.style.display = 'none';
         });
+        sessionStorage.setItem('currentPage', 'TempoTool')
+        loadTempoTool();
+    });
 
+    function loadTempoTool(){
         // Show the Inventory Stock View
         const container = document.getElementById('tempoToolView');
         container.style.display = 'block';
@@ -1083,7 +1104,7 @@ function loadBingoBoard(){
             .catch(error => {
                 console.error('Error loading Inventory Stock View:', error);
             });
-    });
+    };
 
     //Artist Calendar
     document.getElementById('enter-calendar').addEventListener('click', function () {
