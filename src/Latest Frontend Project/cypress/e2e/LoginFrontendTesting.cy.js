@@ -1,5 +1,4 @@
-const apiKey= '7138e4e54658683686ffe75c6759a738fea535711e13bc025b5eb36c86e5c1fe';
-
+const apiKey= '31b3ad64fe775eab2dd02ef8f0f5b8b46a17430519933d575d93595632ee6240';
 describe('blank cases', () => {
     describe('register blank', () => {
         it('should error when text fields are blank', () => {
@@ -28,10 +27,12 @@ describe('blank cases', () => {
     });
 });
 
+
 describe('signin/signup cases', () => {
     let inboxId;
     let emailAddress;
-    let username = 'cypresstester';
+    let username = 'testuser' + Date.now().toString();
+
     it('should create account w/ mailslurp', () => {
         cy.mailslurp({
             apiKey
@@ -42,42 +43,61 @@ describe('signin/signup cases', () => {
                 inboxId = inbox.id;
                 emailAddress = inbox.emailAddress;
             }) ;
-    })
-        
-    describe('registration & login', () => {
-        it('should register when boxes are filled out correctly', () => {
-            cy.visit('http://localhost:8800/');
-
-            //click on menu and register button
-            cy.get('#menu-btn').click();
-            cy.get('#show-register').click();
-            
-            //fill in email form
-            cy.get('#register-email').type(emailAddress);
-            cy.get('#show-details-form').click();
-            //fill in other boxes
-            cy.get('#user-name').type(username);
-            cy.get('#backup-email').type(emailAddress);
-            //submit
-            cy.get('#finalize-registration').click();
-            cy.wait(6000)
-            cy.get('#register-error').should('be.empty');
-        });
     });
 
-    it('should enter correct email and OTP', () => {
+    it('should register when boxes are filled out correctly', () => {
         cy.visit('http://localhost:8800/');
 
+        //click on menu and register button
         cy.get('#menu-btn').click();
+        cy.get('#show-register').click();
+        cy.wait(1000)
+        
+        //fill in email form
+        cy.get('#register-email').type(emailAddress);
+        cy.get('#show-details-form').click();
+        //fill in other boxes
+        cy.get('#user-name').type(username);
+        cy.get('#backup-email').type(emailAddress);
+        //enter birthdate
+        cy.get('#dob').type("2022-05-13");
+
+        //submit
+        cy.get('#finalize-registration').click();
+        cy.wait(30000)
+        cy.get('#register-error').should('be.empty');
+    });
+
+    it('should log in to the previously made account', () => {
+        cy.visit('http://localhost:8800/');
+        cy.get('#menu-btn').click();
+
         cy.get('#show-login').click();
 
         cy.get('#username').type(username);
         cy.get('#email-otp').click();
-        cy.wait(3000);
-        cy.mailslurp(function(mailslurp) {
-            return mailslurp.waitForLatestEmail(inboxId, 120000, true)
-        }).then(email => expect(email.body).contains('Hello'))
+        cy.wait(15000);
+        
+        cy.on('window:alert', (str) => {
+            expect(str).to.equal('OTP sent to your email.')
+          })
+        cy.on('window:confirm', () => true)
 
-        cy.get('#login-error').should('exist');
+        //checks that otp was sent to disposable email
+        cy.mailslurp({apiKey})
+        .then(function(mailslurp) {
+            return mailslurp.waitForLatestEmail(inboxId, 120000, true)
+        }).then(email => /.*confirmation is: ([a-zA-Z]{8})/.exec(email.body)[1])
+        .then(code => {
+            cy.get('#enter-otp').type(code);
+            cy.get('#submit-otp').click();
+        })
+        cy.wait(10000);
+
+        cy.get('#login-error').should('be.empty');
     });
+
+    //it('should enter correct email and OTP', () => {
+    //    cy.visit('http://localhost:8800/');
+    //});
 });
