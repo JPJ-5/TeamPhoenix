@@ -125,7 +125,7 @@
                     <!-- Scale Display Button Here -->
                     <button id="enter-scaleDisplay" class="enter-scaleDisplay">Scale Display</button>
 
-                    <!--Test Collab Creation-->
+                    <!--Collab Feature Button here-->
                     <button id = "enter-collabFeature" class = "enter-CollabFeature">Collab Feature</button>
                     
                     <!-- Bingo Board button here -->
@@ -311,12 +311,11 @@
 
     <!-- Page for collab feature feature -->
     <div id="CollabFeatureView" style="display: none;">
-        <h1 class="neon-text">Collab Feature</h1>
         <p class="neon-text">Collab Feature</p>
         <p id="enter-collabFeature"></p>
         <div class="create-collabRequest">
             <!--<span class="popuptext" id="myPopup"></span>-->
-            <label for="receiver">Enter Receiver Username:</label>
+            <label for="receiver">Look up a username to send a request to:</label>
             <input type="text" id="receiver" placeholder="Insert Username Here">
             <div class="popuptext" id="createPopup">
                 <button id="create-collabRequest">Send A Request</button>
@@ -324,7 +323,7 @@
         </div>
         <div class="accept-collabRequest">
             <!-- Move onclick event to the outer button -->
-            <label for="sender">Enter Sender Username:</label>
+            <label for="sender">Look up a username to accept a request:</label>
             <input type="text" id="sender" placeholder="Insert Username Here">
             <div class="popuptext" id="acceptPopup">
                 <button id="accept-collabRequest">Accept A Request</button>
@@ -348,13 +347,15 @@
             <thead>
                 <tr>
                     <th>Username</th>
+                    <th>Action</th> <!-- Add a new header for the action button -->
                 </tr>
             </thead>
             <tbody>
                 <!-- Table rows will be dynamically added here -->
             </tbody>
         </table>
-    </div>
+        
+        </div>
     </div>
 
     
