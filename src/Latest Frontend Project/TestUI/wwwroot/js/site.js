@@ -179,6 +179,9 @@
                 console.error('Error:', error);
                 alert("An error occurred.");
             });
+
+
+        disableSpecificButtonsIfMissingCredentials();
     });
 
     function fetchUserProfile(username) {
