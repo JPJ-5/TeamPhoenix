@@ -1,8 +1,6 @@
 ﻿//var baseUrl = 'https://themusicali.com:5000';
 var baseUrl = 'http://localhost:8080';
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
     var craftVerifyButton = document.getElementById('craftVerify');
 
@@ -31,23 +29,13 @@ function setupPagination(totalCount, itemsPerPage) {
     }
 }
 
-
 window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
 }
 
-
-
-
-document.addEventListener('DOMContentLoaded', function () {                                             // commented out 
-    
-
-    //document.getElementById('buyerHistoryBtn').addEventListener('click', function () {
-    //    console.log('Buyer History clicked');
-    //    // Additional functionality here
-    //});
+document.addEventListener('DOMContentLoaded', function () { 
 
     document.getElementById('sellerDashboardBtn').addEventListener('click', function () {
         // Hide the CraftVerify view
@@ -57,9 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {                     
         // Show the Seller Dashboard view
         var sellerDashboardView = document.getElementById('sellerDashboardView');
         sellerDashboardView.style.display = 'block';
-
-        // Optionally, initialize or refresh the Seller Dashboard contents
-        //setupSellerDashboard(); // Ensure this function is defined to set up the dashboard
     });
 });
 

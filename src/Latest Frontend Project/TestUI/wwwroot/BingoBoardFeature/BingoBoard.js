@@ -1,14 +1,5 @@
 var baseUrl = 'http://localhost:8080';
-//Bingo Board Features:
-//document.getElementById('enter-BingoBoardView').addEventListener('click', function (){
-//    if(sessionStorage.getItem('loadCount') == null){
-//        sessionStorage.setItem('loadCount', 7);
-//    }
-//    sessionStorage.setItem('pageNum', 1)
-//    pageNum = sessionStorage.getItem('pageNum');
-//    buildBingoBoard(pageNum);
-//});
-
+//var baseUrl = 'https://themusicali.com:5000';
 document.getElementById('bbGoPrev').addEventListener('click', function(){
     var pageNum = sessionStorage.getItem('pageNum');
     pageNum--;

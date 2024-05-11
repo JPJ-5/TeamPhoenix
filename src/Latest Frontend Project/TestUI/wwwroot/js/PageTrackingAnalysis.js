@@ -1,4 +1,6 @@
-﻿
+﻿var baseUrl = 'http://localhost:8080';
+//var baseUrl = 'https://themusicali.com:5000';
+
 // Method to track page visited/time spent.
 var pageName = 'Home page'; //Name of the page the user is currently on.
 let pageTimer;
@@ -19,7 +21,7 @@ function resetPageTimer(newNameOfPage) {
 function logPageDuration(nameOfPage) {
     var username = document.getElementById("username").value;
     var pageLengthInMilliseconds = Math.floor(Date.now() - pageTimer);
-    var url = 'http://localhost:8080/UsageAnalysisDashboard/api/UsageAnalysisDashboardLogPageLengthAPI';
+    var url = `${baseUrl}/UsageAnalysisDashboard/api/UsageAnalysisDashboardLogPageLengthAPI`;
 
     var data = {
         Username: username,
