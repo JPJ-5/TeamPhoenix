@@ -13,12 +13,32 @@
     var idToken;
     var accessToken;
 
-    
+    function isLoggedIn() {
+        // Check if the authentication token (or any other relevant data) exists in session storage
+        if (sessionStorage.getItem('idToken') == null) {
+            return false;
+        }
+        if (sessionStorage.getItem('accessToken') == null) {
+            return false;
+        }
+        if(sessionStorage.getItem('username') == null){
+            return false;
+        }
+        // Add additional checks if needed
+        return true; // Return true if token exists, false otherwise
+    }
 
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        // Reset the visibility of login and register buttons when menu is toggled
-        resetButtonVisibility();
+        const logged = isLoggedIn();
+        //console.log(logged);
+        if(logged){
+            fetchUserProfile(sessionStorage.getItem('username'));
+        }else{
+            // Reset the visibility of login and register buttons when menu is toggled
+            resetButtonVisibility();
+        }
+
     });
 
     showLoginFormButton.addEventListener('click', function () {
@@ -149,7 +169,7 @@
     });
 
     function fetchUserProfile(username) {
-        var username = document.getElementById('username').value;
+        //var username = document.getElementById('username').value;
         var userProfileUrl = `${baseUrl}/ModifyUserProfile/GetUserInformation`;
         idToken = sessionStorage.getItem("idToken");
         accessToken = sessionStorage.getItem("accessToken");
