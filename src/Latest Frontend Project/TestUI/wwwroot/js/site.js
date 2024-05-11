@@ -28,17 +28,30 @@
         return true; // Return true if token exists, false otherwise
     }
 
-    menuButton.addEventListener('click', function () {
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    function isPageLoaded(){
+        if(sessionStorage.getItem('currentPage' == null)){return false;}
+        return true;
+
+    }
+
+    function onPageLoad(){
         const logged = isLoggedIn();
-        //console.log(logged);
+        const loaded = isPageLoaded();
         if(logged){
             fetchUserProfile(sessionStorage.getItem('username'));
-        }else{
-            // Reset the visibility of login and register buttons when menu is toggled
-            resetButtonVisibility();
         }
+        if(logged && loaded){
+            if(sessionStorage.getItem('currentPage' == 'BingoBoard')){
+                
+            }
+        }
+    }
 
+    onPageLoad();
+
+    menuButton.addEventListener('click', function () {
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        resetButtonVisibility();
     });
 
     showLoginFormButton.addEventListener('click', function () {

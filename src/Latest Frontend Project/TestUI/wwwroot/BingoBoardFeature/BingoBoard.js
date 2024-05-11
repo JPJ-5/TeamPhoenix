@@ -210,6 +210,7 @@ function setupPageComponents() {
     pageNum = sessionStorage.getItem('pageNum');
     buildBingoBoard(pageNum);
     console.log("Page components setup complete");
+    sessionStorage.setItem('currentPage', 'BingoBoard')
 }
 
 // Call setupPageComponents when the page loads
