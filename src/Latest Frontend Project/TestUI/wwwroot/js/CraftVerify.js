@@ -121,24 +121,24 @@ document.addEventListener('DOMContentLoaded', function () {                     
 
    
 
-    function disableSpecificButtonsIfMissingCredentials() {
-        // Retrieve tokens and username from sessionStorage
-        const jwtToken = sessionStorage.getItem('idToken');
-        const accessToken = sessionStorage.getItem('accessToken');
-        const username = sessionStorage.getItem('username');
+    //function disableSpecificButtonsIfMissingCredentials() {
+    //    // Retrieve tokens and username from sessionStorage
+    //    const jwtToken = sessionStorage.getItem('idToken');
+    //    const accessToken = sessionStorage.getItem('accessToken');
+    //    const username = sessionStorage.getItem('username');
 
-        // Array of button IDs that require authentication
-        const buttonIds = ['itemCreationBtn', 'itemModificationBtn', 'financialProgressBtn', 'pendingSaleBtn', 'offerPriceButton', 'buyButton']; // Replace these with your actual button IDs
+    //    // Array of button IDs that require authentication
+    //    const buttonIds = ['itemCreationBtn', 'itemModificationBtn', 'financialProgressBtn', 'pendingSaleBtn', 'offerPriceButton', 'buyButton']; // Replace these with your actual button IDs
 
-        // Check each button by ID and disable if credentials are missing
-        buttonIds.forEach(buttonId => {
-            const button = document.getElementById(buttonId);
-            if (button && (!jwtToken || !accessToken || !username)) {
-                button.disabled = true;
-                button.title = "Login required"; // Optional: Tooltip
-            }
-        });
-    }
+    //    // Check each button by ID and disable if credentials are missing
+    //    buttonIds.forEach(buttonId => {
+    //        const button = document.getElementById(buttonId);
+    //        if (button && (!jwtToken || !accessToken || !username)) {
+    //            button.disabled = true;
+    //            button.title = "Login required"; // Optional: Tooltip
+    //        }
+    //    });
+    //}
 
     
 

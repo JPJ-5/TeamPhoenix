@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('No SKU provided. Certain functionalities will be disabled.');
     } else {
         fetchItemDetails(sku); // Fetch details only if SKU is available
-        setupNonSkuPageHandlers(sku); // Setup button handlers that require the SKU
+        setupNonSkuPageHandlers(); // Setup button handlers that require the SKU
+        setupButtonHandlers(sku)
     }
 });
 
@@ -80,16 +81,8 @@ function setupButtonHandlers(sku) {
     });
 }
 
-function buyItem(sku) {
-    console.log(`Buying item with SKU: ${sku}`);
-    // Implement buying logic, possibly making an API call
-}
-function offerPrice(sku) {
-    console.log(`Making an offer for item with SKU: ${sku}`);
-    // Could open a modal to input offer price, then make an API call
-}
 
-//end
+
 
 
 document.querySelectorAll('.thumbnail').forEach(item => {
