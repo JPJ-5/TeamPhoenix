@@ -120,17 +120,17 @@ namespace TeamPhoenix.MusiCali.Services
             var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
             var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
             var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;
+            var privateKeyFilePath = config.GetSection("SSHLogin:keyPath").Value!;
             var fileName = file.FileName;
             // Replace the line with the specified file path
-            var localFilePath = Path.Combine(Path.GetTempPath(), fileName); // Save file to a temporary location
+            var localFilePath = Path.Combine("/home/ubuntu/MusiCaliUploads", fileName); // Save file to a temporary location
 
 
             try
             {
-                string? privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY");
                 if (privateKeyFilePath == null)
                 {
-                    throw new InvalidOperationException("JULIE_KEY environmental variable is not set.");
+                    throw new InvalidOperationException("private key not found in directory");
                 } // access backend vm enviromental variable
                 // Save the uploaded file to the temporary location
                 using (var stream = new FileStream(localFilePath, FileMode.Create))
@@ -202,7 +202,7 @@ namespace TeamPhoenix.MusiCali.Services
                     return new Result { Success = false, ErrorMessage = "error finding filepath to delete" };
                 }
 
-                string? privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY"); // access backend vm enviromental variable
+                string? privateKeyFilePath = config.GetSection("SSHLogin:keyPath").Value!;
                 var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
                 var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
                 var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;
@@ -264,10 +264,10 @@ namespace TeamPhoenix.MusiCali.Services
 
             try
             {
-                string? privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY");
+                var privateKeyFilePath = config.GetSection("SSHLogin:keyPath").Value!;
                 if (privateKeyFilePath == null)
                 {
-                    throw new InvalidOperationException("JULIE_KEY environmental variable is not set.");
+                    throw new InvalidOperationException("key file path not found");
                 }
 
                 var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
