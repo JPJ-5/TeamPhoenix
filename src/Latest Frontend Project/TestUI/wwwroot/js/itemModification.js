@@ -1,14 +1,11 @@
-﻿﻿//var baseUrl = 'http://localhost:8080';
+﻿//var baseUrl = 'http://localhost:8080';
 var baseUrl = 'https://themusicali.com:5000';
-
-
-
 
 // Button Event Listeners
 document.getElementById('itemModificationBtn').addEventListener('click', function () {
     hideAllSections();
     document.getElementById('itemModificationContainer').style.display = 'block';
-    fetchModificationData(1); // Fetch and populate the items
+    fetchData(1); // Fetch and populate the items
     // Clear input fields in the item modification form
     const form = document.getElementById('modificationForm');
     clearFormFields(form);
@@ -30,11 +27,10 @@ function hideAllSections() {
     document.getElementById('itemModificationForm').style.display = 'none';
     document.getElementById('pendingSaleContainer').style.display = 'none';
     document.getElementById('financialProgressReportView').style.display = 'none';
-    document.getElementById('itemsListingContainer').style.display = 'none';
 }
 
 // Fetch Data Functions
-function fetchModificationData(page) {
+function fetchData(page) {
     const username = sessionStorage.getItem('username');
     const url = `${baseUrl}/api/ItemPagination?username=${encodeURIComponent(username)}&pageNumber=${page}&pageSize=10`;
 
@@ -42,7 +38,7 @@ function fetchModificationData(page) {
         .then(response => response.json())
         .then(data => {
             renderItems(data.items);
-            setupPagination('fetchModificationData', data.totalCount, 10, page);
+            setupPagination('fetchData', data.totalCount, 10, page);
         })
         .catch(error => console.error('Error fetching data:', error));
 }
@@ -121,18 +117,11 @@ function setupPagination(fetchFunction, totalCount, pageSize, currentPage) {
         pageButton.classList.add('page-button');
         pageButton.disabled = (page === currentPage);
         pageButton.onclick = function () {
-            if (fetchFunction === 'fetchModificationData') {
-                fetchModificationData(page);
+            if (fetchFunction === 'fetchData') {
+                fetchData(page);
             } else if (fetchFunction === 'fetchDataSalePending') {
                 fetchDataSalePending(page);
             }
-            else if (fetchFunction === 'fetchDataForListingPage') {
-                fetchDataForListingPage(page);
-            }
-            else if (fetchFunction === 'fetchListingItem') {
-                fetchListingItem(page);
-            }
-
         };
         paginationContainer.appendChild(pageButton);
     }
@@ -368,7 +357,7 @@ function setupFormHandlers(sku) {
     }
 }
 
-
+// Function to upload files to the backend sandbox
 async function uploadFilesToSandbox(formData) {
     const username = sessionStorage.getItem('username');
     const idToken = sessionStorage.getItem("idToken");
@@ -383,8 +372,6 @@ async function uploadFilesToSandbox(formData) {
     Array.from(videos).forEach(video => {
         formData.append('files', video);
     });
-
-    //const uploadPath = `${baseUrl}/api/UploadS3/UploadFilesToSandBox`;
 
     let uploadResponse = await fetch(`${baseUrl}/api/UploadS3/UploadFilesToSandBox`, {
         method: 'POST',
@@ -557,7 +544,7 @@ function deleteItem(sku) {
                 throw new Error('Failed to delete item: ' + response.statusText);
             }
             alert('Item deleted successfully!');
-            fetchModificationData(1); // Refresh the list
+            fetchData(1); // Refresh the list
         })
         .catch(error => {
             console.error('Error deleting item:', error);
