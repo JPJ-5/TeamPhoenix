@@ -4,6 +4,8 @@ using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using Renci.SshNet;
 using Microsoft.Extensions.Configuration;
 using TeamPhoenix.MusiCali.Logging;
+using System.Collections.Generic;
+using System.Security.AccessControl;
 
 namespace TeamPhoenix.MusiCali.Services
 {
@@ -303,6 +305,8 @@ namespace TeamPhoenix.MusiCali.Services
                                     {
                                         sftpClient.DownloadFile(filePath, fileStream);
                                     }
+                                    // Set file permissions to 666
+                                    File.SetAttributes(localFilePath, FileAttributes.Normal);
 
                                     // Add the local file path to the list
                                     localFilePaths.Add(localFilePath);
