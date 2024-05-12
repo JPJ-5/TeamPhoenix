@@ -874,15 +874,15 @@
 
     // Bingo Board Feature
     document.getElementById('enter-BingoBoardView').addEventListener('click', function () {
-        // Hide other parts of the page
-         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #priceRangeSortingView, #financialProgressReportView, #inventoryStockView, #artistPortfolioView').forEach(el => {
-            el.style.display = 'none';
-        });
         sessionStorage.setItem('currentPage', 'BingoBoard');
         loadBingoBoard();
     });
 
     function loadBingoBoard(){
+        // Hide other parts of the page
+         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #priceRangeSortingView, #financialProgressReportView, #inventoryStockView, #artistPortfolioView').forEach(el => {
+            el.style.display = 'none';
+        });
         // Show the Bingo Board view
         const container = document.getElementById('BingoBoardView');
         container.style.display = 'block';
