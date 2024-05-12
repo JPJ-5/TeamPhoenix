@@ -28,21 +28,21 @@ namespace TeamPhoenix.MusiCali.Services
                 var file = artistPortfolioDao.GetPortfolio(username);
                 if (file == new List<List<string>>())
                 {
-                    throw new Exception("1");
+                    return new ArtistProfileViewModel();
                 }
                 var fileInfo = file[0];
                 var localFiles = DownloadFilesLocally(fileInfo);
                 if (localFiles == new List<string>())
                 {
                     loggerService.LogSuccessFailure(username, "Error", "Data", "ArtistPortfolio, Error connecting to server and downloading files locally");
-                    throw new Exception("2");
+                    return new ArtistProfileViewModel();
                 }
                 var genreList = file[1];
                 var descList = file[2];
                 var artistInfo = file[3];
-                if (artistInfo == null || fileInfo == null)
+                if (artistInfo == null && fileInfo == null)
                 {
-                    throw new Exception("3");
+                    return new ArtistProfileViewModel();
                 }
 
                 var responseData = new ArtistProfileViewModel
