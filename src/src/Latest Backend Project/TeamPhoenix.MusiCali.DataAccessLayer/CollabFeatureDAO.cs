@@ -60,7 +60,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     }
                 }
             }
-            return email;
+            return email!;
         }
 
         //Create function to save new collab to database

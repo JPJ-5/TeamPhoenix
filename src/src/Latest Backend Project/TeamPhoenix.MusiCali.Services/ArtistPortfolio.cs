@@ -47,7 +47,7 @@ namespace TeamPhoenix.MusiCali.Services
 
                 var responseData = new ArtistProfileViewModel
                 {
-                    Occupation = artistInfo[0],
+                    Occupation = artistInfo![0],
                     Bio = artistInfo[1],
                     Location = artistInfo[2],
                     Visibility = bool.Parse(artistInfo[3]),
