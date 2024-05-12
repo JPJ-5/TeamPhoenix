@@ -42,23 +42,19 @@
         }
         savedPage = sessionStorage.getItem('currentPage');
         if(logged && loaded){
-            console.log('true')
-            if(savedPage == 'BingoBoard'){
-                loadBingoBoard();
-            }
-            else if(savedPage == 'TempoTool'){
-                loadTempoTool();
-            }
+            //console.log('true')
+            //bingo board
+            if(savedPage == 'BingoBoard'){loadBingoBoard();}
+            //tempo
+            else if(savedPage == 'TempoTool'){loadTempoTool();}
             //scale display
-            else if(savedPage =='ScaleDisplay'){
-                loadScaleDisplay();
-            }
+            else if(savedPage =='ScaleDisplay'){loadScaleDisplay();}
             //craftverify
-            else if(savedPage == 'CraftVerify'){
-                loadCraftVerify();
-            }
-            //collab search?
-            
+            //else if(savedPage == 'CraftVerify'){loadCraftVerify();}
+            //collab
+            else if(savedPage == 'Collab'){loadCollabFeature();}
+            //calendar
+            else if(savedPage == 'ArtistCalendar'){loadArtistCalendar();}
         }
     }
 
@@ -797,19 +793,19 @@
 
     // Scale Display
     document.getElementById('enter-scaleDisplay').addEventListener('click', function () {
-        // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
-            el.style.display = 'none';
-        });
         sessionStorage.setItem('currentPage', 'ScaleDisplay');
         loadScaleDisplay();
     });
 
     function loadScaleDisplay(){
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #tempoToolView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+            el.style.display = 'none';
+        });
         // Show the Scale Display view
         const container = document.getElementById('ScaleDisplayView');
         container.style.display = 'block';
-        var username = document.getElementById("username").value;
+        var username = sessionStorage.getItem('username');
         logFeatureUsage(username, "Scale Display");
         //// Dynamically load and apply CSS specific to Scale Display
         //const cssLink = document.createElement('link');
@@ -1063,15 +1059,15 @@
 
     //TempoTool
     document.getElementById('enter-tempoTool').addEventListener('click', function () {
-        // Hide other parts of the page
-        document.querySelectorAll('.main, #ScaleDisplayView, #priceRangeSortingView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #artistProfileCalendarView').forEach(el => {
-            el.style.display = 'none';
-        });
-        sessionStorage.setItem('currentPage', 'TempoTool')
+        sessionStorage.setItem('currentPage', 'TempoTool');
         loadTempoTool();
     });
 
     function loadTempoTool(){
+        // Hide other parts of the page
+        document.querySelectorAll('.main, #ScaleDisplayView, #priceRangeSortingView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #artistProfileCalendarView').forEach(el => {
+            el.style.display = 'none';
+        });
         // Show the Inventory Stock View
         const container = document.getElementById('tempoToolView');
         container.style.display = 'block';
@@ -1110,6 +1106,11 @@
 
     //Artist Calendar
     document.getElementById('enter-calendar').addEventListener('click', function () {
+        sessionStorage.setItem('currentPage', 'ArtistCalendar');
+        loadArtistCalendar();
+    });
+
+    function loadArtistCalendar(){
         resetPageTimer("Artist Calendar Feature");
         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #usageAnalysisDashboardView').forEach(el => {
             el.style.display = 'none';
@@ -1149,7 +1150,7 @@
             .catch(error => {
                 console.error('Error loading Artist Profile Calendar View:', error);
             });
-    });
+    };
 
     // Usage Analysis Dashboard
     document.getElementById('enter-usageAnalysisDashboard').addEventListener('click', function () {
@@ -1196,6 +1197,11 @@
 
     //enter collab feature view
     document.getElementById('enter-collabFeature').addEventListener('click', function () {
+        sessionStorage.setItem('currentPage', 'Collab');
+        loadCollabFeature();
+    });
+
+    function loadCollabFeature(){
         document.querySelector('.main').style.display = 'none'; // Hide main content
         document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
         document.getElementById('ScaleDisplayView').style.display = 'none'; // hide scale display view
@@ -1203,7 +1209,7 @@
         document.getElementById('artistProfileCalendarView').style.display = "none";
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "Collab Feature");
-    });
+    };
 
     startPageTimer();
 });
