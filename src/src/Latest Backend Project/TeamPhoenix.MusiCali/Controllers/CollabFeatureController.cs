@@ -19,7 +19,7 @@ namespace TeamPhoenix.MusiCali.Controllers
 
                 Result result = new Result();
 
-                result = CollabFeature.CreateCollabRequest(collab.senderUsername, collab.receiverUsername);
+                result = CollabFeature.CreateCollabRequest(collab.senderUsername!, collab.receiverUsername!);
 
                 if(result.Success){
 
@@ -71,7 +71,7 @@ namespace TeamPhoenix.MusiCali.Controllers
 
             try
             {
-                Result result = CollabFeature.AcceptCollab(collab.receiverUsername, collab.senderUsername);
+                Result result = CollabFeature.AcceptCollab(collab.receiverUsername!, collab.senderUsername!);
 
                 if(result.Success){
 
