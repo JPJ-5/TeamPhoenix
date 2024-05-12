@@ -135,7 +135,10 @@
         display: none;
         text-align: center;
         color: #007bff;
-        /* adjust the positioning contextually or remove if causing layout issues */
+        position: initial;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     #priceRangeSortingView .results-title {
