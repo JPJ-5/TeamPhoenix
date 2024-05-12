@@ -89,9 +89,9 @@ namespace TeamPhoenix.MusiCali.Services
 
                 return responseData;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception($"7 { ex.Message }");
+                return new ArtistProfileViewModel();
             }
         }
 
