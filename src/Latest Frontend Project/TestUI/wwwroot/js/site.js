@@ -683,7 +683,7 @@
 
     document.getElementById('logoutButton').addEventListener('click', function () {
         const startTime = Date.now();
-        var userName = document.getElementById("username").value;
+        var userName = sessionStorage.getItem('username');
         idToken = sessionStorage.getItem("idToken");
         accessToken = sessionStorage.getItem("accessToken");
         //console.log(idToken);
