@@ -1,5 +1,6 @@
 ﻿function setupArtistProfileCalendar() {
-    var baseUrl = 'http://localhost:8080';
+    //var baseUrl = 'http://localhost:8080';
+    var baseUrl = 'https://themusicali.com:5000';
     document.getElementById('enter-calendar').addEventListener('click', function () {
         // display the artist calendar section when the button is clicked
         document.getElementById('artist-calendar-section').style.display = 'block';

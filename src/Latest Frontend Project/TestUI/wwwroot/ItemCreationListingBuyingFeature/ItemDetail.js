@@ -1,23 +1,37 @@
 ﻿
-////var baseUrl = 'https://themusicali.com:5000';
+//var baseUrl = 'https://themusicali.com:5000';
 var baseUrl = 'http://localhost:8080';
 
-document.addEventListener('DOMContentLoaded', function () {
-    const params = new URLSearchParams(window.location.search);
-    const sku = params.get('sku');
+
+function loadDetail(skuNumber, option) {
+    //const params = new URLSearchParams(window.location.search);
+    const sku = skuNumber;
+
+    if (option == 1) {
+        document.querySelector('.buying_option').style.display = 'block';
+    } else {
+        document.querySelector('.buying_option').style.display = 'none'; // Ensure it's visible otherwise
+    }
+    setupNonSkuPageHandlers(); // Setup handlers that do not require the SKU
 
     if (!sku) {
-        console.log('No SKU provided. Certain functionalities will be disabled.');
+        console.log('No SKU readed from the view. Showing item detail functionalities will be disabled.');
     } else {
         fetchItemDetails(sku); // Fetch details only if SKU is available
-        setupNonSkuPageHandlers(); // Setup button handlers that require the SKU
-        setupButtonHandlers(sku)
+        setupBuyOrOfferButtonHandlers(sku); // Setup button handlers that require the SKU
     }
+};
 
-    fetchItemDetails(sku);
-    setupButtonHandlers(sku);
-});
-
+function setupNonSkuPageHandlers() {
+    // Setup navigation links or buttons
+    document.querySelectorAll('.nav-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const section = document.querySelector(this.getAttribute('data-target'));
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
 
     // Initialize any tooltips on the page
     document.querySelectorAll('[data-tooltip]').forEach(element => {
@@ -55,11 +69,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Maybe add more general event listeners or setups as needed
+}
 
 document.addEventListener('DOMContentLoaded', setupNonSkuPageHandlers);
 //start adding code here
 
-function setupButtonHandlers(sku) {
+function setupBuyOrOfferButtonHandlers(sku) {
     document.getElementById('buyButton').addEventListener('click', function () {
         confirmPurchase(sku, false);
     });
@@ -98,11 +113,14 @@ function fetchItemDetails(sku) {
         })
         .then(data => {
             updatePageContent(data);
+            showOfferableItemDetails(data);
         })
         .catch(error => {
             console.error('Error fetching item details:', error);
         });
 }
+
+
 
 function updatePageContent(item) {
     // Update main item information
@@ -111,26 +129,26 @@ function updatePageContent(item) {
     document.getElementById('itemPrice').textContent = `Price: $${item.price}`;
     document.getElementById('itemDescription').textContent = item.description;
     document.getElementById('itemStock').textContent = `Stock Available: ${item.stockAvailable}`;
-    /*document.getElementById('itemSellerContact').textContent = item.sellerContact;*/
 
     // Update the main image
     const mainImage = document.getElementById('mainImage');
-    mainImage.src = item.imageUrls[0]; // Ensure this is the main image URL
-
-
-    // Ensure there is at least one URL for the main image
+    mainImage.src = item.imageUrls[0] || 'path/to/default/image.jpg'; // Provide a default image if the main image URL is null
+    
+    // Update image thumbnails
     if (item.imageUrls.length > 1) {
-        // Update thumbnails starting from the second image URL
         item.imageUrls.slice(0).forEach((url, index) => {
-            if (index < 5) { // Check if the index is within the number of available thumbnails
-                const thumbnail = document.getElementById(`Image${index + 1}`);
-                if (thumbnail) {
+            const thumbnail = document.getElementById(`Image${index + 1}`);
+            if (thumbnail) {
+                if (url) {
                     thumbnail.src = url;
-                    thumbnail.alt = `Image ${index + 1} of ${item.name}`; // Note the index+2 for correct labeling
+                    thumbnail.alt = `Image ${index + 1} of ${item.name}`;
+                    thumbnail.style.display = ''; // Reset to default display style if hidden previously
                     thumbnail.addEventListener('click', function () {
                         mainImage.src = thumbnail.src; // Update main image on thumbnail click
                         mainImage.alt = thumbnail.alt;
                     });
+                } else {
+                    thumbnail.style.display = 'none'; // Hide the thumbnail if the URL is null
                 }
             }
         });
@@ -139,19 +157,26 @@ function updatePageContent(item) {
     // Update thumbnails for videos
     item.videoUrls.forEach((url, index) => {
         const videoThumbnail = document.getElementById(`Video${index + 1}`);
-        if (videoThumbnail && videoThumbnail.children.length > 0) {
-            videoThumbnail.children[0].src = url; // Assuming the first child is the <source> element
-            videoThumbnail.load(); // Important to reload the video element to update the source
-            videoThumbnail.onclick = () => {
-                mainImage.style.display = 'none'; // Hide the main image
-                videoThumbnail.style.display = 'block'; // Display the video
-                videoThumbnail.play(); // Auto-play the video
-            };
+        if (videoThumbnail) {
+            if (url) {
+                if (videoThumbnail.children.length > 0) {
+                    videoThumbnail.children[0].src = url; // Assuming the first child is the <source> element
+                    videoThumbnail.load(); // Reload the video element to update the source
+                    videoThumbnail.style.display = ''; // Reset to default display style if hidden previously
+                    videoThumbnail.onclick = () => {
+                        mainImage.style.display = 'none'; // Hide the main image
+                        videoThumbnail.style.display = 'block'; // Display the video
+                        videoThumbnail.play(); // Auto-play the video
+                    };
+                }
+            } else {
+                videoThumbnail.style.display = 'none'; // Hide the video thumbnail if the URL is null
+            }
         }
     });
 }
 
-function processItemDetails(item) {
+function showOfferableItemDetails(item) {
     const offerablePrice = item.offerablePrice;
     const offerContainer = document.getElementById('itemOfferContainer');
 
@@ -159,15 +184,7 @@ function processItemDetails(item) {
 }
 
 
-function setupButtonHandlers(sku) {
-    document.getElementById('buyButton').addEventListener('click', function () {
-        confirmPurchase(sku, false);
-    });
 
-    document.getElementById('offerPriceButton').addEventListener('click', function () {
-        confirmPurchase(sku, true);
-    });
-}
 
 
 
@@ -180,8 +197,7 @@ function populateFormFieldsDetail(item) {
         stockAvailable: 'stockAvailable',
         productionCost: 'productionCost',
         offerablePrice: 'offerablePrice',
-        itemListed: 'itemListed',
-        /*sellerContact: 'sellerContact'*/
+        itemListed: 'itemListed'
     };
 
     for (const [key, id] of Object.entries(formElements)) {
@@ -204,6 +220,7 @@ function isNullOrEmpty(value) {
 
 function confirmPurchase(sku, offer) {
     const quantity = parseInt(document.getElementById('quantity').value, 10);
+    const stock = parseInt(document.getElementById('itemStock').textContent.replace(/[^0-9.]/g, ''));
     const itemPrice = parseFloat(document.getElementById('itemPrice').textContent.replace(/[^0-9.]/g, ''));
     const offerPrice = offer ? parseFloat(document.getElementById('offerPrice').value) || 0 : itemPrice;
     const totalPrice = offerPrice * quantity;
@@ -213,8 +230,18 @@ function confirmPurchase(sku, offer) {
         `You are buying ${quantity} item(s) at a price of $${itemPrice.toFixed(2)} each.\nTotal Price: $${totalPrice.toFixed(2)}\nDo you want to proceed?`;
 
     if (confirm(confirmationMessage)) {
-        console.log('Buyer confirmed to buy.');
-        buyItem(sku, offer, offerPrice, quantity);
+        if (stock > quantity) {
+            console.log("stock: " + stock + " and quantity :" + quantity);
+            console.log('Buyer confirmed to buy.');
+            buyItem(sku, offer, offerPrice, quantity);
+        }
+        else {
+            console.log('Item runs out of stock.');
+            console.log("stock: " + stock + " and quantity :" + quantity);
+            alert('Item stock is lower than the quantity you want. Cannot finish the sale!!!');
+            fetchItemDetails(sku);
+        }
+        
     } else {
         console.log('Purchase cancelled.');
     }
@@ -254,9 +281,9 @@ function buyItem(sku, offer, offerPrice, quantity) {
             return response.json();
         })
         .then(data => {
-            console.log(data.Message);
+            console.log('Sale is done');
             alert('Purchase successful! Detail email with the seller contact is sent to both seller and buyer.');
-            //fetchItemInDetails(sku); // Refresh item details after the purchase
+            fetchItemDetails(sku); // Refresh item details after the purchase
         })
         .catch(error => {
             console.error('Error:', error);

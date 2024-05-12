@@ -2,8 +2,6 @@
 using Newtonsoft.Json;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using Microsoft.Extensions.Configuration;
-using System;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
@@ -76,49 +74,66 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             return 0;
         }
 
-        public bool IsUserInterested(string username, int gigID)
+        public List<string>? UserInterestList(string username, int gigID)
         {
-            string interestSql = "SELECT * FROM GigInterest WHERE GigID = @gigID AND InterestedUser = @username;";
-
+            string selectSql = "SELECT InterestedUsers FROM Gig WHERE GigID = @gigID;";
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                // Update the InterestedUsers column in the database
-                using (var updateCommand = new MySqlCommand(interestSql, connection))
+                // Retrieve the current list of interested users
+                using (var selectCommand = new MySqlCommand(selectSql, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@username", username);
-                    updateCommand.Parameters.AddWithValue("@gigID", gigID);
-                    using (var reader = updateCommand.ExecuteReader())
+                    selectCommand.Parameters.AddWithValue("@gigID", gigID);
+                    var result = selectCommand.ExecuteScalar();
+
+                    // Check if the result is DBNull
+                    if (result == DBNull.Value)
                     {
-                        if (reader.HasRows)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        return null;
                     }
+
+                    // Parse the JSON string to a list of usernames
+                    string interestedUsersJson = (string)result;
+                    List<string>? interestedUsers = JsonConvert.DeserializeObject<List<string>>(interestedUsersJson);
+
+                    // Ensure list is both not null and has values before returning
+                    return interestedUsers;
                 }
             }
         }
 
+        public bool IsUserInterested(string username, int gigId)
+        {
+            List<string>?  interestedUsers = UserInterestList(username, gigId);
+            if (interestedUsers != null && interestedUsers.Count > 0)
+            {
+                return interestedUsers.Contains(username);
+            }
+            return false;
+        }
+
         public bool IndicateInterest(string username, int gigID)
         {
+            List<string>?  interestedUsers = UserInterestList(username, gigID);
+            
+            // Add the new username to the list
+            if(interestedUsers == null) { return false; }
+            interestedUsers.Add(username);
 
-            string updateSql = "INSERT INTO GigInterest (GigID, InterestedUser, GigPoster) VALUES (@gigID, @username, @poster);";
-            string? poster = GetPosterUsername(gigID);
-            if (poster == null) { return false; }
+            // Convert the updated list back to JSON format
+            string updatedInterestedUsersJson = JsonConvert.SerializeObject(interestedUsers);
+
+
+            string updateSql = "UPDATE Gig SET InterestedUsers = @interestedUsers WHERE GigID = @gigID;";
+
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 // Update the InterestedUsers column in the database
                 using (var updateCommand = new MySqlCommand(updateSql, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@username", username);
+                    updateCommand.Parameters.AddWithValue("@interestedUsers", updatedInterestedUsersJson);
                     updateCommand.Parameters.AddWithValue("@gigID", gigID);
-                    updateCommand.Parameters.AddWithValue("@poster", poster);
-
                     int rowsAffected = updateCommand.ExecuteNonQuery();
                     if (rowsAffected == 1)
                     {
@@ -129,30 +144,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
 
             return false;
-        }
-
-        public string? GetPosterUsername(int gigID)
-        {
-            string posterSql = "SELECT PosterUsername FROM Gig WHERE GigID = @gigID;";
-
-            using (var connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-                // Update the InterestedUsers column in the database
-                using (var updateCommand = new MySqlCommand(posterSql, connection))
-                {
-                    updateCommand.Parameters.AddWithValue("@gigID", gigID);
-                    using (var reader = updateCommand.ExecuteReader())
-                    {
-
-                        while (reader.Read())
-                        {
-                            return reader["PosterUsername"].ToString() ?? string.Empty;
-                        }
-                    }
-                }
-            }
-            return null;
         }
     }
 }

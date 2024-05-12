@@ -1,11 +1,9 @@
-﻿namespace TeamPhoenix.MusiCali.DataAccessLayer.Models
-{
+namespace TeamPhoenix.MusiCali.DataAccessLayer.Models{
 
-    public class CollabUsers
-    {
+    public class CollabUsers{
 
-        public string? senderUsername { get; set; }
-        public string? receiverUsername { get; set; }
+        public string? senderUsername{ get; set; }
+        public string? receiverUsername{ get; set; }
 
     }
 }

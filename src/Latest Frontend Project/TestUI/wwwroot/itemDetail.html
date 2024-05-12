@@ -2,50 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details</title>
     <title>Item Details</title>
     <link href="css/ItemDetail.css" rel="stylesheet" />
 </head>
 <body>
-    <div id="itemDetailsContainer">
-        <div class="item_Details_Container">
+    <div id="itemDetailsContainer" style="display: block;">
+        <div class="item-detail-container">
             <div class="image-gallery">
                 <img id="mainImage" alt="Main Image" class="main-image">
                 <div class="thumbnail-container">
+                    <!-- Thumbnails for other images -->
                     <img id="Image1" class="thumbnail" style="display: none;">
                     <img id="Image2" class="thumbnail" style="display: none;">
                     <img id="Image3" class="thumbnail" style="display: none;">
                     <img id="Image4" class="thumbnail" style="display: none;">
                     <img id="Image5" class="thumbnail" style="display: none;">
+
+
+                    <!-- Add more thumbnails as needed -->
                 </div>
                 <video id="Video1" class="thumbnail-video" style="display: none;" controls>
                     <source type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
-                <video id="Video2" class="thumbnail-video" style="display: none;" controls>
+                <video id="Video2" class="thumbnail-video" style="display: none;"controls>
                     <source type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
+
             <div class="item-information">
-                <h1 id="itemName">Item Name</h1>
-                <p id="itemSKU">SKU: ABC123</p>
-                <p id="itemPrice">Price: $199.99</p>
-                <p id="itemDescription">Description: Lorem ipsum dolor sit amet...</p>
-                <p id="itemStock">Stock Available: 15</p>
-                <div class="buying_option">
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" min="1" value="1" class="quantity-input">
-                    <button id="buyButton" class="btn buy">Buy</button>
-                    <div class="item_offer" id="itemOfferContainer">
-                        <label for="offerPrice">Offer Price ($):</label>
-                        <input type="number" id="offerPrice" name="offerPrice" step="0.01" min="0.01" placeholder="Enter your offer price" class="offer-price-input">
-                        <button id="offerPriceButton" class="btn offer">Make an Offer</button>
+                <div class="item-information">
+                    
+                    <h1 id="itemName">Item Name</h1>
+                    
+                    <p id="itemSKU">SKU: ABC123</p>
+                    
+                    <p id="itemPrice">Price: $199.99</p>
+                    
+                    <p id="itemDescription">Description: Lorem ipsum dolor sit amet...</p>
+                    <p id="itemStock">Stock Available: 15</p>
+                    <div class="buying_option" id="buyingOption" style="display: block;">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" id="quantity" name="quantity" min="1" value="1" class="quantity-input">
+                        <button id="buyButton" class="btn buy" style="display: none">Buy</button>
+                        <div class="item_offer" id="itemOfferContainer">
+                            <label for="offerPrice">Offer Price ($):</label>
+                            <input type="number" id="offerPrice" name="offerPrice" step="0.01" min="0.01" placeholder="Enter your offer price" class="offer-price-input">
+                            <button id="offerPriceButton" class="btn offer" style="display: none">Make an Offer</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="js/itemDetail.js"></script>
+    <script src="ItemCreationListingBuyingFeature/ItemDetail.js"></script>
 </body>
 </html>
