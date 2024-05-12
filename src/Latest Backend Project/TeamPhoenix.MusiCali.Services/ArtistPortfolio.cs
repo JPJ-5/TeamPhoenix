@@ -1,9 +1,15 @@
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
 using Renci.SshNet;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 using TeamPhoenix.MusiCali.Logging;
+using static Org.BouncyCastle.Math.EC.ECCurve;
+using Google.Protobuf.WellKnownTypes;
 
 namespace TeamPhoenix.MusiCali.Services
 {
@@ -26,21 +32,21 @@ namespace TeamPhoenix.MusiCali.Services
                 var file = artistPortfolioDao.GetPortfolio(username);
                 if (file == new List<List<string>>())
                 {
-                    throw new Exception("1");
+                    return new ArtistProfileViewModel();
                 }
                 var fileInfo = file[0];
                 var localFiles = DownloadFilesLocally(fileInfo);
                 if (localFiles == new List<string>())
                 {
                     loggerService.LogSuccessFailure(username, "Error", "Data", "ArtistPortfolio, Error connecting to server and downloading files locally");
-                    throw new Exception("2");
+                    return new ArtistProfileViewModel();
                 }
                 var genreList = file[1];
                 var descList = file[2];
                 var artistInfo = file[3];
                 if (artistInfo == null || fileInfo == null)
                 {
-                    throw new Exception("3");
+                    return new ArtistProfileViewModel();
                 }
 
                 var responseData = new ArtistProfileViewModel
@@ -87,9 +93,9 @@ namespace TeamPhoenix.MusiCali.Services
 
                 return responseData;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception($"7 { ex.Message }");
+                return new ArtistProfileViewModel();
             }
         }
 
@@ -120,17 +126,17 @@ namespace TeamPhoenix.MusiCali.Services
             var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
             var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
             var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;
-            var privateKeyFilePath = config.GetSection("SSHLogin:keyPath").Value!;
             var fileName = file.FileName;
             // Replace the line with the specified file path
-            var localFilePath = Path.Combine("/home/ubuntu/MusiCaliUploads", fileName); // Save file to a temporary location
+            var localFilePath = Path.Combine(Path.GetTempPath(), fileName); // Save file to a temporary location
 
 
             try
             {
+                string? privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY");
                 if (privateKeyFilePath == null)
                 {
-                    throw new InvalidOperationException("private key not found in directory");
+                    throw new InvalidOperationException("JULIE_KEY environmental variable is not set.");
                 } // access backend vm enviromental variable
                 // Save the uploaded file to the temporary location
                 using (var stream = new FileStream(localFilePath, FileMode.Create))
@@ -202,7 +208,7 @@ namespace TeamPhoenix.MusiCali.Services
                     return new Result { Success = false, ErrorMessage = "error finding filepath to delete" };
                 }
 
-                string? privateKeyFilePath = config.GetSection("SSHLogin:keyPath").Value!;
+                string? privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY"); // access backend vm enviromental variable
                 var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
                 var sshHostname = config.GetSection("SSHLogin:sshHostname").Value!;
                 var remoteFilePath = config.GetSection("SSHLogin:remoteFilePath").Value!;
@@ -264,10 +270,10 @@ namespace TeamPhoenix.MusiCali.Services
 
             try
             {
-                var privateKeyFilePath = config.GetSection("SSHLogin:keyPath").Value!;
+                string? privateKeyFilePath = Environment.GetEnvironmentVariable("JULIE_KEY");
                 if (privateKeyFilePath == null)
                 {
-                    throw new InvalidOperationException("key file path not found");
+                    throw new InvalidOperationException("JULIE_KEY environmental variable is not set.");
                 }
 
                 var sshUsername = config.GetSection("SSHLogin:sshUsername").Value!;
@@ -296,7 +302,7 @@ namespace TeamPhoenix.MusiCali.Services
                                     var fileName = Path.GetFileName(filePath);
 
                                     // Generate a local file path to save the downloaded file
-                                    var localFilePath = Path.Combine("/home/ubuntu/MusiCaliUploads", fileName);
+                                    var localFilePath = Path.Combine(Path.GetTempPath(), fileName);
 
                                     // Download the file from the remote server
                                     using (var fileStream = File.Create(localFilePath))
@@ -326,17 +332,17 @@ namespace TeamPhoenix.MusiCali.Services
 
                 return localFilePaths;
             }
-            catch (Renci.SshNet.Common.SshConnectionException ex)
+            catch (Renci.SshNet.Common.SshConnectionException)
             {
-                throw new Exception($"4 {ex.Message}");
+                return new List<string>();
             }
-            catch (Renci.SshNet.Common.SshAuthenticationException ex)
+            catch (Renci.SshNet.Common.SshAuthenticationException)
             {
-                throw new Exception($"5 {ex.Message}");
+                return new List<string>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception($"6 {ex.Message}");
+                return new List<string>();
             }
         }
     }

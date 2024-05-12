@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 //using TeamPhoenix.MusiCali.Logging.Logger;
 using TeamPhoenix.MusiCali.DataAccessLayer;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
@@ -15,50 +15,57 @@ namespace TeamPhoenix.MusiCali.Controllers
         public IActionResult SendCollabRequest([FromBody] CollabUsers collab)
         {
 
-            try{   
+            try
+            {
 
                 Result result = new Result();
 
-                result = CollabFeature.CreateCollabRequest(collab.senderUsername, collab.receiverUsername);
+                result = CollabFeature.CreateCollabRequest(collab.senderUsername!, collab.receiverUsername!);
 
-                if(result.Success){
+                if (result.Success)
+                {
 
                     return Ok(result);
                 }
 
-                else{
+                else
+                {
 
                     result.Success = false;
                     result.ErrorMessage = "Collab Already Exists";
-                    
+
                     return Ok(result);
                 }
             }
 
-            catch(Exception ex){
+            catch (Exception ex)
+            {
 
                 throw new Exception("Failed to create collab" + ex.Message);
             }
         }
 
         [HttpGet("api/LoadViewAPI")]
-        public CollabData LoadView (string username){
+        public CollabData LoadView(string username)
+        {
 
-            try{
-            var sentRequests = CollabFeatureDAL.GetSentCollabsByUsername(username);
-            var receivedRequests = CollabFeatureDAL.GetReceivedCollabsByUsername(username);
-            var acceptedRequests = CollabFeatureDAL.GetAcceptedCollabsByUsername(username);
+            try
+            {
+                var sentRequests = CollabFeatureDAL.GetSentCollabsByUsername(username);
+                var receivedRequests = CollabFeatureDAL.GetReceivedCollabsByUsername(username);
+                var acceptedRequests = CollabFeatureDAL.GetAcceptedCollabsByUsername(username);
 
-            CollabData collabs = new CollabData();
+                CollabData collabs = new CollabData();
 
-            collabs.sentCollabs = sentRequests;
-            collabs.receivedCollabs = receivedRequests;
-            collabs.acceptedCollabs = acceptedRequests;
+                collabs.sentCollabs = sentRequests;
+                collabs.receivedCollabs = receivedRequests;
+                collabs.acceptedCollabs = acceptedRequests;
 
-            return collabs;
+                return collabs;
             }
 
-            catch(Exception ex){
+            catch (Exception ex)
+            {
 
                 throw new Exception("Failed to load collab view: " + ex.Message);
 
@@ -71,18 +78,20 @@ namespace TeamPhoenix.MusiCali.Controllers
 
             try
             {
-                Result result = CollabFeature.AcceptCollab(collab.receiverUsername, collab.senderUsername);
+                Result result = CollabFeature.AcceptCollab(collab.receiverUsername!, collab.senderUsername!);
 
-                if(result.Success){
+                if (result.Success)
+                {
 
                     return Ok(result);
                 }
 
-                else{
+                else
+                {
 
                     result.Success = false;
                     result.ErrorMessage = "Failed to accept request";
-                    
+
                     return Ok(result);
                 }
             }
@@ -96,7 +105,8 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
         [HttpGet("api/LoadCollabsAPI")]
-        public IActionResult LoadCollabsInView([FromHeader] string userName){
+        public IActionResult LoadCollabsInView([FromHeader] string userName)
+        {
 
             try
             {
@@ -106,7 +116,8 @@ namespace TeamPhoenix.MusiCali.Controllers
                 return Ok(result);
             }
 
-            catch(Exception ex){
+            catch (Exception ex)
+            {
 
                 Console.WriteLine("Could not load the collabs" + ex.Message);
                 return BadRequest("Collab Not Available Right Now");
@@ -114,16 +125,19 @@ namespace TeamPhoenix.MusiCali.Controllers
         }
 
         [HttpGet("api/DisplayAvailableUsersAPI")]
-        public IActionResult ShowAvailUsers([FromHeader] string userName){
+        public IActionResult ShowAvailUsers([FromHeader] string userName)
+        {
 
-            try{
+            try
+            {
 
                 List<string> availUsers = CollabFeatureDAL.SearchUsers(userName);
 
                 return Ok(availUsers);
             }
 
-            catch(Exception ex){
+            catch (Exception ex)
+            {
 
                 throw new Exception("Could not load available users" + ex.Message);
             }

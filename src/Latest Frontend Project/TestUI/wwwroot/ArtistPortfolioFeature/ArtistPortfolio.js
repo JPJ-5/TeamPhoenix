@@ -1,3 +1,4 @@
+
 var baseUrl = 'https://themusicali.com:5000';
 //var baseUrl = 'http://localhost:8080';
 
@@ -28,7 +29,7 @@ function loadProfileData(username) {
             'Authentication': idToken,
             'Authorization': accessToken,
             'Content-Type': 'application/json',
-            'userName': username
+            'Username': username
         },
     })
         .then(response => {

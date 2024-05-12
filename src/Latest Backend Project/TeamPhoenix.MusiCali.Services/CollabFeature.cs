@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 //using System.Collections.Generic;
 //using System.Threading.Tasks;
 //using MySqlX.XDevAPI.Common;
@@ -14,7 +14,7 @@ namespace TeamPhoenix.MusiCali.Services
     {
         public static Result CreateCollabRequest(string senderUsername, string receiverUsername)
         {
-            
+
             Result result = new Result();
 
             try
@@ -22,20 +22,22 @@ namespace TeamPhoenix.MusiCali.Services
                 // Get sender and receiver email addresses using CollabFeatureDAL
                 string senderEmail = CollabFeatureDAL.GetEmailByUsername(senderUsername);
                 string receiverEmail = CollabFeatureDAL.GetEmailByUsername(receiverUsername);
-                
+
                 // Insert a new collab record into the Collab table using CollabFeatureDAL
                 Result _dalResult = CollabFeatureDAL.InsertCollab(senderUsername, receiverUsername, senderEmail, receiverEmail);
 
-                if (_dalResult.Success == false){
+                if (_dalResult.Success == false)
+                {
 
                     result.ErrorMessage = _dalResult.ErrorMessage;
                     return result;
                 }
 
-                
+
                 var isEmailSent = SendCollabEmail(receiverEmail, senderUsername);
 
-                if (isEmailSent == false){
+                if (isEmailSent == false)
+                {
 
                     result.HasError = true;
                     result.ErrorMessage = "Request Sent, But Email Hasn't Been Sent";
@@ -75,7 +77,7 @@ namespace TeamPhoenix.MusiCali.Services
                     collab.ErrorMessage = "Collab record not found.";
 
                     return collab;
-                    
+
                 }
             }
             catch (Exception ex)
@@ -101,7 +103,7 @@ namespace TeamPhoenix.MusiCali.Services
                 throw new Exception("Collab failed to load" + ex.Message);
             }
         }
-        
+
 
         //function for alerting user that their request was sent
         public static bool SendCollabEmail(string email, string senderUsername)

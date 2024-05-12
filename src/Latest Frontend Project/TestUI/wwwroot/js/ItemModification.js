@@ -1,5 +1,4 @@
-﻿//var baseUrl = 'http://localhost:8080';
-var baseUrl = 'https://themusicali.com:5000';
+﻿var baseUrl = 'http://localhost:8080';
 
 // Button Event Listeners
 document.getElementById('itemModificationBtn').addEventListener('click', function () {
@@ -357,6 +356,87 @@ function setupFormHandlers(sku) {
     }
 }
 
+// Function to update the item in the backend
+//async function updateItem(item, form) {
+//    const username = sessionStorage.getItem('username');
+//    const idToken = sessionStorage.getItem("idToken");
+//    const accessToken = sessionStorage.getItem("accessToken");
+
+//    // FormData to hold the file data for the first call
+//    var formData = new FormData(form);
+//    var images = document.querySelector('[name="image[]"]').files;
+//    Array.from(images).forEach(file => {
+//        formData.append('files', file);
+//    });
+//    var videos = document.querySelector('[name="video[]"]').files;
+//    Array.from(videos).forEach(video => {
+//        formData.append('files', video);
+//    });
+
+//    try {
+//        if (formData != null) { // if user has new pic or video, upload it to backend sandbox, if not, skip the upload.
+//            // First Fetch Call to upload files
+//            var uploadPath = `${baseUrl}/api/UploadS3/UploadFilesToSandBox`;
+
+//            let uploadResponse = await fetch(uploadPath, {
+//                method: 'POST',
+//                headers: {
+//                    'Authentication': idToken,
+//                    'Authorization': accessToken,
+//                    'userName': username
+//                },
+//                body: formData
+//            });
+//            if (!uploadResponse.ok) {
+//                alert('There was an error while uploading your items pictures and videos. Please try again!');
+//                let text = await uploadResponse.text();
+//                throw new Error(`Error uploading files to sandbox: ${text}`);
+//            }
+
+//            // Assuming the server responds with JSON data
+//            let uploadData = await uploadResponse.json();
+//            let images = "string";
+//            let videos = "string";
+
+//            // Second Fetch Call to modify item
+//            var itemCreatePath = `${baseUrl}/api/ItemModification/UpdateItem`;
+
+//            const sku = item.sku;
+//            const name = formData.get('name');
+//            const price = formData.get('price');
+//            const description = formData.get('description');
+//            const stockAvailable = formData.get('stockAvailable');
+//            const productionCost = formData.get('productionCost');
+//            const offerablePrice = Boolean(formData.get('offerablePrice'));
+//            const sellerContact = formData.get('sellerContact');
+//            const listed = Boolean(formData.get('itemListed'));
+
+//            const data = { name, sku, price, description, stockAvailable, productionCost, offerablePrice, sellerContact, images, videos, listed };
+
+//            let itemCreationResponse = await fetch(itemCreatePath, {
+//                method: 'POST',
+//                headers: {
+//                    'Authentication': idToken,
+//                    'Authorization': accessToken,
+//                    'userName': username,
+//                    'Content-Type': 'application/json'
+//                },
+//                body: JSON.stringify(data)
+//            });
+
+//            if (!itemCreationResponse.ok) {
+//                alert('Error occurred while adding item to database. Please try again!');
+//                let text = await itemCreationResponse.text();
+//                throw new Error(`Error during item creation: ${text}`);
+//            } else {
+//                alert('Your item is successfully added to CraftVerify!');
+//            }
+//        }
+//    } catch (error) {
+//        console.error('Error:', error);
+//    }
+//}
+
 // Function to upload files to the backend sandbox
 async function uploadFilesToSandbox(formData) {
     const username = sessionStorage.getItem('username');
@@ -372,6 +452,8 @@ async function uploadFilesToSandbox(formData) {
     Array.from(videos).forEach(video => {
         formData.append('files', video);
     });
+
+    //const uploadPath = `${baseUrl}/api/UploadS3/UploadFilesToSandBox`;
 
     let uploadResponse = await fetch(`${baseUrl}/api/UploadS3/UploadFilesToSandBox`, {
         method: 'POST',

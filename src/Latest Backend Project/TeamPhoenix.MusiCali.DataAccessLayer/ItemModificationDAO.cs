@@ -68,8 +68,8 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     using (var command = new MySqlCommand(commandText, connection))
                     {
                         // Assign parameters to prevent SQL Injection.
-                        command.Parameters.AddWithValue("@OfferablePrice", model.OfferablePrice);
-                        command.Parameters.AddWithValue("@Listed", model.Listed);
+                        command.Parameters.AddWithValue("@OfferablePrice", model.OfferablePrice ? 1 : 0);
+                        command.Parameters.AddWithValue("@Listed", model.Listed ? 1 : 0);
                         command.Parameters.AddWithValue("@SKU", model.Sku);
                         command.Parameters.AddWithValue("@CreatorHash", creatorHash);
 
