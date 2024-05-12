@@ -1,13 +1,10 @@
 ﻿
-var baseUrl = 'https://themusicali.com:5000';
-//var baseUrl = 'http://localhost:8080';
+////var baseUrl = 'https://themusicali.com:5000';
+var baseUrl = 'http://localhost:8080';
 
 document.addEventListener('DOMContentLoaded', function () {
     const params = new URLSearchParams(window.location.search);
     const sku = params.get('sku');
-
-    // Setup handlers and other initializations that do not require the SKU
-    setupNonSkuPageHandlers(); // Example function for general setup
 
     if (!sku) {
         console.log('No SKU provided. Certain functionalities will be disabled.');
@@ -16,18 +13,11 @@ document.addEventListener('DOMContentLoaded', function () {
         setupNonSkuPageHandlers(); // Setup button handlers that require the SKU
         setupButtonHandlers(sku)
     }
+
+    fetchItemDetails(sku);
+    setupButtonHandlers(sku);
 });
 
-function setupNonSkuPageHandlers() {
-    // Setup navigation links or buttons
-    document.querySelectorAll('.nav-button').forEach(button => {
-        button.addEventListener('click', function () {
-            const section = document.querySelector(this.getAttribute('data-target'));
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    });
 
     // Initialize any tooltips on the page
     document.querySelectorAll('[data-tooltip]').forEach(element => {
@@ -65,7 +55,6 @@ function setupNonSkuPageHandlers() {
     });
 
     // Maybe add more general event listeners or setups as needed
-}
 
 document.addEventListener('DOMContentLoaded', setupNonSkuPageHandlers);
 //start adding code here
@@ -115,8 +104,6 @@ function fetchItemDetails(sku) {
         });
 }
 
-
-
 function updatePageContent(item) {
     // Update main item information
     document.getElementById('itemName').textContent = item.name;
@@ -124,27 +111,26 @@ function updatePageContent(item) {
     document.getElementById('itemPrice').textContent = `Price: $${item.price}`;
     document.getElementById('itemDescription').textContent = item.description;
     document.getElementById('itemStock').textContent = `Stock Available: ${item.stockAvailable}`;
-    // document.getElementById('itemSellerContact').textContent = item.sellerContact;
+    /*document.getElementById('itemSellerContact').textContent = item.sellerContact;*/
 
     // Update the main image
     const mainImage = document.getElementById('mainImage');
-    mainImage.src = item.imageUrls[0] || 'path/to/default/image.jpg'; // Provide a default image if the main image URL is null
+    mainImage.src = item.imageUrls[0]; // Ensure this is the main image URL
 
-    // Update image thumbnails
+
+    // Ensure there is at least one URL for the main image
     if (item.imageUrls.length > 1) {
-        item.imageUrls.slice(1).forEach((url, index) => {
-            const thumbnail = document.getElementById(`Image${index + 1}`);
-            if (thumbnail) {
-                if (url) {
+        // Update thumbnails starting from the second image URL
+        item.imageUrls.slice(0).forEach((url, index) => {
+            if (index < 5) { // Check if the index is within the number of available thumbnails
+                const thumbnail = document.getElementById(`Image${index + 1}`);
+                if (thumbnail) {
                     thumbnail.src = url;
-                    thumbnail.alt = `Image ${index + 1} of ${item.name}`;
-                    thumbnail.style.display = ''; // Reset to default display style if hidden previously
+                    thumbnail.alt = `Image ${index + 1} of ${item.name}`; // Note the index+2 for correct labeling
                     thumbnail.addEventListener('click', function () {
                         mainImage.src = thumbnail.src; // Update main image on thumbnail click
                         mainImage.alt = thumbnail.alt;
                     });
-                } else {
-                    thumbnail.style.display = 'none'; // Hide the thumbnail if the URL is null
                 }
             }
         });
@@ -153,21 +139,14 @@ function updatePageContent(item) {
     // Update thumbnails for videos
     item.videoUrls.forEach((url, index) => {
         const videoThumbnail = document.getElementById(`Video${index + 1}`);
-        if (videoThumbnail) {
-            if (url) {
-                if (videoThumbnail.children.length > 0) {
-                    videoThumbnail.children[0].src = url; // Assuming the first child is the <source> element
-                    videoThumbnail.load(); // Reload the video element to update the source
-                    videoThumbnail.style.display = ''; // Reset to default display style if hidden previously
-                    videoThumbnail.onclick = () => {
-                        mainImage.style.display = 'none'; // Hide the main image
-                        videoThumbnail.style.display = 'block'; // Display the video
-                        videoThumbnail.play(); // Auto-play the video
-                    };
-                }
-            } else {
-                videoThumbnail.style.display = 'none'; // Hide the video thumbnail if the URL is null
-            }
+        if (videoThumbnail && videoThumbnail.children.length > 0) {
+            videoThumbnail.children[0].src = url; // Assuming the first child is the <source> element
+            videoThumbnail.load(); // Important to reload the video element to update the source
+            videoThumbnail.onclick = () => {
+                mainImage.style.display = 'none'; // Hide the main image
+                videoThumbnail.style.display = 'block'; // Display the video
+                videoThumbnail.play(); // Auto-play the video
+            };
         }
     });
 }
@@ -180,6 +159,15 @@ function processItemDetails(item) {
 }
 
 
+function setupButtonHandlers(sku) {
+    document.getElementById('buyButton').addEventListener('click', function () {
+        confirmPurchase(sku, false);
+    });
+
+    document.getElementById('offerPriceButton').addEventListener('click', function () {
+        confirmPurchase(sku, true);
+    });
+}
 
 
 

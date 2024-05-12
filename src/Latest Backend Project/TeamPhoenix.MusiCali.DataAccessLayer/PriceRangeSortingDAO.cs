@@ -36,19 +36,11 @@ public class DataAccessLayer
 
             if (!string.IsNullOrWhiteSpace(query.Name))
             {
-                conditions.Add("BINARY Name LIKE CONCAT(@nameQuery, '%')");
+                conditions.Add("LOWER(Name) LIKE CONCAT(@nameQuery, '%')");
             }
             if (query.BottomPrice.HasValue && query.TopPrice.HasValue)
             {
                 conditions.Add("Price BETWEEN @bottomPrice AND @topPrice");
-            }
-            else if (query.BottomPrice.HasValue)
-            {
-                conditions.Add("Price >= @bottomPrice");
-            }
-            else if (query.TopPrice.HasValue)
-            {
-                conditions.Add("Price <= @topPrice");
             }
 
             if (conditions.Count > 0)
@@ -66,7 +58,7 @@ public class DataAccessLayer
             {
                 if (!string.IsNullOrWhiteSpace(query.Name))
                 {
-                    countCommand.Parameters.AddWithValue("@nameQuery", query.Name);
+                    countCommand.Parameters.AddWithValue("@nameQuery", query.Name.ToLower());
                 }
                 if (query.BottomPrice.HasValue)
                 {
@@ -84,7 +76,7 @@ public class DataAccessLayer
             {
                 if (!string.IsNullOrWhiteSpace(query.Name))
                 {
-                    dataCommand.Parameters.AddWithValue("@nameQuery", query.Name);
+                    dataCommand.Parameters.AddWithValue("@nameQuery", query.Name.ToLower());
                 }
                 if (query.BottomPrice.HasValue)
                 {

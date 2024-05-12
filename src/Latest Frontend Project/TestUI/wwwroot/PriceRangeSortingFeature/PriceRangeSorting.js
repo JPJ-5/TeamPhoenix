@@ -3,11 +3,8 @@ let lastBottomPrice = null;
 let lastTopPrice = null;
 let currentPage = 1;
 let pageSize = document.getElementById('pageSize').value;
-var baseUrl = 'https://themusicali.com:5000';
-//var baseUrl = 'http://localhost:8080';
-
-// Global variable to store fetched items
-let fetchedItems = [];
+//var baseUrl = 'https://themusicali.com:5000';
+var baseUrl = 'http://localhost:8080';
 
 function fetchItems() {
     const bottomPrice = document.getElementById('bottomPrice').value;
@@ -41,7 +38,7 @@ function fetchItems() {
         return;
     }
 
-    if (topPrice > 1000000) {
+    if (topPrice > 1000000 && topPrice > bottomPrice) {
         results.innerHTML = '<p>The top price should be less than or equal to 1 million.</p>';
         loadingIndicator.style.display = 'none';
         return;
@@ -52,25 +49,15 @@ function fetchItems() {
     if (name) {
         url += `&name=${encodeURIComponent(name)}`;
     }
-    if (bottomPrice) {
-        url += `&bottomPrice=${bottomPrice}`;
-    }
-    if (topPrice) {
-        url += `&topPrice=${topPrice}`;
+    if (bottomPrice && topPrice) {
+        url += `&bottomPrice=${bottomPrice}&topPrice=${topPrice}`;
     }
 
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            fetchedItems = data.data.items; // Store the fetched items
-            displayResults(fetchedItems);
-            let totalPageCount = Math.ceil(data.data.totalCount / pageSize);
-
-            // Set totalPageCount to 1 if there are no items found
-            if (totalPageCount === 0) {
-                totalPageCount = 1;
-            }
-
+            displayResults(data.data.items);
+            const totalPageCount = Math.ceil(data.data.totalCount / pageSize);
             document.getElementById('pageInfo').textContent = `Page ${currentPage} / ${totalPageCount}`;
             document.getElementById('prevPage').disabled = currentPage <= 1;
             document.getElementById('nextPage').disabled = currentPage >= totalPageCount;
@@ -129,6 +116,7 @@ function displayResults(items) {
         card.className = viewFormat === 'list' ? 'item-card-list' : 'item-card-grid';
         
         const imageUrl = item.firstImageUrl || 'images/default.png'; // Use a default image if no URL is provided
+        
         const content = `
             <img src="${imageUrl}" alt="${item.name}" style="width: 225px; height: 218px; object-fit: cover;" class="item-image" />
             <div class="item-name">${item.name}</div>
@@ -152,12 +140,6 @@ function changePage(direction) {
     fetchItems(); // Fetch items for the new page
 }
 
-function updatePageSize() {
-    pageSize = parseInt(document.getElementById('pageSize').value);
-    currentPage = 1; // Reset to the first page
-    fetchItems(); // Reload with the new page size
-}
-
 function updateViewFormat() {
     const results = document.getElementById('results');
     const viewFormat = document.getElementById('viewFormat').value;
@@ -175,10 +157,10 @@ function updateViewFormat() {
     fetchItems(); // Reload items to display with the new format
 }
 
-function updateSortMethod() {
-    currentSortMethod = document.getElementById('sortMethod').value;
-    sortItems(); // Sort items based on the new sort method
-    displayResults(fetchedItems); // Re-render items
+function updatePageSize() {
+    pageSize = parseInt(document.getElementById('pageSize').value);
+    currentPage = 1; // Reset to the first page
+    fetchItems(); // Reload with the new page size
 }
 
 function setupPageComponents() {
