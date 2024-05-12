@@ -1,0 +1,465 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Musicali</title>
+    <link href="css/site.css" rel="stylesheet" />
+    <link href="css/ItemDetail.css" rel="stylesheet" />
+    <!--<link href="css/PriceRangeSorting.css" rel="stylesheet" />-->
+</head>
+<body>
+    <div class="navbar">
+
+        <!--<a href="#other" class="left">Other Functions</a>-->
+        <!--onclick="toggleCraftVerifyView();"-->
+
+        <div class="navbar">
+            <a href="#craftVerify" class="left" id="craftVerify">CraftVerify</a>
+
+            <div class="hamburger" id="menu-btn">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <div class="dropdown" id="myDropdown">
+                <!-- Group 1: Login-related elements -->
+                <button id="show-login">Login Now</button>
+                <form id="login-form" class="group1">
+                    <!--<input type="email" placeholder="Enter your Email" id="email">-->
+                    <input type="text" placeholder="Enter your User Name" id="username">
+                    <button type="button" id="email-otp">Send OTP via Email</button>
+                    <p id='login-error' class = "error" style.display = "none;"></p>
+                </form>
+
+                <!-- OTP verification form -->
+                <form id="otp-form" class="group1">
+                    <input type="text" placeholder="Enter OTP from your email" id="enter-otp">
+                    <button type="submit" id="submit-otp">Submit</button>
+                </form>
+
+                <!-- Group 2: Registration-related elements -->
+                <button id="show-register">Register</button>
+                <form id="register-email-form" class="group2">
+                    <input type="email" placeholder="Enter Email" id="register-email">
+                    <button type="button" id="show-details-form">Submit</button>
+                </form>
+                <form id="register-details-form" class="group2">
+                    <input type="text" placeholder="User Name" id="user-name">
+                    <input type="email" placeholder="Recovery Email" id="backup-email">
+                    <input type="date" id="dob">
+                    <button type="submit" id="finalize-registration">Submit</button>
+                    <p id='register-error' class = "error" style.display = "none;"></p>
+                </form>
+                <!-- Group 3: Account-recover-related elements -->
+                <button id="account-recovery-button">Account Recovery</button>
+
+                <!-- Account Recovery Section -->
+                <form id="account-recovery-section" class="group3" style="display: none;">
+                    <input type="text" id="User Name" placeholder="Enter Username for Recovery">
+                    <button id="submit-recovery-username">Submit</button>
+                </form>
+
+                <form id="otp-recovery-section" class="group3">
+                    <input type="text" placeholder="Re-enter OTP" id="re-enter-otp">
+                    <button type="submit" id="submit-recovery-otp">Submit</button>
+                </form>
+
+                <!-- Price Range Sorting Button Here -->
+                <!--<button id="enter-priceRangeSorting" class="prsbutton">Price Range Sorting</button>-->
+                <!-- User Profile Section, initially hidden -->
+                <div id="user-profile" class="user-profile scrollable-content" style="display: none;">
+                    <p><strong>First Name:</strong> <span id="user-first-name"></span></p>
+                    <p><strong>Last Name:</strong> <span id="user-last-name"></span></p>
+                    <p><strong>Date of Birth:</strong> <span id="user-dob"></span></p>
+                    <p><strong>Email:</strong> <span id="user-email"></span></p>
+                    <p><strong>User Role:</strong> <span id="user-role"></span></p>
+                    <p><strong>User Status:</strong> <span id="user-status"></span></p>
+                    <p><strong>Description:</strong> <span id="user-description"></span></p>
+                    <img id="user-profile-pic" src="" alt="Profile Pic" style="width: 200px; height: 200px;" />
+
+
+                    <button id="modify-profile" class="modify-profile">Modify Profile</button>
+                    <!-- Modify Profile Section (Hidden Initially) -->
+                    <div id="modify-profile-section" style="display: none;">
+                        <!-- Normal User Profile Modification Section -->
+                        <div id="normal-user-modify-section" style="display: none;">
+                            <h3>Modify Your Profile</h3>
+                            <input type="text" id="normal-user-first-name" placeholder="First Name"><br>
+                            <input type="text" id="normal-user-last-name" placeholder="Last Name"><br>
+                            <button id="normal-user-save-changes">Save Changes</button>
+                            <button id="normal-user-delete">Delete Account</button>
+                        </div>
+
+                        <div id="user-details-display" style="display:none; padding:10px; margin-top:20px; border:1px solid #ddd; background-color: #f9f9f9;">
+                            <!-- User details will be populated here -->
+                        </div>
+
+                        <!-- Admin Management Section -->
+                        <div id="admin-management-section" style="display: none;">
+                            <h3>Admin Management Tools</h3>
+                            <button id="admin-get-user">Get User</button>
+                            <button id="admin-delete-user">Delete User</button>
+                            <button id="admin-update-claims">Update User Claims</button>
+                            <button id="admin-user-creation-button">Create Another Admin Account</button>
+                            <button id="enter-usageAnalysisDashboard" class="uadbutton">Usage Analysis Dashboard</button>
+                            <!-- Admin Account Creation Form -->
+                            <form id="admin-creation-form" style="display: none;">
+                                <div>
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div>
+                                    <label for="dob">Date of Birth:</label>
+                                    <input type="date" id="dob" name="dob" required>
+                                </div>
+                                <div>
+                                    <label for="uname">Username:</label>
+                                    <input type="text" id="uname" name="uname" required>
+                                </div>
+                                <div>
+                                    <label for="bmail">Backup Email:</label>
+                                    <input type="email" id="bmail" name="bmail" required>
+                                </div>
+                                <button type="button" id="admin-user-creation">Create Another Admin Account</button>
+                            </form>
+                            <div id="feedback-box" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Tempo Tool Button Here -->
+                    <button id="enter-tempoTool" class="enter-tempoTool">Tempo Tool</button>
+
+                    <!-- Scale Display Button Here -->
+                    <button id="enter-scaleDisplay" class="enter-scaleDisplay">Scale Display</button>
+
+                    <!-- Bingo Board button here -->
+                    <button id="enter-BingoBoardView" class="enter-BingoBoardView">Bingo Board</button>
+
+                    <!-- Bingo Board button here -->
+                    <button id="enter-ArtistPortfolioView" class="enter-ArtistPortfolioView">Artist Portfolio</button>
+
+                    <!-- Artist Profile Calendar Coding Starts Here -->
+                    <button id="enter-calendar" class="enter-calendar">Artist Profile Calendar</button>
+
+                    <button id="enter-collabFeature" class="enter-collabFeature">collabFeature</button>
+
+                    <!-- Logout Button -->
+                    <button id="logoutButton" class="logout-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <h1 class="neon-text">Welcome to The Musicali</h1>
+    </div>
+
+    <!-- Page for CraftVerify feature -->
+    <div id="craftVerifyView" style="display: none;">
+        <!-- Content of the CraftVerify feature goes here -->
+        <h1>Hello and Welcome to CraftVerify</h1>
+
+        <!--Price Range Sorting Button Here-->
+        <button id="enter-priceRangeSorting" class="prsbutton">Price Range Sorting</button>
+        <!--Page for priceRangeSorting feature-->
+        <div id="priceRangeSortingView" style="display: none;"></div>
+
+        <button id="sellerDashboardBtn">Seller Dashboard</button>
+
+
+    </div>
+
+    <div id="sellerDashboardView" style="display: none;">
+        <h1>Hello and Welcome to Seller Dashboard </h1>
+
+        <button id="listedItemsBtn">Fetch Listed Items</button>
+        <button id="itemCreationBtn">Item Creation</button>
+        <button id="itemModificationBtn">Item Modification/Deletion</button>
+        <button id="financialProgressBtn">Financial Progress</button>
+        <button id="pendingSaleBtn">Pending sale</button>
+
+        <div id="itemsListingContainer" style="display: none;">
+            <div class="itemListing">
+                <h1>Item List</h1>
+                <table id="allItemsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Image</th>
+                            <th>Stock Available</th>
+                        </tr>
+                    </thead>
+                    <tbody id="allItemsTableBody"></tbody>
+                </table>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+
+        <div id="itemCreationForm" style="display: none;">
+            <h1>Item Creation</h1>
+            <form id="creationForm" enctype="multipart/form-data">
+                Ensure you have enctype for file uploads
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Name"
+                           pattern="[a-zA-Z0-9 ]{1,250}"
+                           title="Name can only contain alphanumeric characters and spaces, up to 250 characters."
+                           maxlength="250" required>
+                </div>
+                <div>
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" placeholder="Price"
+                           min="0" max="9999999.99" step="0.01"
+                           title="Price must be up to 7 digits with an optional 2 decimal places."
+                           required>
+                </div>
+                <div>
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" placeholder="Description"
+                              maxlength="2000"
+                              oninput="validateDescription()"
+                              title="Can include letters, numbers, and ,: '\" ()!@#$%&* characters up to 2000 characters."></textarea>
+                    <div id="descriptionError" style="color: red;"></div>
+                </div>
+                <div>
+                    <label for="stockAvailable">Stock Available:</label>
+                    <input type="number" id="stockAvailable" name="stockAvailable" placeholder="Stock Available"
+                           min="0" max="999" step="1"
+                           title="Stock must be from 0 to 999."
+                           required>
+                </div>
+
+                <div>
+                    <label for="productionCost">Production Cost:</label>
+                    <input type="number" id="productionCost" name="productionCost" placeholder="Production Cost" step="0.01"
+                           min="0" max="9999999.99"
+                           title="Price must be up to 7 digits with an optional 2 decimal places."
+                           required>
+                </div>
+                <div>
+                    <label for="offerablePrice">Offerable Price:</label>
+                    <input type="checkbox" id="offerablePrice" name="offerablePrice">
+                </div>
+                <div>
+                    <label for="itemListed">Also list item for sell now?:</label>
+                    <input type="checkbox" id="itemListed" name="itemListed">
+                </div>
+                <div>
+                    <label for="sellerContact">Seller Contact:</label>
+                    <textarea id="sellerContact" name="sellerContact" placeholder="Seller Contact"
+                              maxlength="250"
+                              oninput="validateDescription()"
+                              title="Can include letters, numbers, and ,: '\" ()!@#$%&* characters up to 2000 characters."></textarea>
+                    <div id="descriptionError" style="color: red;"></div>
+                </div>
+                <div>
+                    <label for="image">Images (up to 5):</label>
+                    <input type="file" id="image" name="image[]" accept="image/jpeg, image/png, image/gif, image/tiff" multiple>
+                    <div id="imageError"></div>
+                </div>
+                <div>
+                    <label for="video">Videos (up to 2):</label>
+                    <input type="file" id="video" name="video[]" accept="video/mp4, video/quicktime" multiple>
+                    <div id="videoError"></div>
+                </div>
+                <div>
+                    <button type="submit">Create Item</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="itemModificationContainer" style="display: none;">
+            <div class="itemModificationList">
+                <h1>Item List</h1>
+                <table id="itemsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Image</th>
+                            <th>Stock Available</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemTableBody"></tbody>
+                </table>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+
+        <div id="itemModificationForm" style="display: none;">
+            <h1>Item Modification</h1>
+            <form id="modificationForm" enctype="multipart/form-data">
+                Ensure you have enctype for file uploads
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Name"
+                           pattern="[a-zA-Z0-9 ]{1,250}"
+                           title="Name can only contain alphanumeric characters and spaces, up to 250 characters."
+                           maxlength="250" required>
+                </div>
+                <div>
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" placeholder="Price"
+                           min="0" max="9999999.99" step="0.01"
+                           title="Price must be up to 7 digits with an optional 2 decimal places."
+                           required>
+                </div>
+                <div>
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" pattern="[a-zA-Z0-9 ]{1,2000}"
+                              oninput="validateDescription()"
+                              title="Can include letters, and numbers up to 2000 characters."></textarea>
+                    <div id="descriptionError" style="color: red;"></div>
+                </div>
+                <div>
+                    <label for="stockAvailable">Stock Available:</label>
+                    <input type="number" id="stockAvailable" name="stockAvailable" placeholder="Stock Available"
+                           min="0" max="999" step="1"
+                           title="Stock must be from 0 to 999."
+                           required>
+                </div>
+
+                <div>
+                    <label for="productionCost">Production Cost:</label>
+                    <input type="number" id="productionCost" name="productionCost" placeholder="Production Cost" step="0.01"
+                           min="0" max="9999999.99"
+                           title="Price must be up to 7 digits with an optional 2 decimal places."
+                           required>
+                </div>
+                <div>
+                    <label for="offerablePrice">Offerable Price:</label>
+                    <input type="checkbox" id="offerablePrice" name="offerablePrice">
+                </div>
+                <div>
+                    <label for="itemListed">Also list item for sale now?:</label>
+                    <input type="checkbox" id="itemListed" name="itemListed">
+                </div>
+                <div>
+                    <label for="sellerContact">Seller Contact:</label>
+                    <textarea id="sellerContact" name="sellerContact" placeholder="Seller Contact"
+                              maxlength="250"
+                              title="Can include letters, numbers, and ,: '\" ()!@#$%&* characters up to 2000 characters."></textarea>
+                    <div id="descriptionError" style="color: red;"></div>
+                </div>
+                <div>
+                    <label for="image">Images (up to 5):</label>
+                    <input type="file" id="image" name="image[]" accept="image/jpeg, image/png, image/gif, image/tiff" multiple>
+                    <div id="imageError"></div>
+                </div>
+                <div>
+                    <label for="video">Videos (up to 2):</label>
+                    <input type="file" id="video" name="video[]" accept="video/mp4, video/quicktime" multiple>
+                    <div id="videoError"></div>
+                </div>
+                <div>
+                    <button type="submit" id="updateSubmit">Modify Item</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Page for financialProgressReport feature -->
+        <div id="financialProgressReportView" style="display: none;"></div>
+        <div id="pendingSaleContainer" style="display: none;">
+            <div class="pendingSaleList">
+                <h1>Pending Sale Items</h1>
+                <table id="saleAcceptTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Sku</th>
+                            <th>Image</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Quantity</th>
+                            <th>Offer Price</th>
+                            <th>Revenue</th>
+                            <th>Profit</th>
+                            <th>Sale Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="saleAcceptTableBody"></tbody>
+                </table>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page for collab feature feature -->
+    <div id="CollabFeatureView" style="display: none;">
+        <p class="neon-text">Collab Feature</p>
+        <p id="enter-collabFeature"></p>
+        <div class="create-collabRequest">
+            <!--<span class="popuptext" id="myPopup"></span>-->
+            <label for="receiver">Enter Receiver Username:</label>
+            <input type="text" id="receiver" placeholder="Insert Username Here">
+            <div class="popuptext" id="createPopup">
+                <button id="create-collabRequest">Send A Request</button>
+            </div>
+        </div>
+        <div class="accept-collabRequest">
+            <!-- Move onclick event to the outer button -->
+            <label for="sender">Enter Sender Username:</label>
+            <input type="text" id="sender" placeholder="Insert Username Here">
+            <div class="popuptext" id="acceptPopup">
+                <button id="accept-collabRequest">Accept A Request</button>
+            </div>
+        </div>
+        <select id="user-options">
+            <option value="View Sent Requests">View Sent</option>
+            <option value="View Received Requests">View Received</option>
+            <option value="View Accepted Requests">View Accepted</option>
+        </select>
+        <div id="view-requests" style="margin-top: 20px;">
+            <button id="view-requests">See Your Collabs</button>
+        </div>
+
+        <div id="show-availUsers">
+            <button id="show-available-users">Show Available Users</button>
+        </div>
+
+        <!-- Table to display available users -->
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Page for usageAnalysisDashboard view -->
+    <div id="usageAnalysisDashboardView" style="display: none;"></div>
+
+    <!-- Page for priceRangeSorting feature -->
+    <!--<div id="priceRangeSortingView" style="display: none;"></div>-->
+    <!-- Page for artistPortfolio feature -->
+    <div id="artistPortfolioView" style="display: none;"></div>
+
+    <!-- Page for tempo tool feature -->
+    <div id="tempoToolView" style="display: none;"></div>
+
+    <!-- Page for ScaleDisplay feature -->
+    <div id="ScaleDisplayView" style="display:none;"></div>
+
+    <!-- Page for bingo board feature-->
+    <div id="BingoBoardView" style="display: none;"></div>
+
+    <!-- Page for artistProfileCalendar feature-->
+    <div id="artistProfileCalendarView" style="display: none;"></div>
+
+    <script src="js/PageTrackingAnalysis.js"></script>
+    <script src="js/site.js"></script>
+    <script src="js/collabfeature.js"></script>
+    <script src="js/CraftVerify.js"></script>
+    <script src="js/ItemCreation.js"></script>
+    <script src="js/itemModification.js"></script>
+    <script src="js/itemDetail.js"></script>
+    <script src="js/listingItem.js"></script>
+</body>
+</html>
