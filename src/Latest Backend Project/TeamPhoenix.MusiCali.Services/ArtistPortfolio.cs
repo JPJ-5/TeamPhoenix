@@ -125,7 +125,7 @@ namespace TeamPhoenix.MusiCali.Services
             var privateKeyFilePath = config.GetSection("SSHLogin:keyPath").Value!;
             var fileName = file.FileName;
             // Replace the line with the specified file path
-            var localFilePath = Path.Combine("/home/ubuntu/MusiCaliUploads", fileName); // Save file to a temporary location
+            var localFilePath = Path.Combine("/var/www/MusiCaliUploads", fileName); // Save file to a temporary location
 
 
             try
@@ -298,7 +298,7 @@ namespace TeamPhoenix.MusiCali.Services
                                     var fileName = Path.GetFileName(filePath);
 
                                     // Generate a local file path to save the downloaded file
-                                    var localFilePath = Path.Combine("/home/ubuntu/MusiCaliUploads", fileName);
+                                    var localFilePath = Path.Combine("/var/www/MusiCaliUploads", fileName);
 
                                     // Download the file from the remote server
                                     using (var fileStream = File.Create(localFilePath))
