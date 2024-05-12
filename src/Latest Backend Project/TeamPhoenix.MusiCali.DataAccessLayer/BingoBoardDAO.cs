@@ -78,7 +78,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
         public bool IsUserInterested(string username, int gigID)
         {
-            string interestSql = "SELECT * FROM GigInterest WHERE GigID = @gigID, InterestedUser = @username;";
+            string interestSql = "SELECT * FROM GigInterest WHERE GigID = @gigID AND InterestedUser = '@username';";
 
             using (var connection = new MySqlConnection(connectionString))
             {
