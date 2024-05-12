@@ -29,7 +29,7 @@ function loadProfileData(username) {
             'Authentication': idToken,
             'Authorization': accessToken,
             'Content-Type': 'application/json',
-            'userName': username
+            'Username': username
         },
     })
         .then(response => {
