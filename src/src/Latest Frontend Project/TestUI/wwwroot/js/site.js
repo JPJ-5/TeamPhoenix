@@ -951,7 +951,7 @@
     });
 
     //Price Range Sorting
-    document.getElementById('craftVerify').addEventListener('click', function () {
+    document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
         // Hide other parts of the page
         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #inventoryStockView, #CollabFeatureView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
             el.style.display = 'none';
@@ -967,49 +967,33 @@
         cssLink.href = 'PriceRangeSortingFeature/PriceRangeSorting.css'; // Ensure this path is correct
         document.head.appendChild(cssLink);
 
-        // Check if the script is already loaded
-        if (!document.querySelector('script[src="/PriceRangeSortingFeature/PriceRangeSorting.js"]')) {
-            // Fetch the HTML content and then load JS
-            fetch('PriceRangeSortingFeature/PriceRangeSorting.html')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to load HTML content.');
-                    }
-                    return response.text();
-                })
-                .then(html => {
-                    container.innerHTML = html;
+        // Fetch the HTML content and then load JS
+        fetch('PriceRangeSortingFeature/PriceRangeSorting.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load HTML content.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
 
-                    // Initialize JavaScript functionalities after HTML is loaded
-                    const jsScript = document.createElement('script');
-                    jsScript.src = '/PriceRangeSortingFeature/PriceRangeSorting.js'; // Ensure this path is correct
-                    jsScript.onload = function () {
-                        // Ensure the function is called after the script is loaded
-                        if (typeof setupPageComponents === 'function') {
-                            setupPageComponents();  // Assuming setupPageComponents sets everything up
-                        } else {
-                            console.error('setupPageComponents is not defined.');
-                        }
-                    };
-                    jsScript.onerror = function () {
-                        console.error('Failed to load JavaScript file.');
-                    };
-                    document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
-                })
-                .catch(error => {
-                    console.error('Failed to load HTML content:', error);
-                });
-        } else {
-            // If the script is already loaded, just call the setup function
-            if (typeof setupPageComponents === 'function') {
-                setupPageComponents();
-            } else {
-                console.error('setupPageComponents is not defined.');
-            }
-        }
+                // Initialize JavaScript functionalities after HTML is loaded
+                const jsScript = document.createElement('script');
+                jsScript.src = '/PriceRangeSortingFeature/PriceRangeSorting.js'; // Ensure this path is correct
+                jsScript.onload = function () {
+                    setupPageComponents();  // Assuming initPage() sets everything up
+                    // JavaScript file loaded and executed
+                };
+                jsScript.onerror = function () {
+                    // Failed to load JavaScript file
+                };
+                document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+            })
+            .catch(error => {
+                // Failed to load HTML content
+            });
     });
-
-
 
     document.getElementById('enter-ArtistPortfolioView').addEventListener('click', function () {
         // Hide other parts of the page
