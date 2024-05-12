@@ -21,53 +21,34 @@ namespace TeamPhoenix.MusiCali.Controllers
         [HttpPost("api/BingoBoardLoadGigs")]
         public ActionResult ViewMultipleGigs([FromBody] BingoBoardRequest BBReq)
         {
-            try
+            GigSet? gigSummaries = bingoBoardService.ViewMultGigSummary(BBReq.NumberOfGigs, BBReq.Username, BBReq.Offset);
+            if (gigSummaries == null)
             {
-                GigSet? gigSummaries = bingoBoardService.ViewMultGigSummary(BBReq.NumberOfGigs, BBReq.Username, BBReq.Offset);
-                if (gigSummaries == null)
-                {
-                    return NotFound("Error retrieving gigs");
-                }
-                return Ok(gigSummaries);
+                return NotFound("Error retrieving gigs");
             }
-            catch (Exception ex) { return BadRequest(ex); }
+            return Ok(gigSummaries);
         }
 
         [HttpGet("api/BingoBoardRetrieveGigTableSize")]
         public ActionResult RetrieveGigTableSize()
         {
-            try
-            {
-                int gigTableSize = bingoBoardService.ReturnGigNum();
-                if (gigTableSize <= 0) { 
-                    return NotFound("Error retrieving Gig Table size");
-                }
-                return Ok(gigTableSize);
-            }
-            catch (Exception ex){ return BadRequest(ex); }
+            int gigTableSize = bingoBoardService.ReturnGigNum();
+            if(gigTableSize <= 0) { return NotFound("Error retrieving Gig Table size"); }
+            return Ok(gigTableSize);
         }
 
         [HttpPost("api/BingoBoardInterestRequest")]
         public ActionResult IsUserInterested([FromBody] BingoBoardInterestRequest BBIntReq)
         {
-            try
-            {
-                bool userInterest = bingoBoardService.IsUserInterested(BBIntReq.username, BBIntReq.gigID);
-                return Ok(userInterest);
-            }
-            catch(Exception ex) { return BadRequest(ex); }
+            bool userInterest = bingoBoardService.IsUserInterested(BBIntReq.username, BBIntReq.gigID);
+            return Ok(userInterest);
         }
 
         [HttpPost("api/BingoBoardRegisterUserInterest")]
         public ActionResult RegisterUserInterest([FromBody] BingoBoardInterestRequest BBIntReq)
         {
-            try
-            {
-                BingoBoardInterestMessage intMessage = bingoBoardService.addUserInterest(BBIntReq.username, BBIntReq.gigID);
-                return Ok(intMessage);
-            }
-            catch (Exception ex) { return BadRequest(ex); }
-            
+            BingoBoardInterestMessage intMessage = bingoBoardService.addUserInterest(BBIntReq.username, BBIntReq.gigID);
+            return Ok(intMessage);
         }
     }
 }

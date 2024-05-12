@@ -8,8 +8,8 @@
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
-    //var baseUrl = 'https://themusicali.com:5000';
-    var baseUrl = 'http://localhost:8080';    
+    var baseUrl = 'https://themusicali.com:5000';
+    //var baseUrl = 'http://localhost:8080';    
     var idToken;
     var accessToken;
 
@@ -29,7 +29,7 @@
     }
 
     function isPageLoaded(){
-        if(sessionStorage.getItem('currentPage') == null){return false;}
+        if(sessionStorage.getItem('currentPage' == null)){return false;}
         return true;
 
     }
@@ -40,21 +40,10 @@
         if(logged){
             fetchUserProfile(sessionStorage.getItem('username'));
         }
-        savedPage = sessionStorage.getItem('currentPage');
         if(logged && loaded){
-            //console.log('true')
-            //bingo board
-            if(savedPage == 'BingoBoard'){loadBingoBoard();}
-            //tempo
-            else if(savedPage == 'TempoTool'){loadTempoTool();}
-            //scale display
-            else if(savedPage =='ScaleDisplay'){loadScaleDisplay();}
-            //craftverify
-            //else if(savedPage == 'CraftVerify'){loadCraftVerify();}
-            //collab
-            else if(savedPage == 'Collab'){loadCollabFeature();}
-            //calendar
-            else if(savedPage == 'ArtistCalendar'){loadArtistCalendar();}
+            if(sessionStorage.getItem('currentPage' == 'BingoBoard')){
+                
+            }
         }
     }
 
@@ -190,6 +179,9 @@
                 console.error('Error:', error);
                 alert("An error occurred.");
             });
+
+
+        /*disableSpecificButtonsIfMissingCredentials();*/
     });
 
     function fetchUserProfile(username) {
@@ -793,20 +785,18 @@
 
     // Scale Display
     document.getElementById('enter-scaleDisplay').addEventListener('click', function () {
-        sessionStorage.setItem('currentPage', 'ScaleDisplay');
-        loadScaleDisplay();
-    });
-
-    function loadScaleDisplay(){
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #usageAnalysisDashboardView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
             el.style.display = 'none';
         });
+
         // Show the Scale Display view
         const container = document.getElementById('ScaleDisplayView');
         container.style.display = 'block';
-        var username = sessionStorage.getItem('username');
+
+        var username = document.getElementById("username").value;
         logFeatureUsage(username, "Scale Display");
+
         //// Dynamically load and apply CSS specific to Scale Display
         //const cssLink = document.createElement('link');
         //cssLink.rel = 'stylesheet';
@@ -839,7 +829,7 @@
             .catch(error => {
                 console.error('Failed to load HTML content:', error);
             });
-    };
+    });
 
     function logFeatureUsage(username, feature) {
         const requestData = {
@@ -872,17 +862,13 @@
     }
 
 
-    // Bingo Board Feature
-    document.getElementById('enter-BingoBoardView').addEventListener('click', function () {
-        sessionStorage.setItem('currentPage', 'BingoBoard');
-        loadBingoBoard();
-    });
-
-    function loadBingoBoard(){
+     // Bingo Board Feature
+     document.getElementById('enter-BingoBoardView').addEventListener('click', function () {
         // Hide other parts of the page
-         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #priceRangeSortingView, #financialProgressReportView, #inventoryStockView, #artistPortfolioView').forEach(el => {
+         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #CollabFeatureView, #priceRangeSortingView, #financialProgressReportView, #inventoryStockView, #artistPortfolioView').forEach(el => {
             el.style.display = 'none';
         });
+
         // Show the Bingo Board view
         const container = document.getElementById('BingoBoardView');
         container.style.display = 'block';
@@ -918,16 +904,14 @@
             .catch(error => {
                 console.error('Failed to load HTML content:', error);
             });
-    };
+    });
 
     document.getElementById('financialProgressBtn').addEventListener('click', function () {
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #usageAnalysisDashboardView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #artistPortfolioView').forEach(el => {
             showLoginFormButton.style.display = 'none'; // Hide the login button
             el.style.display = 'none';
         });
-        sessionStorage.setItem('currentPage', 'Main');
-
 
         // Show the Financial Progress Report view
         const container = document.getElementById('financialProgressReportView');
@@ -969,7 +953,7 @@
     //Price Range Sorting
     document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #inventoryStockView, #CollabFeatureView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #inventoryStockView, #CollabFeatureView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
             el.style.display = 'none';
         });
 
@@ -1013,12 +997,11 @@
 
     document.getElementById('enter-ArtistPortfolioView').addEventListener('click', function () {
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistProfileCalendarView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #priceRangeSortingView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistProfileCalendarView').forEach(el => {
             showLoginFormButton.style.display = 'none'; // Hide the login button
             el.style.display = 'none';
         });
         var activeUsername = document.getElementById("username").value;
-        sessionStorage.setItem('currentPage', 'Main');
 
         // Show the Financial Progress Report view
         const container = document.getElementById('artistPortfolioView');
@@ -1059,15 +1042,11 @@
 
     //TempoTool
     document.getElementById('enter-tempoTool').addEventListener('click', function () {
-        sessionStorage.setItem('currentPage', 'TempoTool');
-        loadTempoTool();
-    });
-
-    function loadTempoTool(){
         // Hide other parts of the page
-        document.querySelectorAll('.main, #ScaleDisplayView, #priceRangeSortingView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #artistProfileCalendarView').forEach(el => {
+        document.querySelectorAll('.main, #ScaleDisplayView, #priceRangeSortingView, #usageAnalysisDashboardView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #artistProfileCalendarView').forEach(el => {
             el.style.display = 'none';
         });
+
         // Show the Inventory Stock View
         const container = document.getElementById('tempoToolView');
         container.style.display = 'block';
@@ -1102,22 +1081,16 @@
             .catch(error => {
                 console.error('Error loading Inventory Stock View:', error);
             });
-    };
+    });
 
     //Artist Calendar
     document.getElementById('enter-calendar').addEventListener('click', function () {
-        sessionStorage.setItem('currentPage', 'ArtistCalendar');
-        loadArtistCalendar();
-    });
-
-    function loadArtistCalendar(){
         resetPageTimer("Artist Calendar Feature");
         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #CollabFeatureView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #usageAnalysisDashboardView').forEach(el => {
             el.style.display = 'none';
         });
         const container = document.getElementById('artistProfileCalendarView');
         container.style.display = 'block';
-        sessionStorage.setItem('currentPage', 'Main');
 
         // Load the CSS dynamically
         const cssLink = document.createElement('link');
@@ -1150,7 +1123,7 @@
             .catch(error => {
                 console.error('Error loading Artist Profile Calendar View:', error);
             });
-    };
+    });
 
     // Usage Analysis Dashboard
     document.getElementById('enter-usageAnalysisDashboard').addEventListener('click', function () {
@@ -1160,7 +1133,6 @@
         });
         const container = document.getElementById('usageAnalysisDashboardView');
         container.style.display = 'block';
-        sessionStorage.setItem('currentPage', 'Main');
 
         // Load the CSS dynamically
         const cssLink = document.createElement('link');
@@ -1197,19 +1169,18 @@
 
     //enter collab feature view
     document.getElementById('enter-collabFeature').addEventListener('click', function () {
-        sessionStorage.setItem('currentPage', 'Collab');
-        loadCollabFeature();
-    });
-
-    function loadCollabFeature(){
         document.querySelector('.main').style.display = 'none'; // Hide main content
         document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
         document.getElementById('ScaleDisplayView').style.display = 'none'; // hide scale display view
         document.getElementById('CollabFeatureView').style.display = 'block'; //show collab feature
         document.getElementById('artistProfileCalendarView').style.display = "none";
+        document.getElementById('BingoBoardView').style.display = "none";
+        document.getElementById('usageAnalysisDashboardView').style.display = "none";
+        document.getElementById('artistProfileCalendarView').style.display = "none";
+        document.getElementById('artistPortfolioView').style.display = "none";
         var username = document.getElementById("username").value;
         logFeatureUsage(username, "Collab Feature");
-    };
+    });
 
     startPageTimer();
 });
