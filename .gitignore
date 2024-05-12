@@ -410,3 +410,5 @@ src/Latest Frontend Project/.DS_Store
 src/Latest Frontend Project/cypress/screenshots/PriceRangeSortingFrontendTesting.cy.js/Craft Item Sorter Tests -- Filter Items by Price -- filters items within a specified price range (failed).png
 src/Latest Backend Project/TeamPhoenix.MusiCali/appsettings.json
 src/Latest Frontend Project/TestUI/appsettings.json
+src/src/Latest Backend Project/TeamPhoenix.MusiCali/appsettings.json
+src/src/Latest Frontend Project/TestUI/appsettings.Development.json

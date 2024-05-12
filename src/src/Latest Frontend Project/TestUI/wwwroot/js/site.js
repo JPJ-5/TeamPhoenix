@@ -993,7 +993,23 @@
             .catch(error => {
                 // Failed to load HTML content
             });
+
+        // Hide the Price Range Sorting button
+        const priceRangeSortingButton = document.getElementById('enter-priceRangeSorting');
+        priceRangeSortingButton.style.display = 'none';
+
     });
+
+    // Show the button again if the container is hidden
+    function checkContainerVisibility() {
+        const container = document.getElementById('priceRangeSortingView');
+        const priceRangeSortingButton = document.getElementById('enter-priceRangeSorting');
+        if (container.style.display === 'none') {
+            priceRangeSortingButton.style.display = 'block';
+        } else {
+            priceRangeSortingButton.style.display = 'none';
+        }
+    }
 
     document.getElementById('enter-ArtistPortfolioView').addEventListener('click', function () {
         // Hide other parts of the page

@@ -183,6 +183,18 @@ function updateSortMethod() {
 
 function setupPageComponents() {
     fetchItems(); // Initial fetch for default or saved filter states
+
+    // Add event listeners to reload items when inputs are cleared
+    document.getElementById('bottomPrice').addEventListener('input', handleInputClear);
+    document.getElementById('topPrice').addEventListener('input', handleInputClear);
+    document.getElementById('searchInput').addEventListener('input', handleInputClear);
+}
+
+function handleInputClear(event) {
+    if (event.target.value === '') {
+        currentPage = 1;
+        fetchItems(); // Reload items when inputs are cleared
+    }
 }
 
 document.addEventListener('DOMContentLoaded', setupPageComponents); // Ensures the script runs after the document is fully loaded
