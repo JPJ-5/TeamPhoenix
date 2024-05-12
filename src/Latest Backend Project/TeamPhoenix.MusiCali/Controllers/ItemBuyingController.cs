@@ -111,14 +111,19 @@ namespace TeamPhoenix.MusiCali.Controllers
         [HttpPost("AcceptPendingSale")]
         public async Task<IActionResult> AcceptPendingSale([FromBody] CraftReceiptModel receipt)
         {
-            Console.WriteLine(receipt);
+            //Console.WriteLine(receipt);
             if ( string.IsNullOrWhiteSpace(receipt.SKU) || receipt.ReceiptID == 0 || receipt.Quantity <= 0)
             {
-                return BadRequest("Invalid request data.");
+                return BadRequest("Invalid Sku provided.");
+            }
+
+            ItemCreationModel item = await itemCreationDAO.GetItemBySkuAsync(receipt.SKU, false);
+            if (receipt.Quantity > item.StockAvailable)
+            {
+                return BadRequest("Cannot accept the sale, Seller's stock is lower than buyer's quantity");
             }
 
             CraftReceiptModel? receipt2 = await itemBuyingDAO.GetReceiptByIDAsync(receipt.ReceiptID);
-
             bool isSuccess = await craftReceiptService.acceptPendingSale(receipt2!);
 
             if (isSuccess)
@@ -137,7 +142,7 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             if (receipt == null || receipt.ReceiptID == 0)
             {
-                return BadRequest("Invalid request data.");
+                return BadRequest("Invalid Receipt ID.");
             }
 
             bool isSuccess = await craftReceiptService.declinePendingSale(receipt);

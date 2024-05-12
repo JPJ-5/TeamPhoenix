@@ -1,14 +1,27 @@
-﻿//var baseUrl = 'http://localhost:8080';
-var baseUrl = 'https://themusicali.com:5000';
+﻿
+
+var baseUrl = 'http://localhost:8080';
+
+
+
 
 // Button Event Listeners
 document.getElementById('itemModificationBtn').addEventListener('click', function () {
     hideAllSections();
-    document.getElementById('itemModificationContainer').style.display = 'block';
-    fetchData(1); // Fetch and populate the items
-    // Clear input fields in the item modification form
-    const form = document.getElementById('modificationForm');
-    clearFormFields(form);
+    const idToken = sessionStorage.getItem('idToken');
+    const accessToken = sessionStorage.getItem('accessToken');
+    const username = sessionStorage.getItem('username');
+
+    if (!idToken || !accessToken || !username) {
+        alert("Please login to use this feature!!!");
+    }
+    else {
+        document.getElementById('itemModificationContainer').style.display = 'block';
+        fetchModificationData(1); // Fetch and populate the items
+        // Clear input fields in the item modification form
+        const form = document.getElementById('modificationForm');
+        clearFormFields(form);
+    }
 });
 
 function clearFormFields(form) {
@@ -27,10 +40,15 @@ function hideAllSections() {
     document.getElementById('itemModificationForm').style.display = 'none';
     document.getElementById('pendingSaleContainer').style.display = 'none';
     document.getElementById('financialProgressReportView').style.display = 'none';
+    document.getElementById('itemsListingContainer').style.display = 'none';
+    document.getElementById('priceRangeSortingView').style.display = 'none';
+    if (document.getElementById('itemDetailsContainer')) {
+        document.getElementById('itemDetailsContainer').style.display = 'none';
+    }
 }
 
 // Fetch Data Functions
-function fetchData(page) {
+function fetchModificationData(page) {
     const username = sessionStorage.getItem('username');
     const url = `${baseUrl}/api/ItemPagination?username=${encodeURIComponent(username)}&pageNumber=${page}&pageSize=10`;
 
@@ -38,7 +56,7 @@ function fetchData(page) {
         .then(response => response.json())
         .then(data => {
             renderItems(data.items);
-            setupPagination('fetchData', data.totalCount, 10, page);
+            setupPaginationModification('fetchModificationData', data.totalCount, 10, page);
         })
         .catch(error => console.error('Error fetching data:', error));
 }
@@ -90,7 +108,42 @@ function renderItems(items) {
 
         // Add a row click event to navigate to the item detail page
         row.addEventListener('click', () => {
-            window.location.href = `itemDetail.html?sku=${item.sku}`;
+            document.getElementById('itemModificationContainer').style.display = 'none';
+            // Item Detail
+            const container = document.getElementById('itemDetailView');
+            container.style.display = 'block';
+
+            // Load the CSS dynamically
+            const cssLink = document.createElement('link');
+            cssLink.rel = 'stylesheet';
+            cssLink.href = 'css/ItemDetail.css';
+            document.head.appendChild(cssLink);
+
+            fetch('ItemDetail.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load Item Detail HTML.');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    container.innerHTML = html;
+
+                    // Initialize JavaScript functionalities after HTML is loaded
+                    const jsScript = document.createElement('script');
+                    jsScript.src = 'ItemCreationListingBuyingFeature/ItemDetail.js'; // Ensure this path is correct
+                    jsScript.onload = function () {
+                        loadDetail(item.sku,2);
+                        // JavaScript file loaded and executed
+                    };
+                    jsScript.onerror = function () {
+                        console.error('Failed to load Item Detail JS.');
+                    };
+                    document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+                })
+                .catch(error => {
+                    console.error('Error loading Item Detail View:', error);
+                });
         });
 
         // Append the row to the table body
@@ -98,188 +151,28 @@ function renderItems(items) {
     });
 }
 
-document.getElementById('pendingSaleBtn').addEventListener('click', function () {
-    hideAllSections();
-    document.getElementById('pendingSaleContainer').style.display = 'block';
-    fetchDataSalePending(1); // Fetch and populate the items
-});
+
 
 // Setup Pagination Function
-function setupPagination(fetchFunction, totalCount, pageSize, currentPage) {
+function setupPaginationModification(fetchFunction, totalCount, pageSize, currentPage) {
+    console.log(totalCount, pageSize);
     const totalPages = Math.ceil(totalCount / pageSize);
-    const paginationContainer = document.getElementById('pagination');
+    const paginationContainer = document.getElementById('paginationModification');
     if (!paginationContainer) return;
-    paginationContainer.innerHTML = ''; // Clear existing pagination
+    paginationContainer.innerHTML = '';
 
     for (let page = 1; page <= totalPages; page++) {
         const pageButton = document.createElement('button');
         pageButton.textContent = page;
         pageButton.classList.add('page-button');
         pageButton.disabled = (page === currentPage);
-        pageButton.onclick = function () {
-            if (fetchFunction === 'fetchData') {
-                fetchData(page);
-            } else if (fetchFunction === 'fetchDataSalePending') {
-                fetchDataSalePending(page);
-            }
-        };
+        pageButton.setAttribute('aria-label', `Go to page ${page}`);
+        pageButton.onclick = () => window[fetchFunction](page);
         paginationContainer.appendChild(pageButton);
     }
 }
 
-function fetchDataSalePending(page) {
-    const username = sessionStorage.getItem('username');
-    const url = `${baseUrl}/api/ItemBuying/GetItemPendingSale?username=${encodeURIComponent(username)}&pageNumber=${page}&pageSize=10`;
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            renderItemsSalePending(data);
-            setupPagination('fetchDataSalePending', data.totalCount, 10, page);
-        })
-        .catch(error => console.error('Error fetching pending sale data:', error));
-}
-
-function renderItemsSalePending(data) {
-    const tbody = document.getElementById('saleAcceptTableBody');
-    if (!tbody) return;
-    tbody.innerHTML = ''; // Clear previous items
-
-    if (!data.receipts) {
-        console.error('No receipts found in data:', data);
-        return;
-    }
-
-    // Loop through each receipt and display it
-    data.receipts.forEach(receipt => {
-        const item = receipt.item;
-        if (!item) {
-            console.error('No item found for receipt:', receipt);
-            return;
-        }
-
-        const imageUrl = item.firstImage || 'css/default_image.jpg';
-
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.name}</td>
-            <td>${item.sku}</td>
-            <td><img src="${imageUrl}" alt="Item Image" style="width: 100px;"></td>
-            <td>$${item.price.toFixed(2)}</td>
-            <td>${item.stockAvailable}</td>
-            <td>${receipt.quantity}</td>
-            <td>$${receipt.offerPrice.toFixed(2)}</td>
-            <td>$${receipt.revenue.toFixed(2)}</td>
-            <td>$${receipt.profit.toFixed(2)}</td>
-            <td>${new Date(receipt.saleDate).toLocaleDateString()}</td>
-        `;
-
-        // Create the actions cell (Accept and Decline buttons)
-        const actionsCell = document.createElement('td');
-
-        // Accept button
-        const acceptButton = document.createElement('button');
-        acceptButton.textContent = 'Accept';
-        acceptButton.classList.add('btn', 'accept');
-        acceptButton.onclick = function (event) {
-            event.stopPropagation(); // Prevent the row click event from being triggered
-            acceptItemSale(receipt.receiptID, receipt.sku, receipt.quantity);
-        };
-        actionsCell.appendChild(acceptButton);
-
-        // Decline button
-        const declineButton = document.createElement('button');
-        declineButton.textContent = 'Decline';
-        declineButton.classList.add('btn', 'decline');
-        declineButton.onclick = function (event) {
-            event.stopPropagation(); // Prevent the row click event from being triggered
-            if (confirm(`Are you sure you want to decline the sale of receipt ID: ${receipt.receiptID}?`)) {
-                declineItemSale(receipt.receiptID, receipt.sku, receipt.quantity);
-            }
-        };
-        actionsCell.appendChild(declineButton);
-
-        // Append the actions cell to the row
-        row.appendChild(actionsCell);
-
-        // Append the row directly to the table body
-        tbody.appendChild(row);
-    });
-}
-
-// Accept Item Sale
-function acceptItemSale(receiptID, sku, quantity) {
-    const username = sessionStorage.getItem('username');
-    const idToken = sessionStorage.getItem('idToken');
-    const accessToken = sessionStorage.getItem('accessToken');
-    const request = {
-        ReceiptID: receiptID,
-        SKU: sku,
-        Quantity: quantity
-    };
-
-    fetch(`${baseUrl}/api/ItemBuying/AcceptPendingSale`, {
-        method: 'POST',
-        headers: {
-            'Authentication': idToken,
-            'Authorization': accessToken,
-            'userName': username,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(request)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert('You accepted the sale. Confirmation Emails are sent to both buyer and seller!');
-            fetchDataSalePending(1); // Refresh the list of pending sales
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to accept the sale.');
-        });
-}
-
-// Decline Item Sale
-function declineItemSale(receiptID, sku, quantity) {
-    const username = sessionStorage.getItem('username');
-    const idToken = sessionStorage.getItem('idToken');
-    const accessToken = sessionStorage.getItem('accessToken');
-    const request = {
-        ReceiptID: receiptID,
-        SKU: sku,
-        Quantity: quantity
-    };
-
-    fetch(`${baseUrl}/api/ItemBuying/DeclinePendingSale`, {
-        method: 'DELETE',
-        headers: {
-            'Authentication': idToken,
-            'Authorization': accessToken,
-            'userName': username,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(request)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert('You declined the sale. The receipt is deleted!');
-            fetchDataSalePending(1); // Refresh the list of pending sales
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to decline the sale.');
-        });
-}
 
 // Modify Item
 function modifyItem(sku) {
@@ -288,7 +181,7 @@ function modifyItem(sku) {
     fetchItemDetailsModification(sku);
 }
 
-// Fetch Item Details
+// Fetch Item Details to setup form modification
 function fetchItemDetailsModification(sku) {
     const url = `${baseUrl}/api/GetItemDetail?sku=${sku}`;
 
@@ -325,117 +218,6 @@ function populateFormFields(item) {
     document.getElementById('sellerContact').value = item.sellerContact;
 }
 
-// Function to set up form handlers
-function setupFormHandlers(sku) {
-    const form = document.getElementById('modificationForm');
-
-    // Remove any existing event listeners
-    form.removeEventListener('submit', handleSubmit);
-
-    // Add new event listener
-    form.addEventListener('submit', handleSubmit);
-
-    async function handleSubmit(event) {
-        event.preventDefault(); // Prevent default form submission
-
-        const formData = new FormData(form);
-        const jsonData = Object.fromEntries(formData.entries());
-
-        // Ensure checkboxes are correctly included
-        jsonData.offerablePrice = form.offerablePrice.checked;
-        jsonData.itemListed = form.itemListed.checked;
-        jsonData.sku = sku;
-
-        // Handle file uploads separately
-        jsonData.imageUrls = [...form.image.files].map(file => file.name);
-        jsonData.videoUrls = [...form.video.files].map(file => file.name);
-
-        await uploadFilesToSandbox(form)
-
-        await updateItem(jsonData, form);
-        //add another function here to update item
-    }
-}
-
-// Function to upload files to the backend sandbox
-async function uploadFilesToSandbox(formData) {
-    const username = sessionStorage.getItem('username');
-    const idToken = sessionStorage.getItem("idToken");
-    const accessToken = sessionStorage.getItem("accessToken");
-
-
-    var images = document.querySelector('[name="image[]"]').files;
-    Array.from(images).forEach(file => {
-        formData.append('files', file);
-    });
-    var videos = document.querySelector('[name="video[]"]').files;
-    Array.from(videos).forEach(video => {
-        formData.append('files', video);
-    });
-
-    let uploadResponse = await fetch(`${baseUrl}/api/UploadS3/UploadFilesToSandBox`, {
-        method: 'POST',
-        headers: {
-            'Authentication': idToken,
-            'Authorization': accessToken,
-            'userName': username
-        },
-        body: formData
-    });
-
-    if (!uploadResponse.ok) {
-        alert('There was an error while uploading your items pictures and videos. Please try again!');
-        let text = await uploadResponse.text();
-        throw new Error(`Error uploading files to sandbox: ${text}`);
-    }
-
-    // Assuming the server responds with JSON data
-    let uploadData = await uploadResponse.json();
-    return uploadData;
-}
-
-// Function to update the item in the backend
-async function updateItem(item, form) {
-    const username = sessionStorage.getItem('username');
-    const idToken = sessionStorage.getItem("idToken");
-    const accessToken = sessionStorage.getItem("accessToken");
-
-    var formData = new FormData(form);
-
-    const sku = item.sku;
-    const name = formData.get('name');
-    const price = formData.get('price');
-    const description = formData.get('description');
-    const stockAvailable = formData.get('stockAvailable');
-    const productionCost = formData.get('productionCost');
-    const offerablePrice = Boolean(formData.get('offerablePrice'));
-    const sellerContact = formData.get('sellerContact');
-    const listed = Boolean(formData.get('itemListed'));
-
-    const data = { name, sku, price, description, stockAvailable, productionCost, offerablePrice, sellerContact, images, videos, listed };
-
-
-    const itemCreatePath = `${baseUrl}/api/ItemModification/UpdateItem`;
-
-    let itemCreationResponse = await fetch(itemCreatePath, {
-        method: 'POST',
-        headers: {
-            'Authentication': idToken,
-            'Authorization': accessToken,
-            'userName': username,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-
-    if (!itemCreationResponse.ok) {
-        alert('Error occurred while adding item to database. Please try again!');
-        let text = await itemCreationResponse.text();
-        throw new Error(`Error during item creation: ${text}`);
-    } else {
-        alert('Your item is successfully added to CraftVerify!');
-    }
-}
 // Function to set up form handlers
 function setupFormHandlers(sku) {
     const form = document.getElementById('modificationForm');
@@ -487,7 +269,7 @@ async function uploadFilesToSandbox(formData) {
     if (!uploadResponse.ok) {
         alert('There was an error while uploading your items pictures and videos. Please try again!');
         let text = await uploadResponse.text();
-        throw new Error(`Error uploading files to sandbox: ${text} `);
+        throw new Error(`Error uploading files to sandbox`);
     }
 
     // Assuming the server responds with JSON data
@@ -503,7 +285,7 @@ async function updateItem(item) {
 
     const itemCreatePath = `${baseUrl}/api/ItemModification/UpdateItem`;
 
-    let itemCreationResponse = await fetch(itemCreatePath, {
+    let itemModificationResponse = await fetch(itemCreatePath, {
         method: 'POST',
         headers: {
             'Authentication': idToken,
@@ -514,12 +296,12 @@ async function updateItem(item) {
         body: JSON.stringify(item)
     });
 
-    if (!itemCreationResponse.ok) {
-        alert('Error occurred while adding item to database. Please try again!');
+    if (!itemModificationResponse.ok) {
+        alert('Error occurred while modifying item. Please try again!');
         let text = await itemCreationResponse.text();
         throw new Error(`Error during item creation: ${text}`);
     } else {
-        alert('Your item is successfully added to CraftVerify!');
+        alert('Your item is successfully modified to CraftVerify!');
     }
 }
 
@@ -544,7 +326,7 @@ function deleteItem(sku) {
                 throw new Error('Failed to delete item: ' + response.statusText);
             }
             alert('Item deleted successfully!');
-            fetchData(1); // Refresh the list
+            fetchModificationData(1); // Refresh the list
         })
         .catch(error => {
             console.error('Error deleting item:', error);

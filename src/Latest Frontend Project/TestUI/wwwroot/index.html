@@ -172,15 +172,16 @@
     <div id="sellerDashboardView" style="display: none;">
         <h1>Hello and Welcome to Seller Dashboard </h1>
 
-        <button id="listedItemsBtn">Fetch Listed Items</button>
-        <button id="itemCreationBtn">Item Creation</button>
-        <button id="itemModificationBtn">Item Modification/Deletion</button>
-        <button id="financialProgressBtn">Financial Progress</button>
-        <button id="pendingSaleBtn">Pending sale</button>
+        <button id="listedItemsBtn" style="display: block;">Fetch Listed Items</button>
+        <button id="itemCreationBtn" style="display: none;">Item Creation</button>
+        <button id="itemModificationBtn" style="display: none;">Item Modification/Deletion</button>
+        <button id="financialProgressBtn" style="display: none;">Financial Progress</button>
+        <button id="pendingSaleBtn" style="display: none;">Pending sale</button>
+
 
         <div id="itemsListingContainer" style="display: none;">
             <div class="itemListing">
-                <h1>Item List</h1>
+                <h1>Whole Site Items List</h1>
                 <table id="allItemsTable">
                     <thead>
                         <tr>
@@ -271,7 +272,7 @@
 
         <div id="itemModificationContainer" style="display: none;">
             <div class="itemModificationList">
-                <h1>Item List</h1>
+                <h1>User's Items List</h1>
                 <table id="itemsTable">
                     <thead>
                         <tr>
@@ -284,14 +285,13 @@
                     </thead>
                     <tbody id="itemTableBody"></tbody>
                 </table>
-                <div class="pagination" id="pagination"></div>
+                <div class="pagination" id="paginationModification"></div>
             </div>
         </div>
 
         <div id="itemModificationForm" style="display: none;">
             <h1>Item Modification</h1>
             <form id="modificationForm" enctype="multipart/form-data">
-                Ensure you have enctype for file uploads
                 <div>
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" placeholder="Name"
@@ -356,6 +356,7 @@
                 <div>
                     <button type="submit" id="updateSubmit">Modify Item</button>
                 </div>
+
             </form>
         </div>
 
@@ -382,9 +383,10 @@
                     </thead>
                     <tbody id="saleAcceptTableBody"></tbody>
                 </table>
-                <div class="pagination" id="pagination"></div>
+                <div class="pagination" id="paginationPendingSale"></div>
             </div>
         </div>
+
     </div>
 
     <!-- Page for collab feature feature -->
@@ -453,13 +455,22 @@
     <!-- Page for artistProfileCalendar feature-->
     <div id="artistProfileCalendarView" style="display: none;"></div>
 
+    <!-- Page for Item Detail feature-->
+    <div id="itemDetailView" style="display: none;"></div>
+
+
+    <div id="loadingAnimation" style="display: none;">
+        <img src="css/Im_working_bro.gif" alt="Loading..." />
+    </div>
+
     <script src="js/PageTrackingAnalysis.js"></script>
     <script src="js/site.js"></script>
     <script src="js/collabfeature.js"></script>
-    <script src="js/CraftVerify.js"></script>
-    <script src="js/ItemCreation.js"></script>
     <script src="js/itemModification.js"></script>
-    <script src="js/itemDetail.js"></script>
-    <script src="js/listingItem.js"></script>
+    <script src="ItemCreationListingBuyingFeature/CraftVerify.js"></script>
+    <script src="ItemCreationListingBuyingFeature/ItemCreation.js"></script>
+    <!--<script src="ItemCreationListingBuyingFeature/ItemDetail.js"></script>-->
+    <script src="ItemCreationListingBuyingFeature/ListingItem.js"></script>
+    <script src="ItemCreationListingBuyingFeature/PendingSale.js"></script>
 </body>
 </html>

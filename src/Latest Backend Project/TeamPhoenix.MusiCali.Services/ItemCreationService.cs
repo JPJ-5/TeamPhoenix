@@ -96,7 +96,7 @@ namespace TeamPhoenix.MusiCali.Services
             decimal cost, bool offer, string sellerContact, bool listed)
         {
 
-            if (IsNullString(name) || !IsValidLength(name, 5, 250) || !IsValidDigit(name, @"^[a-zA-Z0-9@. -]*$"))
+            if (IsNullString(name) || !IsValidLength(name, 1, 250) || !IsValidDigit(name, @"^[a-zA-Z0-9@. -]*$"))
             {
                 return false;
                 throw new ArgumentException("Invalid item name provided. Retry again or contact system administrator");
