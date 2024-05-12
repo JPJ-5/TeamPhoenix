@@ -330,17 +330,17 @@ namespace TeamPhoenix.MusiCali.Services
 
                 return localFilePaths;
             }
-            catch (Renci.SshNet.Common.SshConnectionException ex)
+            catch (Renci.SshNet.Common.SshConnectionException)
             {
-                throw new Exception($"4 {ex.Message}");
+                return new List<string>();
             }
-            catch (Renci.SshNet.Common.SshAuthenticationException ex)
+            catch (Renci.SshNet.Common.SshAuthenticationException)
             {
-                throw new Exception($"5 {ex.Message}");
+                return new List<string>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception($"6 {ex.Message}");
+                return new List<string>();
             }
         }
     }
