@@ -8,8 +8,8 @@ using Renci.SshNet;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using TeamPhoenix.MusiCali.Logging;
-using static Org.BouncyCastle.Math.EC.ECCurve;
-using Google.Protobuf.WellKnownTypes;
+using System.Collections.Generic;
+using System.Security.AccessControl;
 
 namespace TeamPhoenix.MusiCali.Services
 {
@@ -309,6 +309,8 @@ namespace TeamPhoenix.MusiCali.Services
                                     {
                                         sftpClient.DownloadFile(filePath, fileStream);
                                     }
+                                    // Set file permissions to 666
+                                    File.SetAttributes(localFilePath, FileAttributes.Normal);
 
                                     // Add the local file path to the list
                                     localFilePaths.Add(localFilePath);

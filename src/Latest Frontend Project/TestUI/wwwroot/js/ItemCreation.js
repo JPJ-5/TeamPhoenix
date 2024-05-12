@@ -13,6 +13,7 @@ function hideAllSections() {
     document.getElementById('itemModificationContainer').style.display = 'none';
     document.getElementById('itemModificationForm').style.display = 'none';
     document.getElementById('pendingSaleContainer').style.display = 'none';
+    document.getElementById('itemListing').style.display = 'none';
 }
 
 document.getElementById('creationForm').addEventListener('submit', function (event) {

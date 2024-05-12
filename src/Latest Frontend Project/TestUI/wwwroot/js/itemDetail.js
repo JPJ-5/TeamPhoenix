@@ -7,13 +7,68 @@ document.addEventListener('DOMContentLoaded', function () {
     const sku = params.get('sku');
 
     if (!sku) {
-        document.getElementById('itemDetailsContainer').innerHTML = '<p>Error: No item specified.</p>';
-        return;
+        console.log('No SKU provided. Certain functionalities will be disabled.');
+    } else {
+        fetchItemDetails(sku); // Fetch details only if SKU is available
+        setupNonSkuPageHandlers(); // Setup button handlers that require the SKU
+        setupButtonHandlers(sku)
     }
 
     fetchItemDetails(sku);
     setupButtonHandlers(sku);
 });
+
+
+    // Initialize any tooltips on the page
+    document.querySelectorAll('[data-tooltip]').forEach(element => {
+        element.addEventListener('mouseenter', function () {
+            const tooltipText = this.getAttribute('data-tooltip');
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.textContent = tooltipText;
+            this.appendChild(tooltip);
+            tooltip.style.left = this.offsetWidth / 2 - tooltip.offsetWidth / 2 + 'px'; // Center the tooltip
+            tooltip.style.top = this.offsetTop - tooltip.offsetHeight - 10 + 'px'; // Position above the element
+        });
+
+        element.addEventListener('mouseleave', function () {
+            this.removeChild(this.querySelector('.tooltip'));
+        });
+    });
+
+    // Prepare modal windows
+    document.querySelectorAll('.modal-trigger').forEach(trigger => {
+        trigger.addEventListener('click', function () {
+            const modalId = this.getAttribute('data-modal');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'block';
+            }
+        });
+    });
+
+    // Close modals when clicking on close buttons
+    document.querySelectorAll('.modal-close').forEach(closeButton => {
+        closeButton.addEventListener('click', function () {
+            this.closest('.modal').style.display = 'none';
+        });
+    });
+
+    // Maybe add more general event listeners or setups as needed
+
+document.addEventListener('DOMContentLoaded', setupNonSkuPageHandlers);
+//start adding code here
+
+function setupButtonHandlers(sku) {
+    document.getElementById('buyButton').addEventListener('click', function () {
+        confirmPurchase(sku, false);
+    });
+
+    document.getElementById('offerPriceButton').addEventListener('click', function () {
+        confirmPurchase(sku, true);
+    });
+}
+
 
 
 
