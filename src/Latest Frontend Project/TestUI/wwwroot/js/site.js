@@ -8,11 +8,10 @@
     var showDetailsFormButton = document.getElementById('show-details-form');
     var registerDetailsForm = document.getElementById('register-details-form');
     var showRecoveryButton = document.getElementById('account-recovery-button');
-    var baseUrl = 'https://themusicali.com:5000';
-    //var baseUrl = 'http://localhost:8080';    
+    //var baseUrl = 'https://themusicali.com:5000';
+    var baseUrl = 'http://localhost:8080';    
     var idToken;
     var accessToken;
-
     function isLoggedIn() {
         // Check if the authentication token (or any other relevant data) exists in session storage
         if (sessionStorage.getItem('idToken') == null) {
@@ -48,9 +47,11 @@
     }
 
     onPageLoad();
+    
 
     menuButton.addEventListener('click', function () {
         dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        // Reset the visibility of login and register buttons when menu is toggled
         resetButtonVisibility();
     });
 
@@ -780,6 +781,7 @@
             .catch((error) => {
                 console.error('Error:', error);
                 registererror.innerHTML = 'Error';
+                // Handle error (e.g., show error message)
             });
     });
 
@@ -865,7 +867,7 @@
      // Bingo Board Feature
      document.getElementById('enter-BingoBoardView').addEventListener('click', function () {
         // Hide other parts of the page
-         document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #CollabFeatureView, #priceRangeSortingView, #financialProgressReportView, #inventoryStockView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #CollabFeatureView, #priceRangeSortingView, #financialProgressReportView, #inventoryStockView, #artistPortfolioView').forEach(el => {
             el.style.display = 'none';
         });
 
@@ -938,7 +940,15 @@
                 const jsScript = document.createElement('script');
                 jsScript.src = 'FinancialProgressReportFeature/FinancialProgressReport.js'; // Adjust path as needed
                 jsScript.onload = function () {
-                    setupFinancialProgressReport();  // Call the initialization function for your feature
+                    const idToken = sessionStorage.getItem('idToken');
+                    const accessToken = sessionStorage.getItem('accessToken');
+                    const username = sessionStorage.getItem('username');
+                    if (!idToken || !accessToken || !username) {
+                        alert("Please login to use this feature!!!");
+                    }
+                    else {
+                        setupFinancialProgressReport();  // Call the initialization function for your feature
+                    }
                 };
                 jsScript.onerror = function () {
                     console.error('Failed to load Financial Progress Report JS.');
@@ -953,7 +963,7 @@
     //Price Range Sorting
     document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #inventoryStockView, #CollabFeatureView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
             el.style.display = 'none';
         });
 
@@ -993,13 +1003,12 @@
             .catch(error => {
                 // Failed to load HTML content
             });
-
+            
         // Hide the Price Range Sorting button
         const priceRangeSortingButton = document.getElementById('enter-priceRangeSorting');
         priceRangeSortingButton.style.display = 'none';
 
     });
-
     // Show the button again if the container is hidden
     function checkContainerVisibility() {
         const container = document.getElementById('priceRangeSortingView');
@@ -1013,7 +1022,7 @@
 
     document.getElementById('enter-ArtistPortfolioView').addEventListener('click', function () {
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #priceRangeSortingView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistProfileCalendarView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView,#usageAnalysisDashboardView, #priceRangeSortingView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistProfileCalendarView').forEach(el => {
             showLoginFormButton.style.display = 'none'; // Hide the login button
             el.style.display = 'none';
         });
@@ -1182,6 +1191,7 @@
                 console.error('Error loading Usage Analysis Dashboard View:', error);
             });
     });
+
 
     //enter collab feature view
     document.getElementById('enter-collabFeature').addEventListener('click', function () {

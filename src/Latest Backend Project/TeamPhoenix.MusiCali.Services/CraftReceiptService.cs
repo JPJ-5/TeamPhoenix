@@ -39,11 +39,7 @@ namespace TeamPhoenix.MusiCali.Services
         {
             // Convert the decimal to a string with a culture-invariant format, ensuring no unnecessary decimal places
             string decimalString = price.ToString("0.##", CultureInfo.InvariantCulture);
-
-            // Regular expression to match exactly 5 digits or 5 digits with 2 after the decimal point
-            string pattern = @"^\d{1,7}(\.\d{2})?$";
-
-            // Returns true if the input matches the pattern, false otherwise
+            string pattern = @"^\d{1,7}(\.\d{0,2})?$";
             return Regex.IsMatch(decimalString, pattern);
         }
 

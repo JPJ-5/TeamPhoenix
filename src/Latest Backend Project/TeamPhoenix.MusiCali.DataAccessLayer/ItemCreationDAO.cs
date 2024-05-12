@@ -1,15 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
-using Newtonsoft.Json;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Amazon.S3.Model;
 using Amazon.S3;
-using MySqlX.XDevAPI;
 
 
 
@@ -23,7 +16,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         private readonly string bucketName;
 
 
-        //public ItemCreationDAO(IConfiguration configuration, IAmazonS3 s3Client)
+
         public ItemCreationDAO(IConfiguration configuration, IAmazonS3 s3Client)
         {
             this.configuration = configuration;
@@ -52,9 +45,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your error handling policy
-                Console.WriteLine("An error occurred: " + ex.Message);
-                return false;  // Depending on how you want to handle errors, you might return false or rethrow the exception
+                // Log the exception or handle it
+                Console.WriteLine("An error occurred at checking duplicated sku. " + ex.Message);
+                return false;  
             }
         }
 

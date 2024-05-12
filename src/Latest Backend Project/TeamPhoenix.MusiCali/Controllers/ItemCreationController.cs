@@ -41,7 +41,6 @@ namespace TeamPhoenix.MusiCali.Controllers
             itemCreationService = new ItemCreationService(s3Client,configuration);
             baseUrl = configuration.GetValue<string>("NestedAPI:BasedURL");
             uploadSandboxToS3ApiUrl = baseUrl + configuration.GetValue<string>("NestedAPI:SandboxToS3");
-            // _apiService = apiService;
         } 
 
 
