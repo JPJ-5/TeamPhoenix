@@ -3,6 +3,7 @@ var baseUrl = 'https://themusicali.com:5000';
 //var baseUrl = 'http://localhost:8080';
 
 
+
 function loadDetail(skuNumber, option) {
     //const params = new URLSearchParams(window.location.search);
     const sku = skuNumber;
@@ -239,7 +240,7 @@ function confirmPurchase(sku, offer) {
         `You are buying ${quantity} item(s) at a price of $${itemPrice.toFixed(2)} each.\nTotal Price: $${totalPrice.toFixed(2)}\nDo you want to proceed?`;
 
     if (confirm(confirmationMessage)) {
-        if (stock >= quantity) {
+        if (stock >= quantity && stock!=0) {
             console.log("stock: " + stock + " and quantity :" + quantity);
             console.log('Buyer confirmed to buy.');
             buyItem(sku, offer, offerPrice, quantity);
@@ -247,7 +248,7 @@ function confirmPurchase(sku, offer) {
         else {
             console.log('Item runs out of stock.');
             console.log("stock: " + stock + " and quantity :" + quantity);
-            alert('Item stock is lower than the quantity you want. Cannot finish the sale!!!');
+            alert('Item stock is 0 or lower than the quantity you want. Cannot finish the sale!!!');
             fetchItemDetails(sku);
         }
         
