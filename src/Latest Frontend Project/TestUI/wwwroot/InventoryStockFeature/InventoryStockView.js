@@ -3,8 +3,8 @@ function setupInventoryStockView() {
     fetchInventoryStock();
 }
 
-//var baseUrl = 'https://themusicali.com:5000';
-var baseUrl = 'http://localhost:8080';
+var baseUrl = 'https://themusicali.com:5000';
+//var baseUrl = 'http://localhost:8080';
 
 function fetchInventoryStock() {
     const username = sessionStorage.getItem("username");
