@@ -239,6 +239,15 @@ function setupFormHandlers(sku) {
         jsonData.imageUrls = [...newForm.image.files].map(file => file.name);
         jsonData.videoUrls = [...newForm.video.files].map(file => file.name);
 
+        if (jsonData.imageUrls.length > 5) {
+            alert('You can only upload up to 5 images.');
+            return; // Stop the function if more than 5 images are uploaded
+        }
+
+        if (jsonData.videoUrls.length > 2) {
+            alert('You can only upload up to 2 videos.');
+            return; // Stop the function if more than 2 videos are uploaded
+        }
         // First, upload files to sandbox
         await uploadFilesToSandbox(formData);
 
