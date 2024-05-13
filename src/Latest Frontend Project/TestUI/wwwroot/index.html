@@ -134,6 +134,9 @@
                     <!-- Scale Display Button Here -->
                     <button id="enter-scaleDisplay" class="enter-scaleDisplay">Scale Display</button>
 
+                    <!--Collab Feature Button here-->
+                    <button id = "enter-collabFeature" class = "enter-CollabFeature">Collab Feature</button>
+
                     <!-- Bingo Board button here -->
                     <button id="enter-BingoBoardView" class="enter-BingoBoardView">Bingo Board</button>
 
@@ -391,52 +394,6 @@
 
     </div>
 
-    <!-- Page for collab feature feature -->
-    <div id="CollabFeatureView" style="display: none;">
-        <p class="neon-text">Collab Feature</p>
-        <p id="enter-collabFeature"></p>
-        <div class="create-collabRequest">
-            <!--<span class="popuptext" id="myPopup"></span>-->
-            <label for="receiver">Enter Receiver Username:</label>
-            <input type="text" id="receiver" placeholder="Insert Username Here">
-            <div class="popuptext" id="createPopup">
-                <button id="create-collabRequest">Send A Request</button>
-            </div>
-        </div>
-        <div class="accept-collabRequest">
-            <!-- Move onclick event to the outer button -->
-            <label for="sender">Enter Sender Username:</label>
-            <input type="text" id="sender" placeholder="Insert Username Here">
-            <div class="popuptext" id="acceptPopup">
-                <button id="accept-collabRequest">Accept A Request</button>
-            </div>
-        </div>
-        <select id="user-options">
-            <option value="View Sent Requests">View Sent</option>
-            <option value="View Received Requests">View Received</option>
-            <option value="View Accepted Requests">View Accepted</option>
-        </select>
-        <div id="view-requests" style="margin-top: 20px;">
-            <button id="view-requests">See Your Collabs</button>
-        </div>
-
-        <div id="show-availUsers">
-            <button id="show-available-users">Show Available Users</button>
-        </div>
-
-        <!-- Table to display available users -->
-        <table id="userTable">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Table rows will be dynamically added here -->
-            </tbody>
-        </table>
-    </div>
-
     <!-- Page for usageAnalysisDashboard view -->
     <div id="usageAnalysisDashboardView" style="display: none;"></div>
 
@@ -467,7 +424,7 @@
 
     <script src="js/PageTrackingAnalysis.js"></script>
     <script src="js/site.js"></script>
-    <script src="js/collabfeature.js"></script>
+    <script src="js/CollabFeature.js"></script>
     <script src="js/itemModification.js"></script>
     <script src="ItemCreationListingBuyingFeature/CraftVerify.js"></script>
     <script src="ItemCreationListingBuyingFeature/ItemCreation.js"></script>
