@@ -2,19 +2,34 @@
 //var baseUrl = 'http://localhost:8080';
 document.getElementById('itemCreationBtn').addEventListener('click', function () {
 
-    hideAllSections();
+    hideAllSectionsFromCraft();
     var formContainer = document.getElementById('itemCreationForm'); // Show the form container
-    
-    formContainer.style.display = 'block';
+    const idToken = sessionStorage.getItem('idToken');
+    const accessToken = sessionStorage.getItem('accessToken');
+    const username = sessionStorage.getItem('username');
+
+    if (!idToken || !accessToken || !username) {
+        alert("Please login to use this feature!!!");
+    }
+    else {
+        formContainer.style.display = 'block';
+    }
+
 });
 
-function hideAllSections() {
+function hideAllSectionsFromCraft() {
     document.getElementById('itemCreationForm').style.display = 'none';
     document.getElementById('itemModificationContainer').style.display = 'none';
     document.getElementById('itemModificationForm').style.display = 'none';
     document.getElementById('pendingSaleContainer').style.display = 'none';
-    document.getElementById('itemListing').style.display = 'none';
+    document.getElementById('financialProgressReportView').style.display = 'none';
+    document.getElementById('itemsListingContainer').style.display = 'none';
+    document.getElementById('priceRangeSortingView').style.display = 'none';
+    if (document.getElementById('itemDetailsContainer')) {
+        document.getElementById('itemDetailsContainer').style.display = 'none';
+    }
 }
+
 
 document.getElementById('creationForm').addEventListener('submit', function (event) {
     event.preventDefault(); // Prevent the traditional form submission

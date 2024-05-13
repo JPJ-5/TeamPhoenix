@@ -2,20 +2,20 @@
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    const params = new URLSearchParams(window.location.search);
-    const sku = params.get('sku');
+//document.addEventListener('DOMContentLoaded', function () {
+//    const params = new URLSearchParams(window.location.search);
+//    const sku = params.get('sku');
 
-    // Setup handlers and other initializations that do not require the SKU
-    setupNonSkuPageHandlers(); // Example function for general setup
+//    // Setup handlers and other initializations that do not require the SKU
+//    setupNonSkuPageHandlers(); // Example function for general setup
 
-    if (!sku) {
-        console.log('No SKU provided. Certain functionalities will be disabled.');
-    } else {
-        fetchListingItem(sku); // Fetch details only if SKU is available
-        setupNonSkuPageHandlers(sku); // Setup button handlers that require the SKU
-    }
-});
+//    if (!sku) {
+//        console.log('No SKU readed from the view. Showing item detail functionalities will be disabled.');
+//    } else {
+//        fetchListingItem(sku); // Fetch details only if SKU is available
+//        setupNonSkuPageHandlers(sku); // Setup button handlers that require the SKU
+//    }
+//});
 
 function setupNonSkuPageHandlers() {
     // Setup navigation links or buttons
@@ -69,13 +69,16 @@ function setupNonSkuPageHandlers() {
 document.addEventListener('DOMContentLoaded', setupNonSkuPageHandlers);
 
 
+// listen to click button to hide other section and call list of item
 document.getElementById('listedItemsBtn').addEventListener('click', function () {
     hideAllSections();
     document.getElementById('itemsListingContainer').style.display = 'block';
     fetchListingItem(1); // Fetch and populate the items
-   
-    
+
+
 });
+
+//fetch call to get list of item, then call render function, and pagination function
 function fetchListingItem(page) {
     const username = sessionStorage.getItem('username');
     const token = sessionStorage.getItem('token'); // Assuming you use token-based authentication
@@ -102,6 +105,7 @@ function fetchListingItem(page) {
         });
 }
 
+//render the item, set button to click on the row and get to item detail
 function renderListingItems(items) {
     const tbody = document.getElementById('allItemsTableBody');
     if (!tbody) return;
@@ -120,13 +124,60 @@ function renderListingItems(items) {
 
         // Add a row click event to navigate to the item detail page or open a modal
         row.addEventListener('click', () => {
-            window.location.href = `itemDetail.html?sku=${item.sku}`;
+            //window.location.href = `ItemDetail.html?sku=${item.sku}`;
+            // Item Detail
+            document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #usageAnalysisDashboardView, #itemsListingContainer, #itemModificationContainer').forEach(el => {
+                el.style.display = 'none';
+            });
+            const container = document.getElementById('itemDetailView');
+            container.style.display = 'block';
+
+            // Load the CSS dynamically
+            const cssLink = document.createElement('link');
+            cssLink.rel = 'stylesheet';
+            cssLink.href = 'css/ItemDetail.css';
+            document.head.appendChild(cssLink);
+
+            fetch('ItemCreationListingBuyingFeature/ItemDetail.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load Item Detail HTML.');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    container.innerHTML = html;
+
+                    // Initialize JavaScript functionalities after HTML is loaded
+                    const jsScript = document.createElement('script');
+                    jsScript.src = 'ItemCreationListingBuyingFeature/ItemDetail.js'; // Ensure this path is correct
+                    jsScript.onload = function () {
+                        loadDetail(item.sku, 1);
+                        // JavaScript file loaded and executed
+                    };
+                    jsScript.onerror = function () {
+                        console.error('Failed to load Item Detail JS.');
+                    };
+                    document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+                })
+                .catch(error => {
+                    console.error('Error loading Item Detail View:', error);
+                });
         });
 
         tbody.appendChild(row);
+
+        //document.getElementById('itemsListingContainer').style.display = 'none';
+        //fetchItemDetail(item.sku);
     });
+
+
 }
 
+
+
+
+//set up pagination button 
 function setupPaginationItemListing(fetchFunction, totalCount, pageSize, currentPage) {
     const totalPages = Math.ceil(totalCount / pageSize);
     const paginationContainer = document.getElementById('pagination');
