@@ -130,10 +130,20 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 dao.ExecuteSql(insertUserProfileSql, userProfileParameters);
 
                 // Insert data into ArtistProfile table
-                string insertArtistProfileSql = "INSERT INTO ArtistProfile (Username) VALUES (@Username)";
+                string insertArtistProfileSql = "INSERT INTO ArtistProfile (Username, ArtistCollabSearchVisibility, ArtistBio, File0Path, File1Path, File2Path, File3Path, File4Path, File5Path) VALUES (@Username, @Visibility, @Bio, @FilePath0, @FilePath1, @FilePath2, @FilePath3, @FilePath4, @FilePath5)";
                 Dictionary<string, object> artistProfileParameters = new Dictionary<string, object>();
                 artistProfileParameters.Add("@Username", userProfile.Username);
+                artistProfileParameters.Add("@Visibility", false); // Set ArtistCollabSearchVisibility to false
+                artistProfileParameters.Add("@Bio", "Set your own bio");
+                artistProfileParameters.Add("@FilePath0", ""); // Empty string for File0Path
+                artistProfileParameters.Add("@FilePath1", ""); // Empty string for File1Path
+                artistProfileParameters.Add("@FilePath2", ""); // Empty string for File2Path
+                artistProfileParameters.Add("@FilePath3", ""); // Empty string for File3Path
+                artistProfileParameters.Add("@FilePath4", ""); // Empty string for File4Path
+                artistProfileParameters.Add("@FilePath5", ""); // Empty string for File5Path
                 dao.ExecuteSql(insertArtistProfileSql, artistProfileParameters);
+
+
             }
             catch (Exception ex)
             {
