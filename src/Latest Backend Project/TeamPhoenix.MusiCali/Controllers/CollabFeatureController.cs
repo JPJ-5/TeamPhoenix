@@ -19,7 +19,7 @@ namespace TeamPhoenix.MusiCali.Controllers
 
                 Result result = new Result();
 
-                result = CollabFeature.CreateCollabRequest(collab.senderUsername!, collab.receiverUsername!);
+                result = CollabFeature.CreateCollabRequest(collab.senderUsername, collab.receiverUsername);
 
                 if(result.Success){
 
@@ -37,7 +37,8 @@ namespace TeamPhoenix.MusiCali.Controllers
 
             catch(Exception ex){
 
-                throw new Exception("Failed to create collab" + ex.Message);
+                Console.WriteLine("Collab did not send" + ex.Message);
+                throw new Exception("Collab did not send" + ex.Message);
             }
         }
 
@@ -59,8 +60,9 @@ namespace TeamPhoenix.MusiCali.Controllers
             }
 
             catch(Exception ex){
+                Console.WriteLine("View did not load" + ex.Message);
 
-                throw new Exception("Failed to load collab view: " + ex.Message);
+                throw new Exception("View did not load " + ex.Message);
 
             }
         }
@@ -71,7 +73,7 @@ namespace TeamPhoenix.MusiCali.Controllers
 
             try
             {
-                Result result = CollabFeature.AcceptCollab(collab.receiverUsername!, collab.senderUsername!);
+                Result result = CollabFeature.AcceptCollab(collab.receiverUsername, collab.senderUsername);
 
                 if(result.Success){
 
@@ -89,8 +91,8 @@ namespace TeamPhoenix.MusiCali.Controllers
 
             catch (Exception ex)
             {
-
-                throw new Exception("Failed to accept collab; " + ex.Message);
+                Console.WriteLine("Could not accept collab" + ex.Message);
+                throw new Exception("Could not accept collab" + ex.Message);
 
             }
         }
@@ -100,7 +102,7 @@ namespace TeamPhoenix.MusiCali.Controllers
 
             try
             {
-                Console.WriteLine(userName);
+                Console.WriteLine(userName + " selected 'See Collabs'");
                 CollabData result = CollabFeature.LoadCollabFeature(userName);
 
                 return Ok(result);
@@ -108,8 +110,8 @@ namespace TeamPhoenix.MusiCali.Controllers
 
             catch(Exception ex){
 
-                Console.WriteLine("Could not load the collabs" + ex.Message);
-                return BadRequest("Collab Not Available Right Now");
+                Console.WriteLine("Collabs Not Available Right Now" + ex.Message);
+                return BadRequest("Collabs Not Available Right Now");
             }
         }
 
@@ -125,6 +127,7 @@ namespace TeamPhoenix.MusiCali.Controllers
 
             catch(Exception ex){
 
+                Console.WriteLine("Could not load available users" + ex.Message);
                 throw new Exception("Could not load available users" + ex.Message);
             }
         }
