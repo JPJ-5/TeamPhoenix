@@ -133,7 +133,7 @@
             .catch((error) => {
                 console.error('Error:', error);
                 //loginerror.style.display = 'block';
-                loginerror.innerHTML = 'Connection Error';
+                loginerror.innerHTML = 'Login Failed';
             });
     });
 
