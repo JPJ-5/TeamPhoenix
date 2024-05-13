@@ -1,4 +1,4 @@
-﻿
+﻿//var baseUrl = 'https://themusicali.com:5000';
 var baseUrl = 'http://localhost:8080';
 document.getElementById('itemCreationBtn').addEventListener('click', function () {
 

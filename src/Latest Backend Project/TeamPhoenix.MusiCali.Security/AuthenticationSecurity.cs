@@ -11,6 +11,7 @@ using System.Net;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Web;
 
 namespace TeamPhoenix.MusiCali.Security
 {
@@ -66,7 +67,7 @@ namespace TeamPhoenix.MusiCali.Security
             return true;
         }
 
-        public bool Authenticate(string username, string otp)
+        public bool Authenticate(string username, string otp, string ip)
         {
             AuthResult authR = authenticationDAO.findUsernameInfo(username);
             UserAccount userAcc = authR.userAcc!;
@@ -109,7 +110,7 @@ namespace TeamPhoenix.MusiCali.Security
                     }
                     else
                     {
-                        userA = RecordFailedAttempt(userA, userAcc);
+                        userA = RecordFailedAttempt(userA, userAcc, ip);
                         if (authenticationDAO.updateAuthentication(userA))
                         {
                             return false;
@@ -151,7 +152,7 @@ namespace TeamPhoenix.MusiCali.Security
                     }
                     else
                     {
-                        userA = RecordFailedAttempt(userA, userAcc);
+                        userA = RecordFailedAttempt(userA, userAcc, ip);
                         if (authenticationDAO.updateAuthentication(userA))
                         {
                             return false;
@@ -168,7 +169,7 @@ namespace TeamPhoenix.MusiCali.Security
             {
                 if (userA.FailedAttempts <= 3)
                 {
-                    RecordFailedAttempt(userA, userAcc);
+                    RecordFailedAttempt(userA, userAcc, ip);
                     return false;
                 }
                 else
@@ -189,7 +190,7 @@ namespace TeamPhoenix.MusiCali.Security
             return !string.IsNullOrWhiteSpace(username) && username.Length >= 6 && username.Length <= 30 && !username.Contains(" ");
         }
 
-        private UserAuthN RecordFailedAttempt(UserAuthN userA, UserAccount userAcc)
+        private UserAuthN RecordFailedAttempt(UserAuthN userA, UserAccount userAcc, string ip)
         {
             if (userA.FailedAttempts == 0)
             {
@@ -213,6 +214,7 @@ namespace TeamPhoenix.MusiCali.Security
                 logResult.ErrorMessage = $"Account {userA.Username} disabled due to too many failed attempts.";
                 res.ErrorMessage = "Invalid security credentials provided, account has been disabled due to 3 failed attempts. Retry again or contact the system administrator";
             }
+            var logFail = loggerService.CreateLog(userAcc.UserHash, "Info", "View", $"User {userAcc.UserHash} AT {ip} Fail Login");
             Authentication authentication = new Authentication();
             authentication.logFailure(userAcc.UserHash);
 

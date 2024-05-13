@@ -230,7 +230,7 @@ function confirmPurchase(sku, offer) {
         `You are buying ${quantity} item(s) at a price of $${itemPrice.toFixed(2)} each.\nTotal Price: $${totalPrice.toFixed(2)}\nDo you want to proceed?`;
 
     if (confirm(confirmationMessage)) {
-        if (stock > quantity) {
+        if (stock >= quantity) {
             console.log("stock: " + stock + " and quantity :" + quantity);
             console.log('Buyer confirmed to buy.');
             buyItem(sku, offer, offerPrice, quantity);
