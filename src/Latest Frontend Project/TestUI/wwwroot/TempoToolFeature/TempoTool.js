@@ -4,7 +4,7 @@ var mainCircle = document.getElementById('mainCircle');
 var innerCircle = document.getElementById('innerCircle');
 var speedDisplay = document.getElementById('speedDisplay');
 
-var tickSound = new Audio('audio/tick2.mp3'); // Initialize the tick sound
+var tickSound = new Audio('audio/tick.mp3'); // Initialize the tick sound
 var playing = false;
 var intervalID;
 var growCircle = true; // Flag to control whether to grow or shrink the inner circle
