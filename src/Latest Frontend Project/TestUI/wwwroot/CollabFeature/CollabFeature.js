@@ -1,5 +1,12 @@
-document.addEventListener('DOMContentLoaded', function () {
- 
+
+function setupCollabFeature(){
+
+    var baseUrl = 'https://themusicali.com:5000';
+    
+    document.getElementById('enter-collabFeature').addEventListener('click', function () {
+        // display the artist calendar section when the button is clicked
+        document.getElementById('CollabFeatureView').style.display = 'block';
+    });
 
     //event listener for Send A Request button
     document.getElementById('create-collabRequest').addEventListener('click', function () {
@@ -39,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
         idToken = sessionStorage.getItem("idToken");
         accessToken = sessionStorage.getItem("accessToken");
     
-        var sender = document.getElementById("username").value;
+        var sender = sessionStorage.getItem("username");
 
         if(user != null){
             var receiver = user;
@@ -56,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
         console.log(payload)
         console.log("Sending collaboration request...");
-        fetch('http://localhost:8080/CollabFeature/api/SendRequestAPI', {
+        fetch(`${baseUrl}/CollabFeature/api/SendRequestAPI`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -112,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         console.log(payload)
         console.log("Accepting collaboration request...");
-        fetch('http://localhost:8080/CollabFeature/api/AcceptRequestAPI', {
+        fetch(`${baseUrl}/CollabFeature/api/AcceptRequestAPI`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -152,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
         idToken = sessionStorage.getItem("idToken");
         accessToken = sessionStorage.getItem("accessToken");
         console.log("Retrieving collabs...");
-        fetch('http://localhost:8080/CollabFeature/api/LoadCollabsAPI',{
+        fetch(`${baseUrl}/CollabFeature/api/LoadCollabsAPI`,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -258,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     sendCollabRequest(user);
                     alert("Collab Request has been sent to " + user + "!");
                 };
- 
+
                 //adds "Accept a Request" button to each user
                 var acceptRequestButtonCell = row.insertCell();
                 var acceptRequestButton = document.createElement('button');
@@ -278,24 +285,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-
-// function collabSentAlert() {
-//     var popup = document.getElementById('createPopup');
-//     var receiver = document.getElementById("receiver").value;
-
-//     popup.classList.toggle("show");
-//     alert("Collab Request has been sent to " + receiver + " !");
-// }
-
-// function acceptCollabAlert(){
-//     var popup = document.getElementById('acceptPopup');
-//     var sender = document.getElementById('sender').value;
-
-//     popup.classList.toggle("show");
-//     alert("You accepted the collab request from " + sender + " !")
-// }
-
-
+    function collabSentAlert() {
+        var popup = document.getElementById('createPopup');
+        var receiver = document.getElementById("receiver").value;
+    
+        popup.classList.toggle("show");
+        alert("Collab Request has been sent to " + receiver + " !");
+    }
+    
+    function acceptCollabAlert(){
+        var popup = document.getElementById('acceptPopup');
+        var sender = document.getElementById('sender').value;
+    
+        popup.classList.toggle("show");
+        alert("You accepted the collab request from " + sender + " !")
+    }
+    
     //updates the type of collabs selection that the user wants to see
     function updateCollabSelection(){
         var selectBox = document.getElementById('user-options');
@@ -305,4 +310,11 @@ document.addEventListener('DOMContentLoaded', function () {
         return selectedValue;
 
     }
-    });
+
+    function setupPageComponents() {
+        // Add any setup logic here
+        console.log("Page components setup complete");
+    }
+    window.onload = setupPageComponents;
+
+}
