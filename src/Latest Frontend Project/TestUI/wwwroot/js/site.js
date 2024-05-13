@@ -676,11 +676,9 @@
 
     document.getElementById('logoutButton').addEventListener('click', function () {
         const startTime = Date.now();
-        var userName = document.getElementById("username").value;
-        idToken = sessionStorage.getItem("idToken");
-        accessToken = sessionStorage.getItem("accessToken");
-        //console.log(idToken);
-        //console.log(accessToken);
+        var userName = sessionStorage.getItem("username");
+        var idToken = sessionStorage.getItem("idToken");
+        var accessToken = sessionStorage.getItem("accessToken");
 
         fetch(`${baseUrl}/Logout/api/logout`, {
             method: 'POST',
