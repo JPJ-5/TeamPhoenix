@@ -117,13 +117,12 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                     connection.Open();
 
                     // Update data in UserAuthN table
-                    string updateUserAuthNSql = "UPDATE UserAuthN SET OTP = @OTP, otpTimestamp = @otpTimestamp, FailedAttempts = @FailedAttempts, FirstFailedAttemptTime = @FirstFailedAttemptTime, IsDisabled = @IsDisabled, Salt = @Salt, IsAuth = @IsAuth WHERE Username = @Username";
+                    string updateUserAuthNSql = "UPDATE UserAuthN SET OTP = @OTP, otpTimestamp = @otpTimestamp, FailedAttempts = @FailedAttempts, FirstFailedAttemptTime = @FirstFailedAttemptTime, IsDisabled = @IsDisabled, IsAuth = @IsAuth WHERE Username = @Username";
                     using (MySqlCommand cmd = new MySqlCommand(updateUserAuthNSql, connection))
                     {
                         cmd.Parameters.AddWithValue("@Username", userAuthN.Username);
                         cmd.Parameters.AddWithValue("@OTP", userAuthN.OTP);
                         cmd.Parameters.AddWithValue("@otpTimestamp", userAuthN.otpTimestamp);
-                        cmd.Parameters.AddWithValue("@Salt", userAuthN.Salt);
                         cmd.Parameters.AddWithValue("@IsAuth", userAuthN.IsAuth);
                         cmd.Parameters.AddWithValue("@FailedAttempts", userAuthN.FailedAttempts);
                         cmd.Parameters.AddWithValue("@FirstFailedAttemptTime", userAuthN.FirstFailedAttemptTime);
