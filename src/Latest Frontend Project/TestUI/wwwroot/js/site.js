@@ -963,7 +963,7 @@
     //Price Range Sorting
     document.getElementById('craftVerify').addEventListener('click', function () {
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #itemsListingContainer, #itemCreationForm, #itemModificationContainer, #itemModificationForm').forEach(el => {
             el.style.display = 'none';
         });
 

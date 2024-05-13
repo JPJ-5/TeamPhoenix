@@ -233,7 +233,7 @@ function setupFormHandlers(sku) {
 
         // Ensure checkboxes are correctly included
         jsonData.offerablePrice = newForm.offerablePrice.checked;
-        jsonData.itemListed = newForm.itemListed.checked;
+        jsonData.listed = newForm.itemListed.checked;
         jsonData.sku = sku;
 
         // Handle file uploads separately
