@@ -29,9 +29,9 @@
             <div>
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" placeholder="Description"
-                          maxlength="2000"
+                          pattern="[a-zA-Z0-9 ]{1,2000}"
                           oninput="validateDescription()"
-                          title="Can include letters, numbers, and ,: '\" ()!@#$%&* characters up to 2000 characters."></textarea>
+                          title="Can include letters and numbers characters up to 2000 characters."></textarea>
                 <div id="descriptionError" style="color: red;"></div>
             </div>
             <div>
@@ -60,9 +60,8 @@
             <div>
                 <label for="sellerContact">Seller Contact:</label>
                 <textarea id="sellerContact" name="sellerContact" placeholder="Seller Contact"
-                          maxlength="250"
-                          oninput="validateDescription()"
-                          title="Can include letters, numbers, and ,: '\" ()!@#$%&* characters up to 2000 characters."></textarea>
+                          pattern="[a-zA-Z0-9 ]{1,250}"
+                          title="Can include letters and numbers up to 250 characters."></textarea>
                 <div id="descriptionError" style="color: red;"></div>
             </div>
             <div>
