@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 //using TeamPhoenix.MusiCali.Services;
@@ -7,13 +8,20 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 {
     public class CollabFeatureDAL
     {
-        private static readonly string _connectionString = "Server=3.142.241.151;Database=MusiCali;User ID=julie;Password=j1234;";
+        private readonly string connectionString;
+        private readonly IConfiguration configuration;
 
-        public static List<string> SearchUsers(string userSearch)
+        public CollabFeatureDAL(IConfiguration configuration){
+
+            this.configuration = configuration;
+            this.connectionString = this.configuration.GetSection("ConnectionStrings:ConnectionString").Value!;
+        }
+
+        public List<string> SearchUsers(string userSearch)
         {
             List<string> users = new List<string>();
 
-            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
@@ -37,11 +45,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         }
 
         //Create fuction to retrieve email from ArtistProfile using Username
-        public static string GetEmailByUsername(string username)
+        public string GetEmailByUsername(string username)
         {
             string ? email = null;
 
-            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
@@ -64,7 +72,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         }
 
         //Create function to save new collab to database
-        public static Result InsertCollab(string senderUsername, string receiverUsername, string senderEmail, string receiverEmail)
+        public Result InsertCollab(string senderUsername, string receiverUsername, string senderEmail, string receiverEmail)
         {
             Result result = new Result();
 
@@ -77,7 +85,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
 
             // If collab doesn't exist, proceed with insertion
-            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 try
                 {
@@ -115,9 +123,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         }
 
         //check if the collab already exists
-        private static bool CollabExists(string senderUsername, string receiverUsername)
+        private bool CollabExists(string senderUsername, string receiverUsername)
         {
-            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
@@ -137,11 +145,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
 
         //Create second function to find collab based on sender and receiver users where accept = true now
-        public static Result AcceptCollabByUsername(string senderUsername, string receiverUsername)
+        public Result AcceptCollabByUsername(string senderUsername, string receiverUsername)
         {
             Result result = new Result();
 
-            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
@@ -179,11 +187,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
         //creates function to get all collab tables from the currently logged- in user
 
-        public static List<string> GetSentCollabsByUsername(string username)
+        public List<string> GetSentCollabsByUsername(string username)
         {
             List<string> sentCollabs = new List<string>();
 
-            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
@@ -195,11 +203,11 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             return sentCollabs;
         }
         //function for getting received collabs from logged- in user
-        public static List<string> GetReceivedCollabsByUsername(string username)
+        public List<string> GetReceivedCollabsByUsername(string username)
         {
             List<string> receivedCollabs = new List<string>();
 
-            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 
@@ -226,14 +234,14 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
 
         //for getting accepted collabs from logged- in user
-        public static List<string> GetAcceptedCollabsByUsername(string username)
+        public List<string> GetAcceptedCollabsByUsername(string username)
         {
             List<string> sentCollabs = new List<string>();
             List<string> receivedCollabs = new List<string>();
 
             List<string> accepted = new List<string>();
 
-            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
@@ -251,7 +259,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             return accepted;
         }
 
-        private static List<string> RetrieveCollabs(MySqlConnection connection, string query, string username)
+        private List<string> RetrieveCollabs(MySqlConnection connection, string query, string username)
         {
             List<string> collabs = new List<string>();
 

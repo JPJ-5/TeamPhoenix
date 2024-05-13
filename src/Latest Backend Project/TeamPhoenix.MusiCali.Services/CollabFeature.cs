@@ -7,12 +7,22 @@ using System.Net.Mail;
 using System.Net;
 using TeamPhoenix.MusiCali.DataAccessLayer; // Import the namespace where CollabFeatureDAL is defined
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace TeamPhoenix.MusiCali.Services
 {
     public class CollabFeature
     {
-        public static Result CreateCollabRequest(string senderUsername, string receiverUsername)
+        private CollabFeatureDAL collabFeatureDAL;
+        private readonly IConfiguration configuration;
+        public CollabFeature(IConfiguration configuration){
+
+            collabFeatureDAL = new CollabFeatureDAL(configuration);
+
+            this.configuration = configuration;
+
+        }
+        public Result CreateCollabRequest(string senderUsername, string receiverUsername)
         {
             
             Result result = new Result();
@@ -20,11 +30,11 @@ namespace TeamPhoenix.MusiCali.Services
             try
             {
                 // Get sender and receiver email addresses using CollabFeatureDAL
-                string senderEmail = CollabFeatureDAL.GetEmailByUsername(senderUsername);
-                string receiverEmail = CollabFeatureDAL.GetEmailByUsername(receiverUsername);
+                string senderEmail = collabFeatureDAL.GetEmailByUsername(senderUsername);
+                string receiverEmail = collabFeatureDAL.GetEmailByUsername(receiverUsername);
                 
                 // Insert a new collab record into the Collab table using CollabFeatureDAL
-                Result _dalResult = CollabFeatureDAL.InsertCollab(senderUsername, receiverUsername, senderEmail, receiverEmail);
+                Result _dalResult = collabFeatureDAL.InsertCollab(senderUsername, receiverUsername, senderEmail, receiverEmail);
 
                 if (_dalResult.Success == false){
 
@@ -50,12 +60,12 @@ namespace TeamPhoenix.MusiCali.Services
             }
         }
 
-        public static Result AcceptCollab(string receiverUsername, string senderUsername)
+        public Result AcceptCollab(string receiverUsername, string senderUsername)
         {
             try
             {
                 // Search for the collab record based on sender and receiver usernames using CollabFeatureDAL
-                Result collab = CollabFeatureDAL.AcceptCollabByUsername(receiverUsername, senderUsername);
+                Result collab = collabFeatureDAL.AcceptCollabByUsername(receiverUsername, senderUsername);
 
 
                 if (collab.Success == true)
@@ -65,7 +75,7 @@ namespace TeamPhoenix.MusiCali.Services
                     // receiverEmail = GetEmailByUsername(collab);
                     // Update the 'Accepted' field to true using CollabFeatureDAL
                     //collab.Success = true;
-                    collab = CollabFeatureDAL.AcceptCollabByUsername(receiverUsername, senderUsername);
+                    collab = collabFeatureDAL.AcceptCollabByUsername(receiverUsername, senderUsername);
 
                     return collab;
                 }
@@ -84,15 +94,15 @@ namespace TeamPhoenix.MusiCali.Services
             }
         }
 
-        public static CollabData LoadCollabFeature(string username)
+        public CollabData LoadCollabFeature(string username)
         {
             try
             {
                 CollabData collabs = new CollabData();
                 // Load sent, received, and accepted collabs for the given username using CollabFeatureDAL
-                collabs.sentCollabs = CollabFeatureDAL.GetSentCollabsByUsername(username);
-                collabs.receivedCollabs = CollabFeatureDAL.GetReceivedCollabsByUsername(username);
-                collabs.acceptedCollabs = CollabFeatureDAL.GetAcceptedCollabsByUsername(username);
+                collabs.sentCollabs = collabFeatureDAL.GetSentCollabsByUsername(username);
+                collabs.receivedCollabs = collabFeatureDAL.GetReceivedCollabsByUsername(username);
+                collabs.acceptedCollabs = collabFeatureDAL.GetAcceptedCollabsByUsername(username);
 
                 return collabs;
             }

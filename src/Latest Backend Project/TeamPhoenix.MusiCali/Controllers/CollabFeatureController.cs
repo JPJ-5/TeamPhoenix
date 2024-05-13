@@ -11,6 +11,17 @@ namespace TeamPhoenix.MusiCali.Controllers
     public class CollabFeatureController : ControllerBase
     {
 
+        private readonly IConfiguration configuration;
+        private CollabFeature collabFeature;
+        private CollabFeatureDAL collabFeatureDAL;
+
+        public CollabFeatureController(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            collabFeature = new CollabFeature(configuration);
+            collabFeatureDAL = new CollabFeatureDAL(configuration);
+        }
+
         [HttpPost("api/SendRequestAPI")]
         public IActionResult SendCollabRequest([FromBody] CollabUsers collab)
         {
@@ -19,7 +30,7 @@ namespace TeamPhoenix.MusiCali.Controllers
 
                 Result result = new Result();
 
-                result = CollabFeature.CreateCollabRequest(collab.senderUsername, collab.receiverUsername);
+                result = collabFeature.CreateCollabRequest(collab.senderUsername!, collab.receiverUsername!);
 
                 if(result.Success){
 
@@ -46,9 +57,9 @@ namespace TeamPhoenix.MusiCali.Controllers
         public CollabData LoadView (string username){
 
             try{
-            var sentRequests = CollabFeatureDAL.GetSentCollabsByUsername(username);
-            var receivedRequests = CollabFeatureDAL.GetReceivedCollabsByUsername(username);
-            var acceptedRequests = CollabFeatureDAL.GetAcceptedCollabsByUsername(username);
+            var sentRequests = collabFeatureDAL.GetSentCollabsByUsername(username);
+            var receivedRequests = collabFeatureDAL.GetReceivedCollabsByUsername(username);
+            var acceptedRequests = collabFeatureDAL.GetAcceptedCollabsByUsername(username);
 
             CollabData collabs = new CollabData();
 
@@ -73,7 +84,7 @@ namespace TeamPhoenix.MusiCali.Controllers
 
             try
             {
-                Result result = CollabFeature.AcceptCollab(collab.receiverUsername, collab.senderUsername);
+                Result result = collabFeature.AcceptCollab(collab.receiverUsername!, collab.senderUsername!);
 
                 if(result.Success){
 
@@ -103,7 +114,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             try
             {
                 Console.WriteLine(userName + " selected 'See Collabs'");
-                CollabData result = CollabFeature.LoadCollabFeature(userName);
+                CollabData result = collabFeature.LoadCollabFeature(userName);
 
                 return Ok(result);
             }
@@ -120,7 +131,7 @@ namespace TeamPhoenix.MusiCali.Controllers
 
             try{
 
-                List<string> availUsers = CollabFeatureDAL.SearchUsers(userName);
+                List<string> availUsers = collabFeatureDAL.SearchUsers(userName);
 
                 return Ok(availUsers);
             }

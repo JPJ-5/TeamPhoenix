@@ -51,7 +51,7 @@
             //craftverify
             //else if(savedPage == 'CraftVerify'){loadCraftVerify();}
             //collab
-            else if(savedPage == 'Collab'){loadCollabFeature();}
+            else if(savedPage == 'CollabFeature'){loadCollabFeature();}
             //calendar
             else if(savedPage == 'ArtistCalendar'){loadArtistCalendar();}
         }
@@ -1203,26 +1203,49 @@
             });
     });
 
-
-    //enter collab feature view
     document.getElementById('enter-collabFeature').addEventListener('click', function () {
-        sessionStorage.setItem('currentPage', 'Collab');
+        sessionStorage.setItem('currentPage', 'CollabFeature');
         loadCollabFeature();
-    });
+        });
 
     function loadCollabFeature(){
-        document.querySelector('.main').style.display = 'none'; // Hide main content
-        document.getElementById('tempoToolView').style.display = 'none'; // Hide tempotool view
-        document.getElementById('ScaleDisplayView').style.display = 'none'; // hide scale display view
-        document.getElementById('CollabFeatureView').style.display = 'block'; //show collab feature
-        document.getElementById('artistProfileCalendarView').style.display = "none";
-        document.getElementById('BingoBoardView').style.display = "none";
-        document.getElementById('usageAnalysisDashboardView').style.display = "none";
-        document.getElementById('artistPortfolioView').style.display = "none";
-        var username = document.getElementById("username").value;
-        logFeatureUsage(username, "Collab Feature");
-    };
+        //enter collab feature view
+        //resetPageTimer("Collab Feature Feature");
+
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #priceRangeSortingView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #artistProfileCalendarView').forEach(el => {
+            el.style.display = 'none';
+        });
+            const container = document.getElementById('CollabFeatureView');
+            container.style.display = 'block';
+            sessionStorage.setItem('currentPage', 'Main');
+
+            fetch('CollabFeature/CollabFeature.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load Collab Feature HTML.');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    container.innerHTML = html;
+
+                    // Initialize JavaScript functionalities after HTML is loaded
+                    const jsScript = document.createElement('script');
+                    jsScript.src = '/CollabFeature/CollabFeature.js'; // Ensure this path is correct
+                    jsScript.onload = function () {
+                        setupCollabFeature();
+                        // JavaScript file loaded and executed
+                    };
+                    jsScript.onerror = function () {
+                        console.error('Failed to load CollabFeature JS.');
+                    };
+                    document.body.appendChild(jsScript);  // Append and execute after HTML content is loaded
+                })
+                .catch(error => {
+                    console.error('Error loading CollabFeature View:', error);
+                });
+     };
+    
 
     startPageTimer();
 });
-
