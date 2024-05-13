@@ -6,7 +6,9 @@ var baseUrl = 'https://themusicali.com:5000';
 function loadDetail(skuNumber, option) {
     //const params = new URLSearchParams(window.location.search);
     const sku = skuNumber;
-
+    const idToken = sessionStorage.getItem('idToken');
+    const accessToken = sessionStorage.getItem('accessToken');
+    const username = sessionStorage.getItem('username');
     if (option == 1) {
         document.querySelector('.buying_option').style.display = 'block';
     } else {
@@ -18,7 +20,14 @@ function loadDetail(skuNumber, option) {
         console.log('No SKU readed from the view. Showing item detail functionalities will be disabled.');
     } else {
         fetchItemDetails(sku); // Fetch details only if SKU is available
-        setupBuyOrOfferButtonHandlers(sku); // Setup button handlers that require the SKU
+        if (!idToken || !accessToken || !username) {
+            alert("Please login to access buying feature!!!");
+            document.getElementById('buyButton').style.display = 'none';
+            document.getElementById('offerPriceButton').style.display = 'none';
+        } else {
+            setupBuyOrOfferButtonHandlers(sku); // Setup button handlers that require the SKU
+        }
+        
     }
 };
 
