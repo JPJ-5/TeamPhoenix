@@ -25,7 +25,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             {
                 connection.Open();
 
-                string sql = "SELECT Username FROM ArtistProfile";
+                string sql = "SELECT Username FROM ArtistProfile WHERE ArtistCollabSearchVisibility = true";
 
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
