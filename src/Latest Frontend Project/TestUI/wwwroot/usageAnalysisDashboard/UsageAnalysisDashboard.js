@@ -1,7 +1,4 @@
-﻿var baseUrl = 'https://themusicali.com:5000';
-//var baseUrl = 'http://localhost:8080';
-
-var monthsInTimespan = "";
+﻿var monthsInTimespan = "";
 function setMonthsInTimespan() {
     monthsInTimespan = document.getElementById('monthsInTimespan').value
 }
@@ -23,7 +20,7 @@ function getLoginInTimespan() {
     var results = document.getElementById('login-results-container')
     var username = document.getElementById("username").value;
     monthsInTimespan = document.getElementById('monthsInTimespan').value
-    let url = `${baseUrl}/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetLoginAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
+    let url = `http://localhost:8080/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetLoginAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
     fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -113,7 +110,7 @@ function getRegistrationInTimespan() {
     var results = document.getElementById('registration-results-container')
     var username = document.getElementById("username").value;
     monthsInTimespan = document.getElementById('monthsInTimespan').value
-    let url = `${baseUrl}/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetRegistrationAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
+    let url = `http://localhost:8080/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetRegistrationAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
     fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -202,7 +199,7 @@ function getGigsCreatedInTimespan() {
     var results = document.getElementById('gigs-created-results-container')
     var username = document.getElementById("username").value;
     monthsInTimespan = document.getElementById('monthsInTimespan').value
-    let url = `${baseUrl}/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetGigsCreatedAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
+    let url = `http://localhost:8080/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetGigsCreatedAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
     fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -291,7 +288,7 @@ function getItemsSoldInTimespan() {
     var results = document.getElementById('items-sold-results-container')
     var username = document.getElementById("username").value;
     monthsInTimespan = document.getElementById('monthsInTimespan').value
-    let url = `${baseUrl}/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetItemsSoldAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
+    let url = `http://localhost:8080/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetItemsSoldAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
     fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -318,7 +315,7 @@ function getPageLengthInTimespan() {
     var results = document.getElementById('page-length-results-container')
     var username = document.getElementById("username").value;
     monthsInTimespan = document.getElementById('monthsInTimespan').value
-    let url = `${baseUrl}/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetLongestPageViewAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
+    let url = `http://localhost:8080/UsageAnalysisDashboard/api/UsageAnalysisDashboardGetLongestPageViewAPI?username=${username}&monthsInTimeSpan=${monthsInTimespan}`;
     fetch(url)
         .then(response => response.json())
         .then(data => {

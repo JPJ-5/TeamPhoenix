@@ -1,7 +1,4 @@
-﻿var baseUrl = 'https://themusicali.com:5000';
-//var baseUrl = 'http://localhost:8080';
-
-document.addEventListener('DOMContentLoaded', function () {
+﻿document.addEventListener('DOMContentLoaded', function() {
 
 
     // Add event listener to "Send A Request" button
@@ -42,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             receiverUsername: receiver
         };
 console.log(payload)
-        fetch(`${baseUrl}/CollabFeature/api/SendRequestAPI`, {
+        fetch('http://localhost:8080/CollabFeature/api/SendRequestAPI', {
 method: 'POST',
             headers:
     {
@@ -101,7 +98,7 @@ method: 'POST',
 
 console.log(payload)
 
-        fetch(`${baseUrl}/CollabFeature/api/AcceptRequestAPI`, {
+        fetch('http://localhost:8080/CollabFeature/api/AcceptRequestAPI', {
 method: 'POST',
             headers:
     {
@@ -149,7 +146,7 @@ method: 'POST',
     idToken = sessionStorage.getItem("idToken");
     accessToken = sessionStorage.getItem("accessToken");
 
-        fetch(`${baseUrl}/CollabFeature/api/LoadCollabsAPI`,{
+    fetch('http://localhost:8080/CollabFeature/api/LoadCollabsAPI',{
     method: 'GET',
             headers:
         {
@@ -222,7 +219,7 @@ function showAvailUsers(userSearch)
     table.innerHTML = '';
 
     // Make AJAX request to backend API
-    fetch(`${baseUrl}/CollabFeature/api/DisplayAvailableUsersAPI`,{
+    fetch('http://localhost:8080/CollabFeature/api/DisplayAvailableUsersAPI',{
     method: 'GET',
             headers:
         {

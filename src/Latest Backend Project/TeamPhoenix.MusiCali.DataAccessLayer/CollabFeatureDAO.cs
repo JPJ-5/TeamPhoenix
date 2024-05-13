@@ -1,4 +1,4 @@
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 //using TeamPhoenix.MusiCali.Services;
 using TeamPhoenix.MusiCali.DataAccessLayer.Models;
@@ -11,17 +11,18 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
 
         public static List<string> SearchUsers(string userSearch)
         {
+            string search = userSearch + '%';
             List<string> users = new List<string>();
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
 
-                string sql = "SELECT Username FROM ArtistProfile";
+                string sql = "SELECT Username FROM UserProfile WHERE Username != @userSearch";
 
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@userSearch", userSearch);
+                    command.Parameters.AddWithValue("@userSearch", search);
 
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
@@ -35,11 +36,10 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             }
             return users;
         }
-
         //Create fuction to retrieve email from ArtistProfile using Username
         public static string GetEmailByUsername(string username)
         {
-            string ? email = null;
+            string? email = null;
 
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
@@ -169,14 +169,6 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
         }
 
 
-
-
-
-
-
-
-
-
         //creates function to get all collab tables from the currently logged- in user
 
         public static List<string> GetSentCollabsByUsername(string username)
@@ -202,9 +194,9 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
             using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
-                
+
                 string sql = "SELECT DISTINCT Senderusername FROM Collab WHERE RecieverUsername = @username AND Accepted = FALSE";
-                
+
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@username", username);
@@ -240,7 +232,7 @@ namespace TeamPhoenix.MusiCali.DataAccessLayer
                 string sentQuery = "SELECT SenderUsername FROM Collab WHERE SenderUsername != @username AND Accepted = true";
                 string receivedQuery = "SELECT DISTINCT RecieverEmail FROM Collab WHERE RecieverUsername != @username AND Accepted = true";
 
-                sentCollabs = RetrieveCollabs(connection,sentQuery, username);
+                sentCollabs = RetrieveCollabs(connection, sentQuery, username);
                 receivedCollabs = RetrieveCollabs(connection, receivedQuery, username);
 
                 accepted.AddRange(sentCollabs);

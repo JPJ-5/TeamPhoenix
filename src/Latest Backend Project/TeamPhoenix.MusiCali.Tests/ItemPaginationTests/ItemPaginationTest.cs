@@ -118,7 +118,7 @@ namespace TeamPhoenix.MusiCali.Tests
             // Arrange
             var listed = "true";
             var offerable = "true";
-            var userHash = "e12a8f14d3623f5206c060b0d1fba3d7105afc5062d13173aa17866d3b53b0d6";
+            var userHash = "802ad2f9bdd744caeef352932e1d78d9b2bc54dd4b0807965657798d463ce948";
             var pageNum = 1;
             var pageSize = 2;
             InsertDummyData("TEST58095566", userHash, listed: true, offerable: true);
@@ -138,7 +138,7 @@ namespace TeamPhoenix.MusiCali.Tests
             // Arrange
             var listed = "true";
             string? offerable = null;
-            var userHash = "e12a8f14d3623f5206c060b0d1fba3d7105afc5062d13173aa17866d3b53b0d6";
+            var userHash = "802ad2f9bdd744caeef352932e1d78d9b2bc54dd4b0807965657798d463ce948";
             var pageNum = 1;
             var pageSize = 2;
             InsertDummyData("TESTSKU12895", userHash, listed: true, offerable: false);
@@ -159,7 +159,7 @@ namespace TeamPhoenix.MusiCali.Tests
             // Arrange
             string? listed = null;
             string? offerable = null;
-            var userHash = "e12a8f14d3623f5206c060b0d1fba3d7105afc5062d13173aa17866d3b53b0d6";
+            var userHash = "802ad2f9bdd744caeef352932e1d78d9b2bc54dd4b0807965657798d463ce948";
             var pageNum = 1;
             var pageSize = 2;
             InsertDummyData("TESTSKU1hj45", userHash, listed: false, offerable: false);

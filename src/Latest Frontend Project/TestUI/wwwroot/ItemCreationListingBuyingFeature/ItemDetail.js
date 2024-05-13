@@ -1,5 +1,5 @@
 ﻿
-//var baseUrl = 'https://themusicali.com:5000';
+////var baseUrl = 'https://themusicali.com:5000';
 var baseUrl = 'http://localhost:8080';
 
 
@@ -22,16 +22,6 @@ function loadDetail(skuNumber, option) {
     }
 };
 
-function setupNonSkuPageHandlers() {
-    // Setup navigation links or buttons
-    document.querySelectorAll('.nav-button').forEach(button => {
-        button.addEventListener('click', function () {
-            const section = document.querySelector(this.getAttribute('data-target'));
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    });
 
     // Initialize any tooltips on the page
     document.querySelectorAll('[data-tooltip]').forEach(element => {
@@ -69,7 +59,6 @@ function setupNonSkuPageHandlers() {
     });
 
     // Maybe add more general event listeners or setups as needed
-}
 
 document.addEventListener('DOMContentLoaded', setupNonSkuPageHandlers);
 //start adding code here
@@ -120,8 +109,6 @@ function fetchItemDetails(sku) {
         });
 }
 
-
-
 function updatePageContent(item) {
     // Update main item information
     document.getElementById('itemName').textContent = item.name;
@@ -141,14 +128,11 @@ function updatePageContent(item) {
             if (thumbnail) {
                 if (url) {
                     thumbnail.src = url;
-                    thumbnail.alt = `Image ${index + 1} of ${item.name}`;
-                    thumbnail.style.display = ''; // Reset to default display style if hidden previously
+                    thumbnail.alt = `Image ${index + 1} of ${item.name}`; // Note the index+2 for correct labeling
                     thumbnail.addEventListener('click', function () {
                         mainImage.src = thumbnail.src; // Update main image on thumbnail click
                         mainImage.alt = thumbnail.alt;
                     });
-                } else {
-                    thumbnail.style.display = 'none'; // Hide the thumbnail if the URL is null
                 }
             }
         });
@@ -157,21 +141,14 @@ function updatePageContent(item) {
     // Update thumbnails for videos
     item.videoUrls.forEach((url, index) => {
         const videoThumbnail = document.getElementById(`Video${index + 1}`);
-        if (videoThumbnail) {
-            if (url) {
-                if (videoThumbnail.children.length > 0) {
-                    videoThumbnail.children[0].src = url; // Assuming the first child is the <source> element
-                    videoThumbnail.load(); // Reload the video element to update the source
-                    videoThumbnail.style.display = ''; // Reset to default display style if hidden previously
-                    videoThumbnail.onclick = () => {
-                        mainImage.style.display = 'none'; // Hide the main image
-                        videoThumbnail.style.display = 'block'; // Display the video
-                        videoThumbnail.play(); // Auto-play the video
-                    };
-                }
-            } else {
-                videoThumbnail.style.display = 'none'; // Hide the video thumbnail if the URL is null
-            }
+        if (videoThumbnail && videoThumbnail.children.length > 0) {
+            videoThumbnail.children[0].src = url; // Assuming the first child is the <source> element
+            videoThumbnail.load(); // Important to reload the video element to update the source
+            videoThumbnail.onclick = () => {
+                mainImage.style.display = 'none'; // Hide the main image
+                videoThumbnail.style.display = 'block'; // Display the video
+                videoThumbnail.play(); // Auto-play the video
+            };
         }
     });
 }
@@ -184,6 +161,15 @@ function showOfferableItemDetails(item) {
 }
 
 
+function setupButtonHandlers(sku) {
+    document.getElementById('buyButton').addEventListener('click', function () {
+        confirmPurchase(sku, false);
+    });
+
+    document.getElementById('offerPriceButton').addEventListener('click', function () {
+        confirmPurchase(sku, true);
+    });
+}
 
 
 
