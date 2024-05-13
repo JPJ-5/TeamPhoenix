@@ -7,7 +7,7 @@ document.getElementById('itemCreationBtn').addEventListener('click', function ()
     const idToken = sessionStorage.getItem('idToken');
     const accessToken = sessionStorage.getItem('accessToken');
     const username = sessionStorage.getItem('username');
-   
+
     if (!idToken || !accessToken || !username) {
         alert("Please login to use this feature!!!");
     }
@@ -29,6 +29,7 @@ function hideAllSectionsFromCraft() {
         document.getElementById('itemDetailsContainer').style.display = 'none';
     }
 }
+
 
 document.getElementById('creationForm').addEventListener('submit', function (event) {
     event.preventDefault(); // Prevent the traditional form submission
@@ -95,32 +96,19 @@ function validateDescription() {
 }
 
 
+
 document.getElementById('creationForm').addEventListener('submit', async function (event) {
-
     event.preventDefault(); // Prevent the default form submission
-
-    
     const username = sessionStorage.getItem('username');
     const idToken = sessionStorage.getItem("idToken");
     const accessToken = sessionStorage.getItem("accessToken");
     // FormData to hold the file data for the first call
     var formData = new FormData(event.target);
     var images = document.querySelector('[name="image[]"]').files;
-    var videos = document.querySelector('[name="video[]"]').files;
-
-    if (images.length > 5) {
-        alert('You can only upload up to 5 images.');
-        return; // Stop the function if more than 5 images are uploaded
-    }
-
-    if (videos.length > 2) {
-        alert('You can only upload up to 2 videos.');
-        return; // Stop the function if more than 2 videos are uploaded
-    }
-
     Array.from(images).forEach(file => {
         formData.append('files', file);
     });
+    var videos = document.querySelector('[name="video[]"]').files;
     Array.from(videos).forEach(video => {
         formData.append('files', video);
     });
