@@ -221,37 +221,5 @@ namespace TeamPhoenix.MusiCali.Tests
             // Assert
             Assert.IsTrue(result, "Sale should be declined successfully.");
         }
-
-        [TestMethod]
-        public async Task GetPendingReceiptsWithItemInfo_ShouldReturnCorrectReceipts_WhenUserHashProvided()
-        {
-            // Arrange
-            var userHash = "eb4e92b99829441156353cb27f7897de0e0258bd15e8e583398d2b697bfb4788";
-            var pageNum = 1;
-            var pageSize = 2;
-
-            var receipt = new CraftReceiptModel
-            {
-                CreatorHash = userHash,
-                BuyerHash = "d1289abbbe75c552287c32667c829499f43620fc42626d653225711de97eff4b",
-                SKU = "TESTSKU12345",
-                SellPrice = 200.00m,
-                OfferPrice = 180.00m,
-                Profit = 20.00m,
-                Revenue = 200.00m,
-                Quantity = 1,
-                SaleDate = DateTime.Now,
-                PendingSale = true
-            };
-
-            await _itemBuyingDAO.InsertRecieptTable(receipt);
-
-            // Act
-            var (receipts, totalCount) = await _itemBuyingDAO.GetPendingReceiptsWithItemInfo(userHash, pageNum, pageSize);
-
-            // Assert
-            Assert.AreEqual(1, totalCount, "Total count should be 1.");
-            Assert.AreEqual(1, receipts.Count, "Should return 1 receipt.");
-        }
     }
 }

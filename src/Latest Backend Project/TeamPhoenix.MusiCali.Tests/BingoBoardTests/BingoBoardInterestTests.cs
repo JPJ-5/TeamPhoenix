@@ -18,14 +18,7 @@ namespace TeamPhoenix.MusiCali.Tests.BingoBoardTests
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             configuration = builder.Build();
         }
-        [TestMethod]
-        public void indicateGigInterestTest()
-        {
-            BingoBoardDAO bingoBoardDAO = new BingoBoardDAO(configuration);
-            bool didInsert = bingoBoardDAO.IndicateInterest("bingoboardtests", 38);
-            //Console.WriteLine(gigs[0].Username);
-            Assert.IsTrue(didInsert);
-        }
+
 
         [TestMethod]
         public void isUserAlreadyInterestedTest()

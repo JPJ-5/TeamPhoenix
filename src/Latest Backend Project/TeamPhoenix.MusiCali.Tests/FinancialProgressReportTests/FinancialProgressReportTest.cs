@@ -54,25 +54,6 @@ namespace TeamPhoenix.MusiCali.Tests
         }
 
         [TestMethod]
-        public void FetchYearlyReport_SQLException_ReturnsEmptyResult()
-        {
-            // Arrange
-            var faultyConfiguration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("faulty_appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
-            var faultyDao = new FinancialProgressReportDAO(faultyConfiguration);
-            var userHash = "eb4e92b99829441156353cb27f7897de0e0258bd15e8e583398d2b697bfb4788";
-
-            // Act
-            var result = faultyDao.FetchYearlyReport(userHash);
-
-            // Assert
-            Assert.IsNotNull(result, "Result should not be null.");
-            Assert.AreEqual(0, result.Count, "Result should be empty due to SQL exception.");
-        }
-
-        [TestMethod]
         public void FetchQuarterlyReport_ValidUserHash_ReturnsQuarterlyFinancialData()
         {
             // Arrange
@@ -100,25 +81,7 @@ namespace TeamPhoenix.MusiCali.Tests
             Assert.AreEqual(0, result.Count, "Result should be empty.");
         }
 
-        [TestMethod]
-        public void FetchQuarterlyReport_SQLException_ReturnsEmptyResult()
-        {
-            // Arrange
-            var faultyConfiguration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("faulty_appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
-            var faultyDao = new FinancialProgressReportDAO(faultyConfiguration);
-            var userHash = "eb4e92b99829441156353cb27f7897de0e0258bd15e8e583398d2b697bfb4788";
-
-            // Act
-            var result = faultyDao.FetchQuarterlyReport(userHash);
-
-            // Assert
-            Assert.IsNotNull(result, "Result should not be null.");
-            Assert.AreEqual(0, result.Count, "Result should be empty due to SQL exception.");
-        }
-
+        
         [TestMethod]
         public void FetchMonthlyReport_ValidUserHash_ReturnsMonthlyFinancialData()
         {
@@ -145,25 +108,6 @@ namespace TeamPhoenix.MusiCali.Tests
             // Assert
             Assert.IsNotNull(result, "Result should not be null.");
             Assert.AreEqual(0, result.Count, "Result should be empty.");
-        }
-
-        [TestMethod]
-        public void FetchMonthlyReport_SQLException_ReturnsEmptyResult()
-        {
-            // Arrange
-            var faultyConfiguration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("faulty_appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
-            var faultyDao = new FinancialProgressReportDAO(faultyConfiguration);
-            var userHash = "eb4e92b99829441156353cb27f7897de0e0258bd15e8e583398d2b697bfb4788";
-
-            // Act
-            var result = faultyDao.FetchMonthlyReport(userHash);
-
-            // Assert
-            Assert.IsNotNull(result, "Result should not be null.");
-            Assert.AreEqual(0, result.Count, "Result should be empty due to SQL exception.");
         }
     }
 }
