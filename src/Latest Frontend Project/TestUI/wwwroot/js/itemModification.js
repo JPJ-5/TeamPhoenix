@@ -297,7 +297,7 @@ async function updateItem(item) {
 
     if (!itemModificationResponse.ok) {
         alert('Error occurred while modifying item. Please try again!');
-        let text = await itemCreationResponse.text();
+        let text = await itemModificationResponse.text();
         throw new Error(`Error during item creation: ${text}`);
     } else {
         alert('Your item is successfully modified to CraftVerify!');
