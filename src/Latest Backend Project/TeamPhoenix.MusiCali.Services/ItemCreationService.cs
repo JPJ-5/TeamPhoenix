@@ -98,36 +98,48 @@ namespace TeamPhoenix.MusiCali.Services
 
             if (IsNullString(name) || !IsValidLength(name, 1, 250) || !IsValidDigit(name, @"^[a-zA-Z0-9@. -]*$"))
             {
+                Console.WriteLine("error with name");
                 return false;
                 throw new ArgumentException("Invalid item name provided. Retry again or contact system administrator");
             }
             if (IsNullString(creatorHash) || !IsValidLength(creatorHash, 5, 64) || !IsValidDigit(creatorHash, @"^[a-zA-Z0-9@]"))
             {
+                Console.WriteLine("error with creatorHash");
                 return false;
                 throw new ArgumentException("Invalid Creator hash provided. Retry again or contact system administrator");
             }
             if (IsNullString(desc) || !IsValidLength(desc, 1, 3000) || !IsValidDigit(desc, @"^[a-zA-Z0-9@. -]*$"))
             {
+                Console.WriteLine("error with desc");
+
                 return false;
                 throw new ArgumentException("Invalid item description provided. Retry again or contact system administrator");
             }
             if (!IsValidPrice(price))
             {
+                Console.WriteLine("error with price");
+
                 return false;
                 throw new ArgumentException("Invalid item price provided. Retry again or contact system administrator");
             }
             if (stock < 0 || stock > 1000)
             {
+                Console.WriteLine("error with stock");
+
                 return false;
                 throw new ArgumentException("Invalid item stock provided. Retry again or contact system administrator");
             }
             if (!IsValidPrice(cost))
             {
+                Console.WriteLine("error with cost");
+
                 return false;
                 throw new ArgumentException("Invalid item cost provided. Retry again or contact system administrator");
             }
             if (IsNullString(sellerContact) || !IsValidLength(sellerContact, 1, 300) || !IsValidDigit(sellerContact, @"^[a-zA-Z0-9@. -]*$"))
             {
+                Console.WriteLine("error with contact");
+
                 return false;
                 throw new ArgumentException("Invalid seller Contact provided. Retry again or contact system administrator");
             }
@@ -139,8 +151,10 @@ namespace TeamPhoenix.MusiCali.Services
                 //validate the video and image name, type, size, extension
 
                 List<string> uploadedUrls = await UploadFolderFilesAsync(creatorHash, sku);          // upload file from sandbox to s3, return the file names.
+                Console.WriteLine("error with uploadfile to s3");
 
-            string userFolderPath = Path.Combine(uploadFolderPath, creatorHash);
+
+                string userFolderPath = Path.Combine(uploadFolderPath, creatorHash);
 
                 if (DeleteSandboxFolder(userFolderPath))
                 {
@@ -192,6 +206,7 @@ namespace TeamPhoenix.MusiCali.Services
         {
             string userFolderPath = Path.Combine(uploadFolderPath, userHash);
             DirectoryInfo dir = new DirectoryInfo(userFolderPath);
+            
 
             if (!dir.Exists)
             {
@@ -200,6 +215,7 @@ namespace TeamPhoenix.MusiCali.Services
             }
             if (string.IsNullOrEmpty(bucketName))
             {
+                Console.WriteLine("error with bucketname");
                 throw new ArgumentException("S3 bucket name is invalid.");
             }
 

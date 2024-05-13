@@ -68,12 +68,13 @@ namespace TeamPhoenix.MusiCali.Controllers
                     //HttpResponseMessage response = await client.GetAsync(uploadSandboxToS3ApiUrl);
                     return Ok(new { Message = "Item created successfully", Sku = sku }); // Changed from JsonResult to IActionResult with Ok result
                 }
-                return BadRequest(false); 
+                return BadRequest(new { Message = "!isSuccess." });
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-                return BadRequest(false);
+                Console.WriteLine(ex.ToString() + "in api catch");
+                return BadRequest(new { Message = "An error occurred while creating the item.", Error = ex.Message });
+
             }
         }
     }
