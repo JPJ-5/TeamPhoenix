@@ -18,7 +18,7 @@ namespace AccCreationAPI.Controllers
             _configuration = configuration;
         }
 
-        [AllowAnonymous]
+
         [HttpPost("api/GetJwtAPI")]
         public IActionResult Login([FromBody] LoginModel login)
         {
@@ -37,10 +37,6 @@ namespace AccCreationAPI.Controllers
 
         }
 
-
-
-
-        [AllowAnonymous]
         [HttpPost("api/CheckUsernameAPI")]
         public IActionResult CheckUsernameExist([FromBody] LoginModel login)
         {
@@ -52,8 +48,5 @@ namespace AccCreationAPI.Controllers
             }
             return BadRequest(false); // Changed from JsonResult to IActionResult with Ok result
         }
-
-        //[AllowAnonymous]
-        //[HttpPost("/secure/createIDToken")]
     }  
 }
