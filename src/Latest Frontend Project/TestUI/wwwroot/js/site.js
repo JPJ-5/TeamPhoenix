@@ -977,9 +977,9 @@
     });
 
     //Price Range Sorting
-    document.getElementById('enter-priceRangeSorting').addEventListener('click', function () {
+    document.getElementById('craftVerify').addEventListener('click', function () {
         // Hide other parts of the page
-        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView').forEach(el => {
+        document.querySelectorAll('.main, #tempoToolView, #ScaleDisplayView, #usageAnalysisDashboardView, #CollabFeatureView, #inventoryStockView, #BingoBoardView, #financialProgressReportView, #artistPortfolioView, #itemsListingContainer, #itemCreationForm, #itemModificationContainer, #itemModificationForm').forEach(el => {
             el.style.display = 'none';
         });
 
@@ -1019,22 +1019,7 @@
             .catch(error => {
                 // Failed to load HTML content
             });
-            
-        // Hide the Price Range Sorting button
-        const priceRangeSortingButton = document.getElementById('enter-priceRangeSorting');
-        priceRangeSortingButton.style.display = 'none';
-
     });
-    // Show the button again if the container is hidden
-    function checkContainerVisibility() {
-        const container = document.getElementById('priceRangeSortingView');
-        const priceRangeSortingButton = document.getElementById('enter-priceRangeSorting');
-        if (container.style.display === 'none') {
-            priceRangeSortingButton.style.display = 'block';
-        } else {
-            priceRangeSortingButton.style.display = 'none';
-        }
-    }
 
     document.getElementById('enter-ArtistPortfolioView').addEventListener('click', function () {
         // Hide other parts of the page
