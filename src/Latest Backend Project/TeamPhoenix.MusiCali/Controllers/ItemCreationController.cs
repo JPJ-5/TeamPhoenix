@@ -49,7 +49,11 @@ namespace TeamPhoenix.MusiCali.Controllers
         public async Task<IActionResult> CreateAnItem([FromBody] ItemCreationModel item, [FromHeader] string username)
         {
             try
-            { 
+            {
+                if (item.VideoUrls!.Count > 2 || item.ImageUrls!.Count > 5)
+                {
+                    return BadRequest(new { Message = "You can only include up to 5 images + 2 videos" });
+                }
                 ItemCreationService iC = new ItemCreationService(_s3Client, configuration);
                 string creatorHash = recoverUserDAO.GetUserHash(username);
                 string sku = itemCreationService.GenerateSku(12);

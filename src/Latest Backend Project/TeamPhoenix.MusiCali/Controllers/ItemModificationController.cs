@@ -37,6 +37,12 @@ namespace TeamPhoenix.MusiCali.Controllers
         {
             try
             {
+
+                if (item.VideoUrls!.Count > 2 || item.ImageUrls!.Count > 5)
+                {
+                    return BadRequest(new { Message = "You can only include up to 5 images and 2 videos." });
+                }
+
                 //try to validate, scan virus of the files
                 if (string.IsNullOrWhiteSpace(username))
                 {
