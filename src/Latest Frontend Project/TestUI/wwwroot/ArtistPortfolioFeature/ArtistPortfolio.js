@@ -1,4 +1,3 @@
-
 var baseUrl = 'https://themusicali.com:5000';
 //var baseUrl = 'http://localhost:8080';
 

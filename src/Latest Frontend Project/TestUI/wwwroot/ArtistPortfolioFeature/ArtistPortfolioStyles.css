@@ -13,10 +13,11 @@ h1 {
     margin-top: 100px; /* Smaller margin */
 }
 
-#file-upload-0 {
+#file-upload-0 img {
     grid-column: 1; /* First column */
     grid-row: 1; /* First row */
-    margin-top: 72px; /* Smaller margin */
+    width: 300px;
+    height: 300px;
 }
 
 table.slotsTable {

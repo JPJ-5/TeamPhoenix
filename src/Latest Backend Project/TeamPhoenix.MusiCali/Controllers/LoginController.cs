@@ -6,10 +6,8 @@ using TeamPhoenix.MusiCali.Login;
 
 namespace AccCreationAPI.Controllers
 {
-    [Authorize]
     [Route("[controller]")]
     [ApiController]
-
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -18,12 +16,13 @@ namespace AccCreationAPI.Controllers
             _configuration = configuration;
         }
 
-        [AllowAnonymous]
+
         [HttpPost("api/GetJwtAPI")]
         public IActionResult Login([FromBody] LoginModel login)
         {
-           
-            var tokens = UserLogin.AppLogin(login, _configuration);
+            // Retrieve the user's IP address
+            var ip = HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "IP Address Not Available";
+            var tokens = UserLogin.AppLogin(login, _configuration, ip);
             if (tokens.Success == true)
             {
                 Dictionary<string, string> Tokens = new Dictionary<string, string>();
@@ -37,8 +36,6 @@ namespace AccCreationAPI.Controllers
 
         }
 
-
-        [AllowAnonymous]
         [HttpPost("api/CheckUsernameAPI")]
         public IActionResult CheckUsernameExist([FromBody] LoginModel login)
         {
@@ -50,8 +47,5 @@ namespace AccCreationAPI.Controllers
             }
             return BadRequest(false); // Changed from JsonResult to IActionResult with Ok result
         }
-
-        //[AllowAnonymous]
-        //[HttpPost("/secure/createIDToken")]
     }  
 }

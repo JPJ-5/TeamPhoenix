@@ -44,7 +44,7 @@ namespace TeamPhoenix.MusiCali.Controllers
             Result gigResult = artistCalendarService.DeleteGigService(gigDataToDelete.Username, gigDataToDelete.DateOfGig);
             if (gigResult.Success)
             {
-                return Ok();
+                return Ok(gigResult);
             }
             else
             {

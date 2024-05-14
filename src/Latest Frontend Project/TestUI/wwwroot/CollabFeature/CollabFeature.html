@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <!-- Page for collab feature feature -->
+    <div id="CollabFeatureViewing" style="display: block;">
+        <p class="neon-text">Collab Feature</p>
+        <p id="enter-collabFeature"></p>
+        <div id="feedback-box"></div>
+        <div class="create-collabRequest">
+            <!--<span class="popuptext" id="myPopup"></span>-->
+            <label for="receiver">Look up a username to send a request to:</label>
+            <input type="text" id="receiver" placeholder="Insert Username Here">
+            <div class="popuptext" id="createPopup">
+                <button id="create-collabRequest">Send A Request</button>
+            </div>
+        </div>
+        <div class="accept-collabRequest">
+            <!-- Move onclick event to the outer button -->
+            <label for="sender">Look up a username to accept a request:</label>
+            <input type="text" id="sender" placeholder="Insert Username Here">
+            <div class="popuptext" id="acceptPopup">
+                <button id="accept-collabRequest">Accept A Request</button>
+            </div>
+        </div>
+        <select id="user-options">
+            <option value="View Sent Requests">View Sent</option>
+            <option value="View Received Requests">View Received</option>
+            <option value="View Accepted Requests">View Accepted</option>
+        </select>
+        <div id="view-requests" style="margin-top: 20px;">
+            <button id="view-requests">See Your Collabs</button>
+        </div>
+
+        <div id="show-availUsers">
+            <button id="show-available-users">Show Available Users</button>
+        </div>
+    
+        <!-- Table to display available users -->
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Action</th> <!-- Add a new header for the action button -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
