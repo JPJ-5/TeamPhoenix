@@ -1,5 +1,5 @@
-﻿var baseUrl = 'https://themusicali.com:5000';
-//var baseUrl = 'http://localhost:8080';
+﻿//var baseUrl = 'https://themusicali.com:5000';
+var baseUrl = 'http://localhost:8080';
 
 //function disableSpecificButtonsIfMissingCredentials() {
 //    // Retrieve tokens and username from sessionStorage

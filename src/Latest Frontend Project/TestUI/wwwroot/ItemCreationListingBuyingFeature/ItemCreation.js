@@ -1,5 +1,5 @@
-﻿var baseUrl = 'https://themusicali.com:5000';
-//var baseUrl = 'http://localhost:8080';
+﻿//var baseUrl = 'https://themusicali.com:5000';
+var baseUrl = 'http://localhost:8080';
 document.getElementById('itemCreationBtn').addEventListener('click', function () {
 
     hideAllSectionsFromCraft();
@@ -151,11 +151,12 @@ document.getElementById('creationForm').addEventListener('submit', async functio
         console.log('Files uploaded to sandbox:', uploadData);
 
 
-        let images = "string";
-        let videos = "string";
+        //let images = "string";
+        //let videos = "string";
         // 2nd Fetch Call to item creation 
         var itemCreatePath = `${baseUrl}/api/ItemCreation/CreateAnItem`;
-
+        console.log(images);
+        console.log(videos);
         const name = formData.get('name');
         const price = formData.get('price');
         const description = formData.get('description');
