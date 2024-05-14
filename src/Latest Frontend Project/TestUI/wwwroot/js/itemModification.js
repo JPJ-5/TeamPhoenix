@@ -256,27 +256,6 @@ function setupFormHandlers(sku) {
     });
 }
 
-function validateDescription() {
-    var description = document.getElementById('description');
-    var errorDiv = document.getElementById('descriptionError');
-    var maxLength = 2000;  // Max length as per your form setup
-
-    // Check for invalid characters
-    if (!/^[a-zA-Z0-9 ]*$/.test(description.value)) {
-        errorDiv.textContent = "Description can only include alphanumeric characters and spaces.";
-        description.value = description.value.replace(/[^a-zA-Z0-9 ]/g, '');
-    } else {
-        errorDiv.textContent = '';
-    }
-
-    // Check for length violation
-    if (description.value.length > maxLength) {
-        errorDiv.textContent = "Description must not exceed 2000 characters.";
-        // Optionally, trim the text to the maximum length
-        description.value = description.value.substring(0, maxLength);
-    }
-}
-
 // Function to upload files to the backend sandbox
 async function uploadFilesToSandbox(formData) {
     const username = sessionStorage.getItem('username');
