@@ -1,4 +1,5 @@
-
+var baseUrl = 'https://themusicali.com:5000';
+//var baseUrl = 'http://localhost:8080';
 
 // set up pending sale button to call list of pending sale
 document.getElementById('pendingSaleBtn').addEventListener('click', function () {
