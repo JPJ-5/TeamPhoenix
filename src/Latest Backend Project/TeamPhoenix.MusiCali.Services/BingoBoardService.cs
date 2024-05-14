@@ -26,58 +26,42 @@ namespace TeamPhoenix.MusiCali.Services
             string context;
             string userHash;
 
-            try
+            GigSet? gigs = bingoBoardDAO.ViewGigSummary(numberOfGigs, username, offset);
+            int gigSummarySize = gigs!.GigSummaries!.Count;
+
+            if (gigSummarySize == 0)
             {
-                GigSet? gigs = bingoBoardDAO.ViewGigSummary(numberOfGigs, username, offset);
-                int gigSummarySize = gigs!.GigSummaries!.Count;
-
-                if (gigSummarySize == 0)
-                {
-                    userHash = recoverUserDAO.GetUserHash(username);
-                    level = "Info";
-                    category = "View";
-                    context = "Failed to retrieve gigs";
-                    loggerService.CreateLog(userHash, level, category, context);
-                    return null;
-                }
-
-                    if (gigs.GigSummaries.Count == numberOfGigs)
-                {
-                    userHash = recoverUserDAO.GetUserHash(username);
-                    level = "Info";
-                    category = "View";
-                    context = $"{numberOfGigs} gigs successfully retrieved from database";
-                    loggerService.CreateLog(userHash, level, category, context);
-                }
-                else
-                {
-                    userHash = recoverUserDAO.GetUserHash(username);
-                    level = "Info";
-                    category = "View";
-                    context = $"{gigs.GigSummaries.Count} gigs successfully retrieved from database, but {numberOfGigs} were requested";
-                    loggerService.CreateLog(userHash, level, category, context);
-                }
-
-                return gigs;
+                userHash = recoverUserDAO.GetUserHash(username);
+                level = "Info";
+                category = "View";
+                context = "Failed to retrieve gigs";
+                loggerService.CreateLog(userHash, level, category, context);
+                return null;
             }
-            catch (Exception ex)
+
+            if (gigs.GigSummaries.Count == numberOfGigs)
             {
-                Console.WriteLine($"Error retrieving gig information: {ex.Message}");
-                throw;
+                userHash = recoverUserDAO.GetUserHash(username);
+                level = "Info";
+                category = "View";
+                context = $"{numberOfGigs} gigs successfully retrieved from database";
+                loggerService.CreateLog(userHash, level, category, context);
             }
+            else
+            {
+                userHash = recoverUserDAO.GetUserHash(username);
+                level = "Info";
+                category = "View";
+                context = $"{gigs.GigSummaries.Count} gigs successfully retrieved from database, but {numberOfGigs} were requested";
+                loggerService.CreateLog(userHash, level, category, context);
+            }
+
+            return gigs;
         }
 
         public int ReturnGigNum()
         {
-            try
-            {
-                return bingoBoardDAO.ReturnNumOfGigs();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error retrieving gig table size: {ex.Message}");
-                throw;
-            }
+            return bingoBoardDAO.ReturnNumOfGigs();
         }
 
         public bool IsUserInterested(string username, int gigID)
@@ -86,30 +70,16 @@ namespace TeamPhoenix.MusiCali.Services
             string category;
             string context;
             string userHash;
-            try
-            {
-                List<string>? interestedUsers = bingoBoardDAO.UserInterestList(username, gigID);
-                userHash = recoverUserDAO.GetUserHash(username);
-                level = "Info";
-                category = "View";
-                context = "User Interest list Successfully Checked";
-                loggerService.CreateLog(userHash, level, category, context);
-                if (interestedUsers != null && interestedUsers.Count > 0)
-                {
-                    return interestedUsers.Contains(username);
-                }
-                return false;
-            }
-            catch(Exception ex)
-            {
-                userHash = recoverUserDAO.GetUserHash(username);
-                level = "Info";
-                category = "View";
-                context = "Error retrieving user interest list";
-                loggerService.CreateLog(userHash, level, category, context);
-                Console.WriteLine($"Error retrieving username from interest table: {ex.Message}");
-                throw;
-            }
+
+            bool isInterested = bingoBoardDAO.IsUserInterested(username, gigID);
+
+            userHash = recoverUserDAO.GetUserHash(username);
+            level = "Info";
+            category = "View";
+            context = "User Interest Checked";
+            loggerService.CreateLog(userHash, level, category, context);
+
+            return isInterested;
         }
 
         public BingoBoardInterestMessage addUserInterest(string username, int gigID)
@@ -118,45 +88,33 @@ namespace TeamPhoenix.MusiCali.Services
             string category;
             string context;
             string userHash = recoverUserDAO.GetUserHash(username);
-            try
-            {
-                bool isUserInterested = IsUserInterested( username, gigID);
-                if(isUserInterested)
-                {
-                    level = "Info";
-                    category = "View";
-                    context = "User attempted to add to interest list while already present";
-                    loggerService.CreateLog(userHash, level, category, context);
-                    return new BingoBoardInterestMessage("User already interested", false);
-                }
-                bool putUserInGig = bingoBoardDAO.IndicateInterest( username, gigID );
-                if(putUserInGig)
-                {
-                    BingoBoardInterestMessage bbIntMsg = new("User successfully interested", true);
-                    level = "Info";
-                    category = "View";
-                    context = "User successfully added to interest list";
-                    loggerService.CreateLog(userHash, level, category, context);
-                    return bbIntMsg;
-                }
 
-                BingoBoardInterestMessage bbIntMsgErr = new("Database Error", false);
+            bool isUserInterested = IsUserInterested(username, gigID);
+            if (isUserInterested)
+            {
                 level = "Info";
                 category = "View";
-                context = "Unknown database error";
+                context = "User attempted to add to interest list while already present";
                 loggerService.CreateLog(userHash, level, category, context);
-                return bbIntMsgErr;
-
+                return new BingoBoardInterestMessage("User already interested", false);
             }
-            catch (Exception ex)
+            bool putUserInGig = bingoBoardDAO.IndicateInterest(username, gigID);
+            if (putUserInGig)
             {
-                Console.WriteLine($"Error registering user to interest table: {ex.Message}");
+                BingoBoardInterestMessage bbIntMsg = new("User successfully interested", true);
                 level = "Info";
                 category = "View";
-                context = "Unknown database error while registering to user interest table";
+                context = "User successfully added to interest list";
                 loggerService.CreateLog(userHash, level, category, context);
-                throw;
+                return bbIntMsg;
             }
+
+            BingoBoardInterestMessage bbIntMsgErr = new("Database Error", false);
+            level = "Info";
+            category = "View";
+            context = "Unknown database error";
+            loggerService.CreateLog(userHash, level, category, context);
+            return bbIntMsgErr;
         }
     }
 }

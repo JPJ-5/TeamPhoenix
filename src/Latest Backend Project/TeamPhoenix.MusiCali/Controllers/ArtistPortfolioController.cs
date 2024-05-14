@@ -30,22 +30,17 @@ namespace TeamPhoenix.MusiCali.Controllers
 
 
         [HttpGet("api/loadApi")]
-        public IActionResult LoadProfile([FromHeader] string userName)
+        public IActionResult LoadProfile([FromHeader] string Username)
         {
             try
             {
-                ArtistProfileViewModel artistProfileViewModel = artistPortfolio.LoadArtistProfile(userName);
-                if(artistProfileViewModel == new ArtistProfileViewModel())
-                {
-                    loggerService.LogSuccessFailure(userName, "Error", "Data", "ArtistPortfolio, Profile was not able to be loaded");
-                    return StatusCode(500, $"Error loading artist profile");
-                }
-                loggerService.LogSuccessFailure(userName, "Info", "View", $"ArtistPortfolio,  View successfully loaded");
+                ArtistProfileViewModel artistProfileViewModel = artistPortfolio.LoadArtistProfile(Username);
+                loggerService.LogSuccessFailure(Username, "Info", "View", $"ArtistPortfolio,  View successfully loaded");
                 return Ok(artistProfileViewModel);
             }
             catch (Exception ex)
             {
-                loggerService.LogSuccessFailure(userName, "Error", "Data", "ArtistPortfolio, Profile was not able to be loaded");
+                loggerService.LogSuccessFailure(Username, "Error", "Data", "ArtistPortfolio, Profile was not able to be loaded");
                 return StatusCode(500, $"Error loading artist profile: {ex.Message}");
             }
         }
