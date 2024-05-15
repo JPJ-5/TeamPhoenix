@@ -1173,10 +1173,10 @@
         // Load the CSS dynamically
         const cssLink = document.createElement('link');
         cssLink.rel = 'stylesheet';
-        cssLink.href = 'UsageAnalysisDashboard/UsageAnalysisDashboard.css'; // Adjust path as needed
+        cssLink.href = 'usageAnalysisDashboard/UsageAnalysisDashboard.css'; // Adjust path as needed
         document.head.appendChild(cssLink);
 
-        fetch('UsageAnalysisDashboard/UsageAnalysisDashboard.html')
+        fetch('usageAnalysisDashboard/UsageAnalysisDashboard.html')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to load UsageAnalysis Dashboard HTML.');
@@ -1188,7 +1188,7 @@
 
                 // Initialize JavaScript functionalities after HTML is loaded
                 const jsScript = document.createElement('script');
-                jsScript.src = 'UsageAnalysisDashboard/UsageAnalysisDashboard.js'; // Ensure this path is correct
+                jsScript.src = 'usageAnalysisDashboard/UsageAnalysisDashboard.js'; // Ensure this path is correct
                 jsScript.onload = function () {
                     setupUsageAnalysisDashboard();
                     // JavaScript file loaded and executed
